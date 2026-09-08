@@ -63,3 +63,86 @@ texts:
       at brukere som ignorerer dette punktet, gjennomgående angrer innen en uke.
       Ved feil, kontakt oss. Vi er ikke vanskelige å finne. Vi er bare veldig
       vanskelige å se.
+
+  - id: nor-kv1110-generalforsamling
+    goal: KM14193
+    language: nb
+    title: Referat fra generalforsamlingen
+    difficulty: 1
+    source: pensum
+    reviewed: false
+    body: |
+      Sak 1. Konstituering. Leder ønsket velkommen. Det ble bemerket fra salen
+      at møtet var innkalt med tre dagers varsel, hvilket er én dag for kort.
+      Leder svarte at dette skyldtes forhold utenfor styrets kontroll. Det ble
+      ikke opplyst hvilke.
+      Sak 2. Regnskap. Regnskapet ble gjennomgått og godkjent uten
+      innvendinger, med unntak av posten «diverse», som utgjør førtitre prosent
+      av budsjettet. Kasserer opplyste at posten er ment å være fleksibel.
+      Sak 3. Vedlikehold av tak. Beboer i nummer fjorten redegjorde for at det
+      bor noe på taket. Styret viste til at dette har vært tatt opp på hver
+      generalforsamling siden 2019, og at det som bor på taket, ikke har gjort
+      noen fortred. Beboer i nummer fjorten svarte at fravær av fortred ikke er
+      det samme som fravær av noe på taket. Saken ble utsatt.
+      Sak 4. Eventuelt. Det ble minnet om at søppelrommet skal være låst. Det
+      ble videre minnet om at vaskekjelleren ikke er egnet til å oppbevare noe
+      som helst, og at styret er kjent med hva som står der nå.
+      Møtet ble hevet klokken 21.15. Ingen ønsket å ta med seg kaken.
+
+  - id: nor-kv1110-horingssvar
+    goal: KM14192
+    language: nb
+    title: Høringssvar om en åttende ukedag
+    difficulty: 2
+    source: pensum
+    reviewed: false
+    body: |
+      Vi viser til høringsnotatet om innføring av en åttende ukedag, og takker
+      for anledningen til å uttale oss.
+      Innledningsvis vil vi understreke at vi er positive til intensjonen bak
+      forslaget. Behovet for mer tid er reelt, det er bredt dokumentert, og det
+      er etter vårt syn den eneste delen av notatet som er tilstrekkelig
+      utredet.
+      Vi savner imidlertid en vurdering av hvor dagen skal komme fra. Notatet
+      omtaler dette som et teknisk spørsmål som avklares i forskrift. Vi vil,
+      med respekt å melde, bemerke at det ikke er et teknisk spørsmål, og at det
+      å legge til en dag i uken uten å gjøre rede for hvor den hentes, er å
+      overlate en betydelig belastning til dem som skal arbeide den.
+      Videre stiller vi oss undrende til navneforslaget. «Tirsdag II» vil etter
+      vår vurdering skape unødig forvirring i en befolkning som allerede
+      forveksler de to første dagene i uken med hverandre.
+      Vi vil avslutningsvis peke på at forslaget forutsetter at kalendere
+      oppdateres automatisk. Vi har ingen holdepunkter for at dette skjer, og
+      vi har flere for det motsatte.
+      Vi ber om at merknadene tas til følge, og stiller oss gjerne til
+      disposisjon i det videre arbeidet, forutsatt at det legges til en dag.
+
+  - id: nor-kv1110-personalhandbok
+    goal: KM14193
+    language: nb
+    title: Personalhåndbok for spøkelser
+    difficulty: 3
+    source: pensum
+    reviewed: false
+    body: |
+      Velkommen som ansatt. Denne håndboken gjelder for samtlige medarbeidere
+      ved eiendommen, uavhengig av når arbeidsforholdet oppstod, og den gjelder
+      også for dem som ikke husker at de inngikk det.
+      Arbeidstid. Kjernetiden er fra midnatt til klokken tre. Medarbeidere som
+      ønsker å arbeide utenfor kjernetiden, må avklare dette på forhånd, og bes
+      være oppmerksomme på at synlighet på dagtid erfaringsmessig fører til
+      spørsmål ledelsen ikke har kapasitet til å besvare.
+      Antrekk. Hvitt anbefales, men er ikke påbudt. Vi gjør oppmerksom på at
+      det antrekket den enkelte hadde på seg ved tiltredelse, er det antrekket
+      vedkommende vil ha på seg gjennom hele ansettelsesforholdet, og at
+      klagefristen for dette utløp for lenge siden.
+      Adferd overfor beboere. Medarbeidere skal opptre nøkternt. Knirking i
+      trapper er innenfor. Å flytte nøkler er innenfor, forutsatt at nøklene
+      leveres tilbake innen rimelig tid. Å stå ved fotenden av en seng er ikke
+      innenfor, og har vært et gjentakende punkt i medarbeidersamtalene siden
+      attenhundretallet.
+      Ferie. Det gis ikke ferie. Dette har vært tatt opp, det er forstått, og
+      det er besvart i tidligere utgaver av håndboken.
+      Oppsigelse. Arbeidsforholdet opphører når den ansatte selv finner ut av
+      det. Ledelsen kan bistå med samtaler, men erfaringen er at dette må komme
+      innenfra.

@@ -1,8 +1,9 @@
 # Reading aloud, engelsk etter 7. trinn (ENG01-06 / KV1032).
 #
-# Deadpan how-to and tall tale, at a length that tests whether fluency holds up
-# past the first paragraph. The joke depends on the flat delivery, so these
-# reward being read properly rather than raced through. Written for Pensum.
+# Deadpan how-to, letter, tall tale and mock guidebook, at a length that tests
+# whether fluency holds up past the first paragraph. The joke depends on the
+# flat delivery, so these reward being read properly rather than raced through.
+# Written for Pensum.
 ---
 subject: ENG01-06
 goal_set: KV1032
@@ -60,3 +61,84 @@ texts:
       bus driver.
       Kasper is still trying to get his geography test regraded. He argues that
       he has now seen more of the solar system than the person who wrote it.
+
+  - id: eng-kv1032-apology-to-a-cat
+    goal: KM13362
+    language: en
+    title: A Formal Apology to My Cat
+    difficulty: 1
+    source: pensum
+    reviewed: false
+    body: |
+      Dear Nils. I am writing to apologise for the events of Tuesday evening.
+      I accept that the chair was yours. I had been told it was mine, and I
+      had a receipt, but I understand that this is not how you see the matter.
+      I should not have picked you up. I should not have said the word
+      "downstairs" in the voice I used. I should not have laughed when you
+      walked into the door, even though you did walk into the door, and even
+      though you then sat down and pretended you had meant to.
+      In return, I would ask you to consider the following. Four in the
+      morning is not a mealtime. The plant is not a snack. My face is not a
+      surface you may stand on to check whether I am awake, because I always
+      am, immediately, and this cannot be a surprise to you any more.
+      I hope we can put this behind us. I have left a small fish on the floor
+      of the kitchen, which is where you prefer to eat, for reasons neither of
+      us has ever been able to explain.
+      Yours, with respect that I feel is not returned, the person who buys the
+      food.
+
+  - id: eng-kv1032-lift-with-opinions
+    goal: KM13362
+    language: en
+    title: The Lift That Had Opinions
+    difficulty: 2
+    source: pensum
+    reviewed: false
+    body: |
+      The lift in our building was replaced in March, and the new one talks.
+      At first it only said the floor number, which was useful, and nobody
+      thought about it much.
+      Then it started saying the floor number and one more thing. "Third
+      floor," it said to my neighbour. "You could have walked."
+      The company sent an engineer. He rode up and down for two hours, taking
+      notes, and the lift did not say anything unusual to him at all. On his
+      way out it wished him a safe journey home and mentioned that his left
+      shoelace was loose, which it was.
+      We have learned to live with it. It tells my mother that she is carrying
+      too much, and she is. It tells the man from the second floor that he has
+      forgotten his keys, and he has. It has never once been wrong, and this is
+      the part that we find difficult.
+      Last week somebody stuck a notice on the door asking the lift to please
+      keep its observations to itself. The next morning the notice was still
+      there, and underneath it, in the same handwriting, somebody had written a
+      reply. Nobody in this building writes like that. Nobody in this building
+      writes at all, if they can help it.
+
+  - id: eng-kv1032-museum-of-lost-socks
+    goal: KM13363
+    language: en
+    title: A Guide to the Museum of Lost Socks
+    difficulty: 3
+    source: pensum
+    reviewed: false
+    body: |
+      Welcome to the Museum of Lost Socks, which holds the largest collection
+      of its kind in the country, a claim we are able to make because no other
+      museum has ever wanted the title.
+      The collection begins in the entrance hall with our oldest item, a grey
+      wool sock recovered from behind a radiator in 1954. Its owner was traced
+      and contacted. He replied that he had bought new socks in the meantime
+      and would prefer not to be reminded.
+      Room two is arranged by circumstance rather than by date. Here you will
+      find the socks lost in washing machines, the socks lost on ferries, and
+      one sock lost during a wedding, about which the museum has been asked not
+      to say more.
+      Visitors often ask where the other halves are. This is the central
+      question of the field, and we would not insult you by pretending to have
+      answered it. What we can tell you is that in seventy years, not once have
+      both halves of a pair arrived here separately and been reunited. The odds
+      against this are considerable. Several of our researchers now believe the
+      socks are avoiding each other on purpose, and the rest of us have stopped
+      arguing with them.
+      The gift shop is on the ground floor. It sells socks, in pairs, and we
+      are aware of how that looks.

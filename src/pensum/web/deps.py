@@ -12,6 +12,7 @@ from pensum.auth.cookies import CookieCodec, read_user
 from pensum.auth.models import User
 from pensum.auth.oidc import OidcClient
 from pensum.config import Settings
+from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.store import AttemptStore
 
 
@@ -29,6 +30,21 @@ def get_oidc(request: Request) -> OidcClient | None:
 
 def get_store(request: Request) -> AttemptStore | None:
     return request.app.state.attempts
+
+
+def get_review_store(request: Request) -> ReviewStore | None:
+    """Where review decisions are written. None when there is no database."""
+    return request.app.state.review_store
+
+
+def get_reviews(request: Request) -> ReviewLedger | None:
+    """The decisions the content libraries are already consulting.
+
+    The same object they hold, not a copy: reloading it after a write is what
+    makes an approval take effect on the next page load rather than in half a
+    minute.
+    """
+    return request.app.state.reviews
 
 
 def current_user(request: Request) -> User | None:

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("review.heading") }} · {{ t("site.name") }}{% endblock %}
+
+{# One row's content, rendered the way the pupil would meet it. A reviewer
+   judging a question from a summary is judging the summary. #}
+{% macro render_item(item) %}
+  <p class="prompt">{{ item.prompt.get(locale) }}</p>
+  {% if item.choices %}
+    <ul class="review-choices">
+      {% for choice in item.choices %}
+        <li class="{{ 'is-correct' if choice.correct else '' }}">
+          {{ choice.text.get(locale) }}
+          {% if choice.correct %}<span class="tick" aria-hidden="true">✓</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif item.answer is not none %}
+    <p class="review-answer">{{ t("review.answer", answer=item.answer) }}</p>
+  {% endif %}
+  <p class="review-explanation">{{ item.explanation.get(locale) }}</p>
+{% endmacro %}
+
+{% macro render_reading(text) %}
+  <p class="review-title">{{ text.title }}</p>
+  <div class="review-passage">
+    {% for line in text.lines %}<p>{{ line }}</p>{% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro render_writing(prompt) %}
+  <p class="review-title">{{ prompt.title }}</p>
+  <p class="review-tracing">{{ prompt.text }}</p>
+{% endmacro %}
+
+{% block content %}
+  <h1>{{ t("review.heading") }}</h1>
+  <p class="intro">{{ t("review.intro") }}</p>
+
+  {# Stated on the page rather than only in the repository, because this is the
+     one thing about the feature that is easy to get wrong later: what the site
+     serves is now the file plus these decisions, and the file alone no longer
+     tells you. #}
+  <p class="note note--draft">{{ t("review.database_note") }}</p>
+
+  <p class="review-counts">
+    {{ t("review.counts", pending=counts.pending, published=counts.published,
+          rejected=counts.rejected) }}
+  </p>
+
+  <nav class="review-filters" aria-label="{{ t('review.filter_label') }}">
+    {% for name in filters %}
+      <a href="?show={{ name }}&kind={{ kind }}"
+         class="{{ 'is-current' if name == show else '' }}"
+         {% if name == show %}aria-current="page"{% endif %}>
+        {{ t("review.filter." ~ name) }}
+      </a>
+    {% endfor %}
+    <span class="review-filters__sep" aria-hidden="true">·</span>
+    <a href="?show={{ show }}&kind=all"
+       class="{{ 'is-current' if kind == 'all' else '' }}">{{ t("review.kind.all") }}</a>
+    {% for name in kinds %}
+      <a href="?show={{ show }}&kind={{ name }}"
+         class="{{ 'is-current' if name == kind else '' }}">{{ t("review.kind." ~ name) }}</a>
+    {% endfor %}
+  </nav>
+
+  {% if rows %}
+    <ol class="review-list">
+      {% for row in rows %}
+        {% set entry = row.entry %}
+        <li class="review-entry" id="{{ entry.kind }}-{{ entry.content_id }}">
+          <header class="review-entry__head">
+            <span class="badge">{{ t("review.kind." ~ entry.kind) }}</span>
+            <span class="badge badge--state badge--{{ entry.state }}">
+              {{ t("review.state." ~ entry.state) }}
+            </span>
+            {% if entry.overridden %}
+              <span class="badge badge--draft">{{ t("review.overridden") }}</span>
+            {% endif %}
+            <span class="review-entry__where">
+              {{ row.subject_title }}
+              {% if row.after_year %}· {{ t("review.after_year", year=row.after_year) }}{% endif %}
+              · {{ entry.goal_set }}
+            </span>
+          </header>
+
+          <p class="review-entry__goal">{{ row.goal_text }}</p>
+
+          <div class="review-entry__body">
+            {% if entry.kind == "item" %}
+              {{ render_item(entry.content) }}
+            {% elif entry.kind == "reading" %}
+              {{ render_reading(entry.content) }}
+            {% else %}
+              {{ render_writing(entry.content) }}
+            {% endif %}
+          </div>
+
+          <p class="review-entry__meta">
+            {{ t("review.meta", id=entry.content_id, difficulty=entry.difficulty) }}
+            {% if entry.decision %}
+              · {{ t("review.decided_by", name=entry.decision.by_name) }}
+            {% endif %}
+          </p>
+
+          <form class="review-actions" method="post"
+                action="/{{ locale }}/admin/gjennomgang/{{ entry.kind }}/{{ entry.content_id | urlencode }}">
+            <input type="hidden" name="show" value="{{ show }}">
+            <input type="hidden" name="filter_kind" value="{{ kind }}">
+            <button type="submit" name="verdict" value="approved"
+                    {% if entry.state == "published" and entry.decision %}disabled{% endif %}>
+              {{ t("review.approve") }}
+            </button>
+            <button type="submit" name="verdict" value="rejected"
+                    {% if entry.state == "rejected" %}disabled{% endif %}>
+              {{ t("review.reject") }}
+            </button>
+            {% if entry.decision %}
+              <button type="submit" name="verdict" value="clear" class="linklike">
+                {{ t("review.clear") }}
+              </button>
+            {% endif %}
+          </form>
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p class="empty">{{ t("review.nothing_here") }}</p>
+  {% endif %}
+{% endblock %}

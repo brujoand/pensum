@@ -15,11 +15,15 @@ from pathlib import Path
 
 import yaml
 
+from pensum.review.store import ReviewLedger
 from pensum.writing.schema import Alphabet, WritingPrompt, WritingSet
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_WRITING_DIR = REPO_ROOT / "data" / "writing"
 ALPHABET_FILE = "alphabet.yaml"
+
+# What a decision about a writing prompt is filed under.
+KIND = "writing"
 
 
 def load_alphabet(writing_dir: Path | None = None) -> Alphabet:
@@ -40,6 +44,21 @@ class WritingLibrary:
         self._sets = {writing_set.goal_set: writing_set for writing_set in writing_sets}
         self._alphabet = alphabet
         self._include_unreviewed = include_unreviewed
+        self._ledger: ReviewLedger | None = None
+
+    def with_ledger(self, ledger: ReviewLedger | None) -> WritingLibrary:
+        """Consult recorded review decisions from now on.
+
+        Same contract as `ItemBank.with_ledger`, including that None leaves the
+        file's own flag deciding.
+        """
+        self._ledger = ledger
+        return self
+
+    def _publishes(self, prompt: WritingPrompt) -> bool:
+        if self._ledger is None:
+            return prompt.reviewed
+        return self._ledger.publishes(KIND, prompt.id, prompt.reviewed)
 
     @classmethod
     def load(
@@ -71,6 +90,11 @@ class WritingLibrary:
         A prompt whose characters the alphabet cannot draw is dropped rather
         than served: the page would otherwise show a blank box and ask a child
         to trace it. The data test is what makes this never fire in practice.
+
+        A recorded review decision overrides the file's flag -- see
+        `ReviewLedger.publishes`. The alphabet check is not overridable: a
+        letter Pensum cannot draw stays undrawable however many humans approve
+        the prompt.
         """
         writing_set = self._sets.get(code)
         if writing_set is None:
@@ -79,7 +103,7 @@ class WritingLibrary:
         return [
             prompt
             for prompt in writing_set.prompts
-            if (widened or prompt.reviewed) and self._alphabet.covers(prompt.text)
+            if (widened or self._publishes(prompt)) and self._alphabet.covers(prompt.text)
         ]
 
     def has_writing(self, code: str, *, unreviewed: bool = False) -> bool:

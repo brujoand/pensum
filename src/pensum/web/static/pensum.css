@@ -1083,6 +1083,120 @@ body.reading-focus .reading-text {
   border-left: 3px solid #c9962e;
 }
 
+/* The review page. One card per piece of content, rendered close to how a pupil
+   would meet it -- a reviewer judging a summary is judging the summary. */
+.review-counts {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: baseline;
+  margin: 0.8rem 0 1.4rem;
+}
+
+.review-filters .is-current {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.review-filters__sep {
+  color: var(--ink-soft);
+}
+
+.review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.review-entry {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.2rem;
+}
+
+.review-entry__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-entry__where,
+.review-entry__meta {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.review-entry__goal {
+  font-size: 0.9rem;
+  margin: 0 0 0.8rem;
+}
+
+.review-entry__body {
+  border-left: 3px solid var(--line);
+  padding-left: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.review-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.review-choices {
+  margin: 0.4rem 0;
+  padding-left: 1.2rem;
+}
+
+.review-choices .is-correct {
+  font-weight: 600;
+}
+
+.review-passage p {
+  margin: 0 0 0.4rem;
+}
+
+.review-tracing {
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+}
+
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.badge--published {
+  background: #e2f0e4;
+  color: #24601f;
+}
+
+.badge--rejected {
+  background: #f5e0e0;
+  color: #7d2020;
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge--published {
+    background: #1d3320;
+    color: #a8d6a4;
+  }
+
+  .badge--rejected {
+    background: #3a1f1f;
+    color: #e0a3a3;
+  }
+}
+
 /* Writing ----------------------------------------------------------------- */
 
 .writing-list {

@@ -270,6 +270,43 @@ review:
     Du ser også innhold ingen har lest gjennom ennå, fordi du er logget inn som
     administrator. Elever ser bare det som er merket som gjennomgått.
 
+  # Gjennomgangssiden. Her avgjøres det hva elever faktisk får se, så ordlyden
+  # skal si hva knappen gjør, ikke hva den heter.
+  link: Gjennomgang
+  heading: Gjennomgang av innhold
+  intro: >-
+    Spørsmål, lesetekster og skriveoppgaver, slik en elev ville møtt dem. Godkjenn
+    det som er klart, avvis det som ikke er det.
+  database_note: >-
+    Avgjørelser her lagres i databasen, ikke i filene. Det betyr at de virker med
+    en gang og uten ny utgivelse — og at filene i kodelageret ikke lenger alene
+    forteller hva nettstedet viser.
+  counts: '{pending} venter · {published} publisert · {rejected} avvist'
+  filter_label: Filtrer
+  filter:
+    pending: Venter
+    published: Publisert
+    rejected: Avvist
+    all: Alt
+  kind:
+    all: Alle typer
+    item: Spørsmål
+    reading: Lesetekst
+    writing: Skriveoppgave
+  state:
+    pending: Venter på gjennomgang
+    published: Publisert
+    rejected: Avvist
+  overridden: Overstyrer fila
+  after_year: 'etter {year}. trinn'
+  meta: '{id} · vanskegrad {difficulty}'
+  decided_by: 'avgjort av {name}'
+  answer: 'Riktig svar: {answer}'
+  approve: Godkjenn
+  reject: Avvis
+  clear: Fjern avgjørelsen
+  nothing_here: Ingenting her.
+
 auth:
   # Innlogging er valgfritt. Teksten skal aldri antyde at man må logge inn for
   # å ta en quiz -- det må man ikke.

@@ -271,11 +271,13 @@ review:
   heading: Content review
   intro: >-
     Questions, reading passages and writing prompts, as a pupil would meet them.
-    Approve what is ready; reject what is not.
+    Approve what this school will use, and reject the rest — both what is not
+    good enough, and what is good enough somewhere other than here.
   database_note: >-
-    Decisions here are stored in the database, not in the files. They take effect
-    immediately and without a release — and the files in the repository no longer
-    tell you on their own what the site is showing.
+    Choices here apply to this installation, and are stored in its database
+    rather than in the files. They take effect immediately, without a release,
+    and they do not follow along to other schools running Pensum. What this
+    school shows is recorded here, not in the repository.
   counts: '{pending} waiting · {published} published · {rejected} rejected'
   filter_label: Filter
   filter:

@@ -265,6 +265,43 @@ review:
     signed in as an administrator. Pupils only see what has been marked as
     reviewed.
 
+  # The review page. What a pupil sees is decided here, so the wording says what
+  # the button does rather than what it is called.
+  link: Review
+  heading: Content review
+  intro: >-
+    Questions, reading passages and writing prompts, as a pupil would meet them.
+    Approve what is ready; reject what is not.
+  database_note: >-
+    Decisions here are stored in the database, not in the files. They take effect
+    immediately and without a release — and the files in the repository no longer
+    tell you on their own what the site is showing.
+  counts: '{pending} waiting · {published} published · {rejected} rejected'
+  filter_label: Filter
+  filter:
+    pending: Waiting
+    published: Published
+    rejected: Rejected
+    all: Everything
+  kind:
+    all: All types
+    item: Question
+    reading: Reading passage
+    writing: Writing prompt
+  state:
+    pending: Waiting for review
+    published: Published
+    rejected: Rejected
+  overridden: Overrides the file
+  after_year: 'after year {year}'
+  meta: '{id} · difficulty {difficulty}'
+  decided_by: 'decided by {name}'
+  answer: 'Correct answer: {answer}'
+  approve: Approve
+  reject: Reject
+  clear: Clear the decision
+  nothing_here: Nothing here.
+
 auth:
   # Signing in is optional. No string here may imply a quiz needs an account,
   # because none of them do.

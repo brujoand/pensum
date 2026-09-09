@@ -179,6 +179,40 @@ authenticates at a proxy and forwards no identity has no administrators as far
 as Pensum is concerned, and nobody sees drafts. See [Accounts and score
 history](#accounts-and-score-history).
 
+### Deciding, on the site
+
+`/{locale}/admin/gjennomgang` is the review page. It lists every authored
+question, passage and prompt in one queue — rendered the way a pupil would meet
+them, because judging a summary is judging the summary — with **Godkjenn** and
+**Avvis** on each. It is behind the same administrator gate as the score pages,
+and it 404s on an instance with no database, since a review page that cannot
+record a decision would be a button that lies.
+
+**A decision is stored in the database, not in the file it concerns**, and it
+overrides `reviewed:` in both directions:
+
+| file says | decision | what a pupil sees |
+| --- | --- | --- |
+| `reviewed: false` | none | withheld |
+| `reviewed: false` | approved | served |
+| `reviewed: true` | none | served |
+| `reviewed: true` | rejected | withheld |
+
+Both directions earn their keep. Approving publishes without a release, which is
+the point. Rejecting withdraws something already live, which means a passage can
+be taken down by whoever noticed rather than by whoever can cut a build.
+
+**The cost, stated plainly: the repository no longer tells you on its own what
+the site is serving.** Everything is still committed as readable text, so any
+claim about what Pensum *contains* can still be checked by reading the files —
+but what is *published* is now the file plus a row in `content_reviews`, and only
+the running instance knows both. The review page says so on the page itself. A
+maintainer who wants the two back in agreement flips the flags in the YAML and
+clears the decisions; nothing does that automatically today.
+
+An instance with no database is unaffected in every respect: no page, no table,
+and the file's own flag decides, exactly as before.
+
 ## Reading aloud
 
 Norsk and engelsk carry a second exercise: a passage to read out loud. Pensum
@@ -678,9 +712,10 @@ and re-verified against the official source.
   quizzing them, rather than inventing a question that misrepresents the goal.
   Coverage is therefore uneven by design.
 - **Quiz questions are drafted with an LLM and reviewed by hand.** Questions are
-  committed as readable YAML so every one of them is reviewable, and the released
-  build serves only reviewed items. The curriculum text itself is never
-  generated — it is quoted verbatim from Udir.
+  committed as readable YAML so every one of them is reviewable, and nothing is
+  served until a human has signed it off — either in the file, or on the review
+  page, which records the decision in the database rather than the file. The
+  curriculum text itself is never generated — it is quoted verbatim from Udir.
 - **A reading speed is a guideline, and a rough one.** No words-per-minute
   figure appears anywhere in LK20, and Udir publishes no national norm for
   reading speed, so the bands in `data/reading/norms.yaml` are Pensum's own and

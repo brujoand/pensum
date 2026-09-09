@@ -32,12 +32,14 @@ from pensum.quiz.session import SessionStore
 from pensum.reading.library import ReadingLibrary
 from pensum.reading.streams import StreamStore
 from pensum.reading.transcribe import Transcriber, load_transcriber
+from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.store import AttemptStore
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.listening_routes import router as listening_router
 from pensum.web.quiz_routes import router as quiz_router
 from pensum.web.reading_routes import router as reading_router
+from pensum.web.review_routes import router as review_router
 from pensum.web.routes import router
 from pensum.web.writing_routes import router as writing_router
 from pensum.writing.library import WritingLibrary
@@ -49,9 +51,10 @@ STATIC_DIR = Path(__file__).parent / "static"
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.catalogue = Catalogue.load()
     unreviewed = app.state.settings.include_unreviewed_items
-    app.state.items = ItemBank.load(include_unreviewed=unreviewed)
-    app.state.reading = ReadingLibrary.load(include_unreviewed=unreviewed)
-    app.state.writing = WritingLibrary.load(include_unreviewed=unreviewed)
+    ledger = app.state.reviews
+    app.state.items = ItemBank.load(include_unreviewed=unreviewed).with_ledger(ledger)
+    app.state.reading = ReadingLibrary.load(include_unreviewed=unreviewed).with_ledger(ledger)
+    app.state.writing = WritingLibrary.load(include_unreviewed=unreviewed).with_ledger(ledger)
     # Derived from the two above rather than loaded: the listening exercise has
     # no content of its own. Building it here keeps the first request off the
     # cost of reading every passage and every item back out again.
@@ -80,17 +83,34 @@ def create_app(
         openapi_url=None,
     )
     app.state.settings = active
+    # Built before the libraries, because each of them is handed the ledger and
+    # a library with no ledger silently falls back to the file flag -- which is
+    # correct behaviour, and therefore an ordering mistake that would not show
+    # up as one.
+    app.state.review_store = ReviewStore(active.database_path) if active.history_enabled else None
+    app.state.reviews = (
+        ReviewLedger(app.state.review_store) if app.state.review_store is not None else None
+    )
+
     if catalogue is not None:
         app.state.catalogue = catalogue
-        app.state.items = items if items is not None else ItemBank.load()
-        app.state.reading = reading if reading is not None else ReadingLibrary.load()
-        app.state.writing = writing if writing is not None else WritingLibrary.load()
+        app.state.items = (items if items is not None else ItemBank.load()).with_ledger(
+            app.state.reviews
+        )
+        app.state.reading = (reading if reading is not None else ReadingLibrary.load()).with_ledger(
+            app.state.reviews
+        )
+        app.state.writing = (writing if writing is not None else WritingLibrary.load()).with_ledger(
+            app.state.reviews
+        )
         app.state.listening = ListeningLibrary.of(app.state.items, app.state.reading)
     else:
+        # The lifespan builds the rest and attaches the ledger there. Only what
+        # was injected has to be wired up here.
         if reading is not None:
-            app.state.reading = reading
+            app.state.reading = reading.with_ledger(app.state.reviews)
         if writing is not None:
-            app.state.writing = writing
+            app.state.writing = writing.with_ledger(app.state.reviews)
 
     # Loaded here rather than in the lifespan so a test can inject a fake
     # without a model on disk. None -- no models configured -- is the default
@@ -122,6 +142,7 @@ def create_app(
     app.include_router(listening_router)
     app.include_router(auth_router)
     app.include_router(admin_router)
+    app.include_router(review_router)
     return app
 
 

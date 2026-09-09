@@ -13,10 +13,14 @@ from pathlib import Path
 import yaml
 
 from pensum.reading.schema import NormTable, ReadingNorm, ReadingSet, ReadingText
+from pensum.review.store import ReviewLedger
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_READING_DIR = REPO_ROOT / "data" / "reading"
 NORMS_FILE = "norms.yaml"
+
+# What a decision about a reading passage is filed under.
+KIND = "reading"
 
 
 class ReadingLibrary:
@@ -32,6 +36,21 @@ class ReadingLibrary:
         self._sets = {reading_set.goal_set: reading_set for reading_set in reading_sets}
         self._norms = norms
         self._include_unreviewed = include_unreviewed
+        self._ledger: ReviewLedger | None = None
+
+    def with_ledger(self, ledger: ReviewLedger | None) -> ReadingLibrary:
+        """Consult recorded review decisions from now on.
+
+        Same contract as `ItemBank.with_ledger`, including that None leaves the
+        file's own flag deciding.
+        """
+        self._ledger = ledger
+        return self
+
+    def _publishes(self, text: ReadingText) -> bool:
+        if self._ledger is None:
+            return text.reviewed
+        return self._ledger.publishes(KIND, text.id, text.reviewed)
 
     @classmethod
     def load(
@@ -65,12 +84,15 @@ class ReadingLibrary:
         by the deployment-wide switch or by a request that has established it
         may see drafts. False at every layer, so a forgotten argument fails
         closed.
+
+        A recorded review decision overrides the file's flag -- see
+        `ReviewLedger.publishes`.
         """
         reading_set = self._sets.get(code)
         if reading_set is None:
             return []
         widened = self._include_unreviewed or unreviewed
-        return [t for t in reading_set.texts if widened or t.reviewed]
+        return [t for t in reading_set.texts if widened or self._publishes(t)]
 
     def has_reading(self, code: str, *, unreviewed: bool = False) -> bool:
         return bool(self.for_goal_set(code, unreviewed=unreviewed))

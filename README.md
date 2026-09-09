@@ -179,17 +179,17 @@ authenticates at a proxy and forwards no identity has no administrators as far
 as Pensum is concerned, and nobody sees drafts. See [Accounts and score
 history](#accounts-and-score-history).
 
-### Deciding, on the site
+### Deciding, on the instance
 
-`/{locale}/admin/gjennomgang` is the review page. It lists every authored
-question, passage and prompt in one queue — rendered the way a pupil would meet
-them, because judging a summary is judging the summary — with **Godkjenn** and
-**Avvis** on each. It is behind the same administrator gate as the score pages,
-and it 404s on an instance with no database, since a review page that cannot
-record a decision would be a button that lies.
+`/{locale}/admin/gjennomgang` lists every authored question, passage and prompt
+in one queue — rendered the way a pupil would meet them, because judging a
+summary is judging the summary — with **Godkjenn** and **Avvis** on each. It is
+behind the same administrator gate as the score pages, and it 404s on an
+instance with no database, since a page that cannot record a decision would be a
+button that lies.
 
-**A decision is stored in the database, not in the file it concerns**, and it
-overrides `reviewed:` in both directions:
+**A decision is stored in that instance's own database, not in the file it
+concerns**, and it overrides `reviewed:` in both directions:
 
 | file says | decision | what a pupil sees |
 | --- | --- | --- |
@@ -198,17 +198,36 @@ overrides `reviewed:` in both directions:
 | `reviewed: true` | none | served |
 | `reviewed: true` | rejected | withheld |
 
-Both directions earn their keep. Approving publishes without a release, which is
-the point. Rejecting withdraws something already live, which means a passage can
-be taken down by whoever noticed rather than by whoever can cut a build.
+### Two different questions
 
-**The cost, stated plainly: the repository no longer tells you on its own what
-the site is serving.** Everything is still committed as readable text, so any
-claim about what Pensum *contains* can still be checked by reading the files —
-but what is *published* is now the file plus a row in `content_reviews`, and only
-the running instance knows both. The review page says so on the page itself. A
-maintainer who wants the two back in agreement flips the flags in the YAML and
-clears the decisions; nothing does that automatically today.
+The flag and the decision look alike and are not the same judgement. Keeping them
+apart is the whole point of putting one in the repository and the other in the
+deployment.
+
+- **`reviewed:` in a file asks: has a human read this at all?** It is the floor,
+  and it is the same everywhere, because "nobody has checked this yet" is a fact
+  about the question rather than about a school.
+- **A decision asks: does *this* school want this?** That has no
+  repository-wide answer, because it is not a property of the question. It is a
+  property of the deployment.
+
+A Pensum serving a Sámi school and a Pensum serving a congregation school in
+southern Norway are both running correctly while serving different subsets of the
+same repository. Each will want questions the other would rather not put in front
+of its pupils, and neither is wrong about its own classroom. A flag in a shared
+YAML file cannot express that: it would force whichever school edited it last
+onto everyone who pulls the image.
+
+So the difference between the files and a running instance is **not drift to be
+reconciled, and there is deliberately no exporter that writes decisions back into
+YAML.** Doing that would take one school's local decision and publish it as
+everybody's.
+
+The consequence is worth stating plainly: **the repository does not tell you what
+a given instance serves.** The files say what Pensum contains and what has been
+read; that instance's `content_reviews` says what that school chose from it. To
+audit a deployment, look at the deployment — the review page says so on the page
+itself.
 
 An instance with no database is unaffected in every respect: no page, no table,
 and the file's own flag decides, exactly as before.

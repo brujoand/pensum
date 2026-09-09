@@ -1,4 +1,8 @@
-"""Where review decisions are kept, and how a serving path reads them.
+"""Where one instance's content decisions are kept, and how a serving path reads them.
+
+Per instance is the design, not an implementation detail: what a school serves is
+that school's answer, and `pensum.review` says why it cannot be a flag in a file
+every deployment shares.
 
 Two objects, and the split matters. `ReviewStore` is the SQLite table: one row
 per decided piece of content, upserted, durable. `ReviewLedger` is the snapshot
@@ -190,13 +194,15 @@ class ReviewLedger:
         return dict(self._fresh())
 
     def publishes(self, kind: Kind, content_id: str, file_reviewed: bool) -> bool:
-        """Whether this content may be shown to a pupil.
+        """Whether this content may be shown to a pupil *here*.
 
-        A recorded decision wins in both directions. Approving publishes a draft
-        without a release; rejecting withdraws something whose file still says
-        `reviewed: true`, which is the half that makes this usable in an
-        emergency -- a passage can be taken down from the site by the person who
-        noticed, rather than by whoever can cut a build.
+        A recorded decision wins in both directions, and both directions are
+        ordinary rather than exceptional. Approving serves something this school
+        wants without waiting for a release. Rejecting withholds something whose
+        file says `reviewed: true` -- read by a human, and still not what this
+        school puts in front of its pupils. That is the direction a shared file
+        cannot express, because the next school along disagrees and is equally
+        right.
 
         With no row, the file decides, which is what every instance without a
         database does for everything.

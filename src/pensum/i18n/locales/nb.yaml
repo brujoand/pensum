@@ -276,11 +276,13 @@ review:
   heading: Gjennomgang av innhold
   intro: >-
     Spørsmål, lesetekster og skriveoppgaver, slik en elev ville møtt dem. Godkjenn
-    det som er klart, avvis det som ikke er det.
+    det denne skolen skal bruke, og avvis resten — både det som ikke holder mål,
+    og det som holder mål andre steder enn her.
   database_note: >-
-    Avgjørelser her lagres i databasen, ikke i filene. Det betyr at de virker med
-    en gang og uten ny utgivelse — og at filene i kodelageret ikke lenger alene
-    forteller hva nettstedet viser.
+    Valgene her gjelder denne installasjonen, og lagres i databasen her — ikke i
+    filene. De virker med en gang, uten ny utgivelse, og de følger ikke med til
+    andre skoler som kjører Pensum. Hva denne skolen viser, står altså her og
+    ikke i kodelageret.
   counts: '{pending} venter · {published} publisert · {rejected} avvist'
   filter_label: Filtrer
   filter:

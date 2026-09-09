@@ -1,13 +1,23 @@
-"""Human sign-off on authored content, recorded outside the files it concerns.
+"""What one deployment chooses to serve, recorded outside the files it concerns.
 
-Every quiz item, reading passage and writing prompt carries `reviewed:` in its
-YAML. That flag is the floor, and until this module existed it was also the
-ceiling: publishing meant editing a file, committing, and waiting for a release.
+Two questions live here, and they are deliberately answered in different places.
 
-A decision recorded here overrides the flag in either direction, which is what
-makes a review page possible on a running instance. The cost is stated once,
-here, so nobody has to infer it: what the deployed site serves is now the file
-plus the database, and the file alone no longer tells you.
+`reviewed:` in a YAML file asks whether a human has read the content at all.
+That is a fact about the question, it is the same in every deployment, and it
+belongs in the repository. It is the floor: nothing unread reaches a child
+anywhere.
+
+A decision recorded here asks whether *this* school wants it. That has no
+repository-wide answer. A Pensum serving a Sámi school and one serving a
+congregation school in southern Norway will each want questions the other would
+keep away from its pupils, and both are right about their own classroom. A flag
+in a shared file cannot hold two answers, so the answer lives in the instance
+that has to give it.
+
+The consequence, so nobody has to infer it: the files say what Pensum contains
+and what has been read; this table says what one school picked out of it. There
+is no exporter back into YAML on purpose -- that would publish a local decision
+as though it were everyone's.
 """
 
 from pensum.review.store import (

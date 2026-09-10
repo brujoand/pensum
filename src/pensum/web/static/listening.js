@@ -27,6 +27,15 @@
    * starts. */
   var VOICE_WAIT_MS = 1500;
 
+  /* How long a pressed spelling stays on the screen before the next word. Long
+   * enough to read back what was chosen, short enough that nobody wonders
+   * whether the tap landed. */
+  var CHOICE_PAUSE_MS = 450;
+
+  /* When to stop believing a word is still being said. `onend` is the signal;
+   * this is what happens when it never comes. */
+  var SPEAKING_MAX_MS = 8000;
+
   /* Which BCP-47 prefixes count as a voice for one of our languages. Norwegian
    * voices label themselves `nb-NO`, `no-NO` or, rarely, `nn-NO`, and all three
    * read bokmål text correctly; nynorsk has no voice of its own anywhere, and a
@@ -57,6 +66,17 @@
   var at = 0;
   var finished = false;
   var voice = null;
+
+  /* The question whose word is being said, if any, and the timer that gives up
+   * on it. */
+  var speakingIn = null;
+  var speakingTimer = null;
+  /* Which utterance the handlers below belong to. `speech.cancel()` delivers
+   * the outgoing utterance's `onend` after the new one has already started, so
+   * without this the mark is cleared the instant it is set. */
+  var utteranceId = 0;
+  /* A spelling has been pressed and the next word is on its way. */
+  var choosing = false;
 
   /* --- the voice ---------------------------------------------------------- */
 
@@ -104,15 +124,50 @@
     window.setTimeout(done, VOICE_WAIT_MS);
   }
 
-  function speak(word) {
+  /* --- saying it out loud, visibly ---------------------------------------- */
+
+  function unmarkSpeaking() {
+    if (speakingTimer) {
+      window.clearTimeout(speakingTimer);
+      speakingTimer = null;
+    }
+    if (!speakingIn) return;
+    speakingIn.classList.remove("listening-question--speaking");
+    speakingIn = null;
+  }
+
+  /* The mark goes on the question, and inside it the stylesheet puts it on the
+   * button that does the speaking. It never goes on an option: in `pick` mode
+   * two spellings are on the screen and only one of them is the word being
+   * said, so lighting that one up would answer the question out loud. */
+  function markSpeaking(question) {
+    unmarkSpeaking();
+    speakingIn = question;
+    question.classList.add("listening-question--speaking");
+    /* Some browsers drop `onend` when speech is cancelled mid-word. A mark left
+     * pulsing over a silent page is worse than no mark at all. */
+    speakingTimer = window.setTimeout(unmarkSpeaking, SPEAKING_MAX_MS);
+  }
+
+  function speak(question) {
+    unmarkSpeaking();
     if (!speech || !voice) return;
     /* One word at a time. Without this, tapping "say it again" twice queues two
      * readings and the second talks over nothing. */
     speech.cancel();
-    var utterance = new window.SpeechSynthesisUtterance(word);
+
+    var mine = ++utteranceId;
+    var utterance = new window.SpeechSynthesisUtterance(question.dataset.word);
     utterance.voice = voice;
     utterance.lang = voice.lang;
     utterance.rate = RATE;
+    utterance.onstart = function () {
+      if (mine === utteranceId) markSpeaking(question);
+    };
+    utterance.onend = function () {
+      if (mine === utteranceId) unmarkSpeaking();
+    };
+    utterance.onerror = utterance.onend;
     speech.speak(utterance);
   }
 
@@ -146,7 +201,26 @@
     }
     var input = questions[index].querySelector(".listening-input");
     if (input) input.focus();
-    speak(questions[index].dataset.word);
+    speak(questions[index]);
+  }
+
+  /* Which spelling was pressed, held on the screen rather than only reported at
+   * the end. A button that answers and disappears in the same instant leaves a
+   * child unsure the tap landed, and pressing again then answers the next word
+   * by accident. */
+  function markChoice(options, chosen) {
+    Array.prototype.forEach.call(options, function (option) {
+      var picked = option === chosen;
+      /* Marked by a tick and a fill, not by colour alone: the two options are
+       * one word spelled two ways, and "the darker one" is not something a
+       * child can check. */
+      option.classList.toggle("listening-option--chosen", picked);
+      option.setAttribute("aria-pressed", picked ? "true" : "false");
+    });
+  }
+
+  function clearChoices(question) {
+    markChoice(question.querySelectorAll(".listening-option"), null);
   }
 
   function record(index, answer) {
@@ -163,6 +237,7 @@
     if (finished) return;
     finished = true;
     if (speech) speech.cancel();
+    unmarkSpeaking();
     say(root.dataset.labelWorking);
 
     window
@@ -195,8 +270,10 @@
       given[i] = "";
       var input = questions[i].querySelector(".listening-input");
       if (input) input.value = "";
+      clearChoices(questions[i]);
     }
     finished = false;
+    choosing = false;
     at = 0;
     output.innerHTML = "";
     root.classList.remove("listening--done");
@@ -209,7 +286,7 @@
     var again = question.querySelector(".listening-say");
     if (again) {
       again.addEventListener("click", function () {
-        speak(question.dataset.word);
+        speak(question);
       });
     }
 
@@ -217,7 +294,15 @@
       var options = question.querySelectorAll(".listening-option");
       Array.prototype.forEach.call(options, function (option) {
         option.addEventListener("click", function () {
-          record(index, option.dataset.value);
+          /* The pause below is a window in which a second tap would answer this
+           * word twice, or the next one early. */
+          if (choosing) return;
+          choosing = true;
+          markChoice(options, option);
+          window.setTimeout(function () {
+            choosing = false;
+            record(index, option.dataset.value);
+          }, CHOICE_PAUSE_MS);
         });
       });
       return;

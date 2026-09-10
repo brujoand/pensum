@@ -1489,6 +1489,25 @@ body.reading-focus .reading-text {
   min-width: 12rem;
 }
 
+/* While the word is being said. The ring is on the button that says it and
+   never on an option: one of the two spellings is the answer, and marking it
+   would say so. */
+.listening-question--speaking .listening-say {
+  animation: listening-speaking 1.1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+@keyframes listening-speaking {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  50% {
+    box-shadow: 0 0 0 9px var(--accent-soft);
+  }
+}
+
 .listening-options {
   display: flex;
   flex-wrap: wrap;
@@ -1501,11 +1520,37 @@ body.reading-focus .reading-text {
    whatever they spell -- otherwise the longer spelling is the one that looks
    like the answer, and a child learns to pick the bigger button. */
 .listening-option {
+  position: relative;
   flex: 0 1 11rem;
   font-size: 1.35rem;
   padding: 1rem 0.75rem;
   text-align: center;
   word-break: break-word;
+}
+
+/* The spelling that was pressed, held for a moment before the next word. Filled
+   rather than tinted, and ticked as well as filled: the two options are one word
+   spelled two ways, so "the darker one" is not something a child can check. */
+.listening-option--chosen {
+  color: #fff;
+  background: var(--accent);
+}
+
+.listening-option--chosen::after {
+  content: "✓";
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* No pulse, and no jump from a ring appearing at full size either: the button
+   holds the ring it would have animated. */
+@media (prefers-reduced-motion: reduce) {
+  .listening-question--speaking .listening-say {
+    animation: none;
+  }
 }
 
 .listening-write {

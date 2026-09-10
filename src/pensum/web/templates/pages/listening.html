@@ -47,9 +47,13 @@
           {% if round.mode == "pick" %}
             <div class="listening-options" role="group"
                  aria-label="{{ t('listening.pick_label') }}">
+              {# `aria-pressed` starts here rather than appearing on the first
+                 press: a button that gains the attribute mid-round changes what
+                 it is to a screen reader, and the pair reads as two spellings to
+                 choose between only when both carry the state. #}
               {% for option in question.options %}
                 <button class="button button--secondary listening-option" type="button"
-                        lang="{{ round.language }}"
+                        lang="{{ round.language }}" aria-pressed="false"
                         data-value="{{ option }}">{{ option }}</button>
               {% endfor %}
             </div>

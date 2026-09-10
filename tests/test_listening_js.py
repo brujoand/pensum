@@ -24,7 +24,9 @@ from pensum.listening.exercise import ROUND_LENGTH
 from pensum.listening.marking import MAX_ANSWERS
 
 HARNESS = Path(__file__).parent / "js" / "listening_voice.test.js"
-SOURCE = Path(__file__).resolve().parents[1] / "src" / "pensum" / "web" / "static" / "listening.js"
+STATIC = Path(__file__).resolve().parents[1] / "src" / "pensum" / "web" / "static"
+SOURCE = STATIC / "listening.js"
+STYLES = STATIC / "pensum.css"
 
 
 @pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
@@ -71,3 +73,37 @@ def test_the_page_reads_its_length_from_the_round_rather_than_a_constant() -> No
     source = SOURCE.read_text(encoding="utf-8")
     assert "questions.length" in source
     assert not re.search(r"var ROUND_LENGTH", source)
+
+
+def test_the_speaking_mark_never_lands_on_an_option() -> None:
+    """The mark that says a word is being spoken goes on the question. Put it on
+    an option and the page reads the answer out in `pick` mode, where one of the
+    two spellings on the screen is the word being said."""
+    source = SOURCE.read_text(encoding="utf-8")
+    assert "listening-question--speaking" in source
+
+    marked = re.findall(r"classList\.(?:add|toggle)\(\s*\"([^\"]+)\"", source)
+    assert "listening-question--speaking" in marked
+    assert not [name for name in marked if name.startswith("listening-option--speaking")]
+
+
+def test_a_pressed_spelling_is_shown_before_the_next_word() -> None:
+    """Recording the answer and showing the next word in the same instant is the
+    bug this replaces: nothing on the screen ever said which button was pressed.
+    The mark and the pause are one feature, so both are asserted."""
+    source = SOURCE.read_text(encoding="utf-8")
+    assert "listening-option--chosen" in source
+    assert re.search(r"var CHOICE_PAUSE_MS = \d+", source)
+    assert re.search(r"record\(index, option\.dataset\.value\);\s*\},\s*CHOICE_PAUSE_MS\)", source)
+
+
+def test_every_state_the_script_paints_is_styled() -> None:
+    """A class added by the script and named nowhere in the stylesheet is a state
+    that exists and cannot be seen. `listening--done` is exempt: it is a hook for
+    the result panel rather than a state of its own."""
+    source = SOURCE.read_text(encoding="utf-8")
+    styles = STYLES.read_text(encoding="utf-8")
+
+    painted = set(re.findall(r"classList\.(?:add|toggle)\(\s*\"([^\"]+)\"", source))
+    for name in sorted(painted - {"listening--done"}):
+        assert f".{name}" in styles, f"listening.js paints .{name} and the stylesheet ignores it"

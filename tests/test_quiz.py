@@ -153,6 +153,36 @@ def test_short_text_accepts_either_language() -> None:
     assert item.is_correct("triangle") is True
 
 
+# Choice order --------------------------------------------------------------
+
+
+def test_display_choices_keeps_every_choice() -> None:
+    item = mc(correct_id="b")
+    assert set(item.display_choices()) == set(item.choices)
+
+
+def test_display_choices_are_stable_for_an_item() -> None:
+    """A reload must not move the answer, or a child can reload until it does."""
+    item = mc(correct_id="b")
+    assert item.display_choices() == item.display_choices()
+
+
+def test_display_order_does_not_follow_the_authored_order() -> None:
+    """Authored order puts the correct choice first in most of the corpus.
+
+    One item proves nothing, so this asserts over enough of them that agreement
+    with the authored order everywhere would mean the ordering does not order.
+    """
+    items = [mc(item_id=f"KM1-{n:02d}") for n in range(20)]
+    assert any(item.display_choices() != item.choices for item in items)
+
+
+def test_display_order_does_not_put_the_same_id_first_every_time() -> None:
+    """The key mixes in the item id, so position is not a property of "a"."""
+    firsts = {mc(item_id=f"KM1-{n:02d}").display_choices()[0].id for n in range(20)}
+    assert len(firsts) > 1
+
+
 # Selection ----------------------------------------------------------------
 
 

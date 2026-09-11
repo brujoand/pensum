@@ -6,6 +6,7 @@ revision breaks the authored content -- not merely when the code changes.
 
 from __future__ import annotations
 
+import collections
 import re
 
 import pytest
@@ -327,3 +328,26 @@ def test_a_figure_carries_no_colour_of_its_own(client: TestClient) -> None:
     assert "fill=" not in svg
     assert "stroke=" not in svg
     assert "#" not in svg
+
+
+def test_the_correct_choice_is_not_always_in_the_same_place(bank: ItemBank) -> None:
+    """Authored order is biased; display order is what a pupil actually sees.
+
+    436 of the 479 committed multiple-choice items were written with the correct
+    choice first, because that is how a person writes a question. Serving them in
+    authored order let a pupil pick option one every time and pass. The threshold
+    is loose -- most items have three choices, so chance is a third -- and only
+    catches display order collapsing back onto authored order.
+    """
+    positions: collections.Counter[int] = collections.Counter()
+    for item_set in bank.item_sets:
+        for item in item_set.items:
+            if item.type != "multiple_choice":
+                continue
+            shown = item.display_choices()
+            positions[next(i for i, c in enumerate(shown) if c.correct)] += 1
+
+    total = sum(positions.values())
+    assert total > 0
+    worst = max(positions.values()) / total
+    assert worst < 0.5, f"correct answer sits in one position {worst:.0%} of the time"

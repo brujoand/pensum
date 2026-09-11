@@ -17,6 +17,7 @@ Two properties are load-bearing:
 
 from __future__ import annotations
 
+import hashlib
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -103,6 +104,21 @@ class QuizItem(BaseModel):
             raise ValueError(f"{self.id}: short_text items need accepted answers")
 
         return self
+
+    def display_choices(self) -> tuple[Choice, ...]:
+        """The choices in the order a pupil should see them.
+
+        Authored order is not neutral: across the corpus the correct choice sits
+        first in nine items out of ten, because that is how an author writes a
+        question. A pupil who notices can answer every question without reading
+        past the first line.
+
+        Ordering by a hash of the ids rather than shuffling keeps it stable --
+        the same item looks the same on a reload and in a failing test -- while
+        being unguessable by a child. Same reasoning as
+        `pensum.listening.exercise._seed`.
+        """
+        return tuple(sorted(self.choices, key=lambda c: _order_key(self.id, c.id)))
 
     def response_text(self, response: str, locale: str = BOKMAAL) -> str:
         """A response as the pupil would recognise it.
@@ -195,3 +211,8 @@ class ItemSet(BaseModel):
 def _normalise(text: str) -> str:
     """Casefold and collapse whitespace, so trivial variation is not punished."""
     return " ".join(text.strip().casefold().split()).rstrip(".!?")
+
+
+def _order_key(item_id: str, choice_id: str) -> bytes:
+    """A stable, opaque sort key for one choice of one item."""
+    return hashlib.sha256(f"{item_id}:{choice_id}".encode()).digest()

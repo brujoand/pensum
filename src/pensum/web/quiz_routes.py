@@ -44,11 +44,14 @@ def _store(request: Request) -> SessionStore:
     return request.app.state.sessions
 
 
-def _session_or_404(request: Request, session_id: str):
+def _session_or_404(request: Request, session_id: str) -> QuizSession:
     session = _store(request).get(session_id, datetime.now(UTC))
-    if session is None:
-        # Expired or unknown. Both are ordinary -- a pupil leaving a tab open
-        # overnight is the common case, not an error worth alarming them about.
+    if not isinstance(session, QuizSession):
+        # Expired, unknown, or a nivåtest id on a trinntest path. All ordinary --
+        # a tab left open overnight is the common case, not an error worth
+        # alarming a pupil about. The type check mirrors
+        # `placement_routes._run_or_404`: the two flows share one store, so it is
+        # what keeps the paths separate.
         raise HTTPException(status_code=404, detail="quiz session not found")
     return session
 

@@ -20,7 +20,7 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE
-from pensum.domain.ladder import Ladder
+from pensum.domain.ladder import MIN_RUNGS_FOR_PLACEMENT, Ladder
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.items.schema import QuizItem
@@ -52,7 +52,7 @@ def _ladder(request: Request, subject_code: str) -> tuple[object, Ladder]:
     bank = _bank(request)
     servable = {gs.code for gs in subject.goal_sets if bank.has_quiz(gs.code)}
     ladder = Ladder.build(subject, servable)
-    if len(ladder) < 2:
+    if len(ladder) < MIN_RUNGS_FOR_PLACEMENT:
         # One rung is not a ladder: there is nothing to place between. The
         # subject page still offers its trinntest, which is the honest option.
         raise HTTPException(status_code=404, detail="subject has too few checkpoints to place on")

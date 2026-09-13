@@ -13,7 +13,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from pensum import __version__
 from pensum.catalogue.loader import Catalogue
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for, subjects_for_grade
-from pensum.domain.ladder import Ladder
+from pensum.domain.ladder import MIN_RUNGS_FOR_PLACEMENT, Ladder
 from pensum.domain.models import NYNORSK
 from pensum.i18n import DEFAULT_LOCALE, curriculum_language
 from pensum.items.loader import ItemBank
@@ -51,12 +51,9 @@ def _writing(request: Request) -> WritingLibrary:
     return request.app.state.writing
 
 
-# A nivåtest needs somewhere to move between. One rung is not a ladder, so the
-# entry point is offered per subject rather than assumed for all of them --
+# The entry point is offered per subject rather than assumed for all of them --
 # derived from the data, like `has_quiz`, never declared.
-MIN_RUNGS_FOR_PLACEMENT = 2
-
-
+#
 # Reviewed items only, with no `unreviewed` pass-through, because the nivåtest
 # itself builds its ladder that way (`placement_routes._ladder`). An offer made
 # on drafts would start a test that cannot climb the rungs it was offered for.

@@ -58,6 +58,14 @@ class Rung:
         return len(self.applies_to_years) == 1
 
 
+# A nivåtest needs somewhere to move between, so one rung is not a ladder. It
+# lives here rather than in either web module because both need it and they must
+# agree: the subject page decides whether to offer the test with it, and the
+# route decides whether to serve one. Two copies would let the site offer a test
+# the route then refuses.
+MIN_RUNGS_FOR_PLACEMENT = 2
+
+
 @dataclass(frozen=True)
 class Ladder:
     """A subject's testable checkpoints, lowest first."""

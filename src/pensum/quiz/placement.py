@@ -73,9 +73,11 @@ class Verdict(StrEnum):
 def verdict(correct: int, total: int) -> Verdict:
     """Grade one block.
 
-    An empty block is BELOW rather than an error: a pupil who abandons a rung
-    has not demonstrated it, and the alternative is a crash on a path a bored
-    child can reach.
+    An empty block is BELOW rather than a ZeroDivisionError. No sitting reaches
+    this: `PlacementRun._extend` ends the run rather than appending a block the
+    bank could not fill, so nothing empty is ever scored. It is a total function
+    for a caller that is not the sitting -- `verdict` is public, and a divide by
+    a count someone else computed is the kind of crash worth not having.
     """
     if total <= 0:
         return Verdict.BELOW

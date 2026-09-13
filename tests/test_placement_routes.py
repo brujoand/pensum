@@ -131,6 +131,22 @@ def test_a_trinntest_id_is_not_valid_on_a_nivatest_path(client: TestClient) -> N
     assert client.get(f"/nb/nivatest/run/{quiz_id}").status_code == 404
 
 
+def test_a_nivatest_id_is_not_valid_on_a_trinntest_path(client: TestClient) -> None:
+    """And the same the other way, which is the direction that used to 500.
+
+    A nivåtest run has no `total` and its `answer` needs a way to draw, so the
+    trinntest routes do not merely mis-render it -- they raise. Every route that
+    takes a session id is checked, because the guard lives in one place and a
+    route that stopped using it would be the way back.
+    """
+    run_id = start(client, grade="5")
+    assert client.get(f"/nb/quiz/{run_id}").status_code == 404
+    assert client.get(f"/nb/quiz/{run_id}/question").status_code == 404
+    assert client.get(f"/nb/quiz/{run_id}/result").status_code == 404
+    answered = client.post(f"/nb/quiz/{run_id}/answer", data={"item_id": "x", "response": "y"})
+    assert answered.status_code == 404
+
+
 # --- the sitting ----------------------------------------------------------
 
 

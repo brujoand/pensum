@@ -69,7 +69,9 @@ def test_mastery_is_a_stronger_claim_than_its_opposite() -> None:
     assert verdict(3, 5) is Verdict.FRONTIER
 
 
-def test_an_abandoned_block_does_not_crash() -> None:
+def test_an_empty_block_does_not_divide_by_zero() -> None:
+    """Unreachable from a sitting -- `_extend` ends the run instead of scoring
+    an unfillable block -- so this pins `verdict` as total for other callers."""
     assert verdict(0, 0) is Verdict.BELOW
 
 

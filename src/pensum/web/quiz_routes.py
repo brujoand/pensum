@@ -13,14 +13,27 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from pensum.domain.grades import checkpoint_for
+from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.quiz.scoring import Result, score, select
 from pensum.quiz.session import QuizSession, SessionStore
 from pensum.scores.store import Attempt, GoalTally, attempt_key
 from pensum.web.deps import current_user, get_store, sees_unreviewed
-from pensum.web.rendering import context, templates, validate_locale
+from pensum.web.rendering import context, flow, templates, validate_locale
 
 router = APIRouter()
+
+
+def _flow(request: Request, locale: str, session: QuizSession) -> dict[str, object]:
+    """A trinntest knows its own length, so it says so."""
+    number = min(session.answered + 1, session.total)
+    return flow(
+        locale,
+        "quiz",
+        session.id,
+        progress=translate(locale, "quiz.progress", number=number, total=session.total),
+        finished=session.finished,
+    )
 
 
 def _bank(request: Request) -> ItemBank:
@@ -31,11 +44,14 @@ def _store(request: Request) -> SessionStore:
     return request.app.state.sessions
 
 
-def _session_or_404(request: Request, session_id: str):
+def _session_or_404(request: Request, session_id: str) -> QuizSession:
     session = _store(request).get(session_id, datetime.now(UTC))
-    if session is None:
-        # Expired or unknown. Both are ordinary -- a pupil leaving a tab open
-        # overnight is the common case, not an error worth alarming them about.
+    if not isinstance(session, QuizSession):
+        # Expired, unknown, or a nivåtest id on a trinntest path. All ordinary --
+        # a tab left open overnight is the common case, not an error worth
+        # alarming a pupil about. The type check mirrors
+        # `placement_routes._run_or_404`: the two flows share one store, so it is
+        # what keeps the paths separate.
         raise HTTPException(status_code=404, detail="quiz session not found")
     return session
 
@@ -110,7 +126,14 @@ async def quiz_page(request: Request, locale: str, session_id: str) -> HTMLRespo
     return templates.TemplateResponse(
         request,
         "pages/quiz.html",
-        context(request, locale, session=session, subject=subject, item=session.current()),
+        context(
+            request,
+            locale,
+            session=session,
+            subject=subject,
+            item=session.current(),
+            **_flow(request, locale, session),
+        ),
     )
 
 
@@ -139,6 +162,7 @@ async def answer(
             item=item,
             given=response,
             correct=item.is_correct(response),
+            **_flow(request, locale, session),
         ),
     )
 
@@ -151,7 +175,13 @@ async def next_question(request: Request, locale: str, session_id: str) -> HTMLR
     return templates.TemplateResponse(
         request,
         "partials/question.html",
-        context(request, locale, session=session, item=session.current()),
+        context(
+            request,
+            locale,
+            session=session,
+            item=session.current(),
+            **_flow(request, locale, session),
+        ),
     )
 
 

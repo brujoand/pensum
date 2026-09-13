@@ -1,0 +1,44 @@
+# Reading aloud, engelsk etter 2. trinn (ENG01-06 / KV1030).
+#
+# English is a foreign language here, and after 2. trinn a pupil has met only a
+# small stock of words. These passages stay inside it: short sentences, high
+# repetition, nothing that has to be decoded from scratch.
+#
+# Silly on purpose. A pupil who laughs at the passage reads it again, and
+# reading it again is the whole exercise. Written for Pensum.
+---
+subject: ENG01-06
+goal_set: KV1030
+
+texts:
+  - id: eng-kv1030-my-cat-is-a-dog
+    goal: KM13336
+    language: en
+    title: My Cat Is a Dog
+    difficulty: 1
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      My cat thinks she is a dog.
+      She runs to the door. She wants a walk.
+      She sits when I say sit.
+      She barks. Well, she tries to bark.
+      It comes out as a very small meow.
+      The dog next door is not happy about this.
+
+  - id: eng-kv1030-banana-phone
+    goal: KM13336
+    language: en
+    title: The Banana Phone
+    difficulty: 2
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      My little brother has a phone. It is a banana.
+      He calls me on it. I have to answer.
+      I use an apple. The apple is my phone.
+      We talk for a long time about nothing.
+      Then Mum comes and eats my phone.
+      Now I have to use a spoon.

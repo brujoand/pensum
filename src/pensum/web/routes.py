@@ -17,7 +17,10 @@ from pensum.domain.ladder import Ladder
 from pensum.domain.models import NYNORSK
 from pensum.i18n import DEFAULT_LOCALE, curriculum_language
 from pensum.items.loader import ItemBank
+from pensum.reading.library import ReadingLibrary
+from pensum.web.deps import sees_unreviewed
 from pensum.web.rendering import context, templates, validate_locale
+from pensum.writing.library import WritingLibrary
 
 router = APIRouter()
 
@@ -40,12 +43,23 @@ def _items(request: Request) -> ItemBank:
     return request.app.state.items
 
 
+def _reading(request: Request) -> ReadingLibrary:
+    return request.app.state.reading
+
+
+def _writing(request: Request) -> WritingLibrary:
+    return request.app.state.writing
+
+
 # A nivåtest needs somewhere to move between. One rung is not a ladder, so the
 # entry point is offered per subject rather than assumed for all of them --
 # derived from the data, like `has_quiz`, never declared.
 MIN_RUNGS_FOR_PLACEMENT = 2
 
 
+# Reviewed items only, with no `unreviewed` pass-through, because the nivåtest
+# itself builds its ladder that way (`placement_routes._ladder`). An offer made
+# on drafts would start a test that cannot climb the rungs it was offered for.
 def _placeable(request: Request, subject) -> bool:
     bank = _items(request)
     servable = {gs.code for gs in subject.goal_sets if bank.has_quiz(gs.code)}
@@ -86,6 +100,19 @@ async def home(request: Request, locale: str) -> HTMLResponse:
     )
 
 
+@router.get("/{locale}/rettigheter", response_class=HTMLResponse)
+async def rights_page(request: Request, locale: str) -> HTMLResponse:
+    """Who owns what here, and where to write if we have got it wrong.
+
+    Linked from the footer of every page. Everything Pensum serves is either
+    Udir's under NLOD or written for Pensum, so the address on this page should
+    never receive anything -- which is the reason to publish it rather than a
+    reason not to.
+    """
+    validate_locale(locale)
+    return templates.TemplateResponse(request, "pages/rights.html", context(request, locale))
+
+
 @router.get("/{locale}/klasse/{grade}", response_class=HTMLResponse)
 async def grade_page(request: Request, locale: str, grade: int) -> HTMLResponse:
     validate_locale(locale)
@@ -93,6 +120,7 @@ async def grade_page(request: Request, locale: str, grade: int) -> HTMLResponse:
         raise HTTPException(status_code=404, detail="grade outside grunnskole")
 
     catalogue = _catalogue(request)
+    drafts = sees_unreviewed(request)
     subjects = [s for s in subjects_for_grade(catalogue.subjects, grade) if s.code in CORE_SUBJECTS]
 
     entries = []
@@ -105,7 +133,7 @@ async def grade_page(request: Request, locale: str, grade: int) -> HTMLResponse:
                 "goal_count": len(checkpoint.goal_set.goals),
                 # Derived, never declared: a subject offers a quiz exactly when
                 # reviewed items exist for that checkpoint.
-                "has_quiz": _items(request).has_quiz(checkpoint.goal_set.code),
+                "has_quiz": _items(request).has_quiz(checkpoint.goal_set.code, unreviewed=drafts),
             }
         )
 
@@ -132,6 +160,7 @@ async def subject_page(
     # A handful of curricula are established in nynorsk with no bokmål
     # translation. Showing them unlabelled would read as a typo rather than as
     # the official wording it is.
+    drafts = sees_unreviewed(request)
     language = curriculum_language(locale)
     shows_nynorsk = language != NYNORSK and all(
         not goal.text.has(language) and goal.text.has(NYNORSK) for goal in checkpoint.goal_set.goals
@@ -147,9 +176,29 @@ async def subject_page(
             subject=subject,
             checkpoint=checkpoint,
             shows_nynorsk=shows_nynorsk,
-            has_quiz=_items(request).has_quiz(checkpoint.goal_set.code),
-            question_count=len(_items(request).for_goal_set(checkpoint.goal_set.code)),
-            coverage=_items(request).coverage(checkpoint.goal_set),
+            has_quiz=_items(request).has_quiz(checkpoint.goal_set.code, unreviewed=drafts),
             has_placement=_placeable(request, subject),
+            # Derived the same way the quiz is: a subject offers reading aloud
+            # exactly when reviewed passages exist for that checkpoint. Norsk and
+            # engelsk have them; the other subjects simply have none, which needs
+            # no list of which subjects are "reading subjects".
+            has_reading=_reading(request).has_reading(checkpoint.goal_set.code, unreviewed=drafts),
+            # And the same again for handwriting. Whether the device can
+            # actually be written on is decided in the browser, so the link
+            # appears wherever prompts exist and the page itself says what it
+            # needs.
+            has_writing=_writing(request).has_writing(checkpoint.goal_set.code, unreviewed=drafts),
+            # And once more for listening, which has no content of its own: it
+            # exists wherever the reading passages yield enough words worth
+            # confusing, so asking is the only way to find out.
+            has_listening=request.app.state.listening.has_listening(
+                checkpoint.goal_set.code,
+                checkpoint.goal_set.after_year,
+                unreviewed=drafts,
+            ),
+            question_count=len(
+                _items(request).for_goal_set(checkpoint.goal_set.code, unreviewed=drafts)
+            ),
+            coverage=_items(request).coverage(checkpoint.goal_set, unreviewed=drafts),
         ),
     )

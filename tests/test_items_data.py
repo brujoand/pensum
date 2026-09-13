@@ -6,12 +6,14 @@ revision breaks the authored content -- not merely when the code changes.
 
 from __future__ import annotations
 
+import collections
 import re
 
 import pytest
 from fastapi.testclient import TestClient
 
 from pensum.catalogue.loader import Catalogue
+from pensum.items.figures import draw as draw_figure
 from pensum.items.loader import ItemBank
 from pensum.items.validate import validate
 from pensum.web.app import create_app
@@ -253,3 +255,99 @@ def test_result_page_notes_partial_coverage(client: TestClient) -> None:
 
     body = text_of(client.get(f"/nb/quiz/{session_id}/result").text)
     assert "Quizen dekket" in body and "kompetansemål" in body
+
+
+def test_every_committed_figure_draws() -> None:
+    """A figure is arithmetic over authored numbers, so a bad one is a crash at
+    request time rather than a wrong answer -- which is exactly the kind of thing
+    to catch here instead. Drafts included: an unreviewed figure that cannot be
+    drawn cannot be reviewed either.
+    """
+    drawn = 0
+    for item_set in ItemBank.load(include_unreviewed=True).item_sets:
+        for item in item_set.items:
+            if item.figure is None:
+                continue
+            for locale in ("nb", "en"):
+                drawing = draw_figure(item.figure, locale)
+                assert drawing.width > 0 and drawing.height > 0, item.id
+                assert drawing.alt.strip(), f"{item.id}: a figure with no alt text"
+                assert drawing.paths or drawing.dots, f"{item.id}: a figure that draws nothing"
+            drawn += 1
+    assert drawn, "no committed item carries a figure, so this test passed vacuously"
+
+
+def _quiz_showing(client: TestClient, item) -> str:
+    """Start a 2. trinn matematikk quiz with `item` as its first question.
+
+    The quiz samples from the bank, so a test that wants a particular question
+    has to put it in front of the pupil rather than hope for it.
+    """
+    start = client.post("/nb/klasse/2/MAT01-06/quiz", follow_redirects=False)
+    session_id = start.headers["location"].rsplit("/", 1)[-1]
+    session = client.app.state.sessions._sessions[session_id]
+    session.items = [item, *(i for i in session.items if i.id != item.id)]
+    return session_id
+
+
+def test_a_figure_is_drawn_into_the_question_and_kept_for_the_explanation(
+    client: TestClient,
+) -> None:
+    """The question is swapped out the moment it is answered. An explanation
+    that talks about the picture needs the picture still on the screen.
+    """
+    item = next(
+        i
+        for i in ItemBank.load().for_goal_set("KV1021")
+        if i.figure is not None and i.type == "numeric"
+    )
+    alt = item.figure.alt.get("nb")
+    session_id = _quiz_showing(client, item)
+
+    question = client.get(f"/nb/quiz/{session_id}/question").text
+    assert "<svg" in question
+    assert alt in question
+
+    feedback = client.post(
+        f"/nb/quiz/{session_id}/answer", data={"item_id": item.id, "response": str(item.answer)}
+    ).text
+    assert alt in feedback
+
+
+def test_a_figure_carries_no_colour_of_its_own(client: TestClient) -> None:
+    """Every colour comes from the stylesheet, so dark mode and a high-contrast
+    setting reach a figure without it knowing they exist. A `fill` or `stroke`
+    attribute in the markup would opt one question out of that, quietly.
+    """
+    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.figure is not None)
+    session_id = _quiz_showing(client, item)
+
+    page = client.get(f"/nb/quiz/{session_id}/question").text
+    svg = page[page.find("<svg") : page.find("</svg>")]
+    assert "<svg" in svg
+    assert "fill=" not in svg
+    assert "stroke=" not in svg
+    assert "#" not in svg
+
+
+def test_the_correct_choice_is_not_always_in_the_same_place(bank: ItemBank) -> None:
+    """Authored order is biased; display order is what a pupil actually sees.
+
+    436 of the 479 committed multiple-choice items were written with the correct
+    choice first, because that is how a person writes a question. Serving them in
+    authored order let a pupil pick option one every time and pass. The threshold
+    is loose -- most items have three choices, so chance is a third -- and only
+    catches display order collapsing back onto authored order.
+    """
+    positions: collections.Counter[int] = collections.Counter()
+    for item_set in bank.item_sets:
+        for item in item_set.items:
+            if item.type != "multiple_choice":
+                continue
+            shown = item.display_choices()
+            positions[next(i for i, c in enumerate(shown) if c.correct)] += 1
+
+    total = sum(positions.values())
+    assert total > 0
+    worst = max(positions.values()) / total
+    assert worst < 0.5, f"correct answer sits in one position {worst:.0%} of the time"

@@ -1,0 +1,53 @@
+# Høytlesing, norsk etter 4. trinn (NOR01-08 / KV1108).
+#
+# Lengre setninger enn på 2. trinn, og noen leddsetninger — teksten skal gi
+# eleven noe å holde flyten gjennom. Tullete med vilje: en tekst eleven vil lese
+# ferdig, blir lest ferdig. Skrevet for Pensum.
+---
+subject: NOR01-08
+goal_set: KV1108
+
+texts:
+  - id: nor-kv1108-elgen
+    goal: KM14164
+    language: nb
+    title: Elgen i svømmehallen
+    difficulty: 1
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      På tirsdag kom det en elg inn i svømmehallen. Ingen vet helt hvordan den
+      kom seg forbi resepsjonen, men vakten sier at den så veldig bestemt ut,
+      og at han ikke ville lage bråk.
+      Elgen gikk rett forbi barnebassenget og stupte uti det dype. Den svømte
+      fire lengder. Den svømte bedre enn pappa.
+      Badevakten blåste i fløyta og ropte at det er forbudt å springe på
+      kanten. Elgen sprang ikke. Elgen gikk pent, slik man skal.
+      Etterpå ristet den seg tørr midt i garderoben, og alle håndklærne ble
+      våte igjen.
+      Nå henger det et skilt ved inngangen. Der står det: Ingen mat. Ingen
+      hunder. Ingen elg.
+      Elgen kommer likevel på torsdager. Da later vakten som han ikke ser den.
+
+  - id: nor-kv1108-rektor
+    goal: KM14164
+    language: nb
+    title: Dagen rektor sa ja til alt
+    difficulty: 2
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      En fredag i mars bestemte rektor seg for å si ja til alt. Hun hadde lest
+      i en bok at man skulle prøve nye ting, og så gjorde hun det.
+      Først spurte 3B om de kunne ha matte utendørs. Ja, sa rektor.
+      Så spurte de om de kunne ha matte utendørs i trærne. Ja, sa rektor.
+      Så spurte noen om skolen kunne skaffe en geit. Rektor tenkte seg om i
+      halvannet sekund og sa ja.
+      Klokka tolv var det tre geiter i skolegården, en trampoline i gangen, og
+      hele femte trinn satt i taket i gymsalen og spiste vaffel.
+      Klokka ett ringte rektor til kommunen og sa nei til alt de spurte om, for
+      å få det ut av kroppen igjen.
+      Vi spør fortsatt hver fredag. Hun sier nei nå. Men hun smiler når hun
+      sier det.

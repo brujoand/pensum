@@ -1,0 +1,50 @@
+# Høytlesing, norsk etter 2. trinn (NOR01-08 / KV1107).
+#
+# Tekstene er skrevet for Pensum. De er korte, har korte setninger og bruker ord
+# en sjuåring har møtt før — en høytlesingstekst skal måle flyt, ikke ordforråd.
+#
+# Og de er tullete med vilje. En elev som ler av teksten leser den en gang til,
+# og det er hele poenget med øvingen. Ingenting her er hentet fra læreplanen.
+---
+subject: NOR01-08
+goal_set: KV1107
+
+texts:
+  - id: nor-kv1107-sokken
+    goal: KM14140
+    language: nb
+    title: Sokken som rømte
+    difficulty: 1
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      Jeg har mistet en sokk igjen.
+      Det er den femte denne uka.
+      Mamma sier at sokker ikke kan gå.
+      Men hvor blir de av, da?
+      Jeg tror de rømmer om natta.
+      Jeg tror de klatrer ut av kurven.
+      Jeg tror de tar bussen til en øy.
+      Der ligger de i sola og ler av oss.
+      Bare sokker på den øya. Ingen sko.
+
+  - id: nor-kv1107-bestemor
+    goal: KM14140
+    language: nb
+    title: Bestemor går på ski i stua
+    difficulty: 2
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      Bestemor har tatt på seg ski.
+      Hun har ikke gått ut. Hun står i stua.
+      Det er ikke snø i stua.
+      Hun sier at hun øver.
+      Katten sitter på sofaen og ser på.
+      Bestemor staker seg bort til kjøkkenet.
+      Hun tar en kjeks. Så staker hun seg tilbake.
+      Pappa sier ingenting. Han har sett dette før.
+      Til våren skal bestemor øve på å svømme.
+      Da må vi passe godt på badekaret.

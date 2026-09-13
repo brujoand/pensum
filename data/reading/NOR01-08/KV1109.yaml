@@ -1,0 +1,61 @@
+# Høytlesing, norsk etter 7. trinn (NOR01-08 / KV1109).
+#
+# Lengre perioder, innskutte setninger og en og annen fagaktig vending — på
+# dette trinnet skal eleven holde flyten gjennom en tekst som ikke er skrevet
+# for å være lett. At den er tullete gjør den ikke enklere å lese høyt; det gjør
+# bare at eleven vil lese den ferdig. Skrevet for Pensum.
+---
+subject: NOR01-08
+goal_set: KV1109
+
+texts:
+  - id: nor-kv1109-ordfoereren
+    goal: KM14176
+    language: nb
+    title: Kua som ble ordfører
+    difficulty: 1
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      Ingen hadde egentlig tenkt at kua skulle vinne valget. Hun sto på lista
+      som en spøk, langt nede, mellom en pensjonert bussjåfør og en mann som
+      ville forby vind.
+      Men kua lovte ingenting hun ikke kunne holde, og det viste seg å være en
+      uvanlig strategi. Mens de andre kandidatene lovte bru, tunnel og
+      badeland, sto hun helt stille på torget og tygget. Folk syntes det virket
+      ærlig.
+      Som ordfører har hun innført tre regler. Møter skal ikke vare lenger enn
+      en time, for da blir alle sultne. Alle saker skal forklares slik at et
+      barn på ni forstår dem, ellers er de ikke ferdig utredet. Og ingen får
+      snakke to ganger før alle har snakket én gang.
+      Kommunen går uventet godt. Riktignok har rådhuset måttet bygge om
+      inngangspartiet, og protokollene blir av og til spist, men innbyggerne
+      sier at de aldri har forstått lokalpolitikken bedre.
+      Nabokommunen vurderer nå en sau.
+
+  - id: nor-kv1109-superhelten
+    goal: KM14176
+    language: nb
+    title: Verdens dårligste superhelt
+    difficulty: 2
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      Kaptein Kanskje har én superkraft, og det er å vite hva klokka er. Alltid.
+      Nøyaktig. Uten å se.
+      Han oppdaget den da han var tolv, og brukte flere år på å overbevise seg
+      selv om at det måtte finnes en måte å redde verden på med den. Det gjør
+      det ikke. Han har prøvd.
+      Likevel har han drakt, og han har logo, og han står på taket når det
+      regner, slik man skal. Når noen ringer nødnummeret og spør etter en helt,
+      kommer han, og så sier han hva klokka er, veldig presist, mens huset
+      brenner bak ham.
+      Én gang var det faktisk nyttig. En bombe skulle gå av tolv minutter over
+      ni, og alle andre klokker i bygningen var stoppet. Han sier at det var den
+      beste dagen i livet hans, og at han tenker på den omtrent annenhver time,
+      noe han også vet nøyaktig når er.
+      Han har søkt om å bli med i superheltforbundet fire ganger. De svarer
+      alltid at de skal komme tilbake til ham.
+      Han vet nøyaktig hvor lenge de har brukt.

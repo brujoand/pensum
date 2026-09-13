@@ -12,6 +12,7 @@ from pensum.auth.cookies import CookieCodec, read_user
 from pensum.auth.models import User
 from pensum.auth.oidc import OidcClient
 from pensum.config import Settings
+from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.store import AttemptStore
 
 
@@ -29,6 +30,21 @@ def get_oidc(request: Request) -> OidcClient | None:
 
 def get_store(request: Request) -> AttemptStore | None:
     return request.app.state.attempts
+
+
+def get_review_store(request: Request) -> ReviewStore | None:
+    """Where review decisions are written. None when there is no database."""
+    return request.app.state.review_store
+
+
+def get_reviews(request: Request) -> ReviewLedger | None:
+    """The decisions the content libraries are already consulting.
+
+    The same object they hold, not a copy: reloading it after a write is what
+    makes an approval take effect on the next page load rather than in half a
+    minute.
+    """
+    return request.app.state.reviews
 
 
 def current_user(request: Request) -> User | None:
@@ -57,6 +73,34 @@ def require_admin(request: Request) -> User:
     if not user.in_group(settings.admin_group):
         raise HTTPException(status_code=403, detail="not an administrator")
     return user
+
+
+def is_admin(request: Request) -> bool:
+    """Whether this request comes from someone in the configured admin group."""
+    settings = get_settings(request)
+    user = current_user(request)
+    return user is not None and user.in_group(settings.admin_group)
+
+
+def sees_unreviewed(request: Request) -> bool:
+    """Whether this request may be shown content no human has read yet.
+
+    Two ways to qualify, and they are different in kind. The deployment-wide
+    `PENSUM_INCLUDE_UNREVIEWED` says "this instance is for reviewing drafts" --
+    it is for a maintainer running the app locally, and the manifest comments
+    are emphatic that it must never be set on the instance children use.
+
+    Being an administrator is the per-request one: a draft has to be readable in
+    place before anyone can decide whether it is fit to mark reviewed, and
+    signing in is the only way to establish who is asking.
+
+    Note what this depends on. `current_user` is None whenever sign-in is not
+    configured, so an instance that authenticates at a proxy and forwards no
+    identity has no administrators as far as Pensum is concerned, and this
+    returns False for everyone. That is the correct failure direction, but it
+    does mean the feature is inert until Pensum has its own OIDC client.
+    """
+    return get_settings(request).include_unreviewed_items or is_admin(request)
 
 
 def base_url(request: Request) -> str:

@@ -153,6 +153,499 @@ The pages are read-only. There is nothing there to re-grade or delete a child's
 record with — for that, the database is one SQLite file and `sqlite3` is a better
 tool than a web form anyone can misclick.
 
+## Reviewing drafts
+
+Quiz items, reading passages and writing prompts are committed unreviewed and
+withheld until a human marks them `reviewed: true`. Two things can lift that, and they are
+different in kind:
+
+- **`PENSUM_INCLUDE_UNREVIEWED=1`** shows drafts to *everyone*. It is for a
+  maintainer running the app locally, and must never be set on an instance
+  children use.
+- **Being signed in as an administrator** shows drafts to that person only,
+  wherever they are. A draft has to be readable in its own quiz, its own
+  reading page or its own tracing page before anyone can judge whether it is fit
+  — reading YAML is not the same as seeing the question a child would get, and a
+  path string is not the same as seeing the letter.
+
+Drafts an administrator sees are labelled as drafts, on the question and in the
+reading and writing lists, and the subject page says why it looks different from the one a
+pupil sees. An unmarked draft would be judged as if it had already passed.
+
+The gate fails closed at every layer: the loaders default to reviewed-only, so a
+caller that forgets to ask gets the safe answer. **Note the prerequisite** —
+administrator status comes from Pensum's own sign-in, so an instance that
+authenticates at a proxy and forwards no identity has no administrators as far
+as Pensum is concerned, and nobody sees drafts. See [Accounts and score
+history](#accounts-and-score-history).
+
+### Deciding, on the instance
+
+`/{locale}/admin/gjennomgang` lists every authored question, passage and prompt
+in one queue — rendered the way a pupil would meet them, because judging a
+summary is judging the summary — with **Godkjenn** and **Avvis** on each. It is
+behind the same administrator gate as the score pages, and it 404s on an
+instance with no database, since a page that cannot record a decision would be a
+button that lies.
+
+**A decision is stored in that instance's own database, not in the file it
+concerns**, and it overrides `reviewed:` in both directions:
+
+| file says | decision | what a pupil sees |
+| --- | --- | --- |
+| `reviewed: false` | none | withheld |
+| `reviewed: false` | approved | served |
+| `reviewed: true` | none | served |
+| `reviewed: true` | rejected | withheld |
+
+### Two different questions
+
+The flag and the decision look alike and are not the same judgement. Keeping them
+apart is the whole point of putting one in the repository and the other in the
+deployment.
+
+- **`reviewed:` in a file asks: has a human read this at all?** It is the floor,
+  and it is the same everywhere, because "nobody has checked this yet" is a fact
+  about the question rather than about a school.
+- **A decision asks: does *this* school want this?** That has no
+  repository-wide answer, because it is not a property of the question. It is a
+  property of the deployment.
+
+A Pensum serving a Sámi school and a Pensum serving a congregation school in
+southern Norway are both running correctly while serving different subsets of the
+same repository. Each will want questions the other would rather not put in front
+of its pupils, and neither is wrong about its own classroom. A flag in a shared
+YAML file cannot express that: it would force whichever school edited it last
+onto everyone who pulls the image.
+
+So the difference between the files and a running instance is **not drift to be
+reconciled, and there is deliberately no exporter that writes decisions back into
+YAML.** Doing that would take one school's local decision and publish it as
+everybody's.
+
+The consequence is worth stating plainly: **the repository does not tell you what
+a given instance serves.** The files say what Pensum contains and what has been
+read; that instance's `content_reviews` says what that school chose from it. To
+audit a deployment, look at the deployment — the review page says so on the page
+itself.
+
+An instance with no database is unaffected in every respect: no page, no table,
+and the file's own flag decides, exactly as before.
+
+## Reading aloud
+
+Norsk and engelsk carry a second exercise: a passage to read out loud. Pensum
+times the reading and, when the deployment has speech models, checks it against
+the printed text and reports **correct words per minute** — words heard in the
+order they were printed, divided by the time spent reading. Plain words per
+minute rewards reading fast by skipping, which is the opposite of the point.
+
+The passages are chosen per checkpoint and are ours, like the quiz questions:
+LK20 is quoted verbatim elsewhere, and nothing a pupil reads aloud here is
+curriculum text — or anybody else's text. Every one of them was written for
+Pensum. No lyrics, no subtitles, no excerpts.
+
+**They are deliberately silly.** A sock that runs away to an island, a moose
+that swims better than your dad, a formal complaint from a dragon to the
+council, terms and conditions for borrowing a pencil. That is not decoration: a
+pupil who wants to know how the passage ends reads it to the end, and reading it
+to the end is the exercise. The 10. trinn passages get their difficulty from
+adult sentence structure and a deadpan register rather than from dry subject
+matter — reading bureaucratic prose with a straight face is harder than reading
+it fast.
+
+### What a pupil is told
+
+A band, never a threshold — for example *30–60 correct words a minute after 2.
+trinn* — followed by the caveat that comes with it. **LK20 sets no words-per-
+minute figure and Udir publishes no national norm for reading speed**, so every
+band in `data/reading/norms.yaml` is Pensum's own guideline. The schema makes a
+band without a cited source impossible to load, and the result page renders the
+source's caveat next to the number every time. Reading speed varies enormously
+between children who all read perfectly well, and the wording says so.
+
+### What counts as reading it wrong
+
+**Speed is the headline number, and pronunciation is not scored.** Reading
+*trappen* for *trappa*, or *boken* for *boka*, is not a reading error — it is
+Norwegian, and a recogniser trained on adult speech invents more variation of
+the same kind. Alignment therefore treats two words as the same when they share
+a stem and differ in the ending, or when they are near-identical throughout.
+Reading *hest* for *hus* still counts, and short words are held to an exact
+match because that is where a real substitution hides.
+
+The words that were merely pronounced differently are counted and reported
+separately, so a pupil can see that their dialect is not what cost them the
+percentage.
+
+There is a known cost, recorded in a test rather than hidden: two different
+words that share a stem — *store* and *storm* — are accepted as one. Given a
+recogniser that mishears children constantly, being wrong in the forgiving
+direction is the right way round.
+
+### Three recognisers, and the page says which one is listening
+
+| | Where the audio goes | Needs |
+|---|---|---|
+| **The device's own** | nowhere, on browsers that recognise locally | nothing |
+| **Pensum's** | to this server, in memory | models mounted, `WITH_SPEECH=1` |
+| **None** | nothing is recorded | nothing |
+
+The browser's `SpeechRecognition` is two products wearing one API: on-device
+recognition, where the audio never leaves the handset, and cloud recognition,
+where the browser vendor receives a child reading aloud. Pensum cannot tell
+which from the server, so the page decides — it uses the first without asking,
+because it is strictly more private than posting the audio here, and offers the
+second only behind an unticked box that names whose servers are involved.
+
+This is what makes a checked reading possible on the published image, which
+ships no models at all: on an iPhone, or a recent Chrome with a local model,
+the recognising happens on the device and only the transcript reaches Pensum.
+A transcript is also, unavoidably, whatever the page chose to send — a pupil
+with developer tools open can claim a flawless reading. That is accepted rather
+than defended against; the server path exists for anyone who wants the stricter
+answer.
+
+`PENSUM_DEVICE_SPEECH=0` removes the offer entirely.
+
+### Owning the screen
+
+Starting a reading takes over the page. The header, the breadcrumb, the notes
+and the footer go; the passage grows to fill the screen with a progress bar and
+a clock above it, and the browser is asked for fullscreen on top. `Escape` ends
+the reading. None of it is required — with JavaScript off the passage is simply
+a passage to read aloud, which is the exercise anyway.
+
+**Words light up as they are read.** While the reading is going, audio is sent
+to Pensum in two-second slices; each one is transcribed and matched against the
+next stretch of the passage, and the highlight moves forward to wherever the
+words were recognised. It runs a beat behind and it only ever moves forward — a
+highlight that jumps backwards mid-sentence is worse than one that lags. **The
+live pass never touches the score.** It sees eight-second windows with no idea
+what came before; the result comes from one pass over the whole recording when
+the reading ends.
+
+**Then it plays back.** Whisper reports when each word was heard, so the passage
+lights up again at the times the pupil actually read it, with unrecognised words
+marked as they pass. A reading nobody listened to replays at an even pace and
+the page says that is what it is doing, rather than implying a recording it
+never made.
+
+### What it celebrates
+
+Four rewards, and they are not equally defensible:
+
+- **Finishing the passage.** The one badge that cannot mislead: a slow reader
+  who reaches the last word earns exactly what a fast one earns.
+- **Reaching the band.** Awarded for reaching *or passing* the range for the
+  trinn, never for landing inside it — rewarding only the middle would turn a
+  guideline into a target with a penalty on both sides.
+- **Stars, from accuracy.** Thresholds are deliberately forgiving, and the
+  sentence explaining that the recogniser mishears children, dialects and
+  second-language speakers is rendered directly underneath rather than in a
+  footnote. A reading nobody listened to shows no stars at all.
+- **Personal bests and a daily streak.** Computed in the pupil's own browser
+  from `localStorage` and never sent anywhere, so Pensum still does not know
+  that anyone read the same passage twice.
+
+### Two modes, and only one of them needs configuration
+
+| | Default image | With speech models |
+|---|---|---|
+| Passage shown, screen taken over | yes | yes |
+| Reading timed | yes | yes |
+| Checked, if the device recognises speech | yes | yes |
+| Audio recorded by Pensum | **no** | in memory, for the length of the reading |
+| Words light up live | on-device only | yes |
+| Read against the text | no | yes — accuracy, and which words were not heard |
+| Replay | even pace, labelled as such | the real times each word was read |
+| Stars | no | yes |
+
+The default is the left column. There is no microphone prompt, no recording and
+no upload; the page times the reading and says outright that nobody checked it.
+
+Turning on the right column takes a model directory:
+
+```bash
+bin/fetch_speech_models                       # ~1 GB, once
+PENSUM_SPEECH_MODEL_DIR=/models docker run \
+  -e PENSUM_SPEECH_MODEL_DIR=/models \
+  -v "$PWD/data/speech:/models:ro" \
+  -p 8000:8000 ghcr.io/brujoand/pensum:1.0.0
+```
+
+The image needs speech support compiled in for this to do anything — build it
+with `--build-arg WITH_SPEECH=1`, which adds the `speech` extra. The published
+image is built without it.
+
+`PENSUM_SPEECH_LIVE=0` keeps the checking and drops the live highlight. That is
+the dial to reach for first under load: lighting words up costs a transcription
+every two seconds per pupil reading, on top of the single pass that produces the
+score. In-flight readings hold their audio in memory, so concurrency is capped
+(32 at once) rather than allowed to grow.
+
+### Where the audio goes
+
+Nowhere. A recording is captured in the page, posted to Pensum's own origin in
+slices, held in memory only while the reading is in progress, transcribed by a
+model on local disk, and dropped the moment the reading is scored — not on a
+timer. It is never written to disk, never sent to a speech API,
+never attached to a pupil — signed in or not — and never kept. Transcription is
+`faster-whisper` running in-process, so a container with models mounted still
+makes no outbound request.
+
+The browser's own `SpeechRecognition` API would have been free and would have
+shipped a child's voice to a third-party service. That is why it is not used.
+
+**Vosk is not used either, for a duller reason: it publishes no Norwegian
+model.** Some three dozen languages, Swedish the only Nordic one. It could have
+served engelsk and nothing else.
+
+## Writing by hand
+
+A third exercise, and the one that wants a touchscreen: trace a letter with a
+finger and watch it fill in. Norsk carries the letters, small and capital;
+matematikk carries the digits. A first-grader gets one letter at a time — that
+is what 1. og 2. trinn is actually doing — and the same machinery takes a whole
+word, which is what 3. og 4. trinn will get.
+
+**A letter here is a movement, not a picture.** `data/writing/alphabet.yaml`
+holds every glyph as an ordered list of strokes, each an SVG path with a
+direction, drawn on a 100×140 grid whose ascender, x-height, baseline and
+descender are named in the file. The page rules the paper from those four
+numbers, prints a numbered dot where each stroke begins, and can animate any
+stroke on request. Where a letter starts and which way it runs is half of what a
+six-year-old is learning, and none of it survives being stored as a shape.
+
+The forms are print letters — formskrift, not løkkeskrift — because that is what
+Norwegian schools teach first and it is the one a finger on glass can produce.
+They are ours: **LK20 says a pupil should write "med funksjonell håndskrift" and
+names no letterform at all**, so a school teaching a different `a` is not being
+contradicted by this file.
+
+### What is scored
+
+Four measures per stroke, and each one exists because the others can be fooled:
+
+| | catches |
+|---|---|
+| **Coverage** | a letter half written |
+| **Neatness** | ink that wandered off the line |
+| **Flow** | a scribble — which covers every point of the guide and never leaves it, so coverage and neatness both call it perfect |
+| **Direction** | an `o` drawn the wrong way round: the right shape, the wrong movement |
+
+Plus **economy**, a multiplier comparing ink drawn against line to draw. Going
+round an `o` twice to be sure costs nothing; drawing five times the letter is
+not writing it.
+
+**Stroke order is scored softly, on purpose.** Writing the crossbar of a `t`
+before the stem costs ten percent and can never fail the letter. That is a
+judgement about six-year-olds rather than about handwriting: a tool that rejects
+a recognisable letter because the strokes came in the wrong order teaches a
+child that they cannot write. The result page names the fault instead — *you
+went the other way round*, *one stroke is missing* — because that is something
+they can do differently next time, where 71% is not.
+
+The tolerance is a fingertip: about a tenth of a letter's width, which is what a
+finger actually covers on a phone. The page uses the same figure to decide where
+to throw sparks, and a test asserts the two numbers have not drifted apart — a
+page kinder than the server would sparkle its way to a disappointing result.
+
+### Where the tracing goes
+
+Nowhere. The points are posted to Pensum's own origin once, when the pupil is
+done, marked in memory, and gone with the response. Nothing is written to disk
+and nothing is attached to a pupil, signed in or not — the same contract the
+reading exercise makes about audio. There is no live endpoint: the browser
+already knows where the finger went, so the meter and the sparks are drawn
+locally and the server hears about it once.
+
+Like a device reading, everything posted is the page's word. A pupil with the
+developer tools open can claim a flawless `Æ` they never drew, and nothing here
+can tell. That is accepted rather than defended against, for the same reason as
+everywhere else in Pensum: no score is stored, the result is shown to the child
+who produced it, and a practice tool that treats its user as an adversary is a
+worse practice tool.
+
+### Without JavaScript, it is a worksheet
+
+Every letter of a prompt is rendered server-side, ruled and numbered. With
+JavaScript the page shows one at a time and lets a finger draw on it; without,
+they all stay on the screen — which prints, and can be traced with a pencil.
+That is a worse exercise than the traced one and a much better outcome than an
+empty box.
+
+`tools/render_alphabet.py` prints the alphabet as ASCII or as an SVG sheet, with
+stroke order and direction marked. A letterform is reviewed by looking at it,
+and a path string is not something anyone can review by reading it.
+
+## Listening and spelling
+
+A fourth exercise: a word is read aloud, and the pupil either picks the right
+spelling or types it. Norsk and engelsk have it, because they are the subjects
+with passages to draw words from.
+
+**Which of the two depends on the checkpoint, not on the pupil.** Up to and
+including 2. trinn it is a choice between two spellings, because recognising a
+spelling comes a long way before producing one. From 3. trinn it is a box and no
+letters to copy from — dictation. A nine-year-old still working towards the 2.
+trinn goals gets the 2. trinn exercise, which is the rule the rest of Pensum
+follows and for the same reason: the goal set is the thing being practised.
+
+**The browser says the word.** `speechSynthesis`, so no audio is fetched, none
+is generated on the server, and there is no microphone anywhere on the page. A
+local voice is preferred over a cloud one where the browser offers both, because
+a cloud voice sends the word to the browser vendor — an outbound request Pensum
+otherwise never makes.
+
+If the browser has no voice for the passage's language, **the exercise refuses to
+run and says so**. An English voice reading *kjøleskap* does not say a Norwegian
+word badly; it says a different word, and the child is then marked on spelling
+something they were never told. Guessing between two spellings with nothing
+spoken is a coin toss dressed up as a lesson.
+
+### Nothing is authored twice
+
+There is no `data/listening/`. The words come from the reading passages already
+written for that checkpoint — so they are already at its level and already
+reviewed — and the wrong spellings are generated.
+
+That is the interesting half. A distractor has to be the word the child might
+actually have written:
+
+* **A real word, where the lexicon has one.** `bok`/`bak`, `hus`/`hos`,
+  `bruk`/`bråk`. The best kind: both spellings are correct Norwegian, so the
+  only way through is to have heard which one was said. About **44%** of
+  askable Norwegian words and **38%** of English ones have one.
+* **A plausible misspelling for the rest.** *kjøleskapp*, with the doubled
+  consonant. Not a word, and precisely the non-word the pupil was at risk of
+  writing.
+
+`confusable.py` holds the mistakes, as a short table a teacher can read and
+disagree with rather than a phonetic algorithm: kj/skj/sj, silent h and d,
+o/å, o/u, e/æ, y/i, voiced against voiceless, and consonant doubling — which in
+Norwegian is the commonest spelling error there is.
+
+**What a table cannot know is where in a word a change is possible.** Left alone
+it produces *ffølge*, *sdrategi* and *haldvannet*, none of which any child has
+written and all of which are spotted without listening — so they make the
+exercise easier rather than harder. Two things stop that. Doubling is restricted
+to where it means something, between a vowel and either a vowel or the end of
+the word; and every invented spelling is checked against the shapes of the
+language, measured from the language itself. The lexicon counts which letter
+pairs its own words start with, contain and end with, and refuses anything
+outside that.
+
+### Where the lexicon comes from
+
+Pensum's own text, and nothing else: every reading passage and both language
+halves of every quiz item, which comes to about **4799** Norwegian words
+and **3818** English ones. No word list is vendored and none is fetched.
+
+That is a choice with one advantage and one cost. The advantage is that it is
+unambiguously ours — a word list is somebody's work and carries somebody's
+licence, and this repository is public and ships an image. The cost is density:
+a full dictionary would find a real neighbour for nearly every word, where this
+finds one for about two in five. `listening/lexicon.py` is the only module that
+would have to change if a properly licensed list were ever vendored; it answers
+*is this a word* and *does this look like one*, and nothing above it cares how.
+
+Nynorsk has no authored text of its own yet and falls back to the bokmål pool —
+wrong in detail, right in effect, where an empty lexicon would silently turn
+every distractor into an invention.
+
+### Where the answers go
+
+Nowhere, as with reading and writing. The answers are posted once, marked in
+memory, and gone with the response.
+
+The round is **rebuilt on the server** rather than posted back — it is derived
+deterministically from the checkpoint, so rebuilding it is cheap, and it means
+the questions being marked are the ones the server set rather than the ones the
+request claims it was asked.
+
+The words themselves are in the page, because the browser is what says them and
+it cannot say a word it has not been given. So a pupil with the developer tools
+open can read the answer to a dictation. That is accepted rather than worked
+around, for the same reason as everywhere else here: nothing is stored, nothing
+is graded, and the alternative — synthesising audio on the server — would mean
+shipping a voice per language and would still be beaten by turning the volume up.
+
+Without JavaScript there is no exercise and the page says so. Unlike the writing
+screen, there is nothing to fall back to: the word is the exercise, and the
+browser is what speaks it.
+
+## Drawing the question
+
+A lot of matematikk is a sentence about an object. *A rectangle is covered by
+equal squares; there are 3 rows of 4* is twenty words a seven-year-old has to
+decode before they can start counting, and a question about the area of a
+triangle asks a ten-year-old to hold a shape in their head that the page could
+simply have shown them. A quiz item can therefore carry a **figure**, drawn
+above its answers.
+
+Five kinds, chosen from what the committed questions actually describe:
+
+| | for | shows |
+|---|---|---|
+| `shape` | geometry | a named plane figure, with sides, vertices, right angles and an altitude labelled as a textbook labels them |
+| `counters` | counting, grouping | dots to count, optionally split into equal groups or partly filled in |
+| `array` | area, multiplication | a rectangle made of unit squares — the one figure drawn to scale, because its cells can be counted |
+| `fraction` | parts of a whole | one to four wholes as bars or as circles, cut into equal parts with some of them shaded |
+| `number_line` | counting on and back, place value | a ruled line with marks, and jumps drawn as directed arcs above it |
+
+**A figure is declared, not drawn.** An item names a kind and its parameters:
+`parts: 4, shaded: 1` is either one quarter or it is a typo somebody can see.
+Nothing in the data is an SVG path or a markup fragment. That is the reverse of
+the decision the alphabet makes, and for the same reason — a letterform *is* its
+path, so it is authored as one, whereas nobody can review `M20,20L180,180`
+against the sentence it is supposed to illustrate.
+
+The geometry is arithmetic in `pensum/items/figures.py`, and the template loops
+over the paths, dots and labels it produces. So the drawing is asserted in tests
+rather than inspected in a browser: that 2/4 shades the same width as 1/2, that
+a square is drawn square, that a jump backwards points left.
+
+```bash
+uv run python tools/render_figures.py > /tmp/figures.html    # every committed figure
+uv run python tools/render_figures.py --gallery > /tmp/g.html  # one of each kind
+```
+
+The first sheet puts each figure under the prompt it belongs to, which is the
+only way to answer the question a reviewer actually has: does the picture say
+the same thing as the words? The second ignores the data and draws every shape
+and option, including the ones no item uses yet — that is the sheet to look at
+after changing the geometry.
+
+### What a figure may and may not give away
+
+**A figure may show what the prompt already says. It may not show anything the
+prompt withholds.** A question that names a chocolate bar in eight pieces can be
+drawn as eight pieces; a question asking which of two triangles has the longer
+side cannot be drawn with one of them visibly longer, because then the picture
+is the answer and the question is gone. This is a judgement per item, and it is
+the thing to check when reviewing one.
+
+**Alt text says what is drawn, including what a sighted reader would have to
+count.** The alternative is a coy description that leaves a screen-reader user
+holding an unanswerable question, which is worse than telling them. Every figure
+carries its alt text in both UI locales, and no figure loads without one.
+
+**No figure carries a colour.** Every stroke and fill comes from the same
+stylesheet variables the rest of the page uses, so dark mode and a high-contrast
+setting reach a figure without it knowing they exist, and no single question can
+opt itself out. A test asserts the rendered markup has no `fill`, no `stroke`
+and no hex colour in it.
+
+**It is plain SVG, rendered server-side, and needs no script.** For several of
+these questions the picture is half of the prompt, and half a prompt that
+appears only when JavaScript does is not a prompt.
+
+**A figure inherits its item's review state**, because it is part of the
+question rather than an illustration beside it. Adding one to a question that
+was already reviewed changes what that question tests, so it wants the reviewer
+back — `tools/render_figures.py` is what to hand them.
+
 ## Development
 
 ```bash
@@ -170,6 +663,32 @@ bin/run_local --native     # run from source with reload, no Docker
 bin/run_local --no-build   # reuse the image you already built
 bin/run_local --port 9000
 ```
+
+### Keeping dependencies current
+
+Renovate opens the update PRs, configured in `.renovaterc.json5`. Nothing
+automerges — every bump is assigned to a human — and releases sit for a week
+before they are offered, so a bad publish upstream has time to be yanked.
+
+Three groupings exist because three things are pinned in more than one place
+and silently break when they drift apart:
+
+- **uv** — `mise.toml` is what a developer and CI run; the Dockerfile copies the
+  same version out of the official image. Merged apart, the image gets built by
+  a uv the tests never saw.
+- **Shell tooling** — `mise.toml` installs shellcheck and shfmt for
+  `bin/run_local`; `.pre-commit-config.yaml` pins its own copies. When they
+  disagree, pre-commit passes locally and fails in CI.
+- **Python** — pinned in `mise.toml`, floored in `pyproject.toml`, set by the
+  base image. Patch releases move all three together; a new minor is disabled,
+  because that is a decision about what the project supports rather than an
+  update.
+
+One consequence is worth knowing before it surprises you: a **runtime**
+dependency bump lands as `fix(deps)`, which semantic-release reads as a patch
+and turns into a tagged release and a published image. That is intended — a
+patched dependency should reach the image without a hand-written commit. Dev and
+CI dependencies land as `chore(deps)` and publish nothing.
 
 ### Keeping the curriculum current
 
@@ -212,19 +731,81 @@ and re-verified against the official source.
   quizzing them, rather than inventing a question that misrepresents the goal.
   Coverage is therefore uneven by design.
 - **Quiz questions are drafted with an LLM and reviewed by hand.** Questions are
-  committed as readable YAML so every one of them is reviewable, and the released
-  build serves only reviewed items. The curriculum text itself is never
-  generated — it is quoted verbatim from Udir.
+  committed as readable YAML so every one of them is reviewable, and nothing is
+  served until a human has signed it off — either in the file, or on the review
+  page, which records the decision in the database rather than the file. The
+  curriculum text itself is never generated — it is quoted verbatim from Udir.
+- **A reading speed is a guideline, and a rough one.** No words-per-minute
+  figure appears anywhere in LK20, and Udir publishes no national norm for
+  reading speed, so the bands in `data/reading/norms.yaml` are Pensum's own and
+  are shown with that stated. A speech recogniser also mishears children,
+  dialects and second-language speakers more than it mishears anyone else, so a
+  word listed as "not heard" may be the machine's mistake rather than the
+  pupil's — which the result page says as well.
+- **The reading screen is gamified, and two of its rewards are in tension with
+  everything above.** Stars come from a recogniser that is least accurate for
+  the pupils they would most discourage, and rewarding a words-per-minute band
+  makes a target of a range the norms file explicitly says is not one. They are
+  built the least harmful way we could — forgiving thresholds, the caveat next
+  to the stars, credit for reaching the band rather than for landing inside it,
+  no stars at all when nothing was listened to — but the tension is real and is
+  recorded here rather than smoothed over.
+- **A traced letter is not handwriting.** The writing exercise measures where a
+  fingertip went on glass, which is a blunter instrument than a pencil and a
+  different motion from holding one. It can tell that a letter was formed from
+  the right strokes, in roughly the right places, in roughly the right order; it
+  cannot tell whether a child can write. Handwriting is learned with a pencil and
+  an adult beside you, and the result page says so under every score.
+- **A generated wrong spelling is not a curriculum, and the lexicon is small.**
+  The listening exercise builds its distractors from a short table of the
+  mistakes Norwegian and English children make, checked against Pensum's own
+  vocabulary of a few thousand words. Where that vocabulary has no real
+  near-word — about three cases in five — the distractor is an invented
+  misspelling, which is a good wrong answer rather than a great one. And the
+  words are whatever the reading passages happen to contain, so the exercise
+  practises spelling patterns without covering them: it is not a spelling
+  syllabus and does not claim to be one.
+- **Whether the word can be heard at all depends on the device.** The voice is
+  the browser's own. A machine with no Norwegian voice installed gets no
+  Norwegian exercise, and Pensum says so rather than reading the word in
+  whatever voice it has.
 - **No accounts and no analytics unless a deployment adds them.** Out of the
   box Pensum stores nothing about who is using it: quiz progress lives in memory
   for the length of a session and is gone afterwards, and there is no third-party
   script on any page in any configuration. A deployment can enable sign-in and
   keep a score history — see [Accounts and score
   history](#accounts-and-score-history) for exactly what that stores and what it
-  still refuses to. If you run the published image with no environment set, none
-  of it applies to you.
+  still refuses to. Reading aloud is the one feature that handles audio, and it
+  keeps none of it: see [Where the audio goes](#where-the-audio-goes), and the
+  writing exercise keeps no tracing either. If you run the published image with
+  no environment set, none of it applies to you.
 
 ## Licence
+
+Every page links to **[Rights and takedowns](#rights-and-takedowns)** in its
+footer, at `/{locale}/rettigheter`. It names the three owners below and gives an
+address to write to; `PENSUM_DMCA_EMAIL` overrides that address so a fork gets
+its own inbox.
+
+### Rights and takedowns
+
+Three kinds of content, three owners:
+
+- **Curriculum text** is Udir's, reproduced verbatim under NLOD.
+- **Quiz questions and reading passages** were written for Pensum. None is
+  taken from a book, lyric, subtitle or other work, and all of them are
+  committed as readable text so anyone can check that claim rather than take it.
+- **The code** is MIT.
+
+If you believe something here is yours, write to the address on that page with
+what it is, where you saw it, who you are and why. The content comes down while
+it is looked at. "DMCA" is the name most people know the process by; Pensum is a
+Norwegian project and a request is handled under Norwegian law, but nobody needs
+to know that to send an email.
+
+Reading audio is not covered by any of this, because none of it is kept: a
+recording is processed in memory while the pupil waits and is gone with the
+response, so there is nothing to request access to or deletion of.
 
 The code is MIT — see [LICENSE](LICENSE).
 

@@ -17,31 +17,30 @@ Two properties are load-bearing:
 
 from __future__ import annotations
 
+import hashlib
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-# Our own text is authored in the two UI locales, unlike curriculum text, which
-# arrives from Udir in every maalform it was published in.
-BOKMAAL = "nb"
-ENGLISH = "en"
+from pensum.items.figures import Figure
+from pensum.items.text import BOKMAAL, ENGLISH, AuthoredText
+
+# Re-exported: `AuthoredText` reads as part of the item schema even though it
+# lives next door so that figures can use it without an import cycle.
+__all__ = [
+    "BOKMAAL",
+    "ENGLISH",
+    "AuthoredText",
+    "Choice",
+    "ItemSet",
+    "NotAssessable",
+    "QuizItem",
+]
 
 ItemKind = Literal["multiple_choice", "numeric", "short_text"]
 
 MIN_CHOICES = 3
 MAX_DIFFICULTY = 3
-
-
-class AuthoredText(BaseModel):
-    """A string we wrote, in both UI locales. Bokmål is required."""
-
-    model_config = ConfigDict(frozen=True)
-
-    nb: str = Field(min_length=1)
-    en: str = Field(min_length=1)
-
-    def get(self, locale: str) -> str:
-        return self.en if locale == ENGLISH else self.nb
 
 
 class Choice(BaseModel):
@@ -65,6 +64,12 @@ class QuizItem(BaseModel):
     difficulty: int = Field(ge=1, le=MAX_DIFFICULTY)
     prompt: AuthoredText
     explanation: AuthoredText
+
+    # A picture of what the prompt describes, where the prompt describes
+    # something you are supposed to see. Optional by construction: most
+    # questions do not need one, and a figure that adds nothing is clutter on a
+    # page a seven-year-old is reading.
+    figure: Figure | None = None
 
     choices: tuple[Choice, ...] = ()
     answer: float | None = None
@@ -99,6 +104,21 @@ class QuizItem(BaseModel):
             raise ValueError(f"{self.id}: short_text items need accepted answers")
 
         return self
+
+    def display_choices(self) -> tuple[Choice, ...]:
+        """The choices in the order a pupil should see them.
+
+        Authored order is not neutral: across the corpus the correct choice sits
+        first in nine items out of ten, because that is how an author writes a
+        question. A pupil who notices can answer every question without reading
+        past the first line.
+
+        Ordering by a hash of the ids rather than shuffling keeps it stable --
+        the same item looks the same on a reload and in a failing test -- while
+        being unguessable by a child. Same reasoning as
+        `pensum.listening.exercise._seed`.
+        """
+        return tuple(sorted(self.choices, key=lambda c: _order_key(self.id, c.id)))
 
     def response_text(self, response: str, locale: str = BOKMAAL) -> str:
         """A response as the pupil would recognise it.
@@ -191,3 +211,8 @@ class ItemSet(BaseModel):
 def _normalise(text: str) -> str:
     """Casefold and collapse whitespace, so trivial variation is not punished."""
     return " ".join(text.strip().casefold().split()).rstrip(".!?")
+
+
+def _order_key(item_id: str, choice_id: str) -> bytes:
+    """A stable, opaque sort key for one choice of one item."""
+    return hashlib.sha256(f"{item_id}:{choice_id}".encode()).digest()

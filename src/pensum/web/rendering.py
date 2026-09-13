@@ -13,8 +13,10 @@ from pathlib import Path
 from fastapi import HTTPException, Request
 from fastapi.templating import Jinja2Templates
 
+from pensum import __version__
 from pensum.i18n import SUPPORTED_LOCALES, curriculum_language, translate
-from pensum.web.deps import current_user, get_settings
+from pensum.items.figures import draw as draw_figure
+from pensum.web.deps import current_user, get_settings, sees_unreviewed
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
@@ -32,6 +34,13 @@ def _day(value: datetime) -> str:
 
 
 templates.env.filters["day"] = _day
+
+# The geometry of a question's figure, resolved for whichever locale the page is
+# in. A global rather than a filter because it takes the locale as well as the
+# figure, and computed here rather than in the route because every page that
+# shows a question -- the question itself, and the feedback that replaces it --
+# needs the same drawing from the same item.
+templates.env.globals["draw_figure"] = draw_figure
 
 
 def validate_locale(locale: str) -> None:
@@ -60,9 +69,24 @@ def context(request: Request, locale: str, **extra: object) -> dict[str, object]
         "t": lambda key, **kwargs: translate(locale, key, **kwargs),
         "locales": SUPPORTED_LOCALES,
         "auth_enabled": settings.auth_enabled,
+        # The footer carries the takedown contact on every page, so it is part
+        # of the base context rather than something one page remembers to pass.
+        "dmca_email": settings.dmca_email,
         "history_enabled": settings.history_enabled,
         "user": user,
         "is_admin": user is not None and user.in_group(settings.admin_group),
+        # Whether this reader is being shown content no human has signed off.
+        # In the context rather than passed per page, because every template
+        # that can render a draft has to be able to label it -- an unmarked
+        # draft is worse than a hidden one, since the reader cannot tell that
+        # what they are judging is the thing awaiting judgement.
+        "drafts_visible": sees_unreviewed(request),
+        # Which build this is, on every page. /healthz reports it too, but that
+        # is behind whatever fronts the deployment and is JSON besides -- so in
+        # practice there was no way to tell a running instance from a stale one
+        # by looking at it. "dev" means the image was built outside the release
+        # pipeline.
+        "version": __version__,
         **extra,
     }
 

@@ -33,6 +33,9 @@ subject:
   source_link: View this goal at Udir
   quiz_cta: Take the quiz
   quiz_unavailable: A quiz for this subject is coming soon.
+  reading_cta: Read aloud
+  writing_cta: Write the letters
+  listening_cta: Listen and spell
 
 coverage:
   summary: The quiz covers {tested} of {total} competence goals for this checkpoint.
@@ -95,6 +98,211 @@ result:
   practice_heading: Worth practising more
   try_again: Try again
   back_to_subject: Back to the subject
+
+reading:
+  heading: Read aloud
+  intro: >-
+    Pick a passage, read it out loud, and see how fast and how accurately you
+    read it.
+  # Always a band, never a threshold. The wording has to hold up for a child
+  # who falls outside it and reads perfectly well.
+  band: >-
+    After year {year}, many pupils read between {low} and {high} correct words a
+    minute. That is a common range, not a requirement.
+  word_count: "{count} words"
+  authored_note: >-
+    These passages were written by Pensum. They are not curriculum text.
+
+  # Said before the microphone is switched on, not afterwards.
+  privacy_checked: >-
+    The recording is processed in this server's memory while you wait for the
+    result, and is then gone. It is not stored, not sent anywhere else, and not
+    linked to you.
+  privacy_timed: >-
+    No audio is recorded here. Pensum only times you, and takes your word for it
+    that you read the whole passage.
+
+  start: Start reading
+  stop: Done
+  working: Working …
+  speech_blocked: >-
+    The browser refused to recognise speech. On iPhone and iPad, dictation has
+    to be switched on under Settings, General, Keyboard. We will time you
+    instead, without checking the reading.
+  speech_unsupported: >-
+    The browser does not recognise this language. We will time you instead,
+    without checking the reading.
+  heat: How many words in a row you have read correctly
+  mic_denied: >-
+    Pensum could not reach the microphone. We will time you instead, without
+    checking the reading.
+  failed: Something went wrong. Try again.
+  noscript: >-
+    Without JavaScript, Pensum cannot time you. The passage can still be read
+    aloud — that is the exercise itself.
+
+  result_heading: How that went
+  wpm_checked: correct words a minute
+  wpm_timed: words a minute
+  too_short: >-
+    That reading was too short to measure. Try again, and read a little more of
+    the passage.
+  accuracy: "{percentage}% correct — {correct} of the {attempted} words you reached."
+  stopped_early: You reached word {read} of {total}. The pace is measured against what you read.
+  timed_only: >-
+    This is just the clock divided by the number of words in the passage. Nobody
+    checked how you read it.
+
+  band_within: That is inside the usual range for this year ({low}–{high}).
+  band_above: That is faster than the usual range for this year ({low}–{high}).
+  band_below: >-
+    That is slower than the usual range for this year ({low}–{high}). Speed
+    comes with reading — there is nothing wrong with taking your time.
+  band_timed: The usual range for this year is {low}–{high} words a minute.
+
+  # Gamification. The wording carries the weight here: a badge that reads as a
+  # mark would contradict every other sentence on the page.
+  progress: How far you have read
+  badge_finished: Whole passage read
+  badge_band: Reached the range for this year
+  stars_label: "{stars} of {max} stars"
+  stars_caveat: >-
+    The stars come from how many words the machine recognised. It hears
+    children, accents and second-language speakers poorly, so few stars often
+    means the machine got it wrong — not that you read badly.
+  replay: Watch it again
+  replay_real: The words light up at the moments you actually read them.
+  replay_even: >-
+    Nobody listened, so the words light up at an even pace. That is not how you
+    read it.
+  again: Read it again
+
+  # Worked out in your browser and never sent to the server. Pensum does not
+  # know you have read this passage before.
+  first_time: First time reading this one. Now you have something to beat.
+  new_best: "New best — {delta} words a minute faster than before."
+  previous_best: "Your best on this passage is {best}."
+  streak: "{days} days in a row."
+
+  # Said before the microphone is switched on. Which recogniser is listening is
+  # not a detail: one sends nothing anywhere, the other sends the voice to the
+  # browser's maker.
+  device_local: >-
+    Your device recognises the reading itself. The audio does not leave your
+    phone or computer, and Pensum only ever sees the text.
+  device_cloud: >-
+    Use your browser's own speech recognition. On this browser your voice may be
+    sent to whoever made the browser, not only to Pensum. Your choice.
+
+  # Pronunciation does not count. Reading the wrong word does.
+  close_matches: >-
+    {count} words were accepted even though the machine heard them a little
+    differently. Pronunciation and dialect do not count as mistakes.
+
+  misread_heading: Words that were not heard
+  misread_note: >-
+    Only words the machine thought were a different word appear here — not words
+    you pronounced a little differently. It still mishears children and accents
+    more than anyone else, so a word here may be its mistake rather than yours.
+  not_a_verdict: >-
+    This is practice, not assessment. Reading speed varies enormously between
+    children who all read well, and a number here says nothing about who is a
+    good reader.
+
+rights:
+  # Linked from the footer of every page. A contact address nobody can find is
+  # not a contact address.
+  link: Rights
+  heading: Rights and takedowns
+  intro: >-
+    Pensum shows three kinds of content, and they have three different owners.
+    This page says who owns what, and where to write if we have got it wrong.
+
+  what_heading: Who owns what
+  curriculum_title: "Curriculum text:"
+  curriculum_body: >-
+    The competence goals are Utdanningsdirektoratet's, reproduced verbatim from
+    their open Grep API. They are redistributed under
+  authored_title: "Quiz questions and reading passages:"
+  authored_body: >-
+    These were written for Pensum. None of them is taken from a book, song
+    lyric, subtitle or other work. They are committed as readable text, so
+    anyone can see exactly what they are.
+  code_title: "The code:"
+  code_body: The source is open under the MIT licence.
+
+  report_heading: Reporting content
+  report_intro: >-
+    If you believe something here is yours and should not have been published,
+    we want to know. Write to
+  report_what: What it concerns — which passage, which question, which page.
+  report_where: A link to the page where you saw it.
+  report_who: Who you are, and your relationship to the work.
+  report_why: Why you believe it is yours.
+  report_response: >-
+    We take the content down while we look into it, and we reply. No forms and
+    no lawyer are needed to start.
+  # Said outright rather than implied: "DMCA" is the name people search for,
+  # not a claim about which country's law applies.
+  jurisdiction: >-
+    "DMCA" is the name most people know this process by. Pensum is a Norwegian
+    project and a request here is handled under Norwegian law — but you do not
+    need to know what the process is called in order to write to us.
+
+  audio_heading: Audio recordings
+  audio_body: >-
+    When you read aloud, the recording is processed in memory while you wait
+    for the result, and is then gone. It is not stored, not shared and not
+    linked to you. There is therefore no recording to request access to or
+    deletion of.
+
+review:
+  # Only ever shown to someone allowed to see drafts. A pupil is never served an
+  # unreviewed question at all.
+  draft: Draft — not reviewed
+  draft_note: >-
+    You are also seeing content nobody has read through yet, because you are
+    signed in as an administrator. Pupils only see what has been marked as
+    reviewed.
+
+  # The review page. What a pupil sees is decided here, so the wording says what
+  # the button does rather than what it is called.
+  link: Review
+  heading: Content review
+  intro: >-
+    Questions, reading passages and writing prompts, as a pupil would meet them.
+    Approve what this school will use, and reject the rest — both what is not
+    good enough, and what is good enough somewhere other than here.
+  database_note: >-
+    Choices here apply to this installation, and are stored in its database
+    rather than in the files. They take effect immediately, without a release,
+    and they do not follow along to other schools running Pensum. What this
+    school shows is recorded here, not in the repository.
+  counts: '{pending} waiting · {published} published · {rejected} rejected'
+  filter_label: Filter
+  filter:
+    pending: Waiting
+    published: Published
+    rejected: Rejected
+    all: Everything
+  kind:
+    all: All types
+    item: Question
+    reading: Reading passage
+    writing: Writing prompt
+  state:
+    pending: Waiting for review
+    published: Published
+    rejected: Rejected
+  overridden: Overrides the file
+  after_year: 'after year {year}'
+  meta: '{id} · difficulty {difficulty}'
+  decided_by: 'decided by {name}'
+  answer: 'Correct answer: {answer}'
+  approve: Approve
+  reject: Reject
+  clear: Clear the decision
+  nothing_here: Nothing here.
 
 auth:
   # Signing in is optional. No string here may imply a quiz needs an account,
@@ -178,3 +386,100 @@ placement_result:
   answered: "{correct} of {total} correct"
   retake: Take the test again
   see_curriculum: See the whole checkpoint
+
+writing:
+  heading: Write with your finger
+  intro: >-
+    Pick a group of letters and write them with your finger. The dot shows where
+    to start, and the number shows the order.
+  # Said before a set is chosen, not after one has been opened and found wanting.
+  touch_note: >-
+    This exercise is made for a tablet or a phone. A mouse can drive it, but
+    then you are practising with the mouse rather than practising handwriting.
+  mouse_note: >-
+    This machine has no touchscreen. You can draw with the mouse, but that is
+    not the same as writing.
+  character_count: "{count} characters"
+  authored_note: >-
+    The letterforms were made for Pensum, not taken from the curriculum.
+
+  # Said before a finger touches the screen, not in a privacy policy.
+  privacy: >-
+    Pensum sees where your finger went while it works out the answer, and forgets
+    it afterwards. Nothing is stored, and nothing is attached to you.
+
+  meter: How much of the letter you have written
+  position: Letter {at} of {total}
+  trace_label: "Write the letter {char}"
+  show_me: Show me
+  clear: Start this one again
+  next: Next letter
+  finish: Done
+  working: Working …
+  failed: Something went wrong. Try again.
+  noscript: >-
+    Without JavaScript you cannot write on the screen here. The letters stay on
+    the page with their lines and starting dots, so the sheet can be printed and
+    used with a pencil.
+
+  result_heading: How you wrote
+  # The wording names the fault rather than quietly deducting for it. A
+  # seven-year-old can do something different next time with "you went the other
+  # way round"; 71% is nothing to act on.
+  not_written: not written
+  missed_strokes: "{count} stroke(s) missing"
+  backwards: "{count} stroke(s) went the other way"
+  out_of_order: the strokes came in a different order
+  stopped_early: You wrote {written} of {total} letters.
+  again: Try the whole group again
+  badge_finished: Every letter written
+  badge_even: Steady all the way through
+  stars_label: "{stars} of {max} stars"
+  score_caveat: >-
+    The percentage says how closely a finger followed a line on a screen. A
+    finger is wider than a pencil, so the number is blunter than it looks.
+  not_a_verdict: >-
+    This is practice, not assessment. Handwriting is learned with a pencil and a
+    grown-up beside you; this is a way to practise the shapes in between.
+
+listening:
+  heading: Hear the word
+  intro: >-
+    The computer reads a word aloud. You choose or type how it is spelled.
+  # Said before the first word is spoken, not in a privacy page. There is no
+  # microphone on this page.
+  privacy: >-
+    Your browser reads the words aloud. Nothing is recorded, nothing is sent,
+    and your answers are gone once you have the result.
+  authored_note: >-
+    The words come from Pensum's own reading passages, and the wrong spellings
+    are built from the mistakes children actually make.
+
+  position: Word {at} of {total}
+  say_again: Say it again
+  pick_label: Choose the word you heard
+  write_label: Type the word you heard
+  next: Next word
+  finish: Done
+  working: Marking …
+  failed: Something went wrong. Try once more.
+  # Shown when the browser has no voice for the language. There is no exercise
+  # left at that point -- guessing between two spellings unheard is a coin toss.
+  no_voice: >-
+    This browser has no voice for this language, so the words cannot be read
+    aloud. Try another browser, or add a voice in your device settings.
+  noscript: >-
+    This exercise needs JavaScript, because the browser is what reads the words
+    aloud.
+
+  result_heading: How you spelled them
+  score: "{right} of {total} right"
+  right: right
+  not_answered: not answered
+  you_wrote: "you wrote {given}"
+  again: Try again
+  badge_finished: Every word answered
+  stars_label: "{stars} of {max} stars"
+  not_a_verdict: >-
+    This is practice, not assessment. Spelling is learned over years, and a word
+    you miss here is a word you can practise.

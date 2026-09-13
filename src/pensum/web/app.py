@@ -4,10 +4,11 @@ The catalogue loads once at startup and is then immutable. There is no database
 behind the curriculum: the whole dataset is a few megabytes of vendored JSON, and
 keeping it in memory means a page load touches no network and no disk.
 
-Two optional subsystems attach here, both off unless configured: sign-in against
-an OIDC provider, and a SQLite file of finished attempts. With neither set --
+Three optional subsystems attach here, all off unless configured: sign-in
+against an OIDC provider, a SQLite file of finished attempts, and the speech
+models that turn a reading from timed into checked. With none of them set --
 which is what `docker run` with no environment gives you -- this is the app that
-stores nothing about anybody.
+stores nothing about anybody and makes no outbound request.
 """
 
 from __future__ import annotations
@@ -26,13 +27,23 @@ from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
 from pensum.config import settings as env_settings
 from pensum.items.loader import ItemBank
+from pensum.listening.library import ListeningLibrary
 from pensum.quiz.session import SessionStore
+from pensum.reading.library import ReadingLibrary
+from pensum.reading.streams import StreamStore
+from pensum.reading.transcribe import Transcriber, load_transcriber
+from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.store import AttemptStore
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
+from pensum.web.listening_routes import router as listening_router
 from pensum.web.placement_routes import router as placement_router
 from pensum.web.quiz_routes import router as quiz_router
+from pensum.web.reading_routes import router as reading_router
+from pensum.web.review_routes import router as review_router
 from pensum.web.routes import router
+from pensum.web.writing_routes import router as writing_router
+from pensum.writing.library import WritingLibrary
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -40,7 +51,15 @@ STATIC_DIR = Path(__file__).parent / "static"
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.catalogue = Catalogue.load()
-    app.state.items = ItemBank.load(include_unreviewed=app.state.settings.include_unreviewed_items)
+    unreviewed = app.state.settings.include_unreviewed_items
+    ledger = app.state.reviews
+    app.state.items = ItemBank.load(include_unreviewed=unreviewed).with_ledger(ledger)
+    app.state.reading = ReadingLibrary.load(include_unreviewed=unreviewed).with_ledger(ledger)
+    app.state.writing = WritingLibrary.load(include_unreviewed=unreviewed).with_ledger(ledger)
+    # Derived from the two above rather than loaded: the listening exercise has
+    # no content of its own. Building it here keeps the first request off the
+    # cost of reading every passage and every item back out again.
+    app.state.listening = ListeningLibrary.of(app.state.items, app.state.reading)
     yield
 
 
@@ -48,8 +67,11 @@ def create_app(
     catalogue: Catalogue | None = None,
     items: ItemBank | None = None,
     settings: Settings | None = None,
+    reading: ReadingLibrary | None = None,
+    writing: WritingLibrary | None = None,
+    transcriber: Transcriber | None = None,
 ) -> FastAPI:
-    """Build the app. Pass `catalogue`/`items`/`settings` to substitute in tests."""
+    """Build the app. Pass the collaborators to substitute them in tests."""
     active = settings if settings is not None else env_settings
 
     app = FastAPI(
@@ -62,13 +84,49 @@ def create_app(
         openapi_url=None,
     )
     app.state.settings = active
+    # Built before the libraries, because each of them is handed the ledger and
+    # a library with no ledger silently falls back to the file flag -- which is
+    # correct behaviour, and therefore an ordering mistake that would not show
+    # up as one.
+    app.state.review_store = ReviewStore(active.database_path) if active.history_enabled else None
+    app.state.reviews = (
+        ReviewLedger(app.state.review_store) if app.state.review_store is not None else None
+    )
+
     if catalogue is not None:
         app.state.catalogue = catalogue
-        app.state.items = items if items is not None else ItemBank.load()
+        app.state.items = (items if items is not None else ItemBank.load()).with_ledger(
+            app.state.reviews
+        )
+        app.state.reading = (reading if reading is not None else ReadingLibrary.load()).with_ledger(
+            app.state.reviews
+        )
+        app.state.writing = (writing if writing is not None else WritingLibrary.load()).with_ledger(
+            app.state.reviews
+        )
+        app.state.listening = ListeningLibrary.of(app.state.items, app.state.reading)
+    else:
+        # The lifespan builds the rest and attaches the ledger there. Only what
+        # was injected has to be wired up here.
+        if reading is not None:
+            app.state.reading = reading.with_ledger(app.state.reviews)
+        if writing is not None:
+            app.state.writing = writing.with_ledger(app.state.reviews)
+
+    # Loaded here rather than in the lifespan so a test can inject a fake
+    # without a model on disk. None -- no models configured -- is the default
+    # and is an ordinary state: readings are then timed but not checked.
+    app.state.transcriber = (
+        transcriber if transcriber is not None else load_transcriber(active.speech_model_dir)
+    )
 
     # Quiz sessions live here rather than in a store: an unfinished quiz is not
     # a result, so a restart losing in-flight quizzes is the accepted cost.
     app.state.sessions = SessionStore()
+
+    # Readings in progress, held only while they are in progress. Same trade as
+    # quiz sessions: a restart loses an in-flight reading, which is not a result.
+    app.state.streams = StreamStore()
 
     app.state.cookies = CookieCodec(active.session_secret)
     # Constructed eagerly so half-configured sign-in fails at startup rather
@@ -81,8 +139,12 @@ def create_app(
     app.include_router(router)
     app.include_router(quiz_router)
     app.include_router(placement_router)
+    app.include_router(reading_router)
+    app.include_router(writing_router)
+    app.include_router(listening_router)
     app.include_router(auth_router)
     app.include_router(admin_router)
+    app.include_router(review_router)
     return app
 
 

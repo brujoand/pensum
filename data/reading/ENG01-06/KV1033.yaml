@@ -1,0 +1,65 @@
+# Reading aloud, engelsk etter 10. trinn (ENG01-06 / KV1033).
+#
+# Adult sentence structure and a formal register used for a completely absurd
+# purpose, which is where the difficulty lives: a pupil who reads these with the
+# right flatness has understood the joke, and reading them flatly is harder than
+# reading them fast. Written for Pensum.
+---
+subject: ENG01-06
+goal_set: KV1033
+
+texts:
+  - id: eng-kv1033-pencil-terms
+    goal: KM13377
+    language: en
+    title: Terms and Conditions for Borrowing My Pencil
+    difficulty: 1
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      By accepting this pencil, you agree to the following terms. These terms
+      may be updated at any time, and you will not be told when.
+      The pencil remains my property throughout the loan period. The loan
+      period ends at the end of this lesson, or at the moment I ask for it
+      back, whichever is sooner and more inconvenient for you.
+      You may write with the pencil. You may not chew the pencil, lend the
+      pencil onwards to a third party, or use the pencil to conduct any
+      activity involving your ear. This has come up before.
+      Reasonable wear is accepted. Reasonable wear does not include the
+      complete removal of the rubber, which happened last time and which we
+      have both agreed not to discuss further.
+      In the event that the pencil is lost, you agree to replace it with a
+      pencil of equal or greater quality. A pencil you found on the floor is
+      not of equal quality, regardless of how similar it looks, and I will
+      know.
+      Continued use of the pencil constitutes acceptance of these terms. If you
+      do not agree to them, you may return the pencil now and write with your
+      finger, which is what you were doing before I got involved.
+
+  - id: eng-kv1033-monster-interview
+    goal: KM13377
+    language: en
+    title: An Interview with the Monster Under the Bed
+    difficulty: 2
+    source: pensum
+    reviewed: true
+    reviewed_by: 'maintainer-reviewed 2026-08-31'
+    body: |
+      He asked me not to use his real name, which is fair enough, and to
+      mention that he has been doing this for thirty-one years.
+      The first thing he wants people to understand is that it is a job. He
+      does not choose the houses. He is assigned them, the same way a postman
+      is assigned a route, and he says the paperwork is worse than anyone
+      imagines.
+      The second thing is that the growling is misunderstood. It is not a
+      threat, he says; it is closer to clearing your throat before you speak,
+      and he has been trying to get the guidance updated for years.
+      I asked him about the children. He went quiet for a moment. He said the
+      difficult part is not frightening them, which is easy and which he is
+      good at, but that they grow out of it. One year you are the most
+      important thing in the room, and the next the bed is gone and there is a
+      desk there, and nobody has told you anything.
+      He asked whether I still checked under mine. I said no.
+      He said that was fine, and that he had not expected me to, and then he
+      asked, quite carefully, whether I would mind checking tonight anyway.

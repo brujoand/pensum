@@ -87,7 +87,11 @@ def _flow(request: Request, locale: str, run: PlacementRun) -> dict[str, object]
     """
     return flow(
         locale,
-        "nivatest",
+        # "nivatest/run", not "nivatest": a run id sits under `run/` so it cannot
+        # be mistaken for a subject code, which `/{locale}/nivatest/{code}` also
+        # matches. The prefix has to carry that segment or every url built here
+        # points at nothing.
+        "nivatest/run",
         run.id,
         progress=translate(locale, "placement.progress", number=run.asked + 1),
         finished=run.finished,
@@ -251,8 +255,5 @@ async def result(request: Request, locale: str, run_id: str) -> HTMLResponse:
             # norsk that is around a third of the checkpoint, and a page that
             # said "mestrer 7. trinn" without it would overstate badly.
             coverage=bank.coverage(outcome.ceiling.goal_set) if outcome.ceiling else None,
-            frontier_coverage=(
-                bank.coverage(outcome.frontier.goal_set) if outcome.frontier else None
-            ),
         ),
     )

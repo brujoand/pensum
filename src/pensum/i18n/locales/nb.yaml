@@ -365,7 +365,6 @@ placement:
   progress: "Spørsmål {number}"
   length_note: >-
     Testen er ferdig når vi vet nok. Det tar som regel 10–25 spørsmål.
-  too_few_rungs: Dette faget har for få trinn til en nivåtest.
 
 placement_result:
   heading: Slik ligger du an

@@ -352,7 +352,6 @@ placement:
   progress: "Question {number}"
   length_note: >-
     The test ends when we know enough. That is usually 10-25 questions.
-  too_few_rungs: This subject has too few checkpoints for a level test.
 
 placement_result:
   heading: Where you are

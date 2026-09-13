@@ -150,6 +150,34 @@ def test_a_nivatest_id_is_not_valid_on_a_trinntest_path(client: TestClient) -> N
 # --- the sitting ----------------------------------------------------------
 
 
+def test_the_loop_advances_through_the_urls_the_page_renders(client: TestClient) -> None:
+    """Every other test here builds the url by hand, so none of them can catch a wrong one.
+
+    `rendering.flow` builds what the markup actually carries, and a prefix short
+    of a path segment points every button at a 404 while the whole suite stays
+    green. So this one drives the loop the way a pupil does: read the url out of
+    the rendered page, then follow it.
+    """
+    run_id = start(client, grade="5")
+    page = client.get(f"/nb/nivatest/run/{run_id}")
+    assert page.status_code == 200
+
+    posts_to = re.search(r'hx-post="([^"]+)"', page.text)
+    assert posts_to is not None, page.text
+    _, item = item_for(client, run_id)
+    assert item is not None
+    answered = client.post(posts_to.group(1), data={"item_id": item.id, "response": _right(item)})
+    assert answered.status_code == 200, answered.text
+
+    # Feedback offers exactly one way onward: the next question while the search
+    # is still asking, the result once it has stopped. Either is followed here.
+    onward = re.search(r'hx-get="([^"]+)"', answered.text) or re.search(
+        r'<a class="button" href="([^"]+)"', answered.text
+    )
+    assert onward is not None, answered.text
+    assert client.get(onward.group(1)).status_code == 200
+
+
 def test_the_progress_line_never_claims_a_total(client: TestClient) -> None:
     """An adaptive test has not decided its length; a bar out of N would be a lie."""
     run_id = start(client, grade="5")

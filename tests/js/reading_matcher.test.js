@@ -54,6 +54,7 @@ for (const name of [
   "MAX_LENGTH_DIFFERENCE",
   "PREFIX_SHARE",
   "CLOSE_ENOUGH",
+  "BEHIND_WORDS",
 ]) {
   if (!(name in constants)) throw new Error(`reading.js no longer defines a numeric ${name}`);
 }
@@ -421,14 +422,49 @@ while (pending) {
 check("the glide never overshoots", overshot, false);
 check("and never doubles back", backwards, false);
 
-/* The recogniser revises, so the cursor moves back a word all the time. The
- * passage must not follow it back up the page. */
+/* The recogniser revises, so the cursor moves back a word or two all the time.
+ * The passage must not follow that back up the page. */
 layOutPassage();
 keepInView(30 * PER_LINE);
 runFrames(600);
 const settled = scrollTarget;
-keepInView(10 * PER_LINE);
-check("a cursor that moves back does not scroll the passage back", scrollTarget, settled);
+keepInView(30 * PER_LINE - BEHIND_WORDS);
+check("a revision does not scroll the passage back", scrollTarget, settled);
+
+/* And the reason forward-only was not the answer either. The cursor leaps when
+ * something other than the reading is heard, and comes back a couple of updates
+ * later; a passage that had followed the leap and could not follow the return
+ * left the child's line off the top of the screen for the rest of the reading. */
+layOutPassage();
+keepInView(20 * PER_LINE);
+runFrames(600);
+const onTheLine = scrollTarget;
+keepInView(23 * PER_LINE + 5);
+runFrames(600);
+check("a leap does move the passage", scrollTarget > onTheLine, true);
+keepInView(20 * PER_LINE);
+runFrames(600);
+check("and the passage comes back when the cursor does", scrollTarget, onTheLine);
+check("to where the reader is, in the middle of the screen", Math.round(scroller.scrollTop), onTheLine);
+
+/* A reader who swipes the passage moves it without telling the script, so the
+ * next glide has to start from where the box really is. Starting from the
+ * remembered position puts the passage back there within one frame -- the whole
+ * swipe undone in a single step, which is a jump wherever it lands. */
+layOutPassage();
+keepInView(20 * PER_LINE);
+runFrames(600);
+const swipedFrom = scroller.scrollTop;
+scroller.scrollTop = 0;
+keepInView(21 * PER_LINE);
+runFrames(1);
+check(
+  "a glide starts from where the passage really is",
+  Math.round((scroller.scrollTop / scrollTarget) * 100) / 100,
+  GLIDE
+);
+check("rather than undoing the swipe in one frame", scroller.scrollTop < swipedFrom, true);
+check("and still heads for the line being read", scrollTarget, centreOn(21 * PER_LINE));
 
 /* A target that has not changed must not restart the loop -- that is what makes
  * this cheap enough to call on every recogniser update. */

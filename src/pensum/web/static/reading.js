@@ -90,12 +90,31 @@
   var scrollTarget = 0;
   var scrollNow = 0;
   var scrollFrame = 0;
-  /* The furthest word the reader has reached, which is what the passage is
-   * scrolled to follow. The cursor itself is a pure function of the transcript
-   * and moves back a word whenever the recogniser revises -- correct for the
-   * highlight, and the cause of the stutter when the passage chased it across
-   * a line boundary and back again. Scrolling only ever goes forward. */
+  /* The word the passage is scrolled to follow. Not the cursor itself: the
+   * cursor is a pure function of the transcript and moves back a word whenever
+   * the recogniser revises -- correct for the highlight, and the cause of the
+   * stutter when the passage chased it across a line boundary and back again.
+   *
+   * It follows forward freely and back only from a long way behind. See
+   * BEHIND_WORDS: forward-only was worse than the stutter it fixed. */
   var furthest = 0;
+  /* How far behind the followed word the cursor has to fall before the passage
+   * comes back to it.
+   *
+   * The cursor leaps. Two coincidental matches deep in the alignment window --
+   * a sibling talking over the reading, a recogniser inventing words in a noisy
+   * room -- place it tens of words down the page, and it comes back within a
+   * couple of updates once real words are heard again. The highlight therefore
+   * healed itself and the passage did not: it had scrolled to the leap and, by
+   * only ever going forward, stayed there with the line the child was actually
+   * reading now above the top of the screen. That is the jump.
+   *
+   * Roughly a line and a half of focus-mode text, which is comfortably more
+   * than a revision (a word or two) and comfortably less than a leap (tens).
+   * A leap shorter than this still leaves the passage about a line high, and
+   * that is the trade: a line of slack costs less than following every
+   * revision back up the page. */
+  var BEHIND_WORDS = 12;
   /* Correctness, per word, kept apart from progress on purpose. Progress is
    * "how far has the reader got", and it must keep up with speech or the
    * highlight is useless. Whether each word came out right is a slower and
@@ -197,10 +216,20 @@
   function keepInView(index) {
     if (!running || !scroller) return;
     if (index > furthest) furthest = index;
+    else if (furthest - index > BEHIND_WORDS) furthest = index;
     var want = centreOn(furthest);
     if (want === scrollTarget) return;
     scrollTarget = want;
-    if (!scrollFrame) scrollFrame = requestAnimationFrame(glide);
+    if (!scrollFrame) {
+      /* Starting the loop rather than redirecting one already running, so where
+       * the passage actually is and where this last left it can have come apart
+       * -- a finger on a touchscreen scrolls the box and tells the script
+       * nothing. Gliding from the remembered position moves the passage back to
+       * it within the first frame, whatever the distance, which is the jump this
+       * function exists to prevent. */
+      scrollNow = scroller.scrollTop;
+      scrollFrame = requestAnimationFrame(glide);
+    }
   }
 
   function stopGliding() {

@@ -82,6 +82,10 @@ quiz:
   incorrect: Not quite.
   numeric_placeholder: Type a number
   text_placeholder: Type your answer
+  number_line_drag: Drag the marker to where the answer belongs, or type the number.
+  number_line_typed: Or type the number
+  number_line_unset: Not placed yet
+  number_line_at: The marker is on {value}
   authored_note: >-
     These questions were written by Pensum; they are not taken from the
     curriculum.

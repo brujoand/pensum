@@ -138,13 +138,25 @@ items:
 
   - id: KM13233-01
     goal: KM13233
-    type: numeric
+    type: number_line
     difficulty: 2
     prompt:
-      nb: På tallinjen står 30 og 40 ved siden av hverandre. Hvilket tall er
-        midt mellom dem?
-      en: On the number line, 30 and 40 sit next to each other. Which number is
-        halfway between them?
+      nb: Sett merket på tallet som er midt mellom 30 og 40.
+      en: Put the marker on the number halfway between 30 and 40.
+    figure:
+      kind: number_line
+      start: 0
+      end: 50
+      step: 5
+      # Every second tick carries a number, so 30 and 40 are written on the line
+      # and 35 is a tick between them with nothing under it. Labelling every
+      # tick would print the answer next to the place it goes.
+      label_every: 2
+      alt:
+        nb: En tallinje fra 0 til 50 med et merke for hver femte, og tall under
+          annethvert.
+        en: A number line from 0 to 50 with a tick every five, and a number
+          under every second one.
     answer: 35
     explanation:
       nb: Det er 10 fra 30 til 40. Halvveis er 5 videre, altså 35.

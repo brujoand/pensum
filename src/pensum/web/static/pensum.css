@@ -1770,3 +1770,61 @@ circle.figure-mark {
   font-family: inherit;
   font-weight: 600;
 }
+
+/* A number line the pupil answers on. The picture is the same server-drawn SVG
+   as any other figure; what is added here is the marker, a focus ring the line
+   can show, and enough height under the finger to hit it.
+
+   No colour of its own: the marker is the accent the jumps already use, so the
+   thing the pupil places reads as theirs rather than as part of the ruler. */
+.number-line {
+  margin-bottom: 1.25rem;
+}
+
+.number-line-hint {
+  margin: 0 0 0.25rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* touch-action stops a drag along the line from scrolling the page with it,
+   which on a phone is the difference between placing a marker and losing the
+   question off the top of the screen. */
+.number-line-track {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.number-line-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+.number-line-marker {
+  fill: var(--accent);
+  stroke: var(--card);
+  stroke-width: 2;
+}
+
+/* `hidden` on an SVG child is not honoured the way it is in HTML, so the
+   marker's "not placed yet" state is spelled out. */
+.number-line-marker[hidden] {
+  display: none;
+}
+
+.number-line-typed {
+  display: block;
+}
+
+.number-line-typed span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.number-line-typed .answer-input {
+  margin-bottom: 0;
+}

@@ -68,6 +68,10 @@ MAX_TICKS = 41
 # corner or vanish in a large one.
 RIGHT_ANGLE_FRACTION = 0.16
 
+# How much room a number line leaves above itself for jump arcs. Only
+# claimed when there are jumps to draw -- see `_draw_number_line`.
+JUMP_BAND = 46.0
+
 # Named shapes and their vertices in a unit box. Every one is listed clockwise
 # starting from the topmost vertex -- the leftmost of them where two are level
 # -- so "side 0" is always the one leaving the top of the figure, and an author
@@ -758,17 +762,75 @@ def _wedge_d(cx: float, cy: float, r: float, index: int, parts: int) -> str:
     return f"M{cx:.2f},{cy:.2f}L{x0:.2f},{y0:.2f}A{r:.2f},{r:.2f} 0 {large} 1 {x1:.2f},{y1:.2f}Z"
 
 
-def _draw_number_line(figure: NumberLineFigure, alt: str) -> Drawing:
-    ticks = round((figure.end - figure.start) / figure.step) + 1
+def line_x(figure: NumberLineFigure, value: float) -> float:
+    """Where a value sits along the drawn line, in view units.
+
+    Module level rather than a closure inside `_draw_number_line` because the
+    browser needs the same mapping in reverse: a pupil dragging a marker is
+    answering in pixels, and the answer has to come back as a number. Keeping
+    both directions here means the pair can be asserted without a browser.
+    """
     left, right = PAD, VIEW - PAD
-    span = right - left
+    return left + (right - left) * (value - figure.start) / (figure.end - figure.start)
+
+
+def line_value(figure: NumberLineFigure, x: float) -> float:
+    """The value at a point along the drawn line. The inverse of `line_x`."""
+    left, right = PAD, VIEW - PAD
+    return figure.start + (figure.end - figure.start) * (x - left) / (right - left)
+
+
+def tick_count(figure: NumberLineFigure) -> int:
+    """How many ticks the line carries, the last one included."""
+    return round((figure.end - figure.start) / figure.step) + 1
+
+
+def tick_index(figure: NumberLineFigure, value: float) -> int | None:
+    """Which tick a value is, or None if it falls between two.
+
+    Grading a dragged answer compares tick indices rather than the values
+    themselves, because `start + 7 * 0.1` is not `0.7` in binary and a pupil who
+    landed exactly right should not be marked wrong by the last bit of a float.
+    Rejecting an off-tick value is the same check: a marker that snaps cannot
+    produce one, so a response carrying one did not come from the line.
+    """
+    steps = (value - figure.start) / figure.step
+    if abs(steps - round(steps)) > 1e-6:
+        return None
+    index = round(steps)
+    if not 0 <= index < tick_count(figure):
+        return None
+    return index
+
+
+def line_geometry(figure: NumberLineFigure) -> dict[str, float]:
+    """The numbers a browser needs to put a marker where a pointer went.
+
+    Handed to the template as data attributes rather than reimplemented in
+    JavaScript: the constants that decide where the line is drawn live up top in
+    this file, and a second copy of them in a script is a drift waiting to
+    happen.
+    """
+    return {
+        "left": PAD,
+        "right": VIEW - PAD,
+        "y": PAD / 2 + (JUMP_BAND if figure.jumps else 0.0),
+        "start": figure.start,
+        "end": figure.end,
+        "step": figure.step,
+    }
+
+
+def _draw_number_line(figure: NumberLineFigure, alt: str) -> Drawing:
+    ticks = tick_count(figure)
+    left, right = PAD, VIEW - PAD
     # Jumps are drawn above the line, so the line only sits low when there are
     # any. An empty band of white above a bare number line looks like a bug.
-    jump_band = 46.0 if figure.jumps else 0.0
+    jump_band = JUMP_BAND if figure.jumps else 0.0
     y = PAD / 2 + jump_band
 
     def at(value: float) -> float:
-        return left + span * (value - figure.start) / (figure.end - figure.start)
+        return line_x(figure, value)
 
     paths = [Path(f"M{left:.2f},{y:.2f}L{right:.2f},{y:.2f}", "axis")]
     labels: list[Label] = []

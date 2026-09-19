@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import random
 from functools import cached_property
 from pathlib import Path
 
@@ -9,7 +10,9 @@ import yaml
 
 from pensum.domain.models import GoalSet
 from pensum.items.coverage import Coverage, coverage
-from pensum.items.schema import ItemSet, QuizItem
+from pensum.items.schema import QuizItem
+from pensum.items.sets import ItemSet
+from pensum.items.template import ItemTemplate
 from pensum.review.store import ReviewLedger
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -44,6 +47,18 @@ class ItemBank:
             return item.reviewed
         return self._ledger.publishes(KIND, item.id, item.reviewed)
 
+    def _publishes_template(self, template: ItemTemplate) -> bool:
+        """Whether a template's questions may be served.
+
+        Decided on the template, never on the instance: a reviewer approves the
+        family, because the family is what the domain check proved sound, and an
+        instance id nobody has ever seen is not something to record a decision
+        against.
+        """
+        if self._ledger is None:
+            return template.reviewed
+        return self._ledger.publishes(KIND, template.id, template.reviewed)
+
     @classmethod
     def load(cls, items_dir: Path | None = None, *, include_unreviewed: bool = False) -> ItemBank:
         directory = items_dir or DEFAULT_ITEMS_DIR
@@ -57,7 +72,9 @@ class ItemBank:
     def item_sets(self) -> list[ItemSet]:
         return list(self._sets.values())
 
-    def for_goal_set(self, code: str, *, unreviewed: bool = False) -> list[QuizItem]:
+    def for_goal_set(
+        self, code: str, *, unreviewed: bool = False, seed: int | None = None
+    ) -> list[QuizItem]:
         """Servable items for a goal set.
 
         Unreviewed items are withheld unless something explicitly asks for them.
@@ -83,7 +100,19 @@ class ItemBank:
         if item_set is None:
             return []
         widened = self._include_unreviewed or unreviewed
-        return [item for item in item_set.items if widened or self._publishes(item)]
+        served = [item for item in item_set.items if widened or self._publishes(item)]
+
+        # A template contributes one question, not its whole domain: a quiz of
+        # ten drawn from a bank where one template had supplied two hundred
+        # would be that template ten times over. Which one is the caller's
+        # choice, and `seed` is how a test or a session asks for the same
+        # question twice.
+        rng = random.Random(seed)  # noqa: S311 -- quiz variety, not cryptography
+        for template in item_set.templates:
+            if not (widened or self._publishes_template(template)):
+                continue
+            served.append(rng.choice(template.instances()))
+        return served
 
     def has_quiz(self, code: str, *, unreviewed: bool = False) -> bool:
         return bool(self.for_goal_set(code, unreviewed=unreviewed))

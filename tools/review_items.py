@@ -19,7 +19,8 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from pensum.catalogue.loader import Catalogue  # noqa: E402
 from pensum.items.loader import ItemBank  # noqa: E402
-from pensum.items.schema import ItemSet, QuizItem  # noqa: E402
+from pensum.items.schema import QuizItem  # noqa: E402
+from pensum.items.sets import ItemSet  # noqa: E402
 
 # A prompt longer than this is likely testing reading rather than the skill,
 # especially in the early years.

@@ -8,7 +8,8 @@ import pytest
 from pydantic import ValidationError
 
 from pensum.items.figures import NumberLineFigure
-from pensum.items.schema import AuthoredText, Choice, ItemSet, QuizItem
+from pensum.items.schema import AuthoredText, Choice, QuizItem
+from pensum.items.sets import ItemSet
 from pensum.quiz.scoring import PASS_THRESHOLD, score, select
 from pensum.quiz.session import SESSION_TTL, SessionStore
 

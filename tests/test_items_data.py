@@ -314,6 +314,41 @@ def test_a_figure_is_drawn_into_the_question_and_kept_for_the_explanation(
     assert alt in feedback
 
 
+def test_a_number_line_item_is_answered_over_http(client: TestClient) -> None:
+    """The one item kind whose picture is also its input, end to end.
+
+    The unit tests cover the tick arithmetic and the template in isolation. This
+    is the seam between them: the answer endpoint reads one form field for every
+    kind, and a dragged answer has to arrive through the same one.
+    """
+    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.type == "number_line")
+    session_id = _quiz_showing(client, item)
+
+    question = client.get(f"/nb/quiz/{session_id}/question").text
+    assert "data-number-line" in question
+    # The line is drawn once, and it is the thing the answer comes from.
+    assert question.count("<svg") == 1
+
+    feedback = client.post(
+        f"/nb/quiz/{session_id}/answer",
+        data={"item_id": item.id, "response": str(item.answer)},
+    ).text
+    assert item.figure.alt.get("nb") in feedback
+
+
+def test_a_number_line_refuses_an_answer_between_two_ticks(client: TestClient) -> None:
+    """A snapping marker cannot produce one, so a value off the ticks did not
+    come from the line. It is graded wrong rather than rounded to a neighbour."""
+    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.type == "number_line")
+    session_id = _quiz_showing(client, item)
+
+    feedback = client.post(
+        f"/nb/quiz/{session_id}/answer",
+        data={"item_id": item.id, "response": str(item.answer - 1)},
+    ).text
+    assert "Riktig!" not in feedback
+
+
 def test_a_figure_carries_no_colour_of_its_own(client: TestClient) -> None:
     """Every colour comes from the stylesheet, so dark mode and a high-contrast
     setting reach a figure without it knowing they exist. A `fill` or `stroke`

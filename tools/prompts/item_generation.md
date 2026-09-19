@@ -31,6 +31,11 @@ Every question needs:
   - `short_text` — one or two words, with every reasonable spelling and synonym
     listed under `accept`. There is no model grading answers at runtime; an
     answer not on the list is marked wrong.
+  - `number_line` — the pupil puts a marker on a tick instead of reading a
+    sentence about a number line. Needs a `figure` of `kind: number_line` whose
+    ticks include `answer`, so choose `step` to reach it and `label_every` to
+    leave its own tick unlabelled. `tolerance` is refused. Use it where the goal
+    is placing a number rather than computing one.
 
 ## Drawing the question
 

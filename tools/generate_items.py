@@ -31,7 +31,8 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from pensum.catalogue.loader import Catalogue  # noqa: E402
 from pensum.domain.models import BOKMAAL  # noqa: E402
-from pensum.items.schema import ItemSet, NotAssessable, QuizItem  # noqa: E402
+from pensum.items.schema import QuizItem  # noqa: E402
+from pensum.items.sets import ItemSet, NotAssessable  # noqa: E402
 
 PROMPT_PATH = Path(__file__).parent / "prompts" / "item_generation.md"
 ITEMS_DIR = REPO_ROOT / "data" / "items"

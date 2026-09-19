@@ -32,8 +32,6 @@ __all__ = [
     "ENGLISH",
     "AuthoredText",
     "Choice",
-    "ItemSet",
-    "NotAssessable",
     "QuizItem",
 ]
 
@@ -191,46 +189,6 @@ class QuizItem(BaseModel):
             for candidates in self.accept.values()
             for candidate in candidates
         )
-
-
-class NotAssessable(BaseModel):
-    """A goal deliberately left unquizzed, and why.
-
-    Recorded rather than omitted so the gap is visible: an absent goal looks
-    like an oversight, whereas this is a judgement someone made and signed.
-    """
-
-    model_config = ConfigDict(frozen=True)
-
-    goal: str = Field(min_length=1)
-    reason: str = Field(min_length=1)
-
-
-class ItemSet(BaseModel):
-    """Every item authored for one goal set. One file per checkpoint."""
-
-    model_config = ConfigDict(frozen=True)
-
-    subject: str = Field(min_length=1)
-    goal_set: str = Field(min_length=1)
-    items: tuple[QuizItem, ...] = ()
-    not_assessable: tuple[NotAssessable, ...] = ()
-
-    @model_validator(mode="after")
-    def _check_no_duplicate_ids(self) -> ItemSet:
-        ids = [item.id for item in self.items]
-        if len(set(ids)) != len(ids):
-            duplicates = sorted({i for i in ids if ids.count(i) > 1})
-            raise ValueError(f"{self.goal_set}: duplicate item ids {duplicates}")
-        return self
-
-    @property
-    def goals_covered(self) -> set[str]:
-        return {item.goal for item in self.items}
-
-    @property
-    def goals_excused(self) -> set[str]:
-        return {entry.goal for entry in self.not_assessable}
 
 
 def _normalise(text: str) -> str:

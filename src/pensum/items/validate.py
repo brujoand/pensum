@@ -5,6 +5,14 @@ it: an item can be perfectly well-formed and still reference a competence goal
 that no longer exists, which is exactly what a curriculum revision produces.
 That failure is silent at runtime -- the item simply never gets selected -- so it
 is made loud here instead.
+
+A template is checked harder than an item, and it has to be. `reviewed: true`
+on a hand-written item says a human read the sentence a child will see; on a
+template it says a human read a *rule* that produces sentences nobody has read.
+What closes that gap is enumeration: every question in the domain is built here,
+and every one of them has to be a question worth asking. A domain that can
+produce a fraction of a sheep, or an answer of nought, fails the build rather
+than surprising a ten-year-old.
 """
 
 from __future__ import annotations
@@ -17,7 +25,8 @@ from pydantic import ValidationError
 
 from pensum.catalogue.loader import Catalogue
 from pensum.items.loader import DEFAULT_ITEMS_DIR
-from pensum.items.schema import ItemSet
+from pensum.items.sets import ItemSet
+from pensum.items.template import ItemTemplate
 
 
 def validate(items_dir: Path | None = None) -> list[str]:
@@ -58,6 +67,14 @@ def validate(items_dir: Path | None = None) -> list[str]:
                     f"{item.id}: goal {item.goal} is not in {item_set.goal_set}; "
                     "it may have been renumbered by a curriculum revision"
                 )
+        for template in item_set.templates:
+            if template.goal not in known:
+                problems.append(
+                    f"{template.id}: goal {template.goal} is not in {item_set.goal_set}; "
+                    "it may have been renumbered by a curriculum revision"
+                )
+            problems.extend(_domain_problems(template))
+
         for excused in item_set.not_assessable:
             if excused.goal not in known:
                 problems.append(
@@ -73,6 +90,46 @@ def validate(items_dir: Path | None = None) -> list[str]:
                 f"{item_set.goal_set}: {len(unaccounted)} goal(s) neither tested nor "
                 f"marked not_assessable: {', '.join(unaccounted)}"
             )
+
+    return problems
+
+
+# The smallest answer worth asking a pupil for. Zero is a legitimate number and
+# a terrible generated answer: "how many sauer" answered by "none" reads as a
+# trick, and an author who wanted it would say so in `require`.
+MIN_ANSWER = 1
+
+
+def _domain_problems(template: ItemTemplate) -> list[str]:
+    """Walk every question a template can ask, and judge each one.
+
+    This is what a template has instead of a human reading its questions. The
+    schema already proved each instance is a valid `QuizItem`; what is left is
+    whether it is a *sensible* one, and that is arithmetic nobody can eyeball
+    across two hundred flocks.
+    """
+    problems: list[str] = []
+    instances = template.instances()
+
+    for item in instances:
+        answer = float(item.answer)
+        if not answer.is_integer():
+            problems.append(
+                f"{item.id}: the answer is {answer}, and a question phrased for a whole "
+                "number should not produce a fraction"
+            )
+        elif answer < MIN_ANSWER:
+            problems.append(f"{item.id}: the answer is {int(answer)}, which reads as a trick")
+
+    # Two instances that read identically are one question wearing two ids: the
+    # pupil meets the same flock twice and the domain is smaller than it looks.
+    prompts = [item.prompt.nb for item in instances]
+    if len(set(prompts)) != len(prompts):
+        repeated = sorted({p for p in prompts if prompts.count(p) > 1})
+        problems.append(
+            f"{template.id}: {len(repeated)} prompt(s) are produced by more than one "
+            "combination, so the domain is smaller than it looks"
+        )
 
     return problems
 

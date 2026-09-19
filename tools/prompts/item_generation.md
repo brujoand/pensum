@@ -37,6 +37,44 @@ Every question needs:
     leave its own tick unlabelled. `tolerance` is refused. Use it where the goal
     is placing a number rather than computing one.
 
+## Generating the numbers instead of fixing them
+
+A file may carry a `templates:` list beside `items:`. A template writes the
+question once and asks it with different numbers, so a pupil who meets it three
+times gets three different problems rather than three attempts at recalling one
+answer. Prefer it for any arithmetic or algebra word problem whose answer is a
+function of the numbers in it.
+
+```yaml
+templates:
+  - id: KM13324-T1
+    goal: KM13324
+    difficulty: 3
+    params:
+      sheep: {min: 5, max: 14}
+      hens: {min: 6, max: 18}
+    derive:
+      animals: sheep + hens
+      legs: 2 * hens + 4 * sheep
+    require: ["animals >= 15"]
+    answer: sheep
+    prompt:
+      nb: "På en gård er det {animals} dyr og {legs} bein..."
+```
+
+`params` are the free numbers, `derive` is every other value as an expression
+over them, `require` prunes the combinations, and the prose reads values by
+name. A number the prose shows must have a name: derive `twice_animals` rather
+than writing `2 × {animals}`, which is not available.
+
+The build enumerates the whole domain and rejects a fractional answer, an answer
+of nought, and two combinations that produce the same sentence. Keep the cross
+product to a few hundred. Norwegian inflection is yours: `{sheep} sauer` reads
+wrong when `sheep` is 1, so exclude 1 in `require`.
+
+Numeric only, for now, and a fact does not parameterise: this is for
+matematikk, not for naturfag, norsk or KRLE.
+
 ## Drawing the question
 
 A question may carry a `figure`: a picture rendered above the answers. Most

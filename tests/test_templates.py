@@ -20,6 +20,8 @@ import pytest
 from pydantic import ValidationError
 
 from pensum.items.expr import ExpressionError, evaluate, names, parse
+from pensum.items.loader import ItemBank
+from pensum.items.schema import QuizItem
 from pensum.items.sets import ItemSet
 from pensum.items.template import MAX_DOMAIN, ItemTemplate
 from pensum.items.text import AuthoredText
@@ -246,3 +248,69 @@ def test_a_template_may_not_share_an_id_with_an_item() -> None:
             goal_set="KV1029",
             templates=(farm(id="dup"), farm(id="dup", goal="KM2")),
         )
+
+
+# Serving -------------------------------------------------------------------
+
+
+def bank_with_template(**overrides) -> ItemBank:
+    return ItemBank(
+        [ItemSet(subject="MAT01-06", goal_set="KV1029", templates=(farm(**overrides),))]
+    )
+
+
+def test_a_template_contributes_one_question_not_its_domain() -> None:
+    """Otherwise a quiz of ten is one template ten times over."""
+    served = bank_with_template().for_goal_set("KV1029")
+    assert len(served) == 1
+
+
+def test_a_seed_asks_the_same_question_twice() -> None:
+    bank = bank_with_template()
+    assert bank.for_goal_set("KV1029", seed=7)[0].id == bank.for_goal_set("KV1029", seed=7)[0].id
+
+
+def test_excluding_a_question_picks_another_rather_than_dropping_the_template() -> None:
+    """The nivåtest draws twice for one rung when it deepens, carrying the ids
+    it already served. Filtering after the draw would discard the whole template
+    whenever its one instance was already spent, and the rung would silently go
+    short of the evidence the search asked for.
+    """
+    bank = bank_with_template()
+    first = bank.for_goal_set("KV1029", seed=3)[0]
+
+    again = bank.for_goal_set("KV1029", seed=3, exclude={first.id})
+    assert len(again) == 1, "a domain of 25 has more to offer after one is spent"
+    assert again[0].id != first.id
+
+
+def test_a_template_falls_silent_only_when_its_domain_is_spent() -> None:
+    bank = bank_with_template()
+    every = {item.id for item in farm().instances()}
+    assert bank.for_goal_set("KV1029", exclude=every) == []
+
+
+def test_exclude_still_withholds_an_authored_item() -> None:
+    """The argument moved into the bank, so the behaviour it replaced has to
+    survive the move."""
+    item = QuizItem(
+        id="KM1-01",
+        goal="KM1",
+        type="numeric",
+        difficulty=1,
+        prompt=text("x"),
+        explanation=text("x"),
+        answer=1,
+        reviewed=True,
+    )
+    bank = ItemBank([ItemSet(subject="MAT01-06", goal_set="KV1029", items=(item,))])
+    assert [i.id for i in bank.for_goal_set("KV1029")] == ["KM1-01"]
+    assert bank.for_goal_set("KV1029", exclude={"KM1-01"}) == []
+
+
+def test_an_unreviewed_template_is_withheld() -> None:
+    """Same default as an item: a caller that forgets the argument gets the
+    safe answer."""
+    bank = bank_with_template(reviewed=False)
+    assert bank.for_goal_set("KV1029") == []
+    assert len(bank.for_goal_set("KV1029", unreviewed=True)) == 1

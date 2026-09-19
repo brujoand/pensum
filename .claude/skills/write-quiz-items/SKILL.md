@@ -114,6 +114,46 @@ not be a question at all.
 `difficulty` is 1–3 **relative to this checkpoint**. A hard year-2 question is
 not a hard year-10 question.
 
+## Templates: one question, many numbers
+
+A file may also carry a `templates:` list beside `items:`. A template is a
+question whose numbers are generated, so a pupil who meets it three times gets
+three different flocks rather than three attempts at remembering one answer.
+
+```yaml
+templates:
+  - id: KM13324-T1
+    goal: KM13324
+    difficulty: 3
+    params:                       # the free numbers, and their ranges
+      sheep: {min: 5, max: 14}
+      hens: {min: 6, max: 18}
+    derive:                       # everything else, as expressions
+      animals: sheep + hens
+      legs: 2 * hens + 4 * sheep
+    require: ["animals >= 15"]    # combinations that survive
+    answer: sheep
+    prompt:
+      nb: "På en gård er det {animals} dyr og {legs} bein..."
+```
+
+Four things to get right:
+
+- **Every number the prose shows needs a name.** A sentence interpolates a
+  value, so `2 × {animals}` is not available — derive `twice_animals` and read
+  that. This is deliberate: the arithmetic belongs where the validator sees it.
+- **Keep the domain reviewable.** The build enumerates every combination, so
+  `MAX_DOMAIN` caps the cross product. A few hundred questions is plenty and a
+  few thousand is a domain nobody could sign.
+- **Use `require` to exclude the degenerate flock.** An answer of nought reads
+  as a trick and the validator rejects it, as it does a fractional answer and
+  two combinations producing the same sentence.
+- **Norwegian inflection is yours to handle.** `{sheep} sauer` reads wrong when
+  `sheep` is 1, and nothing detects it. Exclude 1 in `require`.
+
+Numeric only, for now. A template also cannot be approved from the review page
+yet, so a template is reviewed in the pull request that adds it.
+
 Every `explanation` should teach. A pupil who got it wrong should understand
 why, not just be told they were.
 

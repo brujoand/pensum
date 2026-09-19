@@ -283,7 +283,10 @@ def test_the_real_banks_can_actually_carry_a_run(ladder: Ladder, bank: ItemBank)
     """
 
     def draw(goal_set: str, count: int, exclude: set[str]) -> list[QuizItem]:
-        return select([i for i in bank.for_goal_set(goal_set) if i.id not in exclude], count)
+        # Spelled the way `placement_routes._drawer` spells it. A test drawer
+        # that filtered after the draw would be exercising a policy the site
+        # does not use, and templates are exactly where the two differ.
+        return select(bank.for_goal_set(goal_set, exclude=exclude), count)
 
     for ceiling in range(len(ladder)):
         for grade in (None, 2, 5, 10):

@@ -149,20 +149,26 @@ items:
     type: numeric
     difficulty: 3
     prompt:
-      nb: På en gård er det høner og sauer, til sammen 24 dyr. Til sammen har de
-        68 bein. Hvor mange sauer er det?
-      en: A farm has hens and sheep, 24 animals in all. Together they have 68
-        legs. How many sheep are there?
+      nb: På en gård er det 24 dyr. Alle er høner eller sauer, og til sammen har
+        de 68 bein. Hvor mange sauer er det?
+      en: A farm has 24 animals. Every one is a hen or a sheep, and together they
+        have 68 legs. How many sheep are there?
     answer: 10
     explanation:
-      nb: La h være høner og s sauer. Da er h + s = 24 og 2h + 4s = 68. Setter du
-        h = 24 − s inn i den andre, får du 48 − 2s + 4s = 68, altså 2s = 20 og
-        s = 10. Det er 10 sauer og 14 høner.
-      en: Let h be hens and s sheep. Then h + s = 24 and 2h + 4s = 68.
-        Substituting h = 24 − s into the second gives 48 − 2s + 4s = 68, so
-        2s = 20 and s = 10. There are 10 sheep and 14 hens.
+      nb: Du trenger begge opplysningene. 68 bein alene passer på mange flokker,
+        og 24 dyr alene gjør det også. La s være antall sauer og h antall høner.
+        Da er h + s = 24 og 2h + 4s = 68. Sett h = 24 − s inn i den andre, så
+        blir det 2(24 − s) + 4s = 68, altså 48 − 2s + 4s = 68 og 2s = 20. Det
+        gir s = 10. Sjekk gjerne. 10 sauer har 40 bein og 14 høner har 28 bein,
+        til sammen 68.
+      en: You need both facts. 68 legs on its own fits many flocks, and so does
+        24 animals on its own. Let s be the number of sheep and h the number of
+        hens. Then h + s = 24 and 2h + 4s = 68. Substitute h = 24 − s into the
+        second and you get 2(24 − s) + 4s = 68, so 48 − 2s + 4s = 68 and
+        2s = 20. That gives s = 10. Check it. 10 sheep have 40 legs and 14 hens
+        have 28 legs, which is 68.
     reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
+    reviewed_by: 'maintainer-reviewed 2026-09-19; two constraints split, arithmetic verified'
 
   - id: KM13320-01
     goal: KM13320

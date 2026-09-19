@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+from collections.abc import Collection
 from functools import cached_property
 from pathlib import Path
 
@@ -73,7 +74,12 @@ class ItemBank:
         return list(self._sets.values())
 
     def for_goal_set(
-        self, code: str, *, unreviewed: bool = False, seed: int | None = None
+        self,
+        code: str,
+        *,
+        unreviewed: bool = False,
+        seed: int | None = None,
+        exclude: Collection[str] = (),
     ) -> list[QuizItem]:
         """Servable items for a goal set.
 
@@ -95,12 +101,26 @@ class ItemBank:
         `ReviewLedger.publishes` -- so an item approved on the review page is
         served without a release, and one rejected there is withheld even though
         the file still says otherwise.
+
+        `exclude` names ids this caller has already served. It belongs here
+        rather than in a filter the caller applies afterwards, and the
+        difference only shows up once templates exist: a template offers one
+        instance out of a domain of hundreds, so a caller that draws first and
+        filters second discards the whole template whenever its single instance
+        happens to be one already asked. Excluding before the draw picks a
+        different question instead, and a template only falls silent when the
+        run really has seen every question it has.
         """
         item_set = self._sets.get(code)
         if item_set is None:
             return []
         widened = self._include_unreviewed or unreviewed
-        served = [item for item in item_set.items if widened or self._publishes(item)]
+        spent = frozenset(exclude)
+        served = [
+            item
+            for item in item_set.items
+            if (widened or self._publishes(item)) and item.id not in spent
+        ]
 
         # A template contributes one question, not its whole domain: a quiz of
         # ten drawn from a bank where one template had supplied two hundred
@@ -111,7 +131,9 @@ class ItemBank:
         for template in item_set.templates:
             if not (widened or self._publishes_template(template)):
                 continue
-            served.append(rng.choice(template.instances()))
+            fresh = [item for item in template.instances() if item.id not in spent]
+            if fresh:
+                served.append(rng.choice(fresh))
         return served
 
     def has_quiz(self, code: str, *, unreviewed: bool = False) -> bool:

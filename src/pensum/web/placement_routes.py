@@ -64,8 +64,11 @@ def _drawer(request: Request):
     bank = _bank(request)
 
     def draw(goal_set: str, count: int, exclude: set[str]) -> list[QuizItem]:
-        pool = [item for item in bank.for_goal_set(goal_set) if item.id not in exclude]
-        return select(pool, count)
+        # Handed to the bank rather than filtered out of what it returns: a
+        # template offers one question from a large domain, and filtering after
+        # the draw would drop the whole template whenever that one question is
+        # already spent. See `ItemBank.for_goal_set`.
+        return select(bank.for_goal_set(goal_set, exclude=exclude), count)
 
     return draw
 

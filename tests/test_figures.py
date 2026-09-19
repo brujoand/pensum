@@ -12,6 +12,7 @@ import pytest
 from pydantic import ValidationError
 
 from pensum.items.figures import (
+    PAD,
     VIEW,
     ArrayFigure,
     CountersFigure,
@@ -19,6 +20,10 @@ from pensum.items.figures import (
     NumberLineFigure,
     ShapeFigure,
     draw,
+    line_geometry,
+    line_value,
+    line_x,
+    tick_index,
 )
 from pensum.items.text import AuthoredText
 
@@ -323,3 +328,46 @@ def _width(paths: list) -> float:
 def _head(drawing) -> list[float]:
     path = next(p for p in drawing.paths if p.role == "jump-head")
     return _coordinates(path.d)
+
+
+def test_a_value_and_its_place_on_the_line_are_inverses() -> None:
+    """The browser answers in pixels and the server grades in numbers.
+
+    `line_x` is what draws the ticks and `line_value` is what the pointer
+    handler undoes, so a drift between them puts the marker somewhere other than
+    where the pupil let go.
+    """
+    figure = NumberLineFigure(alt=ALT, start=0, end=50, step=5)
+    for value in (0, 17.5, 35, 50):
+        assert line_value(figure, line_x(figure, value)) == pytest.approx(value)
+
+
+def test_the_line_spans_the_drawing_between_its_margins() -> None:
+    figure = NumberLineFigure(alt=ALT, start=10, end=20, step=1)
+    assert line_x(figure, 10) == pytest.approx(PAD)
+    assert line_x(figure, 20) == pytest.approx(VIEW - PAD)
+
+
+def test_a_tick_index_refuses_what_falls_between_two() -> None:
+    figure = NumberLineFigure(alt=ALT, start=0, end=50, step=5)
+    assert tick_index(figure, 35) == 7
+    assert tick_index(figure, 34) is None
+    assert tick_index(figure, 55) is None
+
+
+def test_tick_indices_hold_for_a_step_that_is_not_exact_in_binary() -> None:
+    figure = NumberLineFigure(alt=ALT, start=0, end=1, step=0.1)
+    assert [tick_index(figure, i * 0.1) for i in range(11)] == list(range(11))
+
+
+def test_the_geometry_handed_to_the_browser_matches_the_drawing() -> None:
+    """The script is given these rather than a second copy of the constants."""
+    figure = NumberLineFigure(alt=ALT, start=0, end=10, step=1)
+    geometry = line_geometry(figure)
+    assert geometry["left"] == line_x(figure, 0)
+    assert geometry["right"] == line_x(figure, 10)
+
+    # A line with jumps sits lower, and the marker has to sit on it, not above.
+    jumped = NumberLineFigure(alt=ALT, start=0, end=10, step=1, jumps=({"start": 2, "end": 6},))
+    axis = next(p for p in draw(jumped, "nb").paths if p.role == "axis")
+    assert f"{line_geometry(jumped)['y']:.2f}" in axis.d

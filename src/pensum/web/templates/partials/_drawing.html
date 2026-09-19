@@ -1,0 +1,30 @@
+{# The inside of a figure's <svg>: paths, dots and labels, in that order.
+
+   Split out because two partials draw the same picture and differ only in the
+   element that wraps it -- `figure.html` wraps it in a `role="img"` that
+   assistive tech reads as one alt string, and `number_line_input.html` wraps it
+   in a `role="slider"` a pupil can move. The loops themselves must not drift
+   between them, so there is one copy.
+
+   Every part is hidden from assistive tech: a screen reader handed the paths
+   would read out a list of coordinates, which is worse than silence. The
+   wrapper says what the picture is. #}
+{% for path in drawing.paths %}
+  <path class="figure-{{ path.role }}" d="{{ path.d }}" aria-hidden="true" />
+{% endfor %}
+{% for dot in drawing.dots %}
+  <circle class="figure-{{ dot.role }}"
+          cx="{{ "%.2f"|format(dot.cx) }}"
+          cy="{{ "%.2f"|format(dot.cy) }}"
+          r="{{ "%.2f"|format(dot.r) }}"
+          aria-hidden="true" />
+{% endfor %}
+{% for label in drawing.labels %}
+  <text class="figure-{{ label.role }}"
+        x="{{ "%.2f"|format(label.x) }}"
+        y="{{ "%.2f"|format(label.y) }}"
+        font-size="{{ "%.1f"|format(label.size) }}"
+        text-anchor="{{ label.anchor }}"
+        dominant-baseline="{{ label.baseline }}"
+        aria-hidden="true">{{ label.text }}</text>
+{% endfor %}

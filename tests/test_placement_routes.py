@@ -70,13 +70,13 @@ def answer_all(client: TestClient, run_id: str, *, correct_up_to: int) -> Placem
 def _right(item) -> str:
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if c.correct)
-    if item.type == "numeric":
+    if item.type in ("numeric", "number_line"):
         return str(item.answer)
     return next(c[0] for c in item.accept.values() if c)
 
 
 def _wrong(item) -> str:
-    if item.type == "numeric":
+    if item.type in ("numeric", "number_line"):
         return str(float(item.answer) + max(1.0, item.tolerance * 2 + 1))
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if not c.correct)

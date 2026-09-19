@@ -92,6 +92,13 @@ quiz:
   incorrect: Ikke helt.
   numeric_placeholder: Skriv et tall
   text_placeholder: Skriv svaret
+  # The marker and the box are two ways into the same answer, both always
+  # on the page: dragging is the point of the question, typing is what is
+  # left when a pointer is hard to use or the script never ran.
+  number_line_drag: Dra merket dit svaret hører hjemme, eller skriv tallet.
+  number_line_typed: Eller skriv tallet
+  number_line_unset: Ikke plassert ennå
+  number_line_at: Merket står på {value}
   # Ours, not Udir's -- and the page must never blur that line.
   authored_note: >-
     Spørsmålene er laget av Pensum, ikke hentet fra læreplanen.

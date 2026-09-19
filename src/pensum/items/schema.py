@@ -22,7 +22,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from pensum.items.figures import Figure
+from pensum.items.figures import Figure, NumberLineFigure, tick_index
 from pensum.items.text import BOKMAAL, ENGLISH, AuthoredText
 
 # Re-exported: `AuthoredText` reads as part of the item schema even though it
@@ -37,7 +37,7 @@ __all__ = [
     "QuizItem",
 ]
 
-ItemKind = Literal["multiple_choice", "numeric", "short_text"]
+ItemKind = Literal["multiple_choice", "numeric", "short_text", "number_line"]
 
 MIN_CHOICES = 3
 MAX_DIFFICULTY = 3
@@ -98,6 +98,21 @@ class QuizItem(BaseModel):
             if self.tolerance < 0:
                 raise ValueError(f"{self.id}: tolerance cannot be negative")
 
+        elif self.type == "number_line":
+            if not isinstance(self.figure, NumberLineFigure):
+                raise ValueError(f"{self.id}: number_line items answer on a number_line figure")
+            if self.answer is None:
+                raise ValueError(f"{self.id}: number_line items need an answer")
+            if self.tolerance:
+                # The marker snaps to a tick, so there is no near miss to
+                # forgive: an answer is the right tick or a different one.
+                raise ValueError(f"{self.id}: a snapped answer has no tolerance")
+            if tick_index(self.figure, self.answer) is None:
+                raise ValueError(
+                    f"{self.id}: {self.answer} is not on a tick of "
+                    f"{self.figure.start}..{self.figure.end} step {self.figure.step}"
+                )
+
         elif self.type == "short_text" and not any(self.accept.values()):
             # There is no LLM at request time, so grading is exact matching
             # against a list the author wrote. Without one, nothing can be right.
@@ -137,7 +152,7 @@ class QuizItem(BaseModel):
         if self.type == "multiple_choice":
             choice = next((c for c in self.choices if c.correct), None)
             return choice.text.get(locale) if choice else ""
-        if self.type == "numeric":
+        if self.type in ("numeric", "number_line"):
             # Render 7.0 as "7" -- a child asked for a whole number should not
             # be shown a decimal point they did not use.
             value = float(self.answer)
@@ -153,12 +168,22 @@ class QuizItem(BaseModel):
         if self.type == "multiple_choice":
             return any(c.correct and c.id == answer for c in self.choices)
 
-        if self.type == "numeric":
+        if self.type in ("numeric", "number_line"):
             try:
                 # Norwegian pupils write decimals with a comma.
                 value = float(answer.replace(",", "."))
             except ValueError:
                 return False
+
+            # A dragged answer is graded by which tick it is, not by how close
+            # it came: the marker cannot rest between two, so a value that does
+            # is not an answer this line could have produced. The isinstance is
+            # what the validator already guarantees, narrowed again here so the
+            # grading path does not depend on having been constructed properly.
+            if isinstance(self.figure, NumberLineFigure) and self.type == "number_line":
+                index = tick_index(self.figure, value)
+                return index is not None and index == tick_index(self.figure, float(self.answer))
+
             return abs(value - float(self.answer)) <= self.tolerance
 
         return any(

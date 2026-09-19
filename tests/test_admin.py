@@ -59,7 +59,7 @@ def correct_response(item: QuizItem) -> str:
     """The right answer, in the form the answer endpoint expects."""
     if item.type == "multiple_choice":
         return next(choice.id for choice in item.choices if choice.correct)
-    if item.type == "numeric":
+    if item.type in ("numeric", "number_line"):
         return str(item.answer)
     return item.accept["nb"][0]
 

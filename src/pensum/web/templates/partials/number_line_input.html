@@ -1,0 +1,60 @@
+{# A number line a pupil answers *on*, by dragging a marker onto a tick.
+
+   The picture is the same server-drawn SVG every other figure is, and it is
+   drawn whether or not any script runs. What the script adds is the marker and
+   the pointer handling; what is here without it is a number line and a box to
+   type the number into, which is exactly the `numeric` item this one replaces.
+   So the no-script case is not a degraded version of the question, it is the
+   question as it was before, and nothing has to be built twice to get there.
+
+   The typing box stays on the page even when the script *has* run. WCAG 2.5.7
+   wants a non-dragging path to the same answer, and a pupil who finds a pointer
+   hard to place should not have to discover a hidden fallback to get one. It is
+   also what a screen reader lands on: the line itself is a slider, operable by
+   arrow keys, but typing a number is the plainer road and both write the same
+   field.
+
+   Geometry comes from `line_geometry`, not from numbers repeated here: the
+   constants that put the line where it is live in `figures.py`, and a second
+   copy of them in a script drifts the first time one of them moves. #}
+{% set drawing = draw_figure(item.figure, locale) %}
+{% set geometry = line_geometry(item.figure) %}
+<div class="number-line"
+     data-number-line
+     data-left="{{ "%.4f"|format(geometry.left) }}"
+     data-right="{{ "%.4f"|format(geometry.right) }}"
+     data-y="{{ "%.4f"|format(geometry.y) }}"
+     data-start="{{ "%.6g"|format(geometry.start) }}"
+     data-end="{{ "%.6g"|format(geometry.end) }}"
+     data-step="{{ "%.6g"|format(geometry.step) }}"
+     data-label-unset="{{ t('quiz.number_line_unset') }}"
+     data-label-at="{{ t('quiz.number_line_at') }}">
+  <p class="number-line-hint">{{ t("quiz.number_line_drag") }}</p>
+
+  {# tabindex and the slider role are set by the script, not here: without it
+     there is nothing to operate, and a focus stop that does nothing is worse
+     than none. #}
+  <svg class="figure number-line-track"
+       viewBox="0 0 {{ "%.0f"|format(drawing.width) }} {{ "%.0f"|format(drawing.height) }}"
+       style="max-width: {{ "%.0f"|format(drawing.width * 0.11) }}rem"
+       role="img"
+       aria-label="{{ drawing.alt }}"
+       aria-valuemin="{{ "%.6g"|format(geometry.start) }}"
+       aria-valuemax="{{ "%.6g"|format(geometry.end) }}">
+    {% include "partials/_drawing.html" %}
+    {# Hidden until the pupil puts it somewhere. A marker parked on the first
+       tick is an unanswered question wearing an answer. #}
+    <circle class="number-line-marker"
+            cx="{{ "%.2f"|format(geometry.left) }}"
+            cy="{{ "%.2f"|format(geometry.y) }}"
+            r="6"
+            aria-hidden="true"
+            hidden />
+  </svg>
+
+  <label class="number-line-typed">
+    <span>{{ t("quiz.number_line_typed") }}</span>
+    <input class="answer-input" type="text" inputmode="decimal" name="response"
+           placeholder="{{ t('quiz.numeric_placeholder') }}" autocomplete="off" required />
+  </label>
+</div>

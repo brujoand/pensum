@@ -88,14 +88,17 @@ def right_answer(item: QuizItem) -> str:
     """
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if c.correct)
-    if item.type == "numeric":
+    if item.type in ("numeric", "number_line"):
         return str(item.answer)
     return next(c[0] for c in item.accept.values() if c)
 
 
 def wrong_answer(item: QuizItem) -> str:
     """A response the item grades as incorrect. Asserted, not assumed."""
-    if item.type == "numeric":
+    # A number line is graded by tick, so a value a step-and-a-bit off is not
+    # only wrong but off the ticks entirely -- which is the other thing the
+    # server refuses, and worth walking over here.
+    if item.type in ("numeric", "number_line"):
         return str(float(item.answer) + max(1.0, item.tolerance * 2 + 1))
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if not c.correct)

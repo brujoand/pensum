@@ -7,6 +7,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from pydantic import ValidationError
 
+from pensum.items.figures import NumberLineFigure
 from pensum.items.schema import AuthoredText, Choice, ItemSet, QuizItem
 from pensum.quiz.scoring import PASS_THRESHOLD, score, select
 from pensum.quiz.session import SESSION_TTL, SessionStore
@@ -40,6 +41,23 @@ def numeric(answer: float, tolerance: float = 0.0, goal: str = "KM1") -> QuizIte
         explanation=text(),
         answer=answer,
         tolerance=tolerance,
+    )
+
+
+def line(start: float = 0, end: float = 50, step: float = 5) -> NumberLineFigure:
+    return NumberLineFigure(alt=text("en tallinje"), start=start, end=end, step=step)
+
+
+def on_a_line(answer: float, goal: str = "KM1", **kwargs) -> QuizItem:
+    return QuizItem(
+        id=f"{goal}-l",
+        goal=goal,
+        type="number_line",
+        difficulty=1,
+        prompt=text(),
+        explanation=text(),
+        figure=line(**kwargs),
+        answer=answer,
     )
 
 
@@ -87,6 +105,42 @@ def test_short_text_needs_accepted_answers() -> None:
         )
 
 
+def test_a_number_line_item_answers_on_a_number_line() -> None:
+    """Any other figure, or none, and there is nowhere to put the marker."""
+    with pytest.raises(ValidationError, match="answer on a number_line figure"):
+        QuizItem(
+            id="x",
+            goal="KM1",
+            type="number_line",
+            difficulty=1,
+            prompt=text(),
+            explanation=text(),
+            answer=3,
+        )
+
+
+def test_a_number_line_answer_has_to_land_on_a_tick() -> None:
+    """Otherwise the pupil is asked for a number the marker cannot reach."""
+    with pytest.raises(ValidationError, match="is not on a tick"):
+        on_a_line(37)
+
+
+def test_a_snapped_answer_refuses_a_tolerance() -> None:
+    """There is no near miss to forgive: the marker cannot rest between ticks."""
+    with pytest.raises(ValidationError, match="no tolerance"):
+        QuizItem(
+            id="x",
+            goal="KM1",
+            type="number_line",
+            difficulty=1,
+            prompt=text(),
+            explanation=text(),
+            figure=line(),
+            answer=35,
+            tolerance=1,
+        )
+
+
 def test_bokmaal_is_required_on_authored_text() -> None:
     with pytest.raises(ValidationError):
         AuthoredText(en="English only")
@@ -105,6 +159,33 @@ def test_multiple_choice_grading() -> None:
     assert item.is_correct("b") is True
     assert item.is_correct("a") is False
     assert item.is_correct("") is False
+
+
+def test_a_number_line_is_graded_by_which_tick_it_is() -> None:
+    item = on_a_line(35)
+    assert item.is_correct("35") is True
+    assert item.is_correct("30") is False
+
+
+def test_a_number_line_rejects_a_value_between_two_ticks() -> None:
+    """A snapping marker cannot produce one, so it did not come from the line."""
+    item = on_a_line(35)
+    assert item.is_correct("34") is False
+    assert item.is_correct("35.5") is False
+
+
+def test_a_number_line_survives_a_step_that_is_not_exact_in_binary() -> None:
+    """`0 + 7 * 0.1` is not `0.7`, and a pupil who landed on it answered right."""
+    item = on_a_line(0.7, start=0, end=1, step=0.1)
+    assert item.is_correct("0,7") is True
+
+
+def test_a_number_line_accepts_a_norwegian_decimal_comma() -> None:
+    assert on_a_line(2.5, start=0, end=5, step=0.5).is_correct("2,5") is True
+
+
+def test_a_number_line_off_the_end_of_the_line_is_wrong() -> None:
+    assert on_a_line(35).is_correct("55") is False
 
 
 def test_numeric_accepts_a_norwegian_decimal_comma() -> None:
@@ -333,6 +414,9 @@ def test_numeric_answers_display_without_a_spurious_decimal() -> None:
     """A child asked for a whole number should not see "7.0" as the answer."""
     assert numeric(7).correct_text() == "7"
     assert numeric(3.5).correct_text() == "3,5"
+    # A dragged answer is read back the same way: the feedback line says which
+    # number the marker should have been on, not which tick index.
+    assert on_a_line(35).correct_text() == "35"
 
 
 def test_short_text_shows_the_first_accepted_answer() -> None:

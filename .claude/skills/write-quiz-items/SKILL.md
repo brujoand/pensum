@@ -103,6 +103,13 @@ not be a question at all.
   synonym and inflection under `accept`. There is no model grading answers at
   runtime; anything not on the list is marked wrong. Prefer multiple choice
   unless the answer is genuinely a single unambiguous word.
+- **`number_line`** — the pupil puts a marker on a tick of a number line rather
+  than reading a sentence about one. Needs a `figure` of `kind: number_line`,
+  and `answer` must land on one of its ticks: pick a `step` that reaches the
+  answer, then `label_every` so the answer's own tick is unlabelled. `tolerance`
+  is refused, because a marker that snaps has no near miss to forgive. Use it
+  where the goal is *placing* a number rather than computing one; a question
+  that merely mentions a number line is still a `numeric`.
 
 `difficulty` is 1–3 **relative to this checkpoint**. A hard year-2 question is
 not a hard year-10 question.

@@ -1,0 +1,723 @@
+# KRLE skills: the progression in docs/design/subjects/krle.md. Every skill is
+# knowledge about a tradition, what a text says, or the ability to present
+# someone else's view; none is a belief. Missions and the philosophical
+# conversation (KM14590, KM14602, KM14619) are assessable: false.
+subject: RLE01-04
+strands:
+  - id: religions
+    title: {nob: Religioner og livssyn, eng: Religions and worldviews}
+  - id: terms-sources
+    title: {nob: Begreper og kilder, eng: Terms and sources}
+  - id: ethics
+    title: {nob: Etikk, eng: Ethics}
+  - id: philosophy
+    title: {nob: Filosofi og store spørsmål, eng: Philosophy and big questions}
+  - id: perspectives
+    title: {nob: Perspektiver og å leve sammen, eng: Perspectives and living together}
+skills:
+  # ---------------------------------------------------------------- etter 4.
+  - id: krle.religions.local-religion
+    strand: religions
+    checkpoint: 4
+    refs: [KM14586]
+    needs: []
+    i_can:
+      nob: Jeg kan finne et gudshus nær meg på et kart.
+      eng: I can find a place of worship near me on a map.
+    teacher:
+      nob: "Finner et gudshus eller en gravplass i nærmiljøet på kart og noterer hvilken tradisjon det hører til. Ikke ennå: finner stedet, men vet ikke tradisjonen."
+      eng: "Finds a place of worship or burial ground nearby on a map and notes which tradition it belongs to. Not yet: finds the place but not the tradition."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.religions.religion-in-local-area
+    strand: religions
+    checkpoint: 4
+    refs: [KM14586]
+    needs: []
+    i_can:
+      nob: Jeg kan kjenne igjen spor av religion og livssyn i nærmiljøet.
+      eng: I can spot signs of religions and worldviews in my area.
+    teacher:
+      nob: "Kobler bygninger, symboler og skikker i nærmiljøet (kirke, moské, humanistisk konfirmasjon) til riktig tradisjon. Ikke ennå: kjenner bare igjen kirka."
+      eng: "Matches local buildings, symbols and customs (church, mosque, humanist confirmation) to the right tradition. Not yet: recognises only the church."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.christian-stories
+    strand: religions
+    checkpoint: 4
+    refs: [KM14597]
+    needs: []
+    i_can:
+      nob: Jeg kan gjenfortelle sentrale fortellinger fra kristendommen.
+      eng: I can retell central stories from Christianity.
+    teacher:
+      nob: "Setter bilder fra en sentral fortelling (juleevangeliet, påskefortellingen) i riktig rekkefølge og sier hva kristne tror den forteller. Ikke ennå: blander fortellinger sammen."
+      eng: "Orders panels from a central story (the Nativity, the Easter story) and says what Christians believe it tells. Not yet: mixes stories together."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.other-traditions-stories
+    strand: religions
+    checkpoint: 4
+    refs: [KM14598]
+    needs: []
+    i_can:
+      nob: Jeg kan gjenfortelle sentrale fortellinger fra andre religioner.
+      eng: I can retell central stories from other religions.
+    teacher:
+      nob: "Gjenforteller en sentral fortelling fra jødedom, islam, hinduisme eller buddhisme og knytter den til riktig tradisjon. Ikke ennå: vet ikke hvilken tradisjon fortellingen hører til."
+      eng: "Retells a central story from Judaism, Islam, Hinduism or Buddhism and links it to the right tradition. Not yet: does not know which tradition the story belongs to."
+    stages: [concrete, pictorial]
+    misconceptions: [festivals-confused]
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.festivals
+    strand: religions
+    checkpoint: 4
+    refs: [KM14587]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle når og hvordan ulike høytider feires.
+      eng: I can tell when and how different festivals are celebrated.
+    teacher:
+      nob: "Plasserer høytider i årshjulet og kobler høytid til tradisjon og symbol (id, påske, pesach, divali, hanukka). Ikke ennå: blander påske og pesach, eller divali og hanukka."
+      eng: "Places festivals on the year wheel and matches festival to tradition and symbol (Eid, Easter, Passover, Diwali, Hanukkah). Not yet: confuses Easter and Passover, or Diwali and Hanukkah."
+    stages: [concrete, pictorial]
+    misconceptions: [festivals-confused]
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.aesthetic-expressions
+    strand: religions
+    checkpoint: 4
+    refs: [KM14588]
+    needs: []
+    i_can:
+      nob: Jeg kan kjenne igjen religiøs kunst, musikk og byggverk.
+      eng: I can recognise religious art, music and buildings.
+    teacher:
+      nob: "Kobler et bilde, en salme eller et byggverk til tradisjonen det kommer fra. Ikke ennå: kjenner igjen at noe er religiøst, men ikke fra hvilken tradisjon."
+      eng: "Matches a picture, hymn or building to the tradition it comes from. Not yet: sees that something is religious but not which tradition."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.look-at-religious-art
+    strand: religions
+    checkpoint: 4
+    refs: [KM14588]
+    needs: [krle.religions.aesthetic-expressions]
+    i_can:
+      nob: Jeg kan fortelle én ting jeg la merke til i religiøs kunst.
+      eng: I can say one thing I noticed in a religious artwork.
+    teacher:
+      nob: "Ser på eller lytter til ett religiøst kunstverk og forteller én ting hen la merke til. Ikke ennå: sier bare om hen liker det."
+      eng: "Looks at or listens to one religious artwork and tells one thing they noticed. Not yet: only says whether they like it."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.terms-sources.simple-terms
+    strand: terms-sources
+    checkpoint: 4
+    refs: [KM14596]
+    needs: []
+    i_can:
+      nob: Jeg kan bruke enkle ord om religioner og livssyn.
+      eng: I can use simple words about religions and worldviews.
+    teacher:
+      nob: "Kobler ord som gudshus, høytid, hellig skrift og livssyn til en enkel forklaring. Ikke ennå: kaller alle gudshus kirke."
+      eng: "Matches words such as place of worship, festival, sacred text and worldview to a plain definition. Not yet: calls every place of worship a church."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.terms-sources.kinds-of-sources
+    strand: terms-sources
+    checkpoint: 4
+    refs: [KM14589]
+    needs: [krle.terms-sources.simple-terms]
+    i_can:
+      nob: Jeg kan skille mellom ulike kilder om religion.
+      eng: I can tell different sources about religion apart.
+    teacher:
+      nob: "Sorterer kilder i hellig skrift, en fagbok, en troendes egen fortelling og nyheter. Ikke ennå: behandler alle kilder som like."
+      eng: "Sorts sources into sacred text, a textbook, a believer's own account and news. Not yet: treats all sources as the same kind."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.spot-ethical-question
+    strand: ethics
+    checkpoint: 4
+    refs: [KM14591]
+    needs: []
+    i_can:
+      nob: Jeg kan kjenne igjen et spørsmål om rett og galt.
+      eng: I can recognise a question about right and wrong.
+    teacher:
+      nob: "Skiller et etisk spørsmål (bør jeg si fra?) fra et faktaspørsmål (hvor mange bor her?). Ikke ennå: tror etikk bare er å følge regler."
+      eng: "Tells an ethical question (should I speak up?) from a factual one (how many live here?). Not yet: thinks ethics is just following rules."
+    stages: [concrete, pictorial]
+    misconceptions: [ethics-is-rules]
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.resources
+    strand: ethics
+    checkpoint: 4
+    refs: [KM14593]
+    needs: [krle.ethics.spot-ethical-question]
+    i_can:
+      nob: Jeg kan gi eksempler på etiske spørsmål om hvordan vi bruker ressurser.
+      eng: I can give examples of ethical questions about using resources.
+    teacher:
+      nob: "Gir eksempler som matsvinn, å dele og å kaste ting som virker, og hvem det påvirker. Ikke ennå: nevner eksempler uten å se hvem som påvirkes."
+      eng: "Gives examples such as food waste, sharing and throwing away working things, and who is affected. Not yet: names examples without seeing who is affected."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.dignity-tolerance
+    strand: ethics
+    checkpoint: 4
+    refs: [KM14595]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare hva menneskeverd, respekt og toleranse betyr.
+      eng: I can explain what human dignity, respect and tolerance mean.
+    teacher:
+      nob: "Kobler ordene til situasjoner, og forklarer at menneskeverd gjelder alle uansett hva de gjør eller tror. Ikke ennå: tror toleranse betyr å være enig."
+      eng: "Matches the words to situations, and explains that human dignity applies to everyone whatever they do or believe. Not yet: thinks tolerance means agreeing."
+    stages: [concrete, pictorial]
+    misconceptions: [tolerance-means-agreeing]
+    assessable: true
+    reviewed: false
+
+  - id: krle.philosophy.philosophical-conversation
+    strand: philosophy
+    checkpoint: 4
+    refs: [KM14590]
+    needs: []
+    i_can:
+      nob: Jeg kan være med i en filosofisk samtale og følge turreglene.
+      eng: I can take part in a philosophical talk and take turns.
+    teacher:
+      nob: "Bruker turkortet (jeg tror ... fordi ...) i klassesamtalen, venter på tur og bygger på andre. Ikke ennå: snakker uten å knytte an til det andre har sagt."
+      eng: "Uses the turn card (I think ... because ...) in the class conversation, waits their turn and builds on others. Not yet: speaks without linking to what others said."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.perspectives.others-thoughts
+    strand: perspectives
+    checkpoint: 4
+    refs: [KM14592]
+    needs: []
+    i_can:
+      nob: Jeg kan sette ord på hva en annen tenker og føler.
+      eng: I can put into words what someone else thinks and feels.
+    teacher:
+      nob: "Forteller hva en person i en fortelling tenker og føler, ut fra teksten. Ikke ennå: forteller hva hen selv ville følt."
+      eng: "Tells what a character in a story thinks and feels, from the text. Not yet: tells what they themselves would feel."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.perspectives.living-together
+    strand: perspectives
+    checkpoint: 4
+    refs: [KM14594]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle om ulike måter å leve sammen på.
+      eng: I can tell about different ways of living together.
+    teacher:
+      nob: "Beskriver ulike måter å leve sammen på i familie og samfunn (storfamilie, delt bosted, bofellesskap). Ikke ennå: beskriver bare sin egen familie."
+      eng: "Describes different ways of living together in families and society (extended family, shared custody, shared housing). Not yet: describes only their own family."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # ---------------------------------------------------------------- etter 7.
+  - id: krle.religions.history-in-norway
+    strand: religions
+    checkpoint: 7
+    refs: [KM14599]
+    needs: [krle.religions.religion-in-local-area]
+    i_can:
+      nob: Jeg kan fortelle hovedtrekk i religionshistorien i Norge.
+      eng: I can outline the history of religions in Norway.
+    teacher:
+      nob: "Setter norrøn religion, kristningen, reformasjonen og dagens mangfold på en tidslinje, med samisk religion og nasjonale minoriteter. Ikke ennå: tror Norge alltid har vært kristent."
+      eng: "Places Norse religion, Christianisation, the Reformation and today's diversity on a timeline, with Sami religion and national minorities. Not yet: thinks Norway has always been Christian."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.christian-rituals-ethics
+    strand: religions
+    checkpoint: 7
+    refs: [KM14601]
+    needs: [krle.religions.christian-stories]
+    i_can:
+      nob: Jeg kan beskrive sentrale ritualer og etiske normer i kristendommen.
+      eng: I can describe central rituals and ethical norms in Christianity.
+    teacher:
+      nob: "Beskriver dåp, nattverd og konfirmasjon og normer som nestekjærlighet og de ti bud. Ikke ennå: nevner ritualene uten å vite hva de betyr i tradisjonen."
+      eng: "Describes baptism, communion and confirmation and norms such as love of neighbour and the Ten Commandments. Not yet: names the rituals without knowing what they mean in the tradition."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.other-rituals-ethics
+    strand: religions
+    checkpoint: 7
+    refs: [KM14609]
+    needs: [krle.religions.other-traditions-stories]
+    i_can:
+      nob: Jeg kan beskrive ritualer og normer i andre religioner og livssyn.
+      eng: I can describe rituals and norms in other religions and worldviews.
+    teacher:
+      nob: "Beskriver et ritual og en etisk norm fra flere tradisjoner (bønn i islam, sabbat i jødedom, meditasjon i buddhisme, humanistiske seremonier). Ikke ennå: blander ritualer fra ulike tradisjoner."
+      eng: "Describes a ritual and an ethical norm from several traditions (prayer in Islam, Sabbath in Judaism, meditation in Buddhism, humanist ceremonies). Not yet: mixes up rituals across traditions."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.diversity-within
+    strand: religions
+    checkpoint: 7
+    refs: [KM14610]
+    needs: [krle.religions.christian-rituals-ethics, krle.religions.other-rituals-ethics]
+    i_can:
+      nob: Jeg vet at det er stort mangfold innen hver religion.
+      eng: I know there is great variety within each religion.
+    teacher:
+      nob: "Gir eksempler på retninger og ulik praksis innen kristendom og andre religioner (katolsk og luthersk, sunni og sjia). Ikke ennå: sier at alle kristne eller alle muslimer tror det samme."
+      eng: "Gives examples of branches and different practice within Christianity and other religions (Catholic and Lutheran, Sunni and Shia). Not yet: says all Christians or all Muslims believe the same."
+    stages: [pictorial, abstract]
+    misconceptions: [tradition-as-uniform]
+    assessable: true
+    reviewed: false
+
+  - id: krle.terms-sources.subject-terms
+    strand: terms-sources
+    checkpoint: 7
+    refs: [KM14607]
+    needs: [krle.terms-sources.simple-terms]
+    i_can:
+      nob: Jeg kan bruke fagbegreper om religioner og livssyn.
+      eng: I can use subject terms about religions and worldviews.
+    teacher:
+      nob: "Bruker begreper som ritual, monoteisme, livssyn og hellig skrift riktig i en forklaring. Ikke ennå: kjenner begrepet, men bruker det feil."
+      eng: "Uses terms such as ritual, monotheism, worldview and sacred text correctly in an explanation. Not yet: knows the term but uses it wrongly."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.terms-sources.texts-and-objects
+    strand: terms-sources
+    checkpoint: 7
+    refs: [KM14600]
+    needs: [krle.terms-sources.kinds-of-sources]
+    i_can:
+      nob: Jeg kan sammenligne tekster og gjenstander som kilder til kulturarv.
+      eng: I can compare texts and objects as sources about heritage.
+    teacher:
+      nob: "Sier hva en tekst og en gjenstand (en runestein, et ikon) kan fortelle om en tradisjon, og hva hver ikke kan. Ikke ennå: bruker gjenstanden bare som pynt."
+      eng: "Says what a text and an object (a rune stone, an icon) can tell about a tradition, and what each cannot. Not yet: treats the object as decoration only."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.religious-figures-ethics
+    strand: ethics
+    checkpoint: 7
+    refs: [KM14603]
+    needs: [krle.ethics.spot-ethical-question]
+    i_can:
+      nob: Jeg kan gjengi etiske ideer fra sentrale religiøse skikkelser.
+      eng: I can explain ethical ideas of key religious figures.
+    teacher:
+      nob: "Kobler en etisk idé til skikkelsen den kommer fra (den gylne regel, Buddhas middelvei, en humanistisk tenker). Ikke ennå: vet navnet, men ikke ideen."
+      eng: "Matches an ethical idea to the figure it comes from (the golden rule, the Buddha's middle way, a humanist thinker). Not yet: knows the name but not the idea."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.philosophers-ethics
+    strand: ethics
+    checkpoint: 7
+    refs: [KM14611]
+    needs: [krle.ethics.spot-ethical-question]
+    i_can:
+      nob: Jeg kan gjengi etiske ideer fra kjente filosofer.
+      eng: I can explain ethical ideas of well-known philosophers.
+    teacher:
+      nob: "Gjengir en etisk idé fra en filosof i filosofihistorien (Sokrates, Aristoteles, Kant) med egne ord. Ikke ennå: kjenner navnet uten å kunne ideen."
+      eng: "Restates an ethical idea of a philosopher from history (Socrates, Aristotle, Kant) in their own words. Not yet: knows the name without the idea."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.dilemma-perspectives
+    strand: ethics
+    checkpoint: 7
+    refs: [KM14604]
+    needs: [krle.ethics.spot-ethical-question]
+    i_can:
+      nob: Jeg kan sortere argumenter i et dilemma etter hva de bygger på.
+      eng: I can sort a dilemma's arguments by what they rest on.
+    teacher:
+      nob: "Sorterer argumenter i konsekvenser, plikt og karakter, og beskriver hvordan ulike personer ser dilemmaet. Ikke ennå: sorterer etter om hen er enig."
+      eng: "Sorts arguments into consequences, duty and character, and describes how different people see the dilemma. Not yet: sorts by whether they agree."
+    stages: [pictorial, abstract]
+    misconceptions: [ethics-is-rules]
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.freedom-of-religion
+    strand: ethics
+    checkpoint: 7
+    refs: [KM14608]
+    needs: [krle.ethics.dignity-tolerance]
+    i_can:
+      nob: Jeg kan forklare hva ytringsfrihet og religionsfrihet betyr.
+      eng: I can explain what freedom of speech and religion mean.
+    teacher:
+      nob: "Forklarer hva menneskerettighetene sier om ytrings- og religionsfrihet og gir et eksempel fra religiøse minoriteter i Norge. Ikke ennå: tror religionsfrihet bare betyr å slippe religion."
+      eng: "Explains what human rights say about freedom of speech and religion and gives an example from religious minorities in Norway. Not yet: thinks freedom of religion only means freedom from religion."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.philosophy.philosophical-thinking
+    strand: philosophy
+    checkpoint: 7
+    refs: [KM14602]
+    needs: [krle.philosophy.philosophical-conversation]
+    i_can:
+      nob: Jeg kan bruke tenkestigen i en filosofisk samtale.
+      eng: I can use the thinking ladder in a philosophical talk.
+    teacher:
+      nob: "Bruker tenkestigen i klassesamtalen: hva mener vi med ..., gi et eksempel, gi et moteksempel. Ikke ennå: gir eksempler, men aldri moteksempler."
+      eng: "Uses the thinking ladder in the class conversation: what do we mean by ..., give an example, give a counterexample. Not yet: gives examples but never counterexamples."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.philosophy.existential-questions
+    strand: philosophy
+    checkpoint: 7
+    refs: [KM14605]
+    needs: [krle.philosophy.philosophical-conversation]
+    i_can:
+      nob: Jeg kan gi eksempler på store spørsmål om liv og framtid.
+      eng: I can give examples of big questions about life and the future.
+    teacher:
+      nob: "Skiller et eksistensielt spørsmål fra et faktaspørsmål, og gjengir hvordan to tradisjoner svarer. Elevens eget svar blir ikke vurdert. Ikke ennå: tror store spørsmål har ett riktig svar i boka."
+      eng: "Tells an existential question from a factual one, and restates how two traditions answer it. The pupil's own answer is not graded. Not yet: thinks big questions have one right answer in the book."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.perspectives.childhood-family-views
+    strand: perspectives
+    checkpoint: 7
+    refs: [KM14606]
+    needs: [krle.perspectives.living-together]
+    i_can:
+      nob: Jeg kan beskrive ulike syn på familie og samliv i livssyn.
+      eng: I can describe different traditions' views on family and relationships.
+    teacher:
+      nob: "Gjør rede for hvordan to tradisjoner ser på barndom, familie og samliv, ut fra kildene. Ikke ennå: beskriver én tradisjon som om alle i den mener det samme."
+      eng: "Explains how two traditions view childhood, family and relationships, from the sources. Not yet: describes one tradition as if everyone in it agrees."
+    stages: [pictorial, abstract]
+    misconceptions: [tradition-as-uniform]
+    assessable: true
+    reviewed: false
+
+  # --------------------------------------------------------------- etter 10.
+  - id: krle.religions.main-features-today
+    strand: religions
+    checkpoint: 10
+    refs: [KM14612]
+    needs: [krle.religions.diversity-within]
+    i_can:
+      nob: Jeg kan presentere hovedtrekk ved religioner og hvor de finnes i dag.
+      eng: I can present main features of religions and where they are today.
+    teacher:
+      nob: "Presenterer lære, praksis og utbredelse for kristendom og andre tradisjoner, med kart. Ikke ennå: beskriver religionene uten utbredelse eller mangfold."
+      eng: "Presents teachings, practice and spread for Christianity and other traditions, with a map. Not yet: describes the religions without spread or diversity."
+    stages: [pictorial, abstract]
+    misconceptions: [tradition-as-uniform]
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.religion-in-history
+    strand: religions
+    checkpoint: 10
+    refs: [KM14623]
+    needs: [krle.religions.history-in-norway]
+    i_can:
+      nob: Jeg kan forklare hvordan religion har vært med i historiske endringer.
+      eng: I can explain how religion has played a part in historical change.
+    teacher:
+      nob: "Gir eksempler globalt og i Norge (reformasjonen, borgerrettsbevegelsen, sekularisering) og hvilken rolle religion spilte. Ikke ennå: ser religion bare som årsak til krig."
+      eng: "Gives examples globally and in Norway (the Reformation, the civil rights movement, secularisation) and the role religion played. Not yet: sees religion only as a cause of war."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.secular-humanism
+    strand: religions
+    checkpoint: 10
+    refs: [KM14624]
+    needs: [krle.religions.other-rituals-ethics]
+    i_can:
+      nob: Jeg kan presentere hovedideer i livssynshumanismen.
+      eng: I can present the main ideas of secular humanism.
+    teacher:
+      nob: "Presenterer hovedideer i livssynshumanismen og andre ikke-religiøse livssyn (fornuft, menneskeverd, ingen gud). Ikke ennå: beskriver et livssyn bare som fravær av religion."
+      eng: "Presents the main ideas of secular humanism and other non-religious worldviews (reason, human dignity, no god). Not yet: describes a worldview only as the absence of religion."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.religion-outside-institutions
+    strand: religions
+    checkpoint: 10
+    refs: [KM14613]
+    needs: [krle.religions.diversity-within]
+    i_can:
+      nob: Jeg kan gi eksempler på religiøs praksis utenfor trossamfunn.
+      eng: I can give examples of religious practice outside organised communities.
+    teacher:
+      nob: "Gir eksempler på religiøs praksis utenfor etablerte trossamfunn (privat bønn, nyreligiøsitet, pilegrimsvandring). Ikke ennå: tror religion bare finnes i trossamfunn."
+      eng: "Gives examples of religious practice outside established communities (private prayer, new spirituality, pilgrimage). Not yet: thinks religion exists only in organised communities."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.sami-indigenous-traditions
+    strand: religions
+    checkpoint: 10
+    refs: [KM14614]
+    needs: [krle.religions.history-in-norway]
+    i_can:
+      nob: Jeg kan fortelle om samiske og andre urfolks religiøse tradisjoner.
+      eng: I can describe Sami and other Indigenous religious traditions.
+    teacher:
+      nob: "Gjør rede for trekk ved samisk religion (sieidi, noaidi, joik) og hvordan den ble undertrykt, og sammenligner med et annet urfolk. Ikke ennå: beskriver tradisjonen bare som noe fra fortida."
+      eng: "Explains features of Sami religion (sieidi, noaidi, joik) and how it was suppressed, and compares with another Indigenous people. Not yet: describes the tradition only as something from the past."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.religions.religion-in-media
+    strand: religions
+    checkpoint: 10
+    refs: [KM14622]
+    needs: [krle.religions.aesthetic-expressions]
+    i_can:
+      nob: Jeg kan finne elementer fra religion i film, musikk og spill.
+      eng: I can spot elements of religion in films, music and games.
+    teacher:
+      nob: "Finner et religiøst motiv i populærkultur eller en nyhetssak og sier hvilken tradisjon det kommer fra og hvordan det brukes. Ikke ennå: finner motivet, men ikke opphavet."
+      eng: "Finds a religious motif in popular culture or a news story and says which tradition it comes from and how it is used. Not yet: finds the motif but not its origin."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.terms-sources.discuss-terms
+    strand: terms-sources
+    checkpoint: 10
+    refs: [KM14616]
+    needs: [krle.terms-sources.subject-terms]
+    i_can:
+      nob: Jeg kan bruke og drøfte fagbegreper om religion.
+      eng: I can use and discuss subject terms about religion.
+    teacher:
+      nob: "Drøfter hvorfor begreper som religion, sekt eller fundamentalisme kan være omstridte, og hvem som bruker dem. Ikke ennå: bruker begrepene som om de var nøytrale."
+      eng: "Discusses why terms such as religion, sect or fundamentalism can be disputed, and who uses them. Not yet: uses the terms as if they were neutral."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.terms-sources.assess-sources
+    strand: terms-sources
+    checkpoint: 10
+    refs: [KM14617]
+    needs: [krle.terms-sources.texts-and-objects]
+    i_can:
+      nob: Jeg kan vurdere hva ulike kilder kan og ikke kan fortelle.
+      eng: I can judge what different sources can and cannot tell.
+    teacher:
+      nob: "Sammenligner en hellig tekst, en forsker, en troendes fortelling og en nyhetssak og sier hva hver kan og ikke kan fortelle. Ikke ennå: vurderer kilden etter om hen er enig."
+      eng: "Compares a sacred text, a scholar, a believer's account and a news item and says what each can and cannot tell. Not yet: judges the source by whether they agree."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.compare-religious-ethics
+    strand: ethics
+    checkpoint: 10
+    refs: [KM14625]
+    needs: [krle.ethics.religious-figures-ethics]
+    i_can:
+      nob: Jeg kan sammenligne etiske ideer fra ulike religiøse tradisjoner.
+      eng: I can compare ethical ideas from different religious traditions.
+    teacher:
+      nob: "Sammenligner etiske ideer fra sentrale skikkelser i to tradisjoner og peker på likheter og forskjeller. Ikke ennå: beskriver hver idé for seg."
+      eng: "Compares ethical ideas of key figures in two traditions and points out similarities and differences. Not yet: describes each idea on its own."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.apply-philosophers-ethics
+    strand: ethics
+    checkpoint: 10
+    refs: [KM14626]
+    needs: [krle.ethics.philosophers-ethics, krle.ethics.dilemma-perspectives]
+    i_can:
+      nob: Jeg kan bruke etiske teorier til å drøfte aktuelle spørsmål.
+      eng: I can use ethical theories to discuss current questions.
+    teacher:
+      nob: "Viser hvordan konsekvensetikk, pliktetikk og dydsetikk ville vurdere en aktuell sak. Ikke ennå: bruker teorinavnene uten å bruke teoriene."
+      eng: "Shows how consequence ethics, duty ethics and virtue ethics would each assess a current case. Not yet: names the theories without applying them."
+    stages: [abstract]
+    misconceptions: [ethics-is-rules]
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.communication-ethics
+    strand: ethics
+    checkpoint: 10
+    refs: [KM14620]
+    needs: [krle.ethics.dilemma-perspectives]
+    i_can:
+      nob: Jeg kan finne etiske spørsmål i hvordan vi kommuniserer.
+      eng: I can identify ethical questions in how we communicate.
+    teacher:
+      nob: "Finner og drøfter etiske spørsmål i kommunikasjon (deling av bilder, hets, anonymitet) med argumenter fra flere sider. Ikke ennå: ser bare lovbrudd som etiske spørsmål."
+      eng: "Identifies and discusses ethical questions in communication (sharing images, hate speech, anonymity) with arguments from several sides. Not yet: sees only lawbreaking as an ethical question."
+    stages: [abstract]
+    misconceptions: [ethics-is-rules]
+    assessable: true
+    reviewed: false
+
+  - id: krle.ethics.rights-sustainability-poverty
+    strand: ethics
+    checkpoint: 10
+    refs: [KM14621]
+    needs: [krle.ethics.freedom-of-religion, krle.ethics.resources]
+    i_can:
+      nob: Jeg kan drøfte etiske spørsmål om rettigheter, bærekraft og fattigdom.
+      eng: I can discuss ethical questions about rights, sustainability and poverty.
+    teacher:
+      nob: "Setter opp argumenter fra flere sider i en aktuell sak om menneskerettigheter, bærekraft eller fattigdom. Ikke ennå: gir bare argumenter for én side."
+      eng: "Sets out arguments from several sides in a current case on human rights, sustainability or poverty. Not yet: gives arguments for one side only."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: krle.philosophy.existential-diverse-society
+    strand: philosophy
+    checkpoint: 10
+    refs: [KM14619]
+    needs: [krle.philosophy.philosophical-thinking]
+    i_can:
+      nob: Jeg kan delta i en samtale om store spørsmål i dag.
+      eng: I can join a conversation about big questions in today's world.
+    teacher:
+      nob: "Deltar i klassesamtalen om å vokse opp i et mangfoldig og globalt samfunn med turkort og tenkestige. Ingenting av det eleven sier, blir registrert. Ikke ennå: deltar bare når hen blir spurt."
+      eng: "Takes part in the class conversation on growing up in a diverse, global society using the turn cards and thinking ladder. Nothing the pupil says is recorded. Not yet: joins in only when asked."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.perspectives.whose-view
+    strand: perspectives
+    checkpoint: 10
+    refs: [KM14618]
+    needs: [krle.perspectives.others-thoughts]
+    i_can:
+      nob: Jeg kan finne ut hvilken grunn som passer til hvilken person.
+      eng: I can match each reason to the person who gives it.
+    teacher:
+      nob: "Kobler grunner til personene i en dialog mellom to tradisjoner, eller ingen, ut fra det teksten sier. Ikke ennå: kobler grunnen til den hen selv er enig med."
+      eng: "Matches reasons to the people in a dialogue between two traditions, or none, from what the text says. Not yet: matches the reason to the person they agree with."
+    stages: [pictorial, abstract]
+    misconceptions: [tradition-as-uniform]
+    assessable: true
+    reviewed: false
+
+  - id: krle.perspectives.handle-disagreement
+    strand: perspectives
+    checkpoint: 10
+    refs: [KM14618]
+    needs: [krle.perspectives.whose-view]
+    i_can:
+      nob: Jeg kan gjenta partnerens syn til hen sier at det stemmer.
+      eng: I can restate my partner's view until they say it is right.
+    teacher:
+      nob: "Forklarer partnerens syn tilbake til partneren sier: ja, det er det jeg mener. Ikke ennå: argumenterer imot før hen har forstått synet."
+      eng: "Explains the partner's view back until the partner says: yes, that is what I mean. Not yet: argues against it before understanding it."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: krle.perspectives.gender-sexuality-views
+    strand: perspectives
+    checkpoint: 10
+    refs: [KM14615]
+    needs: [krle.perspectives.childhood-family-views]
+    i_can:
+      nob: Jeg kan beskrive ulike syn på kjønn og seksualitet i livssyn.
+      eng: I can describe different traditions' views on gender and sexuality.
+    teacher:
+      nob: "Gjør rede for ulike syn på kjønn og seksualitet innen og mellom tradisjoner, ut fra kildene. Ikke ennå: beskriver én tradisjon som om alle i den mener det samme."
+      eng: "Explains different views on gender and sexuality within and between traditions, from the sources. Not yet: describes one tradition as if everyone in it agrees."
+    stages: [abstract]
+    misconceptions: [tradition-as-uniform]
+    assessable: true
+    reviewed: false

@@ -120,6 +120,142 @@ a {
   font-weight: 600;
 }
 
+/* Comfort profile ---------------------------------------------------------
+   The server writes the profile onto <html> as data attributes, so everything
+   here applies from the first paint. See pensum/web/comfort.py. */
+
+.comfort-link {
+  font-size: 0.85rem;
+}
+
+.comfort-setting {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+}
+
+.comfort-setting > label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comfort-setting legend {
+  padding: 0;
+  font-weight: 600;
+}
+
+/* Calm. Written once, for everything, rather than beside each animation: a
+   list of exceptions is a list someone forgets to extend, and the next
+   animation added anywhere on the site is covered the day it lands. What is
+   left is a fade of up to 150 ms, which is how a state change can still be
+   seen to happen without anything moving (principles.md, rule 9).
+
+   `!important` because this has to beat every rule it overrides, whatever its
+   specificity -- and tests/test_comfort.py checks no other motion rule on the
+   site carries it. Scripts that animate by hand (the writing sparks) read the
+   same attribute and do not start. */
+:root[data-calm] {
+  scroll-behavior: auto !important;
+}
+
+:root[data-calm] *,
+:root[data-calm] *::before,
+:root[data-calm] *::after {
+  animation: none !important;
+  transition: opacity 150ms ease-out !important;
+}
+
+/* The same result for anyone whose device asks for less motion, whatever the
+   cookie says: the operating-system setting was chosen once, on purpose, and
+   should not have to be chosen again here. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: opacity 150ms ease-out !important;
+  }
+}
+
+/* Bigger targets: 64px instead of the usual 44 for everything that can be
+   pressed. A choice's hit area is its whole label, so the label grows rather
+   than the radio button inside it. */
+:root[data-bigger-targets] button,
+:root[data-bigger-targets] .button,
+:root[data-bigger-targets] select,
+:root[data-bigger-targets] input[type="text"],
+:root[data-bigger-targets] input[type="number"],
+:root[data-bigger-targets] .answer-input,
+:root[data-bigger-targets] .choices label,
+:root[data-bigger-targets] .comfort-setting > label,
+:root[data-bigger-targets] .listening-option,
+:root[data-bigger-targets] summary {
+  min-height: 64px;
+}
+
+:root[data-bigger-targets] button,
+:root[data-bigger-targets] .button {
+  min-width: 64px;
+}
+
+:root[data-bigger-targets] .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root[data-bigger-targets] input[type="radio"],
+:root[data-bigger-targets] input[type="checkbox"] {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Links in the header are targets too, and the smallest ones on the page. */
+:root[data-bigger-targets] .locale-switch a,
+:root[data-bigger-targets] .comfort-link,
+:root[data-bigger-targets] .account a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 64px;
+  min-width: 64px;
+  justify-content: center;
+}
+
+/* Read aloud: the button comfort.js puts after a prompt and beside each
+   choice. Quiet, because it sits next to the thing being asked and must not
+   look like an answer. */
+.speak-button {
+  padding: 0.35rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.prompt + .speak-button {
+  margin: -0.5rem 0 1rem;
+}
+
+.choices li:has(> .speak-button) {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.choices li:has(> .speak-button) > label {
+  flex: 1;
+}
+
 /* Home -------------------------------------------------------------------- */
 
 .hero h1 {

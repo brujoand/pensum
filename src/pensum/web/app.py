@@ -37,6 +37,7 @@ from pensum.scores.store import AttemptStore
 from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
+from pensum.web.comfort_routes import router as comfort_router
 from pensum.web.listening_routes import router as listening_router
 from pensum.web.placement_routes import router as placement_router
 from pensum.web.quiz_routes import router as quiz_router
@@ -154,6 +155,7 @@ def create_app(
     app.include_router(admin_router)
     app.include_router(review_router)
     app.include_router(skills_router)
+    app.include_router(comfort_router)
     return app
 
 

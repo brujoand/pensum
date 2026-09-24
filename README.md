@@ -364,9 +364,12 @@ Four rewards, and they are not equally defensible:
   sentence explaining that the recogniser mishears children, dialects and
   second-language speakers is rendered directly underneath rather than in a
   footnote. A reading nobody listened to shows no stars at all.
-- **Personal bests and a daily streak.** Computed in the pupil's own browser
-  from `localStorage` and never sent anywhere, so Pensum still does not know
-  that anyone read the same passage twice.
+- **Personal bests, and days read this week.** Computed in the pupil's own
+  browser from `localStorage` and never sent anywhere, so Pensum still does not
+  know that anyone read the same passage twice. It used to be a daily streak;
+  a streak is a loss waiting to happen, since one day off sends it back to one.
+  A count of days this week takes nothing away for a missed day, and starts
+  again on Monday without saying so.
 
 ### Two modes, and only one of them needs configuration
 
@@ -844,8 +847,12 @@ and re-verified against the official source.
   history](#accounts-and-score-history) for exactly what that stores and what it
   still refuses to. Reading aloud is the one feature that handles audio, and it
   keeps none of it: see [Where the audio goes](#where-the-audio-goes), and the
-  writing exercise keeps no tracing either. If you run the published image with
-  no environment set, none of it applies to you.
+  writing exercise keeps no tracing either. The one cookie a visitor gets
+  without signing in is `pensum_comfort`, set only when someone saves the
+  settings page: it holds those settings (calm screen, read aloud, bigger
+  buttons, theme, break offer) and nothing else, is read only by Pensum to
+  render the page, and is never sent anywhere else. If you run the published
+  image with no environment set, none of the rest applies to you.
 
 ## Licence
 

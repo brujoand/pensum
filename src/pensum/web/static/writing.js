@@ -277,7 +277,10 @@
   }
 
   function spark(card, point) {
-    if (reduceMotion) return;
+    /* Sparks are decoration, so the calm setting stops them too. The stroke
+     * demonstration is not decoration -- it is the lesson -- and a pupil asks
+     * for it, so it stays under calm and goes only with reduced motion. */
+    if (reduceMotion || document.documentElement.hasAttribute("data-calm")) return;
     var layer = card.querySelector(".writing-sparks");
     var dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     dot.setAttribute("class", "writing-spark");

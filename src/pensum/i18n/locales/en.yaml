@@ -10,6 +10,7 @@ nav:
   home: Home
   language: Language
   about: About Pensum
+  comfort: Settings
 
 home:
   heading: Which year are you in?
@@ -186,7 +187,9 @@ reading:
   first_time: First time reading this one. Now you have something to beat.
   new_best: "New best — {delta} words a minute faster than before."
   previous_best: "Your best on this passage is {best}."
-  streak: "{days} days in a row."
+  # Days this week, not days in a row: a day without reading resets nothing
+  # (principles.md, "What gamification is allowed to do").
+  week: "Days you have read this week: {days}"
 
   # Said before the microphone is switched on. Which recogniser is listening is
   # not a detail: one sends nothing anywhere, the other sends the voice to the
@@ -614,3 +617,39 @@ activity:
     made: "☐ = {box}, so the left side weighs {left} and the right side {right}"
     status: "{equation}, ☐ = {box}"
     ask: Which number is in the box?
+
+comfort:
+  # Every setting is described by what it does, never by who it is for. No
+  # diagnosis is named anywhere.
+  heading: Settings
+  intro: >-
+    Choose how Pensum looks and behaves on this device.
+  calm: Calm screen
+  calm_help: >-
+    Nothing flashes, sparkles or moves. Whatever changes fades in quietly.
+  read_aloud: Read aloud
+  read_aloud_help: >-
+    A button next to questions and answers reads the text aloud. Needs a voice
+    for the language on this device.
+  bigger_targets: Bigger buttons
+  bigger_targets_help: Buttons and answers get bigger and easier to hit.
+  theme: Theme
+  theme_help: What counters and pictures look like. Not in use yet.
+  theme_plain: Plain
+  theme_animals: Animals
+  theme_vehicles: Vehicles
+  theme_space: Space
+  theme_blocks: Blocks
+  break_reminder: Offer a break
+  break_reminder_help: >-
+    After a few tasks you can choose to stop, and what you have done is kept.
+    Not in use yet.
+  save: Save
+  saved: Saved.
+  back: Back
+  # Said where it is stored, not only in the README.
+  storage: >-
+    These settings are kept in a cookie on this device. It holds only these
+    choices, is read only by Pensum and is never sent anywhere else.
+  # The button comfort.js puts next to questions and answers.
+  speak: Read aloud

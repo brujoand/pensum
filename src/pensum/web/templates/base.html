@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}">
+{# The comfort profile goes on the root element, rendered by the server, so the
+   stylesheet acts on it before the first paint: a calm page that animated once
+   while a script caught up would not be calm. Booleans are present-or-absent,
+   which is what the `[data-calm]` selectors test. #}
+<html lang="{{ locale }}"
+      {%- if comfort.calm %} data-calm{% endif %}
+      {%- if comfort.bigger_targets %} data-bigger-targets{% endif %}
+      {%- if comfort.read_aloud %} data-read-aloud data-speak-label="{{ t('comfort.speak') }}"{% endif %}
+      data-theme="{{ comfort.theme }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +34,10 @@
           {% endfor %}
         </ul>
       </nav>
+
+      {# On every page, because the moment someone wants a quieter screen is
+         whatever page they are on. `next` brings them back to it. #}
+      <a class="comfort-link" href="/{{ locale }}/innstillinger?next={{ request.url.path | urlencode }}">{{ t("nav.comfort") }}</a>
 
       {# Absent entirely when sign-in is not configured. A visitor to an
          unconfigured Pensum should see no trace of accounts, because there
@@ -77,5 +89,8 @@
     {# Pages that need their own script say so here. Nothing on the site depends
        on one: every page renders and works server-side first. #}
     {% block scripts %}{% endblock %}
+    {# Only when asked for. It adds buttons; without it every page is the same
+       page, just silent. #}
+    {% if comfort.read_aloud %}<script src="/static/comfort.js" defer></script>{% endif %}
   </body>
 </html>

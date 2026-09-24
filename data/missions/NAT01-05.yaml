@@ -1,0 +1,122 @@
+---
+# Missions for naturfag: the goals a screen does not check, practised off
+# screen. One skill each, and only skills marked `assessable: false` in
+# data/skills/NAT01-05.yaml. Drafts until a human sets `reviewed: true`.
+subject: NAT01-05
+missions:
+  # --- etter 2. trinn --------------------------------------------------------
+  - id: nat.one-square-metre
+    skill: nat.living-things.explore-local-area
+    title: {nob: "Tre levende ting på én kvadratmeter", eng: "Three living things in one square metre"}
+    steps:
+      - {nob: "Merk av én kvadratmeter ute med en snor eller fire pinner.", eng: "Mark out one square metre outside with a string or four sticks."}
+      - {nob: "Let etter levende ting inne i ruta.", eng: "Look for living things inside the square."}
+      - {nob: "Tegn tre ulike ting du fant, slik de ser ut.", eng: "Draw three different things you found, the way they look."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.weather-week
+    skill: nat.earth-space.weather-log
+    title: {nob: "Værtabellen", eng: "The weather table"}
+    steps:
+      - {nob: "Se på himmelen på samme tid hver dag i fem dager.", eng: "Look at the sky at the same time every day for five days."}
+      - {nob: "Tegn været i værtabellen samme dag.", eng: "Draw the weather in the weather table on the same day."}
+      - {nob: "Si hvilken dag som var annerledes, og hvorfor du tror det.", eng: "Say which day was different, and why you think so."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.senses-test
+    skill: nat.body-health.senses-test
+    title: {nob: "Sansetest med en venn", eng: "Senses test with a friend"}
+    steps:
+      - {nob: "Den ene har bind for øynene. Den andre gir fire ting å kjenne eller smake på.", eng: "One of you is blindfolded. The other gives four things to touch or taste."}
+      - {nob: "Si hva du tror det er, uten å kikke.", eng: "Say what you think it is, without peeking."}
+      - {nob: "Kryss av på sjekklista om du gjettet riktig.", eng: "Tick on the checklist whether you guessed right."}
+      - {nob: "Bytt roller.", eng: "Swap roles."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.sort-class-rubbish
+    skill: nat.sustainability.sort-rubbish
+    title: {nob: "Sorter klassens søppel", eng: "Sort the class rubbish"}
+    steps:
+      - {nob: "Sett fram en dunk for papir, plast, mat og restavfall.", eng: "Set out a bin for paper, plastic, food and general waste."}
+      - {nob: "Sorter alt søppel i klassen i én dag.", eng: "Sort all the class rubbish for one day."}
+      - {nob: "Tell hvor mye som havnet i hver dunk.", eng: "Count how much ended up in each bin."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 4. trinn --------------------------------------------------------
+  - id: nat.build-two-rules
+    skill: nat.technology.build-to-spec
+    title: {nob: "Bygg noe som følger to regler", eng: "Build something that follows two rules"}
+    steps:
+      - {nob: "Les de to reglene på byggekortet.", eng: "Read the two rules on the kit card."}
+      - {nob: "Bygg med det som er i byggesettet.", eng: "Build with what is in the kit."}
+      - {nob: "Test om det du bygde, følger begge reglene.", eng: "Test whether what you built follows both rules."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.leave-it-as-you-found-it
+    skill: nat.sustainability.explore-nature-area
+    title: {nob: "Utforsk uten å skade", eng: "Explore without harming"}
+    steps:
+      - {nob: "Velg et lite område ute sammen med klassen.", eng: "Choose a small area outside with the class."}
+      - {nob: "Se under steiner og blader, og legg dem tilbake.", eng: "Look under stones and leaves, and put them back."}
+      - {nob: "Ta ingen planter eller dyr med deg.", eng: "Take no plants or animals with you."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.harvest-what-you-need
+    skill: nat.sustainability.harvest-resources
+    title: {nob: "Høst bare det du trenger", eng: "Harvest only what you need"}
+    steps:
+      - {nob: "Bli med og plukke bær, fiske eller høste grønnsaker.", eng: "Join in picking berries, fishing or harvesting vegetables."}
+      - {nob: "Bestem på forhånd hvor mye dere trenger.", eng: "Decide beforehand how much you need."}
+      - {nob: "Si hva som blir igjen til dyr og til neste år.", eng: "Say what is left for animals and for next year."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 7. trinn --------------------------------------------------------
+  - id: nat.sensor-controls-a-part
+    skill: nat.technology.program-a-system
+    title: {nob: "En sensor som styrer noe", eng: "A sensor that controls something"}
+    steps:
+      - {nob: "Hent klassens byggesett, for eksempel micro:bit.", eng: "Get the class kit, for example a micro:bit."}
+      - {nob: "Programmer det slik at en sensor styrer en annen del.", eng: "Program it so that a sensor controls another part."}
+      - {nob: "Forklar hva hver del i systemet gjør.", eng: "Explain what each part of the system does."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nat.design-for-a-user
+    skill: nat.technology.design-for-a-user
+    title: {nob: "Lag noe til en bruker", eng: "Make something for a user"}
+    steps:
+      - {nob: "Spør en bruker hva hun eller han trenger.", eng: "Ask a user what they need."}
+      - {nob: "Skriv ned behovet i én setning.", eng: "Write the need down in one sentence."}
+      - {nob: "Bygg produktet.", eng: "Build the product."}
+      - {nob: "La brukeren teste det, og si om det dekker behovet.", eng: "Let the user test it, and say whether it meets the need."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 10. trinn -------------------------------------------------------
+  - id: nat.risk-card-first
+    skill: nat.materials.risk-assessment
+    title: {nob: "Risikokortet før forsøket", eng: "The risk card before the experiment"}
+    steps:
+      - {nob: "Fyll ut risikokortet før du rører utstyret.", eng: "Fill in the risk card before you touch the equipment."}
+      - {nob: "Få kortet signert av læreren.", eng: "Get the card signed by the teacher."}
+      - {nob: "Gjør forsøket med tiltakene du skrev.", eng: "Do the experiment with the measures you wrote."}
+    confirm: teacher
+    card: risk
+    reviewed: false
+
+  - id: nat.send-and-receive
+    skill: nat.technology.build-transmitter-receiver
+    title: {nob: "Send og motta en beskjed", eng: "Send and receive a message"}
+    steps:
+      - {nob: "Programmer én enhet til å sende en beskjed.", eng: "Program one device to send a message."}
+      - {nob: "Programmer en annen enhet til å ta imot og vise den.", eng: "Program another device to receive it and show it."}
+      - {nob: "Test at beskjeden kommer fram, og forklar hvordan.", eng: "Test that the message arrives, and explain how."}
+    confirm: teacher
+    reviewed: false

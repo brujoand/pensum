@@ -1,0 +1,121 @@
+---
+# Missions for samfunnsfag: the goals a screen does not check, practised off
+# screen. One skill each, and only skills marked `assessable: false` in
+# data/skills/SAF01-05.yaml. Drafts until a human sets `reviewed: true`.
+subject: SAF01-05
+missions:
+  # --- etter 2. trinn --------------------------------------------------------
+  - id: saf.draw-an-old-building
+    skill: saf.history.local-heritage
+    title: {nob: "Tegn et gammelt hus nær deg", eng: "Draw an old building near you"}
+    steps:
+      - {nob: "Finn et gammelt hus i nærheten, eller se på et bilde av det.", eng: "Find an old building nearby, or look at a picture of it."}
+      - {nob: "Tegn huset slik det ser ut.", eng: "Draw the building the way it looks."}
+      - {nob: "Skriv navnet på huset eller stedet under.", eng: "Write the name of the building or the place underneath."}
+    confirm: teacher
+    reviewed: false
+
+  - id: saf.interview-an-older-adult
+    skill: saf.history.interview-older-adult
+    title: {nob: "Intervju en besteforelder", eng: "Interview a grandparent"}
+    steps:
+      - {nob: "Finn en besteforelder eller en annen eldre voksen.", eng: "Find a grandparent or another older adult."}
+      - {nob: "Still tre spørsmål fra intervjukortet.", eng: "Ask three questions from the interview card."}
+      - {nob: "Lytt til hvert svar før du stiller neste spørsmål.", eng: "Listen to each answer before you ask the next question."}
+      - {nob: "Fortell klassen ett av svarene.", eng: "Tell the class one of the answers."}
+    confirm: teacher
+    card: interview
+    reviewed: false
+
+  - id: saf.human-impact-near-school
+    skill: saf.sustainability.document-impact
+    title: {nob: "Et spor etter mennesker nær skolen", eng: "A human trace near school"}
+    steps:
+      - {nob: "Gå en tur rundt skolen.", eng: "Walk around the school."}
+      - {nob: "Finn ett spor etter mennesker i naturen, for eksempel en vei eller søppel.", eng: "Find one human trace in nature, for example a road or litter."}
+      - {nob: "Tegn det.", eng: "Draw it."}
+      - {nob: "Si hva det gjør med naturen rundt.", eng: "Say what it does to the nature around it."}
+    confirm: teacher
+    reviewed: false
+
+  - id: saf.class-vote
+    skill: saf.rights.class-decision
+    title: {nob: "Klassens avstemning", eng: "The class vote"}
+    steps:
+      - {nob: "Kom med ett forslag i klassemøtet.", eng: "Make one suggestion at the class meeting."}
+      - {nob: "Lytt til de andre forslagene.", eng: "Listen to the other suggestions."}
+      - {nob: "Stem på det forslaget du synes er best.", eng: "Vote for the suggestion you think is best."}
+      - {nob: "Godta resultatet, også om ditt forslag ikke vant.", eng: "Accept the result, even if your suggestion did not win."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 4. trinn --------------------------------------------------------
+  - id: saf.heritage-site
+    skill: saf.history.visit-heritage
+    title: {nob: "Besøk et kulturminne", eng: "Visit a heritage site"}
+    steps:
+      - {nob: "Besøk eller slå opp et kulturminne i nærheten.", eng: "Visit or look up a heritage site nearby."}
+      - {nob: "Tegn det.", eng: "Draw it."}
+      - {nob: "Finn ut når det ble laget.", eng: "Find out when it was made."}
+      - {nob: "Skriv én ting om hvordan folk levde da.", eng: "Write one thing about how people lived then."}
+    confirm: teacher
+    reviewed: false
+
+  - id: saf.solve-it-pair
+    skill: saf.identity.solve-conflict
+    title: {nob: "Løs det sammen", eng: "Solve it together"}
+    steps:
+      - {nob: "Læreren gir dere en oppdiktet konflikt.", eng: "The teacher gives you a made-up conflict."}
+      - {nob: "Gå gjennom løs-det-kortet med en partner, ett trinn om gangen.", eng: "Go through the solve-it card with a partner, one step at a time."}
+      - {nob: "Kom med én idé hver til en løsning.", eng: "Each of you gives one idea for a solution."}
+    confirm: teacher
+    card: solve_it
+    reviewed: false
+
+  - id: saf.propose-a-change
+    skill: saf.rights.propose-change
+    title: {nob: "Foreslå en endring i klassen", eng: "Suggest a change to the class"}
+    steps:
+      - {nob: "Tenk på én ting du vil endre i klassen.", eng: "Think of one thing you want to change in the class."}
+      - {nob: "Skriv forslaget og én grunn for det.", eng: "Write the suggestion and one reason for it."}
+      - {nob: "Legg det fram i klassemøtet.", eng: "Put it forward at the class meeting."}
+      - {nob: "Følg det helt til klassen har stemt.", eng: "Follow it until the class has voted."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 7. trinn --------------------------------------------------------
+  - id: saf.six-step-study
+    skill: saf.sources.research-project
+    title: {nob: "En liten undersøkelse i seks steg", eng: "A small study in six steps"}
+    steps:
+      - {nob: "Velg et spørsmål sammen med læreren.", eng: "Choose a question together with the teacher."}
+      - {nob: "Følg metodekortet, ett steg om gangen.", eng: "Follow the method card, one step at a time."}
+      - {nob: "Presenter det dere fant med et digitalt verktøy.", eng: "Present what you found with a digital tool."}
+    confirm: teacher
+    card: method
+    reviewed: false
+
+  - id: saf.solve-it-agreement
+    skill: saf.identity.mediate-conflict
+    title: {nob: "En løsning begge godtar", eng: "A solution you both accept"}
+    steps:
+      - {nob: "Ta en oppdiktet konflikt fra læreren.", eng: "Take a made-up conflict from the teacher."}
+      - {nob: "Følg løs-det-kortet med en partner.", eng: "Follow the solve-it card with a partner."}
+      - {nob: "Hopp ikke over hvordan hver av dere følte det.", eng: "Do not skip how each of you felt."}
+      - {nob: "Skriv ned løsningen dere begge godtar.", eng: "Write down the solution you both accept."}
+    confirm: teacher
+    card: solve_it
+    reviewed: false
+
+  # --- etter 10. trinn -------------------------------------------------------
+  - id: saf.choose-a-method
+    skill: saf.sources.research-with-method
+    title: {nob: "Velg metode og begrunn den", eng: "Choose a method and justify it"}
+    steps:
+      - {nob: "Skriv problemstillingen for prosjektet.", eng: "Write the research question for the project."}
+      - {nob: "Velg intervju, spørreundersøkelse eller kildesøk.", eng: "Choose interview, survey or source search."}
+      - {nob: "Skriv hvorfor metoden passer til spørsmålet.", eng: "Write why the method fits the question."}
+      - {nob: "Gjennomfør, og presenter funnene digitalt.", eng: "Carry it out, and present the findings digitally."}
+    confirm: teacher
+    card: method
+    reviewed: false

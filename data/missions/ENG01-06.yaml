@@ -1,0 +1,278 @@
+---
+# Missions for engelsk: the goals a screen does not check, practised off
+# screen. One skill each, and only skills marked `assessable: false` in
+# data/skills/ENG01-06.yaml. Drafts until a human sets `reviewed: true`.
+subject: ENG01-06
+missions:
+  # --- etter 2. trinn --------------------------------------------------------
+  - id: eng.real-speakers
+    skill: eng.words.hear-real-speakers
+    title: {nob: "Lytt til ekte engelsk", eng: "Listen to real English"}
+    steps:
+      - {nob: "Hør en sang eller et klipp på engelsk sammen med en voksen.", eng: "Listen to a song or a clip in English with an adult."}
+      - {nob: "Hør det helt ferdig, selv om du ikke forstår alt.", eng: "Listen to the end, even if you do not understand everything."}
+      - {nob: "Si ett ord du forsto.", eng: "Say one word you understood."}
+    confirm: self
+    reviewed: false
+
+  - id: eng.book-words
+    skill: eng.culture.childrens-books
+    title: {nob: "Et nytt ord fra en engelsk bok", eng: "A new word from an English book"}
+    steps:
+      - {nob: "Les eller hør en engelsk barnebok.", eng: "Read or listen to an English children's book."}
+      - {nob: "Finn én ting i boka som er annerledes enn hjemme.", eng: "Find one thing in the book that is different from home."}
+      - {nob: "Lær ett nytt engelsk ord fra boka.", eng: "Learn one new English word from the book."}
+      - {nob: "Fortell en voksen om tingen og ordet.", eng: "Tell an adult about the thing and the word."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 4. trinn --------------------------------------------------------
+  - id: eng.three-words-online
+    skill: eng.words.digital-resources
+    title: {nob: "Tre ord i en nettordbok", eng: "Three words in an online dictionary"}
+    steps:
+      - {nob: "Slå opp tre engelske ord i en ordbok på nettet.", eng: "Look up three English words in an online dictionary."}
+      - {nob: "Hør hvordan hvert ord blir sagt.", eng: "Listen to how each word is said."}
+      - {nob: "Skriv ned de tre ordene.", eng: "Write down the three words."}
+      - {nob: "Skriv hvilket ord som overrasket deg.", eng: "Write which word surprised you."}
+    confirm: self
+    reviewed: false
+
+  - id: eng.cafe-dialogue
+    skill: eng.conversation.partner-dialogue
+    title: {nob: "Kafésamtalen", eng: "The café talk"}
+    steps:
+      - {nob: "Finn en partner. Hver av dere får et manuskort.", eng: "Find a partner. Each of you gets a script card."}
+      - {nob: "Ha kafésamtalen med kortene.", eng: "Have the café talk using the cards."}
+      - {nob: "Bytt roller og gjør den én gang til.", eng: "Swap roles and do it once more."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.five-sentences
+    skill: eng.writing.thoughts-and-opinions
+    title: {nob: "Fem setninger om noe du liker", eng: "Five sentences about something you like"}
+    steps:
+      - {nob: "Velg noe du er interessert i.", eng: "Choose something you are interested in."}
+      - {nob: "Skriv fem setninger om det på engelsk.", eng: "Write five sentences about it in English."}
+      - {nob: "Bruk I think, I like eller because i minst én setning.", eng: "Use I think, I like or because in at least one sentence."}
+      - {nob: "Les setningene høyt for noen.", eng: "Read the sentences aloud to someone."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.book-culture
+    skill: eng.culture.literature-words
+    title: {nob: "Ord og kultur fra en engelsk bok", eng: "Words and culture from an English book"}
+    steps:
+      - {nob: "Les en bok som er skrevet på engelsk.", eng: "Read a book that was written in English."}
+      - {nob: "Skriv ned tre ord eller uttrykk du lærte.", eng: "Write down three words or phrases you learned."}
+      - {nob: "Fortell om én ting i boka som viser hvordan folk lever der.", eng: "Tell about one thing in the book that shows how people live there."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 7. trinn --------------------------------------------------------
+  - id: eng.role-play-sounds
+    skill: eng.sounds.role-play-pronunciation
+    title: {nob: "Rollespill med god uttale", eng: "Role play with good pronunciation"}
+    steps:
+      - {nob: "Øv på et kort rollespill eller en sang med en partner.", eng: "Practise a short role play or song with a partner."}
+      - {nob: "Finn to ord der trykket ligger et annet sted enn på norsk.", eng: "Find two words where the stress is in a different place than in Norwegian."}
+      - {nob: "Framfør rollespillet uten å lese fra arket.", eng: "Perform the role play without reading from the sheet."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.word-strategies
+    skill: eng.words.learning-strategies
+    title: {nob: "Tre måter å lære nye ord på", eng: "Three ways to learn new words"}
+    steps:
+      - {nob: "Lag ordkort for fem nye engelske ord.", eng: "Make word cards for five new English words."}
+      - {nob: "Skriv en egen setning med hvert ord.", eng: "Write a sentence of your own with each word."}
+      - {nob: "Forklar ett ord uten å si det, så en partner gjetter det.", eng: "Explain one word without saying it, so a partner guesses it."}
+    confirm: self
+    reviewed: false
+
+  - id: eng.dictionary-in-context
+    skill: eng.words.dictionaries-and-digital
+    title: {nob: "Velg betydningen som passer", eng: "Choose the meaning that fits"}
+    steps:
+      - {nob: "Finn tre ord du trenger i en tekst du skriver.", eng: "Find three words you need in a text you are writing."}
+      - {nob: "Slå dem opp i en ordbok på nettet.", eng: "Look them up in an online dictionary."}
+      - {nob: "Velg den betydningen som passer i din setning.", eng: "Choose the meaning that fits your sentence."}
+      - {nob: "Skriv hvilket ord som overrasket deg.", eng: "Write which word surprised you."}
+    confirm: self
+    reviewed: false
+
+  - id: eng.present-a-text
+    skill: eng.reading.present-content
+    title: {nob: "Presenter en tekst du valgte", eng: "Present a text you chose"}
+    steps:
+      - {nob: "Velg en engelsk tekst du liker.", eng: "Choose an English text you like."}
+      - {nob: "Skriv tre stikkord, ikke hele setninger.", eng: "Write three key words, not whole sentences."}
+      - {nob: "Fortell klassen hva teksten handler om, med dine egne ord.", eng: "Tell the class what the text is about, in your own words."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.cafe-without-cards
+    skill: eng.conversation.live-conversation
+    title: {nob: "Kafésamtalen uten kort", eng: "The café talk without cards"}
+    steps:
+      - {nob: "Ha kafésamtalen med en partner, med manuskort.", eng: "Have the café talk with a partner, with script cards."}
+      - {nob: "Bytt roller og legg bort kortene.", eng: "Swap roles and put the cards away."}
+      - {nob: "Snakk videre om noe dere begge liker.", eng: "Keep talking about something you both like."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.linked-text
+    skill: eng.writing.cohesive-texts
+    title: {nob: "En tekst som henger sammen", eng: "A text that holds together"}
+    steps:
+      - {nob: "Bestem hvem teksten er til.", eng: "Decide who the text is for."}
+      - {nob: "Skriv et avsnitt med first, then, because og but.", eng: "Write a paragraph using first, then, because and but."}
+      - {nob: "Les den for noen og spør om den passer for leseren.", eng: "Read it to someone and ask whether it suits the reader."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.revise-checklist
+    skill: eng.writing.revise-from-feedback
+    title: {nob: "Forbedre teksten med sjekklista", eng: "Improve your text with the checklist"}
+    steps:
+      - {nob: "Les tilbakemeldingen du fikk på teksten din.", eng: "Read the feedback you got on your text."}
+      - {nob: "Gå gjennom teksten med sjekklistekortet.", eng: "Go through the text with the checklist card."}
+      - {nob: "Endre det tilbakemeldingen pekte på.", eng: "Change what the feedback pointed to."}
+    confirm: teacher
+    card: checklist
+    reviewed: false
+
+  - id: eng.english-map
+    skill: eng.culture.english-in-my-life
+    title: {nob: "Hvor bruker jeg engelsk?", eng: "Where do I use English?"}
+    steps:
+      - {nob: "Skriv ned én dag hvor du møter engelsk: spill, video, musikk.", eng: "Note for one day where you meet English: games, video, music."}
+      - {nob: "Finn minst tre steder utenom skolen.", eng: "Find at least three places outside school."}
+      - {nob: "Fortell en partner hva engelsk betyr for deg.", eng: "Tell a partner what English means to you."}
+    confirm: self
+    reviewed: false
+
+  - id: eng.school-day-compare
+    skill: eng.culture.traditions-and-identity
+    title: {nob: "En skoledag der og her", eng: "A school day there and here"}
+    steps:
+      - {nob: "Finn ut hvordan en skoledag er i et engelskspråklig land.", eng: "Find out what a school day is like in an English-speaking country."}
+      - {nob: "Skriv to ting som er likt og to som er ulikt Norge.", eng: "Write two things that are the same as Norway and two that differ."}
+      - {nob: "Si hva én av forskjellene kan bety for hvem man er.", eng: "Say what one of the differences might mean for who people are."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 10. trinn -------------------------------------------------------
+  - id: eng.same-message-two-readers
+    skill: eng.words.fluent-expression
+    title: {nob: "Samme beskjed til to mottakere", eng: "The same message to two readers"}
+    steps:
+      - {nob: "Skriv en kort beskjed på engelsk til en venn.", eng: "Write a short message in English to a friend."}
+      - {nob: "Skriv den samme beskjeden til en rektor.", eng: "Write the same message to a headteacher."}
+      - {nob: "Marker tre ord du byttet, og si hvorfor.", eng: "Mark three words you changed, and say why."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.my-strategies
+    skill: eng.words.choose-strategies
+    title: {nob: "Mine måter å lære engelsk på", eng: "My ways of learning English"}
+    steps:
+      - {nob: "Skriv én måte du lærer ord på, én du skriver på og én du øver samtale på.", eng: "Write one way you learn words, one way you write, and one way you practise talking."}
+      - {nob: "Bruk hver av dem i en uke.", eng: "Use each of them for a week."}
+      - {nob: "Si til læreren hvilken som virket best, og hvorfor.", eng: "Tell your teacher which worked best, and why."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.check-the-spellchecker
+    skill: eng.words.digital-aids
+    title: {nob: "Sjekk stavekontrollen", eng: "Check the spellchecker"}
+    steps:
+      - {nob: "Kjør stavekontroll på en engelsk tekst du har skrevet.", eng: "Run the spellchecker on an English text you wrote."}
+      - {nob: "For hvert forslag, slå opp ordet før du godtar det.", eng: "For each suggestion, look the word up before you accept it."}
+      - {nob: "Finn ett forslag du sa nei til, og forklar hvorfor.", eng: "Find one suggestion you said no to, and explain why."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.text-discussion
+    skill: eng.reading.discuss-and-present
+    title: {nob: "Diskuter to tekster", eng: "Discuss two texts"}
+    steps:
+      - {nob: "Velg to engelske tekster av ulik type.", eng: "Choose two English texts of different kinds."}
+      - {nob: "Presenter innholdet i begge kort.", eng: "Present the content of both briefly."}
+      - {nob: "Si hva du mener om dem, med en grunn for hver.", eng: "Say what you think of them, with a reason for each."}
+      - {nob: "Svar på ett spørsmål fra klassen.", eng: "Answer one question from the class."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.follow-up-talk
+    skill: eng.conversation.discussion
+    title: {nob: "Følg opp det partneren sier", eng: "Follow up what your partner says"}
+    steps:
+      - {nob: "Snakk på engelsk med en partner om et tema dere velger.", eng: "Talk in English with a partner about a topic you choose."}
+      - {nob: "Bruk turkortet.", eng: "Use the turn card."}
+      - {nob: "Still minst to oppfølgingsspørsmål til det partneren sa.", eng: "Ask at least two follow-up questions about what your partner said."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: eng.formal-and-informal
+    skill: eng.writing.structured-texts
+    title: {nob: "Formell og uformell tekst", eng: "Formal and informal text"}
+    steps:
+      - {nob: "Skriv en uformell tekst om en opplevelse, til en venn.", eng: "Write an informal text about an experience, to a friend."}
+      - {nob: "Skriv en formell tekst om det samme, til en avis.", eng: "Write a formal text about the same thing, to a newspaper."}
+      - {nob: "Gi hver tekst innledning, hoveddel og avslutning.", eng: "Give each text an introduction, a body and an ending."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.revise-with-grammar
+    skill: eng.writing.revise-with-language
+    title: {nob: "Forbedre teksten med grammatikk", eng: "Improve your text with grammar"}
+    steps:
+      - {nob: "Gå gjennom en egen tekst med sjekklistekortet.", eng: "Go through a text of your own with the checklist card."}
+      - {nob: "Finn to feil ingen har markert, og rett dem.", eng: "Find two mistakes nobody marked, and correct them."}
+      - {nob: "Skriv hvilken regel du brukte for hver.", eng: "Write which rule you used for each."}
+    confirm: teacher
+    card: checklist
+    reviewed: false
+
+  - id: eng.english-worldwide
+    skill: eng.culture.english-worldwide
+    title: {nob: "Engelsk i verden", eng: "English in the world"}
+    steps:
+      - {nob: "Finn tre engelske ord som brukes i norsk hverdag.", eng: "Find three English words used in everyday Norwegian."}
+      - {nob: "Finn ett land der engelsk er et offisielt språk ved siden av andre.", eng: "Find one country where English is an official language alongside others."}
+      - {nob: "Diskuter med en partner hva engelsk gjør med andre språk.", eng: "Discuss with a partner what English does to other languages."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: eng.indigenous-compare
+    skill: eng.culture.indigenous-peoples
+    title: {nob: "Urfolk der og her", eng: "Indigenous peoples there and here"}
+    steps:
+      - {nob: "Velg et urfolk i et engelskspråklig land.", eng: "Choose an indigenous people in an English-speaking country."}
+      - {nob: "Finn ut hvordan de lever i dag.", eng: "Find out how they live today."}
+      - {nob: "Sammenlign med samenes situasjon i Norge i dag.", eng: "Compare with the situation of the Sami in Norway today."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.three-countries
+    skill: eng.culture.diversity
+    title: {nob: "Tre engelskspråklige land", eng: "Three English-speaking countries"}
+    steps:
+      - {nob: "Velg tre engelskspråklige land, ikke bare USA og England.", eng: "Choose three English-speaking countries, not only the US and England."}
+      - {nob: "Finn én ting om hvordan folk lever eller snakker i hvert land.", eng: "Find one thing about how people live or speak in each."}
+      - {nob: "Presenter forskjellene for en partner.", eng: "Present the differences to a partner."}
+    confirm: teacher
+    reviewed: false
+
+  - id: eng.song-game-show
+    skill: eng.culture.cultural-expressions
+    title: {nob: "En sang, et spill eller et program du liker", eng: "A song, game or show you like"}
+    steps:
+      - {nob: "Velg en engelsk sang, et spill eller et program du liker.", eng: "Choose an English song, game or show you like."}
+      - {nob: "Fortell noen hva det handler om.", eng: "Tell someone what it is about."}
+      - {nob: "Si hvorfor du liker det.", eng: "Say why you like it."}
+    confirm: self
+    reviewed: false

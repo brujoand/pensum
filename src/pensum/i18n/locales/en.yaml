@@ -653,3 +653,122 @@ comfort:
     choices, is read only by Pensum and is never sent anywhere else.
   # The button comfort.js puts next to questions and answers.
   speak: Read aloud
+
+# Missions: short off-screen tasks for the goals a screen cannot check. Pupil
+# lines are literal and short, as the steps are. Nothing about a mission is
+# uploaded or recorded, and the page says so where a pupil can read it.
+missions:
+  list_title: "Missions in {subject}"
+  list_intro: >-
+    Some competence goals are conversations, visits, builds and presentations,
+    and a screen cannot check them. A mission is a short task for one of those
+    goals: a few steps a pupil can tick, sometimes a printed card with a
+    script, and who confirms that it is done. Each mission prints on one page.
+  ours_note: >-
+    The missions are Pensum's own suggestions, not the Norwegian Directorate
+    for Education and Training's text. Each one serves a skill from the
+    progression guide.
+  drafts_note: >-
+    {count} of {total} missions are drafts nobody has read through yet.
+  nothing_kept: >-
+    Nothing is uploaded or recorded: no photo, no recording, no note of what a
+    pupil said. A ticked step stays in the pupil's own browser.
+  list_cta: The goals a screen cannot check, as missions
+  link: "Mission: {title}"
+  none: No mission. This goal is left to the classroom.
+  skill_heading: Skill
+  missions_heading: Missions
+  confirm_teacher_short: A teacher confirms
+  confirm_self_short: The pupil confirms
+  card_short: "Card: {card}"
+  cards_heading: The cards
+  cards_intro: >-
+    The same scripts in every subject. A conversation with a written structure
+    is predictable, and that makes it easier to take part in.
+  back_to_list: "All missions in {subject}"
+  goal_label: My goal
+  steps_label: Do this
+  confirm_teacher: When you are done, show your teacher.
+  confirm_self: When you are done, you decide that it is done.
+  ticks_note: >-
+    The ticks are only in this browser. Nothing is sent anywhere, and nothing
+    is recorded.
+  teacher_label: "For the teacher: what to look for"
+  question_label: The question
+  card:
+    turn:
+      title: Turn card
+      intro: For talking with someone. One person speaks at a time.
+      step1: Listen until the other person has finished.
+      step2: "Say back what you heard: «You said that …»"
+      step3: Add one thing of your own.
+      starter1: I think … because …
+      starter2: I agree with … because …
+      starter3: I see it differently because …
+    feedback:
+      title: Feedback card
+      intro: For giving feedback on someone's work.
+      step1: Read or listen to all of it first.
+      step2: Say one thing that works, and point to where.
+      step3: Say one thing to try, and point to where.
+      step4: The one who made it decides what to change.
+      starter1: "This works: …"
+      starter2: "Try this: …"
+    question:
+      title: Question card
+      intro: One open question. There is no single right answer.
+      step1: Read the question aloud.
+      step2: Think quietly first.
+      step3: Answer with the turn card.
+    ladder:
+      title: Thinking ladder
+      intro: Climb one step at a time.
+      step1: What do we mean by …?
+      step2: Give an example.
+      step3: Give a counterexample.
+    interview:
+      title: Interview card
+      intro: For asking someone questions.
+      step1: Ask whether now is a good time.
+      step2: Say what you want to find out.
+      step3: Ask one question at a time, and listen to the whole answer.
+      step4: Write down the answers, and say thank you.
+      starter1: What was it like when …?
+      starter2: How do you say …?
+      starter3: What did you do when you were my age?
+      starter4: What is different now from before?
+      starter5: Can you tell me more about …?
+    risk:
+      title: Risk card
+      intro: Fill it in before the experiment, not after.
+      step1: What are we going to do?
+      step2: What could go wrong?
+      step3: How could someone get hurt?
+      step4: What do we do to stay safe?
+      step5: What do we do if something goes wrong?
+    solve_it:
+      title: Solve-it card
+      intro: For two people who disagree. One step at a time.
+      step1: What happened? Each tells it once, without being interrupted.
+      step2: How did each of you feel?
+      step3: What does each of you need?
+      step4: Each gives one idea for a solution.
+      step5: Choose one you both accept.
+      starter1: I felt … when …
+      starter2: I need …
+    method:
+      title: Method card
+      intro: Six steps for finding something out.
+      step1: Ask a question.
+      step2: Write down what you already know.
+      step3: "Choose a method: interview, survey or sources."
+      step4: Collect the information.
+      step5: Sort what you found and look for patterns.
+      step6: Present what you found, and what you are still unsure of.
+    checklist:
+      title: Checklist card
+      intro: For going through your own text.
+      step1: Every sentence starts with a capital letter.
+      step2: Every sentence ends with a full stop, question mark or exclamation mark.
+      step3: One sentence is made longer with and, because or but.
+      step4: Read the whole text aloud once more.

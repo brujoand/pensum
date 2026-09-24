@@ -716,6 +716,35 @@ in `pensum/items/primitives/__init__.py` says what the module has to provide.
 `tools/render_figures.py` draws every committed board with its answer on it,
 which is the picture the feedback shows a pupil as "what the task asked for".
 
+## Missions
+
+Some goals are a conversation, a visit, a build or a talk in front of the
+class, and a screen cannot check them. Pensum does not invent a quiz for those.
+It hands over a **mission** instead: a short task in two to five literal steps,
+for one skill marked `assessable: false`, with a line saying who confirms it is
+done — the pupil, or a teacher.
+
+Some missions come with a **card**, one of a fixed set of printed scripts: the
+turn card, the feedback card, the question card, the thinking ladder, the
+interview card, the risk card, the solve-it card, the six-step method card and
+the revision checklist. The same card in every subject, because a conversation
+with a written structure is predictable, and predictable is what lets a pupil
+who finds the unwritten rules hard take part.
+
+`/<locale>/oppdrag/<mission id>` prints one mission on one A4 page: large type,
+boxes to tick, the card, and a line for the teacher on what to look for. The
+teacher's list is `/<locale>/progresjon/<SUBJECT_CODE>/oppdrag`, and the
+progression guide links each off-screen skill to its missions. The missions are
+in `data/missions/<SUBJECT_CODE>.yaml`, drafts until a human sets
+`reviewed: true`, and `python -m pensum.missions.validate` (a pre-commit hook)
+holds them to the skills they serve.
+
+**Nothing about a mission is uploaded or recorded.** No photo, no recording, no
+note of what a pupil said. The steps are plain checkboxes, which tick with no
+JavaScript at all; with it, a tick is remembered in the pupil's own browser and
+sent nowhere. A teacher's confirmation is not stored yet: it will be evidence,
+and evidence belongs to the mastery layer.
+
 ## Development
 
 ```bash

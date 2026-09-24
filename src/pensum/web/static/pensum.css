@@ -2418,3 +2418,233 @@ main:has(.progression-page) {
 :root[data-calm] .balance-pan {
   transition: none;
 }
+
+/* Missions ------------------------------------------------------------------
+   A mission page is made to be printed and handed over: large type, a
+   checklist with boxes a pencil can tick, the card beneath it, and one A4 page
+   in print. On screen the boxes are real checkboxes, and the whole line is the
+   label, so the target is the sentence and not a 16 px square. Nothing here
+   moves, so there is nothing for reduced motion to turn off. */
+
+.mission-page h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.mission-goal {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+}
+
+.mission-steps-label {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.mission-steps {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 1.35rem;
+  line-height: 1.4;
+}
+
+.mission-steps label {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  cursor: pointer;
+}
+
+.mission-steps input {
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--accent);
+}
+
+.mission-steps label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A ticked step is struck through as well as ticked, so it never depends on
+   the box alone being seen. */
+.mission-steps input:checked + span {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+
+.mission-confirm {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+}
+
+.mission-card {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--card);
+  break-inside: avoid;
+}
+
+.mission-card-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.3rem;
+}
+
+.mission-card-intro {
+  margin: 0 0 0.75rem;
+  color: var(--ink-soft);
+}
+
+.mission-card-question {
+  margin: 0 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.mission-card-steps {
+  margin: 0 0 0.75rem;
+  padding-left: 1.5rem;
+  display: grid;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+}
+
+/* The line to write on, for cards that are filled in. */
+.mission-card-write {
+  display: block;
+  height: 1.8rem;
+  border-bottom: 1px solid var(--ink-soft);
+}
+
+.mission-card-starters {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px dashed var(--line);
+  display: grid;
+  gap: 0.3rem;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.mission-teacher,
+.mission-ticks-note {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.missions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  font-size: 0.95rem;
+}
+
+.missions-table th,
+.missions-table td {
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.missions-table tbody th {
+  font-weight: 400;
+  width: 45%;
+}
+
+.missions-of-skill {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.missions-meta {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.missions-none {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.skill-missions {
+  margin: 0 0 0.4rem;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+/* One clean A4 page per mission: no chrome, no screen-only notes, black on
+   white, and type still large enough to read at arm's length on a desk. */
+@page mission {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  .mission-page {
+    page: mission;
+    color: #000;
+  }
+
+  body:has(.mission-page) .site-header,
+  body:has(.mission-page) .site-footer,
+  body:has(.mission-page) .breadcrumb,
+  .mission-ticks-note {
+    display: none;
+  }
+
+  body:has(.mission-page) main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .mission-page h1 {
+    font-size: 22pt;
+  }
+
+  .mission-goal {
+    font-size: 14pt;
+  }
+
+  .mission-steps {
+    font-size: 16pt;
+  }
+
+  .mission-steps label,
+  .mission-card {
+    background: none;
+    border-color: #000;
+  }
+
+  .mission-card {
+    font-size: 11pt;
+  }
+
+  .mission-card-question {
+    font-size: 20pt;
+  }
+
+  .mission-teacher {
+    font-size: 9pt;
+  }
+}

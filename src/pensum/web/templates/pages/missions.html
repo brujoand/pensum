@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% set title = subject.display_title.get(lang) %}
+
+{% block title %}{{ t("missions.list_title", subject=title) }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a> ›
+    <a href="/{{ locale }}/progresjon/{{ subject.code }}">{{ t("progression.title", subject=title) }}</a>
+  </nav>
+
+  <div class="missions-list-page">
+    <h1>{{ t("missions.list_title", subject=title) }}</h1>
+    <p>{{ t("missions.list_intro") }}</p>
+    <p class="note">{{ t("missions.ours_note") }}</p>
+    {% if draft_count %}
+      <p class="note note--draft">{{ t("missions.drafts_note", count=draft_count, total=mission_count) }}</p>
+    {% endif %}
+    <p class="note">{{ t("missions.nothing_kept") }}</p>
+
+    <table class="missions-table">
+      <thead>
+        <tr>
+          <th scope="col">{{ t("missions.skill_heading") }}</th>
+          <th scope="col">{{ t("missions.missions_heading") }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for skill, missions in rows %}
+          <tr>
+            <th scope="row">
+              <span class="skill-label">{{ t("progression.checkpoint", year=skill.checkpoint) }}</span>
+              <a href="/{{ locale }}/progresjon/{{ subject.code }}#{{ skill.id }}">{{ skill.i_can.get(locale) }}</a>
+            </th>
+            <td>
+              {% if missions %}
+                <ul class="missions-of-skill">
+                  {% for mission in missions %}
+                    <li>
+                      <a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ mission.title.get(locale) }}</a>
+                      <span class="missions-meta">
+                        {{ t("missions.confirm_teacher_short") if mission.confirm == "teacher" else t("missions.confirm_self_short") }}
+                        {% if mission.card %}· {{ t("missions.card_short", card=t("missions.card." ~ mission.card ~ ".title")) }}{% endif %}
+                        {% if not mission.reviewed %}· {{ t("progression.draft") }}{% endif %}
+                      </span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="missions-none">{{ t("missions.none") }}</p>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if cards %}
+      <h2>{{ t("missions.cards_heading") }}</h2>
+      <p>{{ t("missions.cards_intro") }}</p>
+      <ul class="missions-cards">
+        {% for kind in cards %}
+          <li><a href="/{{ locale }}/oppdrag/kort/{{ kind }}">{{ t("missions.card." ~ kind ~ ".title") }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{# The sound slide. `pensum.items.primitives.blend`.
+   Touching a tile says its sound; the per-tile "Hear" buttons are the same for
+   the keyboard, and appear only once the script has found a voice. The picks
+   are buttons too, and stay unusable until every tile is on the slide. Without
+   a script the same picks are radio buttons. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.blend.hint") }}{% endblock %}
+{% block live_extra %}{% include "partials/primitives/_speech.html" %}{% endblock %}
+{% block controls %}
+  <span class="activity-group">
+    <button class="activity-button" type="button" data-action="join">{{ t("activity.blend.join") }}</button>
+    <button class="activity-button" type="button" data-action="split">{{ t("activity.blend.split") }}</button>
+  </span>
+  <span class="activity-group" data-speak-group hidden>
+    {% for tile in item.activity.tiles %}
+      <button class="activity-button activity-button--speak" type="button" data-speak-tile="{{ loop.index0 }}">{{ t("activity.blend.hear_tile", tile=tile.text) }}</button>
+    {% endfor %}
+    {% if item.activity.say_word %}
+      <button class="activity-button activity-button--speak" type="button" data-speak="word" hidden>{{ t("activity.blend.hear_word") }}</button>
+    {% endif %}
+  </span>
+  <span class="activity-group activity-picks" role="group" aria-label="{{ t('activity.blend.pick_label') }}">
+    <span class="activity-readout">{{ t("activity.blend.pick_label") }}</span>
+    {% for choice in item.activity.shown_choices() %}
+      <button class="activity-button activity-button--pick" type="button" data-action="pick" data-zone="{{ choice.id }}" aria-pressed="false">{{ choice.text.get(locale) }}</button>
+    {% endfor %}
+  </span>
+{% endblock %}
+{% block fallback %}
+  <fieldset class="activity-fallback" data-fallback>
+    <legend>{{ item.activity.fallback_prompt(locale) }}</legend>
+    <ul class="choices">
+      {% for choice in item.activity.shown_choices() %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ choice.id }}" required />
+            <span>{{ choice.text.get(locale) }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

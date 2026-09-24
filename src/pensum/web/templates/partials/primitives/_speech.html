@@ -1,0 +1,8 @@
+{# Said when the browser has no speech voice for the item's language. Hidden
+   until the page's script has looked and found none; without a script it never
+   shows, because the no-script question does not speak at all. The language
+   primitives' voice is the browser's own, as on the listening page: nothing is
+   fetched and nothing is recorded. #}
+<p class="activity-notice" data-no-voice hidden>
+  {{ t("activity.speech.no_voice", language=t("activity.speech.lang_" ~ item.activity.language)) }}
+</p>

@@ -466,6 +466,274 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  # --- answered with the hands: the sound slide and dialogue
+  # (`pensum.items.primitives`). Drafts, not yet reviewed. The choices on a
+  # slide are meanings in the pupil's own language, so hearing the word and
+  # picking its spelling is never enough.
+
+  - id: KM13330-03
+    goal: KM13330
+    type: blend
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Trykk på bokstavene og hør lydene. Skyv dem sammen. Hva betyr ordet?
+      en: Tap the letters to hear their sounds. Slide them together. What does the word mean?
+    activity:
+      alt:
+        nb: Tre bokstavbrikker, sh, i og p, og en skinne de kan skyves sammen på.
+        en: Three letter tiles, sh, i and p, and a slide they can be pushed together on.
+      language: en
+      tiles:
+        - text: sh
+          say: shh
+        - text: i
+          say: ih
+        - text: p
+          say: puh
+      choices:
+        - id: a
+          text:
+            nb: et skip
+            en: a big boat
+        - id: b
+          text:
+            nb: en sau
+            en: a farm animal with wool
+        - id: c
+          text:
+            nb: en butikk
+            en: a place where you buy things
+      answer: a
+    explanation:
+      nb: >-
+        Sh – i – p blir ship, som betyr skip. Sh er to bokstaver, men bare én
+        lyd.
+      en: >-
+        Sh – i – p makes "ship", a big boat. "Sh" is two letters but only one
+        sound.
+    reviewed: false
+
+  - id: KM13330-04
+    goal: KM13330
+    type: blend
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Trykk på bokstavene og hør lydene. Skyv dem sammen. Hva betyr ordet?
+      en: Tap the letters to hear their sounds. Slide them together. What does the word mean?
+    activity:
+      alt:
+        nb: Fire bokstavbrikker, ch, i, p og s, og en skinne de kan skyves sammen på.
+        en: Four letter tiles, ch, i, p and s, and a slide they can be pushed together on.
+      language: en
+      tiles:
+        - text: ch
+          say: tch
+        - text: i
+          say: ih
+        - text: p
+          say: puh
+        - text: s
+          say: sss
+      choices:
+        - id: a
+          text:
+            nb: potetgull
+            en: thin fried slices of potato
+        - id: b
+          text:
+            nb: en hake
+            en: the bottom part of your face
+        - id: c
+          text:
+            nb: ost
+            en: a food made from milk
+      answer: a
+    explanation:
+      nb: >-
+        Ch – i – p – s blir chips, som betyr potetgull. Ch sies nesten som
+        «tsj».
+      en: >-
+        Ch – i – p – s makes "chips", thin fried slices of potato. "Ch" is one
+        sound.
+    reviewed: false
+
+  - id: KM13330-05
+    goal: KM13330
+    type: blend
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: Trykk på bokstavene og hør lydene. Skyv dem sammen. Hva betyr ordet?
+      en: Tap the letters to hear their sounds. Slide them together. What does the word mean?
+    activity:
+      alt:
+        nb: Tre bokstavbrikker, b, a og th, og en skinne de kan skyves sammen på.
+        en: Three letter tiles, b, a and th, and a slide they can be pushed together on.
+      language: en
+      tiles:
+        - text: b
+          say: buh
+        - text: a
+          say: aa
+        - text: th
+          say: th
+      choices:
+        - id: a
+          text:
+            nb: et bad
+            en: washing in a tub of water
+        - id: b
+          text:
+            nb: en flaggermus
+            en: an animal that flies at night
+        - id: c
+          text:
+            nb: en sti
+            en: a narrow way to walk on
+      answer: a
+    explanation:
+      nb: >-
+        B – a – th blir bath, som betyr bad. Th er en lyd vi ikke har på norsk:
+        tungen ligger mellom tennene.
+      en: >-
+        B – a – th makes "bath". "Th" is a sound Norwegian does not have: the
+        tongue rests between the teeth.
+    reviewed: false
+
+  - id: KM13332-03
+    goal: KM13332
+    type: dialogue
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Du trenger en blyant. Velg hva du sier til Sam.
+      en: You need a pencil. Choose what you say to Sam.
+    activity:
+      alt:
+        nb: En samtale mellom deg og Sam. Sam sier «Hi! Are you OK?».
+        en: A conversation between you and Sam. Sam says "Hi! Are you OK?".
+      language: en
+      partner:
+        nb: Sam
+        en: Sam
+      start: hello
+      nodes:
+        hello:
+          says:
+            nb: Hi! Are you OK?
+            en: Hi! Are you OK?
+          options:
+            - text:
+                nb: Hi! Can I borrow a pencil, please?
+                en: Hi! Can I borrow a pencil, please?
+              next: lend
+            - text:
+                nb: Pencil!
+                en: Pencil!
+              reply:
+                nb: Hmm? You can ask with “please”.
+                en: Hmm? You can ask with “please”.
+        lend:
+          says:
+            nb: Yes, here you are.
+            en: Yes, here you are.
+          options:
+            - text:
+                nb: Thank you!
+                en: Thank you!
+              next: done
+            - text:
+                nb: Give me a red one.
+                en: Give me a red one.
+              reply:
+                nb: I only have this one. What do you say?
+                en: I only have this one. What do you say?
+        done:
+          says:
+            nb: You're welcome!
+            en: You're welcome!
+    explanation:
+      nb: >-
+        «Can I …, please?» er en høflig måte å be om noe på, og «Thank you!» sier
+        du når du får det.
+      en: >-
+        "Can I …, please?" is a polite way to ask for something, and "Thank you!"
+        is what you say when you get it.
+    reviewed: false
+
+  - id: KM13332-04
+    goal: KM13332
+    type: dialogue
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Mia snakker til deg i friminuttet. Velg hva du svarer.
+      en: Mia talks to you at break time. Choose what you answer.
+    activity:
+      alt:
+        nb: En samtale mellom deg og Mia. Mia sier «Hello! How are you?».
+        en: A conversation between you and Mia. Mia says "Hello! How are you?".
+      language: en
+      partner:
+        nb: Mia
+        en: Mia
+      start: hello
+      nodes:
+        hello:
+          says:
+            nb: Hello! How are you?
+            en: Hello! How are you?
+          options:
+            - text:
+                nb: I'm fine, thank you. And you?
+                en: I'm fine, thank you. And you?
+              next: play
+            - text:
+                nb: Seven.
+                en: Seven.
+              reply:
+                nb: Seven? I asked how you are. You can say “I'm fine, thank you.”
+                en: Seven? I asked how you are. You can say “I'm fine, thank you.”
+            - text:
+                nb: My name is.
+                en: My name is.
+              reply:
+                nb: Sorry? I asked how you are.
+                en: Sorry? I asked how you are.
+        play:
+          says:
+            nb: I'm fine too. Do you want to play?
+            en: I'm fine too. Do you want to play?
+          options:
+            - text:
+                nb: Yes, please!
+                en: Yes, please!
+              next: bye
+            - text:
+                nb: No, thank you.
+                en: No, thank you.
+              next: bye
+            - text:
+                nb: Play is fine too.
+                en: Play is fine too.
+              reply:
+                nb: Hmm? You can say “Yes, please!” or “No, thank you.”
+                en: Hmm? You can say “Yes, please!” or “No, thank you.”
+        bye:
+          says:
+            nb: OK! See you later!
+            en: OK! See you later!
+    explanation:
+      nb: >-
+        «How are you?» spør hvordan du har det. Et vanlig svar er «I'm fine, thank
+        you». Både «Yes, please» og «No, thank you» er høflige svar.
+      en: >-
+        "How are you?" asks how you feel. A usual answer is "I'm fine, thank
+        you". "Yes, please" and "No, thank you" are both polite answers.
+    reviewed: false
+
 # Goals that no written question can honestly test. At this checkpoint most of
 # the subject lives in the ear and the mouth, so this list is long by design.
 not_assessable:

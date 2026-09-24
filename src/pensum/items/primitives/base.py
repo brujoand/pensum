@@ -215,6 +215,30 @@ class ActivityConfig(BaseModel):
     def fallback_key(self) -> str:
         return self.FALLBACK_KEY
 
+    # --- the no-script road -------------------------------------------------
+    #
+    # A number by default. The language primitives answer without a script by
+    # typing a word or a sentence, or by picking one of a few, so these four
+    # are where such a primitive says what its typed answer is. A primitive
+    # that keeps the numeric road overrides none of them.
+
+    def typed_right(self, text: str) -> bool:
+        """Whether a no-script answer is right. Never raises."""
+        value = parse_number(text)
+        return value is not None and abs(value - self.fallback_answer()) < 1e-9
+
+    def typed_example(self) -> str:
+        """One right no-script answer, exactly as the form would send it."""
+        return number_text(self.fallback_answer())
+
+    def typed_compare(self, text: str, locale: str) -> Comparison | None:
+        """The feedback for a typed answer, or None for the numeric default."""
+        return None
+
+    def made_key(self) -> str:
+        """The i18n key of the sentence under a built answer's comparison."""
+        return "activity.you_made"
+
     # --- shared ---------------------------------------------------------------
 
     def fallback_answer(self) -> float:
@@ -282,8 +306,7 @@ def grade(config: ActivityConfig, response: str) -> bool:
     if text.startswith("{"):
         state = config.read(text)
         return state is not None and config.grade_state(state)
-    value = parse_number(text)
-    return value is not None and abs(value - config.fallback_answer()) < 1e-9
+    return config.typed_right(text)
 
 
 def compare(config: ActivityConfig, response: str, locale: str) -> Comparison:
@@ -298,7 +321,7 @@ def compare(config: ActivityConfig, response: str, locale: str) -> Comparison:
         if state is not None:
             made = config.describe(state, locale)
             return Comparison(
-                translate(locale, "activity.you_made", made=made, asked=asked),
+                translate(locale, config.made_key(), made=made, asked=asked),
                 made,
                 asked,
                 config.board(state, locale),
@@ -308,6 +331,10 @@ def compare(config: ActivityConfig, response: str, locale: str) -> Comparison:
         # guessed at: the pupil did nothing wrong that they could fix.
         made = translate(locale, "activity.unreadable")
         return Comparison(made, made, asked, None, asked_board)
+
+    typed = config.typed_compare(text, locale)
+    if typed is not None:
+        return typed
 
     # The no-script road: a typed number, compared with the number asked for.
     value = parse_number(text)

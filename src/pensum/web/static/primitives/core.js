@@ -135,7 +135,9 @@
     field.disabled = false;
     if (fallback) {
       fallback.hidden = true;
-      var typed = fallback.querySelectorAll("input");
+      /* Radio buttons and selects too: a language primitive's no-script
+       * answer is a pick as often as it is a typed word. */
+      var typed = fallback.querySelectorAll("input, select, textarea");
       for (var t = 0; t < typed.length; t++) {
         typed[t].disabled = true;
       }
@@ -434,6 +436,190 @@
     joinNumbers: joinNumbers,
     plural: plural,
     count: count,
+  };
+
+  /* --- the language primitives: tiles in a frame, and the voice ----------
+   *
+   * Sound boxes, word building and sentence building are one board underneath:
+   * numbered slots `s0`, `s1` ... and a tray of tiles, with a state that is one
+   * tile index per slot, or -1. `pensum.items.primitives.tiles` is the same
+   * thing on the server. Kept together and added last, so nothing above
+   * changed for the primitives that were here first. */
+
+  var EMPTY = -1;
+
+  /* "s3" is slot 3; anything else is not a slot. */
+  function slotOf(zone) {
+    var match = /^s(\d+)$/.exec(zone || "");
+    return match ? +match[1] : -1;
+  }
+
+  /* A slot array off the wire: `count` entries, each -1 or a tile index
+   * below `tiles`, and no tile in two places. null for anything else. */
+  function tilesParse(raw, count, tiles) {
+    if (!Array.isArray(raw) || raw.length !== count) {
+      return null;
+    }
+    var seen = {};
+    for (var i = 0; i < raw.length; i++) {
+      var value = raw[i];
+      if (typeof value !== "number" || value !== Math.floor(value)) return null;
+      if (value < EMPTY || value >= tiles) return null;
+      if (value !== EMPTY) {
+        if (seen[value]) return null;
+        seen[value] = true;
+      }
+    }
+    return raw.slice();
+  }
+
+  /* What a move does to the slots, or null when it does nothing.
+   *
+   *   place (a tile's button), or a double tap on a tile in the tray: into the
+   *     first empty slot.
+   *   unplace: the last filled slot back to the tray.
+   *   move tray -> slot: into that slot; what was there goes back.
+   *   move slot -> slot: the two swap.
+   *   move slot -> tray: back.
+   *
+   * `usable` is how many slots, from the left, may take a tile at all; sound
+   * boxes use it to keep a letter out of a box with no counter in it. */
+  function tilesApply(slots, action, tiles, usable) {
+    var next = slots.slice();
+    var tile;
+    if (action.type === "place" || (action.type === "act" && action.zone === "tray")) {
+      tile = action.type === "place" ? parseInt(action.zone, 10) : action.index;
+      if (!(tile >= 0 && tile < tiles) || next.indexOf(tile) >= 0) return null;
+      var free = next.indexOf(EMPTY);
+      if (free < 0 || free >= usable) return null;
+      next[free] = tile;
+      return next;
+    }
+    if (action.type === "unplace") {
+      for (var i = next.length - 1; i >= 0; i--) {
+        if (next[i] !== EMPTY) {
+          next[i] = EMPTY;
+          return next;
+        }
+      }
+      return null;
+    }
+    if (action.type !== "move") return null;
+    var from = slotOf(action.from);
+    var to = slotOf(action.to);
+    if (action.from === "tray") {
+      tile = action.fromIndex;
+      if (to < 0 || to >= usable || !(tile >= 0 && tile < tiles)) return null;
+      if (next.indexOf(tile) >= 0) return null;
+      next[to] = tile;
+      return next;
+    }
+    if (from < 0 || from >= next.length || next[from] === EMPTY) return null;
+    if (action.to === "tray") {
+      next[from] = EMPTY;
+      return next;
+    }
+    if (to < 0 || to >= usable || to === from) return null;
+    var held = next[to];
+    next[to] = next[from];
+    next[from] = held;
+    return next;
+  }
+
+  /* Whether a tile piece is shown: in its slot when the slot holds it, in the
+   * tray while no slot does. */
+  function tilesShown(slots, piece) {
+    if (piece.zone === "tray") return slots.indexOf(piece.index) < 0;
+    var slot = slotOf(piece.zone);
+    return slot >= 0 && slots[slot] === piece.index;
+  }
+
+  /* The voice. The browser's own speechSynthesis, as on the listening page,
+   * and chosen the same way; `speechPick` is a copy of listening.js's
+   * `pickVoice`, which that page keeps private. Nothing is recorded and no
+   * audio is fetched: the words are spoken by the browser from text. */
+
+  var SPEECH_RATE = 0.85;
+  var SPEECH_WAIT_MS = 1500;
+  var SPEECH_LANGS = {
+    nb: ["nb", "no", "nn"],
+    en: ["en"],
+  };
+
+  /* A voice for `language`, a local one before a remote one, or null. */
+  function speechPick(voices, language) {
+    var wanted = SPEECH_LANGS[language] || [language];
+    var best = null;
+    var bestRank = Infinity;
+    for (var i = 0; i < voices.length; i++) {
+      var tag = String(voices[i].lang || "")
+        .toLowerCase()
+        .replace("_", "-");
+      for (var j = 0; j < wanted.length; j++) {
+        if (tag === wanted[j] || tag.indexOf(wanted[j] + "-") === 0) {
+          var rank = j * 2 + (voices[i].localService ? 0 : 1);
+          if (rank < bestRank) {
+            bestRank = rank;
+            best = voices[i];
+          }
+          break;
+        }
+      }
+    }
+    return best;
+  }
+
+  function speechVoices(then) {
+    var synth = window.speechSynthesis;
+    if (!synth || !window.SpeechSynthesisUtterance) return then([]);
+    var settled = false;
+    function done() {
+      if (settled) return;
+      settled = true;
+      then(synth.getVoices() || []);
+    }
+    if ((synth.getVoices() || []).length) return done();
+    synth.addEventListener("voiceschanged", done);
+    window.setTimeout(done, SPEECH_WAIT_MS);
+  }
+
+  /* Find a voice for the board, show its speak buttons if there is one and its
+   * no-voice notice if not, and return a function that says a text. The
+   * function does nothing, and says so by returning false, without a voice. */
+  function speechSetup(root, language) {
+    var voice = null;
+    function show(selector) {
+      var found = root.querySelectorAll(selector);
+      for (var i = 0; i < found.length; i++) {
+        found[i].hidden = false;
+      }
+    }
+    speechVoices(function (voices) {
+      voice = speechPick(voices, language);
+      show(voice ? "[data-speak], [data-speak-group]" : "[data-no-voice]");
+    });
+    return function say(text) {
+      if (!voice || !text) return false;
+      window.speechSynthesis.cancel();
+      var utterance = new window.SpeechSynthesisUtterance(text);
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+      utterance.rate = SPEECH_RATE;
+      window.speechSynthesis.speak(utterance);
+      return true;
+    };
+  }
+
+  window.PensumActivity.tiles = {
+    EMPTY: EMPTY,
+    slotOf: slotOf,
+    parse: tilesParse,
+    apply: tilesApply,
+    shown: tilesShown,
+  };
+  window.PensumActivity.speech = {
+    pick: speechPick,
+    setup: speechSetup,
   };
 
   document.addEventListener("DOMContentLoaded", scan);

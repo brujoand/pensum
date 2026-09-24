@@ -1,0 +1,9 @@
+{# One button per tile, which puts it in the next free place, and one that
+   takes the last one back: the keyboard path of every frame of tiles. A tile's
+   button is disabled while the tile is in the frame. #}
+<span class="activity-group">
+  {% for text in item.activity.texts %}
+    <button class="activity-button activity-button--tile" type="button" data-action="place" data-zone="{{ loop.index0 }}" aria-label="{{ t('activity.tiles.place', tile=text) }}">{{ text }}</button>
+  {% endfor %}
+  <button class="activity-button" type="button" data-action="unplace">{{ t("activity.tiles.take_back") }}</button>
+</span>

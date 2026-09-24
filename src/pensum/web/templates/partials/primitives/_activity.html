@@ -42,6 +42,7 @@
   </svg>
 
   <div class="activity-live" data-live hidden>
+    {% block live_extra scoped %}{% endblock %}
     <div class="activity-controls">
       {% block controls scoped %}{% endblock %}
       <button class="activity-button activity-button--undo" type="button" data-action="undo">
@@ -52,9 +53,14 @@
     <input type="hidden" name="response" value="{{ activity.serialise(state) }}" data-state disabled />
   </div>
 
+  {# A number by default. A primitive whose no-script answer is a word, a
+     sentence or a pick replaces this block, keeping `data-fallback` on the
+     wrapper and `name="response"` on what it submits. #}
+  {% block fallback scoped %}
   <label class="activity-fallback" data-fallback>
     <span>{{ activity.fallback_prompt(locale) }}</span>
     <input class="answer-input" type="text" inputmode="decimal" name="response"
            placeholder="{{ t('quiz.numeric_placeholder') }}" autocomplete="off" required />
   </label>
+  {% endblock %}
 </div>

@@ -2945,3 +2945,131 @@ main:has(.progression-page) {
 .break-card__actions form {
   margin: 0;
 }
+
+/* The language primitives: sound boxes, the sound slide, word and sentence
+   frames, and dialogue (`pensum.items.primitives`, the language block).
+
+   Tiles are cards with their text on them, in the page colour so the letters
+   read. A place in a frame is a shaded slot. A picked choice is marked by a
+   heavier border and a tick, never by colour alone, and in a dialogue who
+   said a line is carried by the name in front of it and by its indent.
+
+   Nothing here moves. Tiles show and hide like every other piece, with the
+   150 ms fade above, so the calm setting and reduced motion need no rule of
+   their own beyond the one that already stops that fade from growing. */
+.piece--tile rect,
+.piece--card rect {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.piece--card rect {
+  stroke-width: 2.5;
+}
+
+.zone.slot,
+.zone.slide {
+  fill: var(--quote);
+  fill-opacity: 1;
+}
+
+.zone.slide {
+  stroke: var(--ink-soft);
+  stroke-dasharray: none;
+}
+
+.activity-notice,
+.activity-written {
+  margin: 0 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-left: 3px solid var(--warn);
+  background: var(--warn-soft);
+}
+
+.activity-written {
+  border-left-color: var(--line);
+  background: var(--quote);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.activity-button--tile {
+  min-width: 2.75rem;
+  font-weight: 700;
+}
+
+.activity-button--pick[aria-pressed="true"] {
+  border-width: 3px;
+  font-weight: 700;
+}
+
+.activity-button--pick[aria-pressed="true"]::before {
+  content: "✓ ";
+}
+
+.activity-picks {
+  flex-basis: 100%;
+}
+
+fieldset.activity-fallback {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+fieldset.activity-fallback legend {
+  margin-bottom: 0.3rem;
+}
+
+fieldset.activity-fallback legend span {
+  display: block;
+}
+
+.dialogue-opening {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.dialogue-log {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.dialogue-line {
+  margin: 0 0 0.35rem;
+  max-width: 30rem;
+}
+
+.dialogue-line--you {
+  margin-left: 2rem;
+}
+
+.dialogue-options {
+  flex-basis: 100%;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.activity-button--line {
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity--sound_boxes .piece rect,
+  .activity--sound_boxes .piece circle,
+  .activity--blend .piece rect,
+  .activity--word_build .piece rect,
+  .activity--sentence_build .piece rect {
+    transition-duration: 150ms;
+  }
+}
+
+:root[data-calm] .activity--sound_boxes .piece rect,
+:root[data-calm] .activity--sound_boxes .piece circle,
+:root[data-calm] .activity--blend .piece rect,
+:root[data-calm] .activity--word_build .piece rect,
+:root[data-calm] .activity--sentence_build .piece rect {
+  transition-duration: 150ms;
+}

@@ -1,0 +1,12 @@
+{# A word frame. `pensum.items.primitives.word_build`.
+   Without a script the pupil types the word, graded against the same list. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.word_build.hint") }}{% endblock %}
+{% block controls %}{% include "partials/primitives/_tile_buttons.html" %}{% endblock %}
+{% block fallback %}
+  <label class="activity-fallback" data-fallback>
+    <span>{{ item.activity.fallback_prompt(locale) }}</span>
+    <input class="answer-input" type="text" name="response"
+           placeholder="{{ t('quiz.text_placeholder') }}" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+  </label>
+{% endblock %}

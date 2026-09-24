@@ -479,6 +479,85 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  # --- answered with the hands: word and sentence frames
+  # (`pensum.items.primitives`). Drafts, not yet reviewed.
+
+  - id: KM14159-04
+    goal: KM14159
+    type: word_build
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: "Bygg verbet som passer: «I går ___ Ola over bekken.»"
+      en: "Build the verb that fits: “I går ___ Ola over bekken.” (Yesterday Ola ___ over the stream.)"
+    activity:
+      alt:
+        nb: En tom ramme med to plasser, ordet hopp og tre endelser.
+        en: An empty frame with two places, the word hopp and three endings.
+      parts: [hopp, er, et, e]
+      accept: [hoppet]
+    explanation:
+      nb: >-
+        «I går» betyr at det har skjedd, så verbet står i fortid: hopp + et blir
+        hoppet. Hopper er nåtid, og hoppe er infinitiv.
+      en: >-
+        "I går" (yesterday) means it already happened, so the verb is in the past
+        tense: hopp + et makes "hoppet". "Hopper" is present tense and "hoppe" is
+        the infinitive.
+    reviewed: false
+
+  - id: KM14159-05
+    goal: KM14159
+    type: word_build
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: "Bygg ordet som passer: «Pappa vasker alle ___ våre.»"
+      en: "Build the word that fits: “Pappa vasker alle ___ våre.” (Dad washes all our ___.)"
+    activity:
+      alt:
+        nb: En tom ramme med to plasser, ordet bil og tre endelser.
+        en: An empty frame with two places, the word bil and three endings.
+      parts: [bil, en, er, ene]
+      accept: [bilene]
+    explanation:
+      nb: >-
+        Det er flere biler, og vi vet hvilke: våre. Da står substantivet i
+        bestemt form flertall, bil + ene blir bilene.
+      en: >-
+        There are several cars, and we know which ones: ours. So the noun is
+        definite plural, bil + ene makes "bilene".
+    reviewed: false
+
+  - id: KM14157-03
+    goal: KM14157
+    type: sentence_build
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Bygg setningen. Sett komma der det skal være.
+      en: Build the sentence. Put a comma where it belongs.
+    activity:
+      alt:
+        nb: En tom ramme og åtte brikker, seks ord, et komma og et punktum.
+        en: An empty frame and eight tiles, six words, a comma and a full stop.
+      words: [jeg, kjøpte, epler, pærer, og, bananer, ",", "."]
+      accept:
+        - Jeg kjøpte epler, pærer og bananer.
+        - Jeg kjøpte epler, bananer og pærer.
+        - Jeg kjøpte pærer, epler og bananer.
+        - Jeg kjøpte pærer, bananer og epler.
+        - Jeg kjøpte bananer, epler og pærer.
+        - Jeg kjøpte bananer, pærer og epler.
+    explanation:
+      nb: >-
+        I en oppramsing står det komma mellom tingene, men ikke foran «og»:
+        epler, pærer og bananer.
+      en: >-
+        In a list there is a comma between the items, but not before "og" (and):
+        epler, pærer og bananer.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

@@ -760,6 +760,39 @@ in `pensum/items/primitives/__init__.py` says what the module has to provide.
 `tools/render_figures.py` draws every committed board with its answer on it,
 which is the picture the feedback shows a pupil as "what the task asked for".
 
+### Letters, words and conversations
+
+Norsk and engelsk have five boards of their own, on the same seam and under the
+same rules: Check is the ordinary button, undo is always there, every drag is
+also tap-then-tap and every move is also a button.
+
+| | the pupil | graded on |
+|---|---|---|
+| `sound_boxes` | hears a word, pushes a counter into a box for each sound, then optionally drags letters onto the counters | the number of sounds, then the letters |
+| `blend` | touches letter tiles to hear their sounds, slides them together, and picks what the word means | the pick |
+| `word_build` | drags letters, syllables or word parts into a frame: *fot* + *ball* | the word, against every declared spelling |
+| `sentence_build` | drags word and punctuation tiles into order, and flips a tile for its capital | the exact sentence, against every declared one |
+| `dialogue` | picks each of their lines in a short scripted chat; a line that does not fit gets a literal answer and another try | reaching the end of the conversation |
+
+**What is spoken, and what is not.** The word in a sound box, the sound of a
+tile, the joined word and the other person's line in a dialogue are said by the
+browser's own `speechSynthesis`, with the voice chosen the way listening and
+spelling chooses it. Nothing is recorded: there is no microphone on these
+pages, no audio is fetched and nothing is sent anywhere. If the browser has no
+voice for the item's language the board says so and works as letters; a sound
+box then shows its word written. A choice on the sound slide is a meaning, never
+the word's spelling, so hearing the word and matching its letters is not enough.
+
+**A dialogue is a checked graph.** Its lines are declared as nodes, and an item
+whose script has a line nobody can reach, a choice that leads nowhere or a loop
+that could go on for ever does not load.
+
+**Without JavaScript** a sound box asks how many sounds the written word has, a
+word or a sentence is typed, and the sound slide and the dialogue are radio
+buttons: the pick, and the reply to the opening line. A typed sentence is split
+into the same words and marks as the tiles, so *Hvor bor du ?* and *Hvor bor
+du?* are the same answer and *hvor bor du?* is not.
+
 ## Missions
 
 Some goals are a conversation, a visit, a build or a talk in front of the

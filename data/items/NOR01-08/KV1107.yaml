@@ -324,6 +324,268 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  # --- answered with the hands: sound boxes, the sound slide, word and
+  # sentence frames (`pensum.items.primitives`). Drafts, not yet reviewed.
+
+  - id: KM14145-04
+    goal: KM14145
+    type: sound_boxes
+    stage: concrete
+    difficulty: 1
+    prompt:
+      nb: Hør ordet. Legg en brikke i en boks for hver lyd.
+      en: Listen to the word. Put a counter in a box for each sound.
+    activity:
+      alt:
+        nb: En rad med tomme bokser og en haug med brikker.
+        en: A row of empty boxes and a pile of counters.
+      word: sol
+      language: nb
+      sounds: [s, o, l]
+    explanation:
+      nb: Sol har tre lyder, s – o – l. Én brikke for hver lyd.
+      en: >-
+        "Sol" (sun) has three sounds, s – o – l. One counter for each sound.
+    reviewed: false
+
+  - id: KM14145-05
+    goal: KM14145
+    type: sound_boxes
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Hør ordet. Legg en brikke i en boks for hver lyd.
+      en: Listen to the word. Put a counter in a box for each sound.
+    activity:
+      alt:
+        nb: En rad med tomme bokser og en haug med brikker.
+        en: A row of empty boxes and a pile of counters.
+      word: kjole
+      language: nb
+      sounds: [kj, o, l, e]
+    explanation:
+      nb: >-
+        Kjole har fire lyder, kj – o – l – e. Kj er to bokstaver, men bare én
+        lyd.
+      en: >-
+        "Kjole" (dress) has four sounds, kj – o – l – e. "Kj" is two letters but
+        only one sound.
+    reviewed: false
+
+  - id: KM14145-06
+    goal: KM14145
+    type: sound_boxes
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Hør ordet. Legg en brikke for hver lyd, og legg så bokstavene i boksene.
+      en: Listen to the word. Put a counter for each sound, then put the letters in the boxes.
+    activity:
+      alt:
+        nb: En rad med tomme bokser, en haug med brikker og fire bokstaver.
+        en: A row of empty boxes, a pile of counters and four letters.
+      word: hus
+      language: nb
+      sounds: [h, u, s]
+      letters: true
+      extra: [m]
+    explanation:
+      nb: Hus har tre lyder, h – u – s, og én bokstav for hver lyd.
+      en: >-
+        "Hus" (house) has three sounds, h – u – s, and one letter for each.
+    reviewed: false
+
+  - id: KM14145-07
+    goal: KM14145
+    type: sound_boxes
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: Hør ordet. Legg en brikke for hver lyd, og legg så bokstavene i boksene.
+      en: Listen to the word. Put a counter for each sound, then put the letters in the boxes.
+    activity:
+      alt:
+        nb: En rad med tomme bokser, en haug med brikker og fire bokstavbrikker.
+        en: A row of empty boxes, a pile of counters and four letter tiles.
+      word: skje
+      language: nb
+      sounds: [skj, e]
+      letters: true
+      extra: [s, k]
+    explanation:
+      nb: >-
+        Skje har bare to lyder, skj – e. Skj er tre bokstaver som sammen blir
+        én lyd, så de hører til i samme boks.
+      en: >-
+        "Skje" (spoon) has only two sounds, skj – e. "Skj" is three letters that
+        make one sound together, so they belong in one box.
+    reviewed: false
+
+  - id: KM14146-03
+    goal: KM14146
+    type: blend
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Trykk på bokstavene og hør lydene. Skyv dem sammen. Hva er ordet?
+      en: Tap the letters to hear their sounds. Slide them together. What is the word?
+    activity:
+      alt:
+        nb: Tre bokstaver som står hver for seg, og en skinne de kan skyves sammen på.
+        en: Three letters standing apart, and a slide they can be pushed together on.
+      language: nb
+      tiles:
+        - text: s
+          say: sss
+        - text: o
+        - text: l
+          say: lll
+      say_word: false
+      choices:
+        - id: a
+          text:
+            nb: Den skinner på himmelen.
+            en: It shines in the sky.
+        - id: b
+          text:
+            nb: Du sover i den.
+            en: You sleep in it.
+        - id: c
+          text:
+            nb: Den svømmer i vannet.
+            en: It swims in the water.
+      answer: a
+    explanation:
+      nb: S – o – l blir sol. Sola skinner på himmelen.
+      en: >-
+        S – o – l makes "sol", the sun. The sun shines in the sky.
+    reviewed: false
+
+  - id: KM14146-04
+    goal: KM14146
+    type: blend
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Trykk på bokstavene og hør lydene. Skyv dem sammen. Hva er ordet?
+      en: Tap the letters to hear their sounds. Slide them together. What is the word?
+    activity:
+      alt:
+        nb: To bokstavbrikker, skj og e, og en skinne de kan skyves sammen på.
+        en: Two letter tiles, skj and e, and a slide they can be pushed together on.
+      language: nb
+      tiles:
+        - text: skj
+          say: sjjj
+        - text: e
+      say_word: false
+      choices:
+        - id: a
+          text:
+            nb: Du spiser suppe med den.
+            en: You eat soup with it.
+        - id: b
+          text:
+            nb: Du har den på foten.
+            en: You wear it on your foot.
+        - id: c
+          text:
+            nb: Den flyr i lufta.
+            en: It flies in the air.
+      answer: a
+    explanation:
+      nb: Skj – e blir skje. Med en skje kan du spise suppe.
+      en: >-
+        Skj – e makes "skje", a spoon. You can eat soup with a spoon.
+    reviewed: false
+
+  - id: KM14148-03
+    goal: KM14148
+    type: word_build
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Lag ett ord av to ord. Du sparker den på banen.
+      en: Make one word out of two. You kick it on the pitch.
+    activity:
+      alt:
+        nb: En tom ramme med to plasser, og tre ordbrikker.
+        en: An empty frame with two places, and three word tiles.
+      parts: [fot, ball, hånd]
+      accept: [fotball]
+    explanation:
+      nb: Fot og ball blir fotball, en ball du sparker med foten.
+      en: >-
+        "Fot" (foot) and "ball" make "fotball", a ball you kick with your foot.
+    reviewed: false
+
+  - id: KM14148-04
+    goal: KM14148
+    type: word_build
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Lag ett ord av to ord. Du bygger ham av snø om vinteren.
+      en: Make one word out of two. You build him out of snow in winter.
+    activity:
+      alt:
+        nb: En tom ramme med to plasser, og tre ordbrikker.
+        en: An empty frame with two places, and three word tiles.
+      parts: [snø, mann, is]
+      accept: [snømann]
+    explanation:
+      nb: Snø og mann blir snømann. Det første ordet sier hva han er laget av.
+      en: >-
+        "Snø" (snow) and "mann" (man) make "snømann", a snowman. The first word
+        says what he is made of.
+    reviewed: false
+
+  - id: KM14144-03
+    goal: KM14144
+    type: sentence_build
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Bygg spørsmålet. Husk stor forbokstav og riktig tegn til slutt.
+      en: Build the question. Remember the capital letter and the right mark at the end.
+    activity:
+      alt:
+        nb: En tom ramme og fem brikker, tre ord og to tegn.
+        en: An empty frame and five tiles, three words and two marks.
+      words: [hvor, bor, du, "?", "."]
+      accept: ["Hvor bor du?"]
+    explanation:
+      nb: >-
+        Et spørsmål slutter med spørsmålstegn, og setningen begynner med stor
+        bokstav: Hvor bor du?
+      en: >-
+        A question ends with a question mark, and the sentence starts with a
+        capital letter: "Hvor bor du?" (Where do you live?)
+    reviewed: false
+
+  - id: KM14144-04
+    goal: KM14144
+    type: sentence_build
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Bygg setningen om katten.
+      en: Build the sentence about the cat.
+    activity:
+      alt:
+        nb: En tom ramme og fire brikker, tre ord og et punktum.
+        en: An empty frame and four tiles, three words and a full stop.
+      words: [katten, heter, Pus, "."]
+      accept: ["Katten heter Pus."]
+    explanation:
+      nb: >-
+        Setningen begynner med stor bokstav og slutter med punktum. Pus er et
+        navn, så det har stor bokstav også.
+      en: >-
+        The sentence starts with a capital letter and ends with a full stop.
+        "Pus" is a name, so it has a capital too.
+    reviewed: false
+
 # Goals that no written question can honestly test. Most of this goal set is
 # about doing: talking, listening, drawing, writing by hand, visiting the
 # library. Recorded here rather than faked with an adjacent question.

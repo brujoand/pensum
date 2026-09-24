@@ -1,0 +1,1277 @@
+# Samfunnsfag skills: the progression in docs/design/subjects/samfunnsfag.md.
+# A skill here is knowing something, or presenting someone else's reason; it is
+# never holding an opinion. Missions (off-screen) are assessable: false.
+subject: SAF01-05
+strands:
+  - id: sources
+    title: {nob: Kilder og metode, eng: Sources and method}
+  - id: history
+    title: {nob: Tid og historie, eng: Time and history}
+  - id: geography
+    title: {nob: Sted og geografi, eng: Place and geography}
+  - id: rights
+    title: {nob: "Rettigheter, demokrati og lov", eng: "Rights, democracy and law"}
+  - id: identity
+    title: {nob: "Identitet, mangfold og fellesskap", eng: "Identity, diversity and community"}
+  - id: sustainability
+    title: {nob: Bærekraft og økonomi, eng: Sustainability and economy}
+  - id: digital
+    title: {nob: Digitalt liv og grenser, eng: Digital life and boundaries}
+skills:
+  # ---------------------------------------------------------------- etter 2.
+  - id: saf.sources.raise-question
+    strand: sources
+    checkpoint: 2
+    refs: [KM14717]
+    needs: []
+    i_can:
+      nob: Jeg kan stille et spørsmål om samfunnet rundt meg.
+      eng: I can ask a question about the society around me.
+    teacher:
+      nob: "Stiller et spørsmål om nærmiljøet som kan undersøkes (hvorfor ligger skolen her?) og legger det fram. Ikke ennå: forteller bare noe hen vet."
+      eng: "Asks a question about the local area that can be looked into (why is the school here?) and presents it. Not yet: only tells something they already know."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sources.find-out-from-picture-map
+    strand: sources
+    checkpoint: 2
+    refs: [KM14718]
+    needs: [saf.sources.raise-question]
+    i_can:
+      nob: Jeg kan finne ut noe fra et bilde eller et kart.
+      eng: I can find something out from a picture or a map.
+    teacher:
+      nob: "Bruker et bilde eller kart til å svare på et spørsmål (hvor mange hus var det før?). Ikke ennå: beskriver bildet uten å bruke det som svar."
+      eng: "Uses a picture or map to answer a question (how many houses were there before?). Not yet: describes the picture without using it to answer."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.geography.read-local-map
+    strand: geography
+    checkpoint: 2
+    refs: [KM14718]
+    needs: []
+    i_can:
+      nob: Jeg kan finne steder på et kart over nærmiljøet.
+      eng: I can find places on a map of my local area.
+    teacher:
+      nob: "Finner skolen, hjemmet og en butikk på et enkelt kart og bruker kartsymboler. Ikke ennå: tror nord betyr opp bakken."
+      eng: "Finds the school, home and a shop on a simple map and uses map symbols. Not yet: thinks north means uphill."
+    stages: [concrete, pictorial]
+    misconceptions: [north-is-uphill]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.local-heritage
+    strand: history
+    checkpoint: 2
+    refs: [KM14719]
+    needs: []
+    i_can:
+      nob: Jeg kan finne et gammelt byggverk nær meg og tegne det.
+      eng: I can find an old building near me and draw it.
+    teacher:
+      nob: "Besøker eller slår opp et gammelt byggverk i nærmiljøet og tegner det. Ikke ennå: tegner et byggverk hen ikke har sett."
+      eng: "Visits or looks up an old building in the local area and draws it. Not yet: draws a building they have not seen."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.history.local-landscape
+    strand: history
+    checkpoint: 2
+    refs: [KM14719]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle om kulturminner og natur i nærmiljøet mitt.
+      eng: I can tell about heritage and nature in my local area.
+    teacher:
+      nob: "Nevner et kulturminne og et naturtrekk i nærmiljøet og hva de forteller. Ikke ennå: nevner steder uten å vite hvorfor de er spesielle."
+      eng: "Names a heritage site and a natural feature in the local area and what they tell us. Not yet: names places without knowing why they matter."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.grandparents-time
+    strand: history
+    checkpoint: 2
+    refs: [KM14720]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle hvordan folk levde da besteforeldrene mine var små.
+      eng: I can tell how people lived when my grandparents were young.
+    teacher:
+      nob: "Sorterer gjenstander i besteforeldres tid, nå og begge, og forteller om én forskjell. Ikke ennå: legger vikinger og besteforeldre i samme lange siden."
+      eng: "Sorts objects into grandparents' time, now and both, and tells one difference. Not yet: puts Vikings and grandparents in the same long ago."
+    stages: [concrete, pictorial]
+    misconceptions: [old-is-one-period]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.interview-older-adult
+    strand: history
+    checkpoint: 2
+    refs: [KM14720]
+    needs: [saf.history.grandparents-time]
+    i_can:
+      nob: Jeg kan stille en eldre person tre spørsmål om før.
+      eng: I can ask an older person three questions about the past.
+    teacher:
+      nob: "Bruker intervjukortet med en besteforelder eller en annen voksen og forteller ett svar tilbake. Ikke ennå: spør uten å lytte til svaret."
+      eng: "Uses the interview card with a grandparent or another older adult and reports one answer back. Not yet: asks without listening to the answer."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.identity.different-opinions
+    strand: identity
+    checkpoint: 2
+    refs: [KM14721]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle hvorfor folk mener og velger ulikt.
+      eng: I can tell why people think and choose differently.
+    teacher:
+      nob: "Gir en grunn til at to personer velger ulikt (ulik erfaring, ulike behov). Ikke ennå: sier at den andre tar feil."
+      eng: "Gives a reason why two people choose differently (different experience, different needs). Not yet: says the other person is wrong."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.friendship
+    strand: identity
+    checkpoint: 2
+    refs: [KM14722]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle hva som gjør et vennskap godt.
+      eng: I can tell what makes a friendship good.
+    teacher:
+      nob: "Nevner ting som gjør et vennskap godt og ting som kan skade det, som å holde noen utenfor. Ikke ennå: nevner bare å leke sammen."
+      eng: "Names things that make a friendship good and things that can harm it, such as leaving someone out. Not yet: names only playing together."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.families-and-communities
+    strand: identity
+    checkpoint: 2
+    refs: [KM14728]
+    needs: []
+    i_can:
+      nob: Jeg vet at familier kan se ulike ut.
+      eng: I know that families can look different.
+    teacher:
+      nob: "Gir eksempler på ulike familier (to foreldre, én forelder, to mødre, besteforeldre) og fellesskap. Ikke ennå: tror det bare finnes én slags familie."
+      eng: "Gives examples of different families (two parents, one parent, two mothers, grandparents) and communities. Not yet: thinks there is only one kind of family."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.sami-indigenous
+    strand: identity
+    checkpoint: 2
+    refs: [KM14728]
+    needs: []
+    i_can:
+      nob: Jeg vet at samene er et urfolk i Norge.
+      eng: I know the Sami are an Indigenous people in Norway.
+    teacher:
+      nob: "Vet at samene er et urfolk og nevner noe fra samisk kultur (språk, nasjonaldag, kofte). Ikke ennå: tror alle samer driver med rein."
+      eng: "Knows the Sami are an Indigenous people and names something from Sami culture (language, national day, gákti). Not yet: thinks all Sami herd reindeer."
+    stages: [pictorial]
+    misconceptions: [all-sami-herd-reindeer]
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.local-human-impact
+    strand: sustainability
+    checkpoint: 2
+    refs: [KM14723]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan folk påvirker miljøet.
+      eng: I can give examples of how people affect the environment.
+    teacher:
+      nob: "Gir eksempler fra nærmiljøet på påvirkning av natur og klima (veier, søppel, biler). Ikke ennå: gir bare eksempler langt borte."
+      eng: "Gives local examples of effects on nature and climate (roads, litter, cars). Not yet: gives only faraway examples."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.document-impact
+    strand: sustainability
+    checkpoint: 2
+    refs: [KM14723]
+    needs: [saf.sustainability.local-human-impact]
+    i_can:
+      nob: Jeg kan tegne et spor etter mennesker nær skolen.
+      eng: I can draw one sign of human impact near school.
+    teacher:
+      nob: "Finner og tegner ett spor etter mennesker i nærmiljøet og sier hva det gjør med naturen. Ikke ennå: tegner uten å ha sett det."
+      eng: "Finds and draws one sign of human impact nearby and says what it does to nature. Not yet: draws without having seen it."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.sustainability.connected-world
+    strand: sustainability
+    checkpoint: 2
+    refs: [KM14729]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan folk i verden påvirker hverandre.
+      eng: I can show how people around the world affect each other.
+    teacher:
+      nob: "Gir eksempler som klær laget i et annet land eller mat vi importerer. Ikke ennå: ser ikke noen kobling mellom seg selv og andre land."
+      eng: "Gives examples such as clothes made in another country or food we import. Not yet: sees no link between themselves and other countries."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.childrens-rights
+    strand: rights
+    checkpoint: 2
+    refs: [KM14724]
+    needs: []
+    i_can:
+      nob: Jeg kan nevne noen av barns rettigheter.
+      eng: I can name some children's rights.
+    teacher:
+      nob: "Nevner retten til skole, lek, helse og å bli hørt, i Norge og i verden. Ikke ennå: blander rettigheter og ønsker, som retten til en mobil."
+      eng: "Names the right to school, play, health and being heard, in Norway and the world. Not yet: confuses rights with wishes, such as a right to a phone."
+    stages: [concrete, pictorial]
+    misconceptions: [rights-are-wishes]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.when-rights-broken
+    strand: rights
+    checkpoint: 2
+    refs: [KM14724]
+    needs: [saf.rights.childrens-rights]
+    i_can:
+      nob: Jeg vet hva jeg kan gjøre hvis rettighetene mine brytes.
+      eng: I know what to do if my rights are broken.
+    teacher:
+      nob: "Vet at hen kan si fra til en voksen hen stoler på, og kjenner Alarmtelefonen for barn og unge (116 111). Ikke ennå: vet ikke hvem hen kan si fra til."
+      eng: "Knows to tell an adult they trust, and knows the children's helpline (116 111). Not yet: does not know who to tell."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.how-children-influence
+    strand: rights
+    checkpoint: 2
+    refs: [KM14725]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan barn kan påvirke beslutninger.
+      eng: I can give examples of how children can affect decisions.
+    teacher:
+      nob: "Nevner klasseråd, elevråd og å si meningen sin, og vet at flertallet bestemmer i en avstemning. Ikke ennå: tror bare voksne kan bestemme."
+      eng: "Names class meetings, the pupil council and speaking up, and knows the majority decides in a vote. Not yet: thinks only adults can decide."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.class-decision
+    strand: rights
+    checkpoint: 2
+    refs: [KM14725]
+    needs: [saf.rights.how-children-influence]
+    i_can:
+      nob: Jeg kan være med på å bestemme noe i klassen.
+      eng: I can take part in making a class decision.
+    teacher:
+      nob: "Foreslår, lytter og stemmer i en ekte klasseavstemning og godtar resultatet. Ikke ennå: vil bare stemme hvis eget forslag vinner."
+      eng: "Proposes, listens and votes in a real class vote and accepts the result. Not yet: only wants to vote if their own idea wins."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.digital.digital-contact
+    strand: digital
+    checkpoint: 2
+    refs: [KM14726]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle om noe bra og noe vanskelig på nett.
+      eng: I can tell one good and one hard thing about being online.
+    teacher:
+      nob: "Nevner en mulighet (holde kontakt med familie) og en utfordring (noen skriver stygt) ved digital kontakt. Ikke ennå: ser bare det ene."
+      eng: "Names one opportunity (keeping in touch with family) and one challenge (someone writes something mean) in digital contact. Not yet: sees only one side."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.digital.name-feelings
+    strand: digital
+    checkpoint: 2
+    refs: [KM14727]
+    needs: []
+    i_can:
+      nob: Jeg kan sette ord på følelser.
+      eng: I can put feelings into words.
+    teacher:
+      nob: "Kobler et ansiktsuttrykk eller en situasjon i en fortelling til en følelse (glad, lei seg, redd, sint). Ikke ennå: bruker bare glad og lei seg."
+      eng: "Matches a facial expression or a situation in a story to a feeling (happy, sad, scared, angry). Not yet: uses only happy and sad."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.digital.body-and-boundaries
+    strand: digital
+    checkpoint: 2
+    refs: [KM14727]
+    needs: [saf.digital.name-feelings]
+    i_can:
+      nob: Jeg vet at kroppen min er min, og at nei betyr nei.
+      eng: I know my body is mine, and no means no.
+    teacher:
+      nob: "Vet at alle bestemmer over egen kropp, at man kan si nei og skal respektere andres nei, og at man kan si fra til en voksen. Ikke ennå: tror man må gjøre som en voksen sier med kroppen sin."
+      eng: "Knows everyone decides over their own body, that you can say no and must respect others' no, and that you can tell an adult. Not yet: thinks you must do what an adult says with your body."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # ---------------------------------------------------------------- etter 4.
+  - id: saf.sources.search-several-sources
+    strand: sources
+    checkpoint: 4
+    refs: [KM14673]
+    needs: [saf.sources.find-out-from-picture-map]
+    i_can:
+      nob: Jeg kan lete i flere kilder og si hvilken som hjalp mest.
+      eng: I can search several sources and say which helped most.
+    teacher:
+      nob: "Bruker minst to kilder til et tema og begrunner hvilken som var mest nyttig ut fra innholdet. Ikke ennå: velger den kilden hen er mest enig med."
+      eng: "Uses at least two sources on a topic and says which was most useful because of what it contained. Not yet: picks the source they agree with."
+    stages: [pictorial, abstract]
+    misconceptions: [source-judged-by-agreement]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.heritage-then-and-now
+    strand: history
+    checkpoint: 4
+    refs: [KM14669]
+    needs: [saf.history.local-landscape, saf.history.grandparents-time]
+    i_can:
+      nob: Jeg kan sammenligne livet da et kulturminne ble laget med nå.
+      eng: I can compare life when an old site was built with now.
+    teacher:
+      nob: "Plasserer kulturminnet på en tidslinje med eget fødselsår og sammenligner mat, arbeid eller bolig da og nå. Ikke ennå: plasserer alt gammelt på samme sted på tidslinjen."
+      eng: "Places the site on a timeline with their own birth year and compares food, work or housing then and now. Not yet: puts everything old at the same point on the timeline."
+    stages: [concrete, pictorial]
+    misconceptions: [old-is-one-period]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.visit-heritage
+    strand: history
+    checkpoint: 4
+    refs: [KM14669]
+    needs: [saf.history.local-heritage]
+    i_can:
+      nob: Jeg kan besøke eller slå opp et kulturminne og tegne det.
+      eng: I can visit or look up a heritage site and draw it.
+    teacher:
+      nob: "Besøker eller slår opp et kulturminne, tegner det og skriver én ting om livet den gangen. Ikke ennå: tegner uten å finne ut noe om tida."
+      eng: "Visits or looks up a heritage site, draws it and writes one thing about life then. Not yet: draws without finding out about the period."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.geography.norwegian-landscapes
+    strand: geography
+    checkpoint: 4
+    refs: [KM14672]
+    needs: [saf.geography.read-local-map]
+    i_can:
+      nob: Jeg kan beskrive landskap i Norge ved hjelp av kart.
+      eng: I can describe Norwegian landscapes using maps.
+    teacher:
+      nob: "Finner fjord, fjell, dal og kyst på kart og forteller hva kart og gamle kilder sier om landskapet. Ikke ennå: kjenner igjen landskapet på bilde, men ikke på kart."
+      eng: "Finds fjord, mountain, valley and coast on maps and tells what maps and old sources say about the landscape. Not yet: recognises the landscape in a photo but not on a map."
+    stages: [pictorial]
+    misconceptions: [north-is-uphill]
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.why-conflicts
+    strand: identity
+    checkpoint: 4
+    refs: [KM14674]
+    needs: [saf.identity.different-opinions]
+    i_can:
+      nob: Jeg kan fortelle hvorfor konflikter oppstår på skolen.
+      eng: I can tell why conflicts start at school.
+    teacher:
+      nob: "Nevner årsaker som misforståelser, ulike ønsker og å bli holdt utenfor, i en oppdiktet konflikt. Ikke ennå: sier bare hvem som begynte."
+      eng: "Names causes such as misunderstandings, different wishes and being left out, in a made-up conflict. Not yet: only says who started it."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.solve-conflict
+    strand: identity
+    checkpoint: 4
+    refs: [KM14674]
+    needs: [saf.identity.why-conflicts]
+    i_can:
+      nob: Jeg kan lytte og finne en løsning på en konflikt sammen.
+      eng: I can listen and find a solution to a conflict together.
+    teacher:
+      nob: "Bruker løs-det-kortet med en partner: hva skjedde, hvordan hver følte det, én idé hver. Ikke ennå: forteller sin side uten å høre den andre."
+      eng: "Uses the solve-it card with a partner: what happened, how each felt, one idea each. Not yet: tells their side without hearing the other."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.identity.outside-community
+    strand: identity
+    checkpoint: 4
+    refs: [KM14668]
+    needs: [saf.identity.friendship]
+    i_can:
+      nob: Jeg kan forklare hvordan det kan føles å stå utenfor.
+      eng: I can explain how it can feel to be left out.
+    teacher:
+      nob: "Forklarer hva identitet og fellesskap er, og setter ord på hvordan en person i en fortelling føler seg utenfor. Ikke ennå: forteller bare hva som skjedde, ikke hvordan det føltes."
+      eng: "Explains what identity and community are, and puts into words how a character in a story feels left out. Not yet: tells what happened but not how it felt."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.sami-indigenous-status
+    strand: identity
+    checkpoint: 4
+    refs: [KM14671]
+    needs: [saf.identity.sami-indigenous]
+    i_can:
+      nob: Jeg kan forklare hvorfor samene har status som urfolk.
+      eng: I can explain why the Sami have Indigenous status.
+    teacher:
+      nob: "Forklarer at samene bodde her før riksgrensene ble trukket og har eget språk og egen kultur. Ikke ennå: sier bare at samene er gamle."
+      eng: "Explains that the Sami lived here before the national borders were drawn and have their own language and culture. Not yet: only says the Sami are old."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.sami-life
+    strand: identity
+    checkpoint: 4
+    refs: [KM14671]
+    needs: [saf.identity.sami-indigenous]
+    i_can:
+      nob: Jeg kan beskrive samisk kultur og samfunnsliv før og nå.
+      eng: I can describe Sami culture and community life, past and present.
+    teacher:
+      nob: "Beskriver ulike former for samisk liv (sjø, elv, rein, by) før og nå. Ikke ennå: beskriver samer bare slik de levde før."
+      eng: "Describes different forms of Sami life (coast, river, reindeer, city) past and present. Not yet: describes the Sami only as they lived in the past."
+    stages: [pictorial, abstract]
+    misconceptions: [all-sami-herd-reindeer]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.human-rights
+    strand: rights
+    checkpoint: 4
+    refs: [KM14670]
+    needs: [saf.rights.childrens-rights]
+    i_can:
+      nob: Jeg kan forklare hva menneskerettigheter er og hvorfor vi har dem.
+      eng: I can explain what human rights are and why we have them.
+    teacher:
+      nob: "Kobler en situasjon til rettigheten som beskytter den, og forklarer at rettighetene gjelder alle. Ikke ennå: tror rettigheter må fortjenes."
+      eng: "Matches a situation to the right that protects it, and explains that the rights apply to everyone. Not yet: thinks rights have to be earned."
+    stages: [pictorial, abstract]
+    misconceptions: [rights-are-earned]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.what-democracy-is
+    strand: rights
+    checkpoint: 4
+    refs: [KM14677]
+    needs: [saf.rights.how-children-influence]
+    i_can:
+      nob: Jeg kan forklare hva demokrati er.
+      eng: I can explain what democracy is.
+    teacher:
+      nob: "Forklarer demokrati som folkestyre med valg, ytringsfrihet og vern av mindretall, og nevner hvem som har makt i samfunnet. Ikke ennå: sier at demokrati bare er å stemme."
+      eng: "Explains democracy as rule by the people with elections, free speech and protection of minorities, and names who holds power in society. Not yet: says democracy is only voting."
+    stages: [pictorial, abstract]
+    misconceptions: [democracy-is-only-voting]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.propose-change
+    strand: rights
+    checkpoint: 4
+    refs: [KM14677]
+    needs: [saf.rights.class-decision]
+    i_can:
+      nob: Jeg kan foreslå en endring og følge den til avstemning.
+      eng: I can suggest a change and follow it to a vote.
+    teacher:
+      nob: "Foreslår én endring for klassen, begrunner den og følger den gjennom en klasseavstemning. Ikke ennå: foreslår uten begrunnelse."
+      eng: "Suggests one change for the class, gives a reason and follows it through a class vote. Not yet: suggests without a reason."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.rights.public-institutions
+    strand: rights
+    checkpoint: 4
+    refs: [KM14678]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle hva noen offentlige institusjoner gjør.
+      eng: I can tell what some public institutions do.
+    teacher:
+      nob: "Kobler skole, sykehus, politi og NAV til hva de gjør og hvordan de påvirker folks liv. Ikke ennå: vet navnene, men ikke hva de gjør."
+      eng: "Matches school, hospital, police and the welfare office to what they do and how they affect people's lives. Not yet: knows the names but not what they do."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.sustainability-examples
+    strand: sustainability
+    checkpoint: 4
+    refs: [KM14679]
+    needs: [saf.sustainability.local-human-impact]
+    i_can:
+      nob: Jeg kan gi eksempler på hva bærekraft betyr.
+      eng: I can give examples of what sustainability means.
+    teacher:
+      nob: "Forklarer bærekraft som å dekke egne behov uten å ødelegge for dem som kommer etter, med et eksempel. Ikke ennå: tror bærekraft bare handler om søppel."
+      eng: "Explains sustainability as meeting our needs without spoiling things for those who come after, with an example. Not yet: thinks sustainability is only about rubbish."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.money-and-spending
+    strand: sustainability
+    checkpoint: 4
+    refs: [KM14680]
+    needs: []
+    i_can:
+      nob: Jeg kan vise hvordan det jeg kjøper påvirker pengene mine.
+      eng: I can show how what I buy affects my money.
+    teacher:
+      nob: "Viser lommepenger som en stolpe og trekker fra det hen kjøper, og ser hva som er igjen. Ikke ennå: tror man kan kjøpe alt man vil hvis man har kort."
+      eng: "Shows pocket money as a bar and takes away what they buy, and sees what is left. Not yet: thinks a card lets you buy anything."
+    stages: [concrete, pictorial]
+    misconceptions: [card-money-is-unlimited]
+    assessable: true
+    reviewed: false
+
+  - id: saf.digital.privacy-rules
+    strand: digital
+    checkpoint: 4
+    refs: [KM14675]
+    needs: [saf.digital.digital-contact]
+    i_can:
+      nob: Jeg vet hva som er trygt å dele på nett.
+      eng: I know what is safe to share online.
+    teacher:
+      nob: "Sorterer navn, skole, bilde av huset og favorittfarge i trygt å dele, spør en voksen først og aldri del. Ikke ennå: deler adresse eller skole uten å tenke seg om."
+      eng: "Sorts name, school, a photo of the house and favourite colour into safe to share, ask an adult first and never share. Not yet: shares address or school without thinking."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.digital.abuse-and-help
+    strand: digital
+    checkpoint: 4
+    refs: [KM14676]
+    needs: [saf.digital.body-and-boundaries]
+    i_can:
+      nob: Jeg vet hva vold og overgrep er, og hvor jeg får hjelp.
+      eng: I know what violence and abuse are, and where to get help.
+    teacher:
+      nob: "Vet at vold og seksuelle overgrep aldri er barnets skyld, og kjenner Alarmtelefonen (116 111) og en voksen hen stoler på. Ikke ennå: vet ikke hvor man kan få hjelp."
+      eng: "Knows violence and sexual abuse are never the child's fault, and knows the helpline (116 111) and an adult they trust. Not yet: does not know where to get help."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # ---------------------------------------------------------------- etter 7.
+  - id: saf.sources.research-project
+    strand: sources
+    checkpoint: 7
+    refs: [KM14681]
+    needs: [saf.sources.search-several-sources]
+    i_can:
+      nob: Jeg kan gjennomføre en liten undersøkelse og presentere den digitalt.
+      eng: I can carry out a small study and present it digitally.
+    teacher:
+      nob: "Følger metodekortet med seks steg i et klasseprosjekt og presenterer funnene med et digitalt verktøy. Ikke ennå: hopper fra spørsmål rett til presentasjon."
+      eng: "Follows the six-step method card in a class project and presents the findings with a digital tool. Not yet: jumps from question straight to presentation."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.sources.fact-opinion-advert
+    strand: sources
+    checkpoint: 7
+    refs: [KM14687]
+    needs: [saf.sources.search-several-sources]
+    i_can:
+      nob: Jeg kan skille fakta, meninger og reklame i nyheter.
+      eng: I can tell facts, opinions and adverts apart in news.
+    teacher:
+      nob: "Sorterer setninger fra en nyhetssak i fakta, mening og reklame, og legger fram en nyhetssak. Ikke ennå: kaller alt som står i avisen fakta."
+      eng: "Sorts sentences from a news item into fact, opinion and advert, and presents a news item. Not yet: calls everything in the paper fact."
+    stages: [pictorial, abstract]
+    misconceptions: [printed-means-true]
+    assessable: true
+    reviewed: false
+
+  - id: saf.sources.compare-two-sources
+    strand: sources
+    checkpoint: 7
+    refs: [KM14686]
+    needs: [saf.sources.search-several-sources]
+    i_can:
+      nob: Jeg kan sammenligne to kilder om samme sak.
+      eng: I can compare two sources about the same event.
+    teacher:
+      nob: "Finner hva som skiller to artikler om samme hendelse og velger en grunn til at de kan være ulike. Ikke ennå: sier at den ene lyver fordi hen er uenig."
+      eng: "Finds what differs between two articles on one event and picks a reason they might differ. Not yet: says one lies because they disagree with it."
+    stages: [pictorial, abstract]
+    misconceptions: [source-judged-by-agreement]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.livelihoods-and-settlement
+    strand: history
+    checkpoint: 7
+    refs: [KM14685]
+    needs: [saf.history.heritage-then-and-now]
+    i_can:
+      nob: Jeg kan forklare hvordan arbeid og teknologi endret hvor folk bor.
+      eng: I can explain how work and technology changed where people live.
+    teacher:
+      nob: "Kobler endringer som industrialisering til flytting til byene og endrede levekår. Ikke ennå: beskriver før og nå uten å forklare hvorfor det endret seg."
+      eng: "Links changes such as industrialisation to moving into towns and changed living conditions. Not yet: describes then and now without explaining why it changed."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.encounters-change-thinking
+    strand: history
+    checkpoint: 7
+    refs: [KM14697]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan møter mellom folk har endret samfunn.
+      eng: I can give examples of how meetings between peoples changed societies.
+    teacher:
+      nob: "Gir eksempler som handel, vikingtokt eller innvandring og hva de endret i tenkemåte eller samfunn. Ikke ennå: nevner hendelsen uten å si hva den endret."
+      eng: "Gives examples such as trade, Viking voyages or migration and what they changed in ideas or society. Not yet: names the event without saying what it changed."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.geography.world-regions
+    strand: geography
+    checkpoint: 7
+    refs: [KM14688]
+    needs: [saf.geography.norwegian-landscapes]
+    i_can:
+      nob: Jeg kan beskrive hvordan geografi påvirker livet i ulike deler av verden.
+      eng: I can describe how geography shapes life in different world regions.
+    teacher:
+      nob: "Beskriver klima, landskap og ressurser i en region og hvordan de påvirker bosetting og arbeid. Ikke ennå: beskriver regionen uten å koble den til folks liv."
+      eng: "Describes the climate, landscape and resources of a region and how they affect settlement and work. Not yet: describes the region without linking it to people's lives."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.dealing-with-conflict
+    strand: identity
+    checkpoint: 7
+    refs: [KM14682]
+    needs: [saf.identity.why-conflicts]
+    i_can:
+      nob: Jeg kan forklare hvordan folk og samfunn kan løse konflikter.
+      eng: I can explain how people and societies can handle conflicts.
+    teacher:
+      nob: "Gir eksempler på løsninger for enkeltpersoner (megling, å lytte) og for samfunn (rettssystem, forhandling). Ikke ennå: nevner bare at noen må gi seg."
+      eng: "Gives examples of solutions for individuals (mediation, listening) and for society (courts, negotiation). Not yet: only says someone has to give in."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.mediate-conflict
+    strand: identity
+    checkpoint: 7
+    refs: [KM14682]
+    needs: [saf.identity.solve-conflict]
+    i_can:
+      nob: Jeg kan følge en fast plan for å løse en konflikt.
+      eng: I can follow a set plan to solve a conflict.
+    teacher:
+      nob: "Bruker løs-det-kortet på en oppdiktet konflikt med en partner og kommer fram til en løsning begge godtar. Ikke ennå: hopper over hvordan den andre følte det."
+      eng: "Uses the solve-it card on a made-up conflict with a partner and reaches a solution both accept. Not yet: skips how the other person felt."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.identity.diversity-in-norway
+    strand: identity
+    checkpoint: 7
+    refs: [KM14683]
+    needs: [saf.identity.outside-community, saf.identity.families-and-communities]
+    i_can:
+      nob: Jeg kan gi eksempler på mangfold i Norge.
+      eng: I can give examples of diversity in Norway.
+    teacher:
+      nob: "Gir eksempler på mangfold i språk, religion, levesett og bakgrunn, og forklarer behovet for både å være seg selv og å høre til. Ikke ennå: tenker på mangfold bare som innvandring."
+      eng: "Gives examples of diversity in language, religion, ways of life and background, and explains the need both to be oneself and to belong. Not yet: thinks of diversity only as immigration."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.counter-prejudice
+    strand: identity
+    checkpoint: 7
+    refs: [KM14684]
+    needs: [saf.identity.diversity-in-norway]
+    i_can:
+      nob: Jeg kan foreslå hvordan vi kan motvirke fordommer og rasisme.
+      eng: I can suggest ways to counter prejudice and racism.
+    teacher:
+      nob: "Forklarer hva likeverd og like muligheter betyr i et demokrati, og foreslår konkrete tiltak mot fordommer og diskriminering. Ikke ennå: sier bare at man skal være snill."
+      eng: "Explains what equality and equal opportunity mean in a democracy, and suggests concrete measures against prejudice and discrimination. Not yet: only says be kind."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.sami-minority-history
+    strand: identity
+    checkpoint: 7
+    refs: [KM14690]
+    needs: [saf.identity.sami-indigenous-status]
+    i_can:
+      nob: Jeg kan fortelle hovedtrekk i samenes og de nasjonale minoritetenes historie.
+      eng: I can outline the history of the Sami and national minorities.
+    teacher:
+      nob: "Navngir de fem nasjonale minoritetene (jøder, kvener/norskfinner, rom, romanifolk/tatere, skogfinner) og hovedtrekk i samenes historie. Ikke ennå: kjenner bare til samene."
+      eng: "Names the five national minorities (Jews, Kvens/Norwegian Finns, Roma, Romani/Tater, Forest Finns) and main features of Sami history. Not yet: knows only about the Sami."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.minority-rights-today
+    strand: identity
+    checkpoint: 7
+    refs: [KM14690]
+    needs: [saf.identity.sami-minority-history]
+    i_can:
+      nob: Jeg kan forklare hvilke rettigheter samer og nasjonale minoriteter har i dag.
+      eng: I can explain the rights Sami and national minorities have today.
+    teacher:
+      nob: "Nevner rettigheter som samisk språk i skolen, Sametinget og vern av minoritetenes språk og kultur. Ikke ennå: vet at det finnes rettigheter, men ikke hvilke."
+      eng: "Names rights such as Sami language in school, the Sami Parliament and protection of minority languages and cultures. Not yet: knows rights exist but not which."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.compare-rights
+    strand: rights
+    checkpoint: 7
+    refs: [KM14689]
+    needs: [saf.rights.human-rights]
+    i_can:
+      nob: Jeg kan sammenligne hvordan menneskerettigheter følges i ulike land.
+      eng: I can compare how human rights are upheld in different countries.
+    teacher:
+      nob: "Sammenligner hvordan en rettighet (ytringsfrihet, skolegang) er innført og fulgt i to land. Ikke ennå: tror rettighetene følges likt overalt."
+      eng: "Compares how one right (free speech, schooling) is established and upheld in two countries. Not yet: thinks rights are upheld the same everywhere."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.road-to-democracy
+    strand: rights
+    checkpoint: 7
+    refs: [KM14695]
+    needs: [saf.rights.what-democracy-is]
+    i_can:
+      nob: Jeg kan fortelle om viktige hendelser på veien til demokratiet vårt.
+      eng: I can tell key events on the way to our democracy.
+    teacher:
+      nob: "Setter hendelser som 1814, parlamentarismen i 1884 og allmenn stemmerett i rekkefølge på en tidslinje. Ikke ennå: tror Norge alltid har vært et demokrati."
+      eng: "Orders events such as 1814, parliamentary rule in 1884 and universal suffrage on a timeline. Not yet: thinks Norway has always been a democracy."
+    stages: [pictorial, abstract]
+    misconceptions: [old-is-one-period]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.forms-of-government
+    strand: rights
+    checkpoint: 7
+    refs: [KM14695]
+    needs: [saf.rights.what-democracy-is]
+    i_can:
+      nob: Jeg kan sammenligne hvor mye makt folk har i ulike styresett.
+      eng: I can compare how much say people have in different governments.
+    teacher:
+      nob: "Sammenligner demokrati, diktatur og eneveldig monarki etter hvor mye makt den enkelte har. Ikke ennå: tror alle land med valg er demokratier."
+      eng: "Compares democracy, dictatorship and absolute monarchy by how much power individuals have. Not yet: thinks every country with elections is a democracy."
+    stages: [pictorial, abstract]
+    misconceptions: [democracy-is-only-voting]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.laws-and-norms
+    strand: rights
+    checkpoint: 7
+    refs: [KM14696]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare forskjellen på lover, regler og normer.
+      eng: I can explain the difference between laws, rules and norms.
+    teacher:
+      nob: "Sorterer eksempler i lov, regel og norm og sier hva som kan skje ved brudd på hver. Ikke ennå: tror normer er skrevne lover."
+      eng: "Sorts examples into law, rule and norm and says what can happen when each is broken. Not yet: thinks norms are written laws."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.advertising-and-self-image
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM14691]
+    needs: [saf.sustainability.money-and-spending]
+    i_can:
+      nob: Jeg kan forklare hvordan reklame påvirker kjøp og selvbilde.
+      eng: I can explain how advertising affects spending and self-image.
+    teacher:
+      nob: "Peker på virkemidler i en reklame (kjendiser, redigerte bilder) og forklarer hvordan de påvirker kjøp og selvbilde. Ikke ennå: tror reklame ikke virker på seg selv."
+      eng: "Points out techniques in an advert (celebrities, edited images) and explains how they affect spending and self-image. Not yet: thinks adverts do not work on them."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.global-challenge
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM14692]
+    needs: [saf.sustainability.sustainability-examples, saf.sustainability.connected-world]
+    i_can:
+      nob: Jeg kan presentere et globalt bærekraftproblem og et forslag til løsning.
+      eng: I can present a global sustainability problem and a possible solution.
+    teacher:
+      nob: "Legger fram årsaker og følger av et globalt problem (plast i havet, vannmangel) og hvordan land kan samarbeide. Ikke ennå: beskriver problemet uten følger eller løsning."
+      eng: "Presents the causes and effects of a global problem (plastic in the sea, water shortage) and how countries can cooperate. Not yet: describes the problem without effects or a solution."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.digital.online-judgement
+    strand: digital
+    checkpoint: 7
+    refs: [KM14693]
+    needs: [saf.digital.privacy-rules]
+    i_can:
+      nob: Jeg kan bruke god dømmekraft når jeg er på nett.
+      eng: I can use good judgement when I am online.
+    teacher:
+      nob: "Vurderer en situasjon på nett (dele et bilde av en venn, en gruppechat) ut fra regler, normer og grenser. Ikke ennå: tenker at det som er lov, alltid er greit."
+      eng: "Judges a situation online (sharing a photo of a friend, a group chat) against rules, norms and boundaries. Not yet: thinks anything allowed is always fine."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.digital.respect-boundaries
+    strand: digital
+    checkpoint: 7
+    refs: [KM14694]
+    needs: [saf.digital.abuse-and-help]
+    i_can:
+      nob: Jeg vet hvordan jeg respekterer mine og andres grenser.
+      eng: I know how to respect my own and others' boundaries.
+    teacher:
+      nob: "Vet at identitet, seksuell orientering og kjønnsuttrykk varierer, og hva man kan gjøre når grenser brytes. Ikke ennå: vet ikke hvor man kan få hjelp."
+      eng: "Knows that identity, sexual orientation and gender expression vary, and what can be done when boundaries are crossed. Not yet: does not know where to get help."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # --------------------------------------------------------------- etter 10.
+  - id: saf.sources.research-with-method
+    strand: sources
+    checkpoint: 10
+    refs: [KM14698]
+    needs: [saf.sources.research-project]
+    i_can:
+      nob: Jeg kan gjennomføre en undersøkelse med samfunnsfaglig metode.
+      eng: I can carry out research using social-studies methods.
+    teacher:
+      nob: "Velger metode (intervju, spørreskjema, kildesøk) og presenterer funnene digitalt i et lærerledet prosjekt. Ikke ennå: velger metode uten å begrunne den."
+      eng: "Chooses a method (interview, survey, source search) and presents findings digitally in a teacher-led project. Not yet: picks a method without a reason."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: saf.sources.judge-validity
+    strand: sources
+    checkpoint: 10
+    refs: [KM14698]
+    needs: [saf.sources.compare-two-sources]
+    i_can:
+      nob: Jeg kan vurdere hvor gyldige og relevante funnene mine er.
+      eng: I can judge how valid and relevant my findings are.
+    teacher:
+      nob: "Vurderer om et utvalg er stort nok og om spørsmålene målte det de skulle. Ikke ennå: tror funnene gjelder alle fordi noen svarte."
+      eng: "Judges whether a sample is big enough and whether the questions measured what they should. Not yet: thinks the findings apply to everyone because some answered."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sources.algorithms-and-bias
+    strand: sources
+    checkpoint: 10
+    refs: [KM14701]
+    needs: [saf.sources.compare-two-sources]
+    i_can:
+      nob: Jeg kan forklare hvordan algoritmer og skjeve kilder påvirker det vi ser.
+      eng: I can explain how algorithms and biased sources shape what we see.
+    teacher:
+      nob: "Forklarer hvordan en feed velger innhold, hva en ensidig kilde er, og hva som skjer når kilder mangler. Ikke ennå: tror alle ser det samme på nett."
+      eng: "Explains how a feed picks content, what a one-sided source is, and what happens when sources are missing. Not yet: thinks everyone sees the same online."
+    stages: [abstract]
+    misconceptions: [source-judged-by-agreement]
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.causes-of-conflicts
+    strand: history
+    checkpoint: 10
+    refs: [KM14699]
+    needs: [saf.history.encounters-change-thinking]
+    i_can:
+      nob: Jeg kan forklare årsaker og følger av viktige konflikter.
+      eng: I can explain the causes and consequences of key conflicts.
+    teacher:
+      nob: "Skiller langsiktige og utløsende årsaker i en konflikt og drøfter hva som kunne ha hindret den. Ikke ennå: nevner bare den utløsende hendelsen."
+      eng: "Separates long-term causes from the trigger in a conflict and discusses what might have prevented it. Not yet: names only the triggering event."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.history.terrorism-and-genocide
+    strand: history
+    checkpoint: 10
+    refs: [KM14705]
+    needs: [saf.history.causes-of-conflicts]
+    i_can:
+      nob: Jeg kan forklare årsaker og følger av terror og folkemord.
+      eng: I can explain the causes and effects of terrorism and genocide.
+    teacher:
+      nob: "Forklarer årsaker og følger av Holocaust og 22. juli, og hvordan ekstreme holdninger og handlinger kan forebygges. Ikke ennå: beskriver hendelsene uten årsaker."
+      eng: "Explains the causes and consequences of the Holocaust and 22 July, and how extremist attitudes and acts can be prevented. Not yet: describes the events without causes."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.views-of-the-past
+    strand: history
+    checkpoint: 10
+    refs: [KM14700]
+    needs: [saf.history.encounters-change-thinking]
+    i_can:
+      nob: Jeg kan forklare hvordan synet på fortida påvirker hva folk gjør.
+      eng: I can explain how views of the past shape what people do.
+    teacher:
+      nob: "Gir et eksempel på at et bilde av fortida eller av en gruppe har påvirket holdninger og handlinger (statuer, nasjonaldager). Ikke ennå: ser på historie som bare det som skjedde."
+      eng: "Gives an example of a picture of the past or of a group shaping attitudes and actions (statues, national days). Not yet: sees history only as what happened."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.history.struggles-for-change
+    strand: history
+    checkpoint: 10
+    refs: [KM14714]
+    needs: [saf.rights.road-to-democracy]
+    i_can:
+      nob: Jeg kan gi eksempler på kamper for endring i samfunnet.
+      eng: I can give examples of people fighting for change in society.
+    teacher:
+      nob: "Gir eksempler som kvinnekampen, arbeiderbevegelsen eller Alta-saken, og hvordan tid og sted påvirket dem. Ikke ennå: nevner kampen uten å si hva den endret."
+      eng: "Gives examples such as the women's movement, the labour movement or the Alta dispute, and how time and place shaped them. Not yet: names the struggle without saying what it changed."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.geography.events-and-living-conditions
+    strand: geography
+    checkpoint: 10
+    refs: [KM14704]
+    needs: [saf.geography.world-regions]
+    i_can:
+      nob: Jeg kan sammenligne hvordan hendelser påvirker levekår i ulike land.
+      eng: I can compare how events affect living conditions in different countries.
+    teacher:
+      nob: "Kobler politiske, geografiske og historiske hendelser (tørke, krig, kolonitid) til levekår og flytting i dag. Ikke ennå: forklarer forskjeller bare med at noen land er rike."
+      eng: "Links political, geographic and historical events (drought, war, colonial rule) to living conditions and migration today. Not yet: explains differences only by some countries being rich."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.treaties-and-indigenous-rights
+    strand: rights
+    checkpoint: 10
+    refs: [KM14703]
+    needs: [saf.rights.compare-rights, saf.identity.minority-rights-today]
+    i_can:
+      nob: Jeg kan forklare hvordan menneskerettigheter og urfolksrettigheter påvirker norsk politikk.
+      eng: I can explain how human and Indigenous rights shape Norwegian policy.
+    teacher:
+      nob: "Gir eksempler på internasjonale avtaler (barnekonvensjonen, ILO 169) og hva de betyr for norsk lov og folks liv. Ikke ennå: tror avtaler mellom land ikke påvirker Norge."
+      eng: "Gives examples of international treaties (the Convention on the Rights of the Child, ILO 169) and what they mean for Norwegian law and people's lives. Not yet: thinks treaties do not affect Norway."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.political-system
+    strand: rights
+    checkpoint: 10
+    refs: [KM14716]
+    needs: [saf.rights.road-to-democracy, saf.rights.public-institutions]
+    i_can:
+      nob: Jeg kan beskrive det politiske systemet og velferdsstaten i Norge.
+      eng: I can describe Norway's political system and welfare state.
+    teacher:
+      nob: "Forklarer maktfordelingen (Stortinget, regjeringen, domstolene), hva velferdsstaten dekker, og nevner en utfordring. Ikke ennå: blander Stortinget og regjeringen."
+      eng: "Explains the separation of powers (parliament, government, courts), what the welfare state covers, and names one challenge. Not yet: mixes up parliament and government."
+    stages: [pictorial, abstract]
+    misconceptions: [parliament-is-government]
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.who-holds-power
+    strand: rights
+    checkpoint: 10
+    refs: [KM14712]
+    needs: [saf.rights.political-system]
+    i_can:
+      nob: Jeg kan forklare hvem som har makt, og hvordan de begrunner den.
+      eng: I can explain who holds power and how they justify it.
+    teacher:
+      nob: "Nevner politisk, økonomisk og mediemakt og gjengir hvordan en aktør selv begrunner sin makt. Ikke ennå: tror bare politikere har makt."
+      eng: "Names political, economic and media power and restates how an actor justifies their own position. Not yet: thinks only politicians have power."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.rights.breaking-laws
+    strand: rights
+    checkpoint: 10
+    refs: [KM14715]
+    needs: [saf.rights.laws-and-norms]
+    i_can:
+      nob: Jeg kan forklare følgene av å bryte lover og normer.
+      eng: I can explain the consequences of breaking laws and norms.
+    teacher:
+      nob: "Beskriver viktige lover og følger av brudd for den enkelte og for samfunnet, på kort og lang sikt. Ikke ennå: nevner bare straff."
+      eng: "Describes important laws and the consequences of breaking them for the individual and for society, short and long term. Not yet: names only punishment."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.norwegianisation
+    strand: identity
+    checkpoint: 10
+    refs: [KM14706]
+    needs: [saf.identity.minority-rights-today]
+    i_can:
+      nob: Jeg kan forklare fornorskingspolitikken og følgene den har hatt.
+      eng: I can explain Norwegianisation policy and its consequences.
+    teacher:
+      nob: "Forklarer hva fornorskingen gikk ut på (språkforbud i skolen, internater), urettene den førte til, og følger for enkeltmennesker og samfunn i dag. Ikke ennå: tror det bare handlet om skolen."
+      eng: "Explains what Norwegianisation involved (language bans in school, boarding schools), the injustices it caused, and effects on individuals and society today. Not yet: thinks it was only about school."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.identity.equality-and-diversity
+    strand: identity
+    checkpoint: 10
+    refs: [KM14707]
+    needs: [saf.identity.counter-prejudice]
+    i_can:
+      nob: Jeg kan drøfte muligheter og utfordringer ved mangfold.
+      eng: I can discuss the opportunities and challenges of diversity.
+    teacher:
+      nob: "Gjengir argumenter for både muligheter og utfordringer ved mangfold, og skiller likhet fra likeverd. Ikke ennå: ser bare det ene."
+      eng: "Sets out arguments for both the opportunities and challenges of diversity, and tells sameness from equal worth. Not yet: sees only one side."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.dimensions
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM14708]
+    needs: [saf.sustainability.global-challenge]
+    i_can:
+      nob: Jeg kan forklare hvordan de tre sidene ved bærekraft henger sammen.
+      eng: I can explain how the three sides of sustainability connect.
+    teacher:
+      nob: "Forklarer miljømessig, økonomisk og sosial bærekraft, hvordan de påvirker hverandre, og tiltak for et mer bærekraftig samfunn. Ikke ennå: kjenner bare den miljømessige siden."
+      eng: "Explains environmental, economic and social sustainability, how they affect each other, and measures for a more sustainable society. Not yet: knows only the environmental side."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.work-income-life
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM14710]
+    needs: [saf.sustainability.advertising-and-self-image]
+    i_can:
+      nob: Jeg kan forklare hvordan arbeid og inntekt påvirker levestandard.
+      eng: I can explain how work and income affect standard of living.
+    teacher:
+      nob: "Setter opp et enkelt budsjett og skiller levestandard fra livskvalitet. Ikke ennå: tror mer penger alltid betyr bedre liv."
+      eng: "Sets up a simple budget and tells standard of living apart from quality of life. Not yet: thinks more money always means a better life."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.sustainability.technology-and-change
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM14702]
+    needs: [saf.history.livelihoods-and-settlement]
+    i_can:
+      nob: Jeg kan forklare hvordan teknologi har endret samfunnet og naturen.
+      eng: I can explain how technology has changed society and nature.
+    teacher:
+      nob: "Gir eksempler på teknologi som har endret enkeltmennesker, samfunn og natur, og nevner både fordeler og ulemper. Ikke ennå: nevner bare ny teknologi."
+      eng: "Gives examples of technology that changed individuals, society and nature, and names both benefits and drawbacks. Not yet: names only new technology."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.digital.digital-footprint
+    strand: digital
+    checkpoint: 10
+    refs: [KM14709]
+    needs: [saf.digital.online-judgement]
+    i_can:
+      nob: Jeg kan styre det digitale sporet mitt.
+      eng: I can manage my own digital footprint.
+    teacher:
+      nob: "Forklarer hva et digitalt spor er, hvordan man kan be om sletting, og hva personvern og opphavsrett betyr. Ikke ennå: tror det som slettes, er borte for alltid."
+      eng: "Explains what a digital footprint is, how to ask for deletion, and what privacy and copyright mean. Not yet: thinks deleted means gone forever."
+    stages: [abstract]
+    misconceptions: [deleted-is-gone]
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/samfunnsfag.md
+  - id: saf.digital.identity-under-influence
+    strand: digital
+    checkpoint: 10
+    refs: [KM14711]
+    needs: [saf.digital.respect-boundaries]
+    i_can:
+      nob: Jeg kan forklare hvordan omgivelser påvirker identitet og grenser.
+      eng: I can explain how surroundings shape identity and boundaries.
+    teacher:
+      nob: "Forklarer hvordan identitet, selvbilde og grenser formes i ulike miljøer, og foreslår hva man kan gjøre ved uønskede hendelser, inkludert hvor man får hjelp. Ikke ennå: vet ikke hvor man kan få hjelp."
+      eng: "Explains how identity, self-image and boundaries are shaped in different settings, and suggests what to do after unwanted events, including where to get help. Not yet: does not know where to get help."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: saf.digital.digital-debate
+    strand: digital
+    checkpoint: 10
+    refs: [KM14713]
+    needs: [saf.digital.online-judgement]
+    i_can:
+      nob: Jeg kan forklare hvordan digitale plattformer påvirker samfunnsdebatten.
+      eng: I can explain how digital platforms shape public debate.
+    teacher:
+      nob: "Sammenligner to plattformer og forklarer hvordan format og algoritmer påvirker tone og innhold i debatten. Ikke ennå: ser plattformen som nøytral."
+      eng: "Compares two platforms and explains how format and algorithms affect the tone and content of debate. Not yet: sees the platform as neutral."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false

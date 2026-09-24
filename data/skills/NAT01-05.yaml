@@ -1,0 +1,1501 @@
+# Naturfag skills: the progression in docs/design/subjects/naturfag.md, one
+# skill per thing a teacher could observe. Missions (off-screen) are
+# assessable: false.
+subject: NAT01-05
+strands:
+  - id: inquiry
+    title: {nob: Utforsking og modeller, eng: Inquiry and models}
+  - id: materials
+    title: {nob: Stoffer og kjemi, eng: Materials and chemistry}
+  - id: energy-forces
+    title: {nob: Energi og krefter, eng: Energy and forces}
+  - id: living-things
+    title: {nob: Levende organismer og økosystemer, eng: Living things and ecosystems}
+  - id: earth-space
+    title: {nob: Jorda og verdensrommet, eng: Earth and space}
+  - id: body-health
+    title: {nob: Kropp og helse, eng: Body and health}
+  - id: technology
+    title: {nob: Teknologi og design, eng: Technology and design}
+  - id: sustainability
+    title: {nob: Bærekraft og kunnskap, eng: Sustainability and knowledge}
+skills:
+  # ---------------------------------------------------------------- etter 2.
+  - id: nat.inquiry.ask-questions
+    strand: inquiry
+    checkpoint: 2
+    refs: [KM13806]
+    needs: []
+    i_can:
+      nob: Jeg kan stille spørsmål om noe jeg ser i naturen.
+      eng: I can ask questions about something I notice in nature.
+    teacher:
+      nob: "Stiller et spørsmål som kan undersøkes (flyter en stein?) og knytter det til noe hen har opplevd. Ikke ennå: sier bare hva hen ser, uten å lure på noe."
+      eng: "Asks a question that can be tested (does a stone float?) and links it to something they have seen before. Not yet: only names what they see, without wondering about it."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.tell-how-found-out
+    strand: inquiry
+    checkpoint: 2
+    refs: [KM13807]
+    needs: [nat.inquiry.ask-questions]
+    i_can:
+      nob: Jeg kan fortelle hva jeg fant ut, og hvordan.
+      eng: I can tell what I found out, and how.
+    teacher:
+      nob: "Forteller både hva som skjedde og hva hen gjorde for å finne det ut. Ikke ennå: forteller resultatet, men ikke hvordan."
+      eng: "Tells both what happened and what they did to find out. Not yet: gives the result but not how they got it."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.sort-by-property
+    strand: materials
+    checkpoint: 2
+    refs: [KM13809]
+    needs: []
+    i_can:
+      nob: Jeg kan sortere ting etter hvordan de ser og kjennes ut.
+      eng: I can sort things by how they look and feel.
+    teacher:
+      nob: "Sorterer gjenstander etter én egenskap (hard eller myk, blank eller matt) og sier regelen. Ikke ennå: sorterer etter hva som hører sammen, som ting fra kjøkkenet."
+      eng: "Sorts objects by one property (hard or soft, shiny or dull) and states the rule. Not yet: sorts by what belongs together, such as kitchen things."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.floats-or-sinks
+    strand: materials
+    checkpoint: 2
+    refs: [KM13809]
+    needs: [nat.materials.sort-by-property]
+    i_can:
+      nob: Jeg kan gjette og teste om noe flyter eller synker.
+      eng: I can predict and test whether something floats or sinks.
+    teacher:
+      nob: "Gjetter før testen og sorterer etterpå i flyter og synker. Ser at en stor kork flyter. Ikke ennå: sier at store ting alltid synker."
+      eng: "Predicts before the test and sorts into floats and sinks afterwards. Notices that a big cork floats. Not yet: says big things always sink."
+    stages: [concrete, pictorial]
+    misconceptions: [big-things-always-sink]
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.suggest-invention
+    strand: technology
+    checkpoint: 2
+    refs: [KM13808]
+    needs: []
+    i_can:
+      nob: Jeg kan finne på en oppfinnelse og si hva den løser.
+      eng: I can come up with an invention and say what it solves.
+    teacher:
+      nob: "Tegner eller beskriver en oppfinnelse og sier hvilket problem den løser. Ikke ennå: beskriver en ting uten å si hva den er til."
+      eng: "Draws or describes an invention and says which problem it solves. Not yet: describes a thing without saying what it is for."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.explore-local-area
+    strand: living-things
+    checkpoint: 2
+    refs: [KM13810]
+    needs: []
+    i_can:
+      nob: Jeg kan finne tre levende ting i naturen nær meg.
+      eng: I can find three living things in nature near me.
+    teacher:
+      nob: "Finner og tegner tre ulike organismer på én kvadratmeter ute. Ikke ennå: tegner bare det hen vet fra før, ikke det hen fant."
+      eng: "Finds and draws three different organisms in one square metre outside. Not yet: draws what they already know rather than what they found."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.living-things.local-adaptation
+    strand: living-things
+    checkpoint: 2
+    refs: [KM13810]
+    needs: [nat.living-things.explore-local-area]
+    i_can:
+      nob: Jeg kan fortelle hvordan et dyr eller en plante passer til stedet.
+      eng: I can tell how an animal or plant suits its home.
+    teacher:
+      nob: "Kobler et kjennetegn til stedet: ekornet har klør for å klatre i trær. Ikke ennå: beskriver dyret uten å koble det til stedet."
+      eng: "Links a feature to the place: the squirrel has claws for climbing trees. Not yet: describes the animal without linking it to where it lives."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.seasons-change
+    strand: earth-space
+    checkpoint: 2
+    refs: [KM13811]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle hvordan naturen endrer seg gjennom året.
+      eng: I can tell how nature changes through the year.
+    teacher:
+      nob: "Beskriver hva som skjer med trær, dyr og vær i hver årstid. Ikke ennå: kan navnene på årstidene, men ikke hva som endrer seg."
+      eng: "Describes what happens to trees, animals and weather in each season. Not yet: knows the season names but not what changes."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.ways-to-divide-year
+    strand: earth-space
+    checkpoint: 2
+    refs: [KM13811]
+    needs: [nat.earth-space.seasons-change]
+    i_can:
+      nob: Jeg vet at samisk tradisjon deler året i åtte årstider.
+      eng: I know the Sami tradition divides the year into eight seasons.
+    teacher:
+      nob: "Vet at året kan deles på flere måter, og at samisk tradisjon følger naturen og reindrifta. Ikke ennå: tror fire årstider er den eneste måten."
+      eng: "Knows the year can be divided in more than one way, and that the Sami tradition follows nature and reindeer herding. Not yet: thinks four seasons is the only way."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.weather-log
+    strand: earth-space
+    checkpoint: 2
+    refs: [KM13812]
+    needs: []
+    i_can:
+      nob: Jeg kan se på været hver dag og skrive det ned.
+      eng: I can watch the weather every day and write it down.
+    teacher:
+      nob: "Fyller værtabellen på samme tid i fem dager. Ikke ennå: hopper over dager eller fyller inn etterpå."
+      eng: "Fills in the weather table at the same time for five days. Not yet: skips days or fills them in afterwards."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.earth-space.compare-weather
+    strand: earth-space
+    checkpoint: 2
+    refs: [KM13812]
+    needs: [nat.earth-space.weather-log]
+    i_can:
+      nob: Jeg kan lese en værtabell og si hvilken dag som var annerledes.
+      eng: I can read a weather table and spot the different day.
+    teacher:
+      nob: "Leser en enkel værtabell og finner dagen som skilte seg ut. Ikke ennå: leser én dag om gangen uten å sammenligne."
+      eng: "Reads a simple weather table and finds the day that stood out. Not yet: reads one day at a time without comparing."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.senses
+    strand: body-health
+    checkpoint: 2
+    refs: [KM13813]
+    needs: []
+    i_can:
+      nob: Jeg kan navngi de fem sansene og hva de merker.
+      eng: I can name the five senses and what each one notices.
+    teacher:
+      nob: "Kobler syn, hørsel, lukt, smak og følelse til riktig kroppsdel og til hva sansen merker. Ikke ennå: blander smak og lukt."
+      eng: "Links sight, hearing, smell, taste and touch to the right body part and to what each senses. Not yet: mixes up taste and smell."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.senses-test
+    strand: body-health
+    checkpoint: 2
+    refs: [KM13813]
+    needs: [nat.body-health.senses]
+    i_can:
+      nob: Jeg kan teste sansene mine sammen med en venn.
+      eng: I can test my senses together with a friend.
+    teacher:
+      nob: "Gjør smake- eller kjennetesten med bind for øynene og fyller sjekklisten. Ikke ennå: kikker, eller gjetter uten å bruke sansen."
+      eng: "Does the blindfolded taste or touch test and fills in the checklist. Not yet: peeks, or guesses without using the sense."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.body-health.avoid-infection
+    strand: body-health
+    checkpoint: 2
+    refs: [KM13814]
+    needs: []
+    i_can:
+      nob: Jeg vet hvordan jeg kan unngå å smitte andre.
+      eng: I know how to avoid spreading germs to others.
+    teacher:
+      nob: "Nevner en vanlig sykdom (forkjølelse) og sier hva som hindrer smitte: vaske hender, hoste i albuen, være hjemme når man er syk. Ikke ennå: vet at man skal vaske hender, men ikke hvorfor."
+      eng: "Names a common illness (a cold) and says what stops it spreading: washing hands, coughing into the elbow, staying home when ill. Not yet: knows to wash hands but not why."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.green-choices
+    strand: sustainability
+    checkpoint: 2
+    refs: [KM13815]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på valg som er bra for miljøet.
+      eng: I can give examples of choices that are good for nature.
+    teacher:
+      nob: "Gir eksempler som å sortere søppel, bruke ting på nytt og gå i stedet for å kjøre. Ikke ennå: sier bare at man ikke skal kaste søppel i naturen."
+      eng: "Gives examples such as sorting rubbish, reusing things and walking instead of driving. Not yet: only says not to litter."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.sort-rubbish
+    strand: sustainability
+    checkpoint: 2
+    refs: [KM13815]
+    needs: [nat.sustainability.green-choices]
+    i_can:
+      nob: Jeg kan sortere søppel i riktige dunker.
+      eng: I can sort rubbish into the right bins.
+    teacher:
+      nob: "Sorterer klassens søppel en dag og teller hver dunk. Ikke ennå: legger alt i restavfall."
+      eng: "Sorts the class rubbish for a day and counts each bin. Not yet: puts everything in general waste."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # ---------------------------------------------------------------- etter 5.
+  - id: nat.inquiry.make-hypothesis
+    strand: inquiry
+    checkpoint: 5
+    refs: [KM13816]
+    needs: [nat.inquiry.ask-questions]
+    i_can:
+      nob: Jeg kan si hva jeg tror vil skje, og hvorfor.
+      eng: I can say what I think will happen, and why.
+    teacher:
+      nob: "Lager en hypotese med en grunn (den varme ballen spretter høyere fordi ...) og en måte å teste den på. Ikke ennå: gjetter uten grunn."
+      eng: "Makes a hypothesis with a reason (the warm ball bounces higher because ...) and a way to test it. Not yet: guesses with no reason."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.table-of-results
+    strand: inquiry
+    checkpoint: 5
+    refs: [KM13817]
+    needs: [nat.inquiry.tell-how-found-out]
+    i_can:
+      nob: Jeg kan skrive resultater i en tabell og forklare dem.
+      eng: I can put results in a table and explain them.
+    teacher:
+      nob: "Setter opp en tabell med overskrifter og enheter og forklarer hva tallene viser. Ikke ennå: skriver resultatene som en løs liste."
+      eng: "Sets up a table with headings and units and explains what the numbers show. Not yet: writes results as a loose list."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.model-vs-observation
+    strand: inquiry
+    checkpoint: 5
+    refs: [KM13818]
+    needs: [nat.inquiry.tell-how-found-out]
+    i_can:
+      nob: Jeg kan sammenligne en modell med det jeg har sett.
+      eng: I can compare a model with what I have seen.
+    teacher:
+      nob: "Sier hva en modell (en globus, et vannkretsløp på papir) viser riktig, og hva den ikke viser. Ikke ennå: tror modellen er en nøyaktig kopi."
+      eng: "Says what a model (a globe, a water cycle on paper) shows correctly and what it leaves out. Not yet: treats the model as an exact copy."
+    stages: [concrete, pictorial]
+    misconceptions: [model-is-a-copy]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.mixing-substances
+    strand: materials
+    checkpoint: 5
+    refs: [KM13822]
+    needs: [nat.materials.sort-by-property]
+    i_can:
+      nob: Jeg kan beskrive hva som skjer når stoffer blandes.
+      eng: I can describe what happens when substances are mixed.
+    teacher:
+      nob: "Skiller mellom at sukker løses opp i vann og at natron og eddik lager et nytt stoff (gass). Ikke ennå: sier at sukkeret smelter."
+      eng: "Tells sugar dissolving in water apart from baking soda and vinegar making a new substance (gas). Not yet: says the sugar melts."
+    stages: [concrete, pictorial]
+    misconceptions: [melting-is-dissolving]
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.energy-in-motion-heat
+    strand: energy-forces
+    checkpoint: 5
+    refs: [KM13823]
+    needs: []
+    i_can:
+      nob: Jeg vet at fart og varme er tegn på energi.
+      eng: I know that speed and heat are signs of energy.
+    teacher:
+      nob: "Forklarer at en ball i høy fart og en varm kopp har mer energi enn en rolig ball og en kald kopp. Ikke ennå: tror energi bare er strøm."
+      eng: "Explains that a fast ball and a hot cup have more energy than a slow ball and a cold cup. Not yet: thinks energy only means electricity."
+    stages: [concrete, pictorial]
+    misconceptions: [energy-is-only-electricity]
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.energy-chain
+    strand: energy-forces
+    checkpoint: 5
+    refs: [KM13824]
+    needs: [nat.energy-forces.energy-in-motion-heat]
+    i_can:
+      nob: Jeg kan følge energien fra sola til meg.
+      eng: I can follow energy from the sun to me.
+    teacher:
+      nob: "Setter en energikjede i riktig rekkefølge: sol, gress, ku, melk, meg. Ikke ennå: starter kjeden med kua."
+      eng: "Puts an energy chain in order: sun, grass, cow, milk, me. Not yet: starts the chain at the cow."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.compare-adaptations
+    strand: living-things
+    checkpoint: 5
+    refs: [KM13825]
+    needs: [nat.living-things.local-adaptation]
+    i_can:
+      nob: Jeg kan sammenligne hvordan dyr og planter er tilpasset ulike steder.
+      eng: I can compare how animals and plants suit different places.
+    teacher:
+      nob: "Sammenligner tilpasninger i to leveområder (isbjørn og kamel, lyng og kaktus). Ikke ennå: beskriver hvert dyr for seg uten å sammenligne."
+      eng: "Compares adaptations in two habitats (polar bear and camel, heather and cactus). Not yet: describes each animal on its own without comparing."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.why-species-die-out
+    strand: living-things
+    checkpoint: 5
+    refs: [KM13825]
+    needs: [nat.living-things.compare-adaptations]
+    i_can:
+      nob: Jeg kan gi grunner til at noen arter dør ut.
+      eng: I can give reasons why some species die out.
+    teacher:
+      nob: "Nevner tap av leveområde, forurensning, jakt og nye arter som grunner. Ikke ennå: nevner bare at dyr blir spist."
+      eng: "Names habitat loss, pollution, hunting and incoming species as reasons. Not yet: only says animals get eaten."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.animal-welfare
+    strand: living-things
+    checkpoint: 5
+    refs: [KM13826]
+    needs: []
+    i_can:
+      nob: Jeg vet hva et dyr trenger for å ha det godt.
+      eng: I know what an animal needs to be well.
+    teacher:
+      nob: "Nevner mat, vann, ly, plass til å bevege seg og mulighet til å oppføre seg som arten gjør. Ikke ennå: nevner bare mat."
+      eng: "Names food, water, shelter, room to move and the chance to behave as its species does. Not yet: names only food."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.water-cycle
+    strand: earth-space
+    checkpoint: 5
+    refs: [KM13828]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare hvordan vannet går i ring i naturen.
+      eng: I can explain how water moves round in a cycle.
+    teacher:
+      nob: "Setter fordamping, skyer, nedbør og avrenning i ring og vet at det er det samme vannet. Ikke ennå: tror regnet er nytt vann."
+      eng: "Puts evaporation, clouds, rain and run-off in a cycle and knows it is the same water. Not yet: thinks rain is new water."
+    stages: [pictorial, abstract]
+    misconceptions: [rain-is-new-water]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.water-for-life
+    strand: earth-space
+    checkpoint: 5
+    refs: [KM13828]
+    needs: [nat.earth-space.water-cycle]
+    i_can:
+      nob: Jeg kan forklare hvorfor alt liv trenger vann.
+      eng: I can explain why all living things need water.
+    teacher:
+      nob: "Gir eksempler på hva vann gjør for planter, dyr og mennesker. Ikke ennå: sier bare at vi blir tørste."
+      eng: "Gives examples of what water does for plants, animals and people. Not yet: only says we get thirsty."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.muscles-skeleton
+    strand: body-health
+    checkpoint: 5
+    refs: [KM13831]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare hvordan muskler og skjelett lar oss bevege oss.
+      eng: I can explain how muscles and bones let us move.
+    teacher:
+      nob: "Merker av store knokler og muskler og forklarer at muskler drar i knoklene ved leddene. Ikke ennå: tror knoklene beveger seg av seg selv."
+      eng: "Labels major bones and muscles and explains that muscles pull on bones at the joints. Not yet: thinks bones move by themselves."
+    stages: [concrete, pictorial]
+    misconceptions: [muscles-push]
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.outer-defences
+    strand: body-health
+    checkpoint: 5
+    refs: [KM13830]
+    needs: [nat.body-health.avoid-infection]
+    i_can:
+      nob: Jeg kan forklare hvordan hud og slim beskytter kroppen.
+      eng: I can explain how skin and mucus protect the body.
+    teacher:
+      nob: "Nevner hud, slim, hår i nesa, tårer og magesyre som forsvar mot smitte. Ikke ennå: vet at man blir syk, men ikke hvordan kroppen stopper smitte."
+      eng: "Names skin, mucus, nose hairs, tears and stomach acid as defences against germs. Not yet: knows people get ill but not how the body keeps germs out."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.lifestyle-and-health
+    strand: body-health
+    checkpoint: 5
+    refs: [KM13832]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare hvordan søvn, mat og bevegelse påvirker helsa.
+      eng: I can explain how sleep, food and exercise affect health.
+    teacher:
+      nob: "Kobler levevaner til både fysisk og psykisk helse, for eksempel at søvn hjelper humøret. Ikke ennå: tenker på helse bare som å ikke være syk."
+      eng: "Links habits to both physical and mental health, for example that sleep helps mood. Not yet: thinks of health only as not being ill."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/naturfag.md
+  - id: nat.body-health.body-differences
+    strand: body-health
+    checkpoint: 5
+    refs: [KM13829]
+    needs: []
+    i_can:
+      nob: Jeg kan fortelle om likheter og forskjeller mellom kropper.
+      eng: I can tell about similarities and differences between bodies.
+    teacher:
+      nob: "Bruker riktige ord for kroppsdeler, og vet at kjønnsidentitet er hvordan en person selv opplever sitt kjønn. Ikke ennå: bruker bare kallenavn for kroppsdeler."
+      eng: "Uses the correct words for body parts, and knows that gender identity is how a person experiences their own gender. Not yet: uses only nicknames for body parts."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/naturfag.md
+  - id: nat.body-health.human-reproduction
+    strand: body-health
+    checkpoint: 5
+    refs: [KM13829]
+    needs: [nat.body-health.body-differences]
+    i_can:
+      nob: Jeg kan forklare enkelt hvordan et menneske blir til.
+      eng: I can explain simply how a human baby begins.
+    teacher:
+      nob: "Forklarer at en eggcelle og en sædcelle smelter sammen og at fosteret vokser i livmoren. Ikke ennå: kjenner ikke til eggcelle og sædcelle."
+      eng: "Explains that an egg cell and a sperm cell join and that the foetus grows in the uterus. Not yet: does not know about egg and sperm cells."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.parts-of-a-system
+    strand: technology
+    checkpoint: 5
+    refs: [KM13820]
+    needs: [nat.technology.suggest-invention]
+    i_can:
+      nob: Jeg kan forklare hvordan delene i en ting virker sammen.
+      eng: I can explain how the parts of a device work together.
+    teacher:
+      nob: "Tar for seg en sykkel eller en lommelykt og forklarer hva hver del gjør for helheten. Ikke ennå: navngir delene uten å si hva de gjør."
+      eng: "Takes a bicycle or a torch and explains what each part does for the whole. Not yet: names the parts without saying what they do."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.build-to-spec
+    strand: technology
+    checkpoint: 5
+    refs: [KM13821]
+    needs: [nat.technology.suggest-invention]
+    i_can:
+      nob: Jeg kan bygge noe som følger to regler.
+      eng: I can build something that follows two rules.
+    teacher:
+      nob: "Bygger fra byggekortet og sjekker at resultatet oppfyller begge kravene. Ikke ennå: bygger noe fint som ikke oppfyller kravene."
+      eng: "Builds from the kit card and checks the result meets both requirements. Not yet: builds something nice that misses the requirements."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.sustainability.explore-nature-area
+    strand: sustainability
+    checkpoint: 5
+    refs: [KM13819]
+    needs: [nat.living-things.explore-local-area]
+    i_can:
+      nob: Jeg kan utforske et naturområde uten å skade det.
+      eng: I can explore an area of nature without harming it.
+    teacher:
+      nob: "Undersøker et område ute, legger ting tilbake og lar det være som før. Ikke ennå: plukker med seg planter og dyr."
+      eng: "Investigates an area outside, puts things back and leaves it as it was. Not yet: takes plants and animals away."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.sustainability.harvest-resources
+    strand: sustainability
+    checkpoint: 5
+    refs: [KM13827]
+    needs: [nat.sustainability.sort-rubbish]
+    i_can:
+      nob: Jeg kan være med på å høste og bruke noe fra naturen.
+      eng: I can take part in harvesting and using something from nature.
+    teacher:
+      nob: "Er med på å høste (bær, fisk, grønnsaker) og tar bare det som trengs. Ikke ennå: høster uten å tenke på hva som blir igjen."
+      eng: "Takes part in harvesting (berries, fish, vegetables) and takes only what is needed. Not yet: harvests without thinking about what is left."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.sustainability.sustainable-use
+    strand: sustainability
+    checkpoint: 5
+    refs: [KM13819, KM13827]
+    needs: [nat.sustainability.green-choices]
+    i_can:
+      nob: Jeg kan forklare hvordan vi bruker naturen uten å bruke den opp.
+      eng: I can explain how to use nature without using it up.
+    teacher:
+      nob: "Forklarer at vi må høste mindre enn det som vokser til igjen, og gir et eksempel. Ikke ennå: sier bare at vi ikke skal bruke naturen."
+      eng: "Explains that we must harvest less than grows back, and gives an example. Not yet: only says we should not use nature."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # ---------------------------------------------------------------- etter 7.
+  - id: nat.inquiry.name-variables
+    strand: inquiry
+    checkpoint: 7
+    refs: [KM13833]
+    needs: [nat.inquiry.make-hypothesis]
+    i_can:
+      nob: Jeg kan si hva jeg endrer, måler og holder likt.
+      eng: I can say what I change, measure and keep the same.
+    teacher:
+      nob: "Sorterer variabelkort i det jeg endrer, det jeg måler og det jeg holder likt. Ikke ennå: endrer flere ting samtidig."
+      eng: "Sorts variable cards into what I change, what I measure and what I keep the same. Not yet: changes several things at once."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.observation-vs-conclusion
+    strand: inquiry
+    checkpoint: 7
+    refs: [KM13834]
+    needs: [nat.inquiry.table-of-results]
+    i_can:
+      nob: Jeg kan skille mellom det jeg så og det jeg konkluderer.
+      eng: I can tell what I saw from what I conclude.
+    teacher:
+      nob: "Velger konklusjonen dataene faktisk støtter, og avviser en som er sann men ikke vist av forsøket. Ikke ennå: velger det hen vet er sant."
+      eng: "Picks the conclusion the data actually supports, and rejects one that is true but not shown by this test. Not yet: picks what they know to be true."
+    stages: [pictorial, abstract]
+    misconceptions: [true-means-shown]
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.sources-of-error
+    strand: inquiry
+    checkpoint: 7
+    refs: [KM13834]
+    needs: [nat.inquiry.observation-vs-conclusion]
+    i_can:
+      nob: Jeg kan finne feilkilder i en undersøkelse.
+      eng: I can find sources of error in an investigation.
+    teacher:
+      nob: "Peker på en konkret feilkilde (målte fra ulik høyde, bare ett forsøk) og sier hvordan den påvirker resultatet. Ikke ennå: sier bare at vi kan ha gjort feil."
+      eng: "Points to a specific source of error (dropped from different heights, only one trial) and says how it affects the result. Not yet: only says we might have made mistakes."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.why-models
+    strand: inquiry
+    checkpoint: 7
+    refs: [KM13835]
+    needs: [nat.inquiry.model-vs-observation]
+    i_can:
+      nob: Jeg kan forklare hvorfor vi bruker modeller av det vi ikke ser.
+      eng: I can explain why we use models of things we cannot see.
+    teacher:
+      nob: "Forklarer at partikler og solsystemet er for små eller for store til å se, og at modellen lar oss forutsi. Ikke ennå: tror partikler ser ut som kulene i modellen."
+      eng: "Explains that particles and the solar system are too small or too large to see, and that a model lets us predict. Not yet: thinks particles look like the balls in the model."
+    stages: [pictorial, abstract]
+    misconceptions: [model-is-a-copy]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.particle-model
+    strand: materials
+    checkpoint: 7
+    refs: [KM13852]
+    needs: [nat.materials.mixing-substances]
+    i_can:
+      nob: Jeg kan bruke partikkelmodellen til å forklare fast stoff, væske og gass.
+      eng: I can use the particle model to explain solids, liquids and gases.
+    teacher:
+      nob: "Tegner partiklene tett og i ro, tett og glidende, og langt fra hverandre, og kobler det til egenskapene. Ikke ennå: tror partiklene selv blir myke eller varme."
+      eng: "Draws particles packed and still, packed and sliding, and far apart, and links that to the properties. Not yet: thinks the particles themselves become soft or hot."
+    stages: [pictorial, abstract]
+    misconceptions: [particles-change-size]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.phase-changes
+    strand: materials
+    checkpoint: 7
+    refs: [KM13841, KM13852]
+    needs: [nat.materials.particle-model]
+    i_can:
+      nob: Jeg kan forklare smelting, frysing og koking med partikler.
+      eng: I can explain melting, freezing and boiling using particles.
+    teacher:
+      nob: "Forutsier tilstanden ved en gitt temperatur og forklarer overgangen med partikkelbevegelse. Ikke ennå: bruker smelte og løse seg opp om hverandre."
+      eng: "Predicts the state at a given temperature and explains the change with particle movement. Not yet: uses melt and dissolve interchangeably."
+    stages: [pictorial, abstract]
+    misconceptions: [melting-is-dissolving]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.chemical-reactions
+    strand: materials
+    checkpoint: 7
+    refs: [KM13841]
+    needs: [nat.materials.mixing-substances]
+    i_can:
+      nob: Jeg kan kjenne igjen tegn på at et nytt stoff er dannet.
+      eng: I can recognise signs that a new substance has formed.
+    teacher:
+      nob: "Nevner gass, fargeendring, lys eller varme som tegn på kjemisk reaksjon, og skiller det fra en faseovergang. Ikke ennå: kaller smelting en kjemisk reaksjon."
+      eng: "Names gas, colour change, light or heat as signs of a chemical reaction, and tells it apart from a change of state. Not yet: calls melting a chemical reaction."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.hazard-symbols
+    strand: materials
+    checkpoint: 7
+    refs: [KM13836]
+    needs: []
+    i_can:
+      nob: Jeg kan lese faresymboler og si hva jeg skal gjøre.
+      eng: I can read hazard symbols and say what to do.
+    teacher:
+      nob: "Kobler faresymbol til betydning og til riktig handling, og forklarer hvorfor merkingen finnes. Ikke ennå: kjenner igjen hodeskallen, men ikke de andre."
+      eng: "Matches a hazard symbol to its meaning and to the right action, and explains why the labelling exists. Not yet: knows the skull but not the others."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.electric-magnetic-forces
+    strand: energy-forces
+    checkpoint: 7
+    refs: [KM13842]
+    needs: []
+    i_can:
+      nob: Jeg kan beskrive hva magneter og elektrisk ladning gjør.
+      eng: I can describe what magnets and electric charge do.
+    teacher:
+      nob: "Forklarer at like poler frastøter og ulike tiltrekker, og at krefter virker uten berøring. Ikke ennå: tror magneter tiltrekker alle metaller."
+      eng: "Explains that like poles repel and unlike attract, and that the forces act without touching. Not yet: thinks magnets attract all metals."
+    stages: [concrete, pictorial]
+    misconceptions: [magnets-attract-all-metals]
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.electricity-everyday
+    strand: energy-forces
+    checkpoint: 7
+    refs: [KM13842]
+    needs: [nat.energy-forces.energy-chain]
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan vi bruker strøm hjemme.
+      eng: I can give examples of how we use electricity at home.
+    teacher:
+      nob: "Sier hva elektrisk energi blir til i ulike apparater (lys, varme, bevegelse). Ikke ennå: nevner apparater uten å si hva energien blir til."
+      eng: "Says what electric energy becomes in different appliances (light, heat, motion). Not yet: lists appliances without saying what the energy becomes."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.group-organisms
+    strand: living-things
+    checkpoint: 7
+    refs: [KM13843]
+    needs: [nat.living-things.compare-adaptations]
+    i_can:
+      nob: Jeg kan dele levende ting inn i hovedgrupper.
+      eng: I can sort living things into main groups.
+    teacher:
+      nob: "Sorterer i planter, dyr, sopp og bakterier og gir et kjennetegn for hver gruppe. Ikke ennå: sorterer sopp som planter."
+      eng: "Sorts into plants, animals, fungi and bacteria and gives a feature of each group. Not yet: sorts fungi as plants."
+    stages: [pictorial, abstract]
+    misconceptions: [fungi-are-plants]
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.food-webs
+    strand: living-things
+    checkpoint: 7
+    refs: [KM13845]
+    needs: [nat.energy-forces.energy-chain]
+    i_can:
+      nob: Jeg kan lage næringskjeder og næringsnett.
+      eng: I can build food chains and food webs.
+    teacher:
+      nob: "Tegner piler fra maten til den som spiser, og forutsier hva som skjer med reven hvis smågnagerne forsvinner. Ikke ennå: tegner pilene fra den som spiser."
+      eng: "Draws arrows from food to eater, and predicts what happens to the fox if the voles disappear. Not yet: draws arrows from the eater."
+    stages: [pictorial, abstract]
+    misconceptions: [arrows-point-to-food, plants-eat-soil]
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.biodiversity
+    strand: living-things
+    checkpoint: 7
+    refs: [KM13853]
+    needs: [nat.living-things.why-species-die-out]
+    i_can:
+      nob: Jeg kan forklare hvorfor mange ulike arter er viktig.
+      eng: I can explain why many different species matter.
+    teacher:
+      nob: "Forklarer at et økosystem med mange arter tåler endringer bedre, og gir et eksempel. Ikke ennå: sier bare at dyr er fine."
+      eng: "Explains that an ecosystem with many species copes better with change, and gives an example. Not yet: only says animals are nice."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.day-and-night
+    strand: earth-space
+    checkpoint: 7
+    refs: [KM13846]
+    needs: [nat.earth-space.seasons-change]
+    i_can:
+      nob: Jeg kan forklare hvorfor vi har dag og natt.
+      eng: I can explain why we have day and night.
+    teacher:
+      nob: "Forklarer at jorda roterer én gang i døgnet og at siden mot sola har dag. Ikke ennå: sier at sola går rundt jorda."
+      eng: "Explains that Earth spins once a day and the side facing the sun has day. Not yet: says the sun goes round Earth."
+    stages: [concrete, pictorial]
+    misconceptions: [sun-circles-earth]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.moon-phases
+    strand: earth-space
+    checkpoint: 7
+    refs: [KM13846]
+    needs: [nat.earth-space.day-and-night]
+    i_can:
+      nob: Jeg kan forklare hvorfor månen ser ulik ut.
+      eng: I can explain why the moon changes shape.
+    teacher:
+      nob: "Forklarer at vi ser ulike deler av månens solbelyste side når den går rundt jorda. Ikke ennå: sier at jordas skygge lager månefasene."
+      eng: "Explains that we see different parts of the moon's sunlit side as it circles Earth. Not yet: says Earth's shadow makes the phases."
+    stages: [concrete, pictorial]
+    misconceptions: [phases-are-earth-shadow]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.why-seasons
+    strand: earth-space
+    checkpoint: 7
+    refs: [KM13846]
+    needs: [nat.earth-space.day-and-night]
+    i_can:
+      nob: Jeg kan forklare hvorfor vi har årstider.
+      eng: I can explain why we have seasons.
+    teacher:
+      nob: "Forklarer årstidene med jordaksens helning og hvordan det påvirker liv, som mørketid og midnattssol. Ikke ennå: sier at det er sommer når jorda er nærmest sola."
+      eng: "Explains the seasons by the tilt of Earth's axis and how that affects life, such as polar night and midnight sun. Not yet: says it is summer when Earth is closest to the sun."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [seasons-from-distance-to-sun]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.conditions-for-life
+    strand: earth-space
+    checkpoint: 7
+    refs: [KM13847]
+    needs: [nat.earth-space.water-for-life]
+    i_can:
+      nob: Jeg kan forklare hva som trengs for liv på en planet.
+      eng: I can explain what a planet needs for life.
+    teacher:
+      nob: "Nevner flytende vann, passe temperatur og atmosfære, og sammenligner jorda med Mars eller Venus. Ikke ennå: nevner bare luft."
+      eng: "Names liquid water, a suitable temperature and an atmosphere, and compares Earth with Mars or Venus. Not yet: names only air."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.rock-cycle
+    strand: earth-space
+    checkpoint: 7
+    refs: [KM13848]
+    needs: []
+    i_can:
+      nob: Jeg kan forklare hvordan landskap formes og endres.
+      eng: I can explain how landscapes are shaped and changed.
+    teacher:
+      nob: "Forklarer bergartenes kretsløp og hvordan is, vann og vind former landskapet, for eksempel en fjord. Ikke ennå: tror fjell alltid har sett slik ut."
+      eng: "Explains the rock cycle and how ice, water and wind shape land, for example a fjord. Not yet: thinks mountains have always looked the same."
+    stages: [pictorial, abstract]
+    misconceptions: [landscape-never-changes]
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.organ-systems
+    strand: body-health
+    checkpoint: 7
+    refs: [KM13850]
+    needs: [nat.body-health.muscles-skeleton]
+    i_can:
+      nob: Jeg kan beskrive hvordan organsystemer i kroppen samarbeider.
+      eng: I can describe how body systems work together.
+    teacher:
+      nob: "Merker av fordøyelse, blodomløp og åndedrett, og forklarer at blodet frakter oksygen og næring fra de andre. Ikke ennå: beskriver hvert organ for seg."
+      eng: "Labels digestion, circulation and breathing, and explains that blood carries oxygen and nutrients from the others. Not yet: describes each organ on its own."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/naturfag.md
+  - id: nat.body-health.puberty
+    strand: body-health
+    checkpoint: 7
+    refs: [KM13849]
+    needs: [nat.body-health.body-differences]
+    i_can:
+      nob: Jeg kan forklare hvordan kroppen og følelsene endrer seg i puberteten.
+      eng: I can explain how body and feelings change in puberty.
+    teacher:
+      nob: "Beskriver fysiske endringer og at hormoner kan påvirke følelser og seksualitet, og vet at tidspunktet varierer. Ikke ennå: kjenner bare til ett kjønns endringer."
+      eng: "Describes physical changes and that hormones can affect feelings and sexuality, and knows the timing varies. Not yet: knows the changes for one sex only."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.program-a-system
+    strand: technology
+    checkpoint: 7
+    refs: [KM13838]
+    needs: [nat.technology.parts-of-a-system]
+    i_can:
+      nob: Jeg kan programmere noe som består av flere deler.
+      eng: I can program something that is made of several parts.
+    teacher:
+      nob: "Programmerer et klassesett (micro:bit eller lignende) slik at en sensor styrer en annen del. Ikke ennå: kopierer kode uten å kunne si hva delene gjør."
+      eng: "Programs a classroom kit (micro:bit or similar) so that a sensor controls another part. Not yet: copies code without saying what the parts do."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.technology.design-for-a-user
+    strand: technology
+    checkpoint: 7
+    refs: [KM13839]
+    needs: [nat.technology.build-to-spec]
+    i_can:
+      nob: Jeg kan lage et produkt som passer til en bruker.
+      eng: I can make a product that fits what a user needs.
+    teacher:
+      nob: "Finner ut hva brukeren trenger, bygger, og tester produktet mot behovet. Ikke ennå: bygger det hen selv liker, uten å spørre brukeren."
+      eng: "Finds out what the user needs, builds, and tests the product against that need. Not yet: builds what they like without asking the user."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.technology.technology-dilemmas
+    strand: technology
+    checkpoint: 7
+    refs: [KM13840]
+    needs: [nat.technology.parts-of-a-system]
+    i_can:
+      nob: Jeg kan gi eksempler på fordeler og ulemper ved en teknologi.
+      eng: I can give pros and cons of a technology.
+    teacher:
+      nob: "Nevner hva en teknologi løser og hvilket nytt problem den kan skape (mobiltelefonen, plast). Ikke ennå: ser bare fordelene eller bare ulempene."
+      eng: "Names what a technology solves and what new problem it may create (mobile phones, plastic). Not yet: sees only the benefits or only the drawbacks."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.science-develops
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM13837]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan naturfaglig kunnskap har endret seg.
+      eng: I can give examples of how science knowledge has changed.
+    teacher:
+      nob: "Gir et eksempel på noe forskere en gang trodde og senere endret (jorda i sentrum, bakterier og sykdom). Ikke ennå: tror naturfag er ferdige fakta."
+      eng: "Gives an example of something scientists once believed and later changed (Earth at the centre, germs and disease). Not yet: thinks science is finished facts."
+    stages: [pictorial, abstract]
+    misconceptions: [science-is-finished]
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.traditional-knowledge
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM13851]
+    needs: []
+    i_can:
+      nob: Jeg kan gi eksempler på tradisjonell kunnskap om naturen.
+      eng: I can give examples of traditional knowledge about nature.
+    teacher:
+      nob: "Gir eksempler som værtegn, plantemedisin eller samisk snøkunnskap, og hvordan det har bidratt til naturfag. Ikke ennå: kaller all tradisjonell kunnskap overtro."
+      eng: "Gives examples such as weather signs, plant medicine or Sami snow knowledge, and how they have fed into science. Not yet: calls all traditional knowledge superstition."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.protect-biodiversity
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM13853, KM13844]
+    needs: [nat.sustainability.sustainable-use, nat.living-things.biodiversity]
+    i_can:
+      nob: Jeg kan foreslå tiltak som tar vare på artsmangfoldet.
+      eng: I can suggest ways to protect the variety of species.
+    teacher:
+      nob: "Foreslår konkrete tiltak lokalt og i nordområdene, som å la død ved ligge eller verne et område. Ikke ennå: foreslår bare å ikke kaste søppel."
+      eng: "Suggests concrete measures locally and in northern areas, such as leaving dead wood or protecting an area. Not yet: only suggests not littering."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.northern-nature-management
+    strand: sustainability
+    checkpoint: 7
+    refs: [KM13844]
+    needs: [nat.sustainability.traditional-knowledge]
+    i_can:
+      nob: Jeg kan gi eksempler på tradisjonell kunnskap i naturforvaltning i nord.
+      eng: I can give examples of traditional knowledge in managing northern nature.
+    teacher:
+      nob: "Gir et eksempel på hvordan tradisjonell kunnskap brukes i forvaltning, for eksempel reindrift og beite. Ikke ennå: kjenner ikke til noen eksempler."
+      eng: "Gives an example of traditional knowledge used in management, for example reindeer herding and grazing. Not yet: knows no examples."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # --------------------------------------------------------------- etter 10.
+  - id: nat.inquiry.dependent-independent
+    strand: inquiry
+    checkpoint: 10
+    refs: [KM13854]
+    needs: [nat.inquiry.name-variables]
+    i_can:
+      nob: Jeg kan skille avhengig og uavhengig variabel.
+      eng: I can tell dependent and independent variables apart.
+    teacher:
+      nob: "Navngir avhengig, uavhengig og kontrollerte variabler i et forsøk hen har planlagt selv. Ikke ennå: bytter om avhengig og uavhengig."
+      eng: "Names the dependent, independent and controlled variables in an investigation they planned. Not yet: swaps dependent and independent."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.explain-with-theory
+    strand: inquiry
+    checkpoint: 10
+    refs: [KM13855]
+    needs: [nat.inquiry.observation-vs-conclusion]
+    i_can:
+      nob: Jeg kan forklare data med relevant teori.
+      eng: I can explain data using relevant theory.
+    teacher:
+      nob: "Analyserer data og knytter forklaringen til en teori (partikkelmodellen, energibevaring). Ikke ennå: beskriver dataene uten å forklare dem."
+      eng: "Analyses data and ties the explanation to a theory (the particle model, energy conservation). Not yet: describes the data without explaining it."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.judge-investigation
+    strand: inquiry
+    checkpoint: 10
+    refs: [KM13855]
+    needs: [nat.inquiry.sources-of-error]
+    i_can:
+      nob: Jeg kan vurdere kvaliteten på en undersøkelse.
+      eng: I can judge the quality of an investigation.
+    teacher:
+      nob: "Vurderer egen og andres undersøkelse etter antall målinger, kontroll av variabler og feilkilder. Ikke ennå: vurderer etter om resultatet ble som forventet."
+      eng: "Judges their own and others' investigations by number of trials, variable control and sources of error. Not yet: judges by whether the result was expected."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.inquiry.model-limits
+    strand: inquiry
+    checkpoint: 10
+    refs: [KM13856]
+    needs: [nat.inquiry.why-models]
+    i_can:
+      nob: Jeg kan forklare styrker og svakheter ved en modell.
+      eng: I can explain a model's strengths and limits.
+    teacher:
+      nob: "Bruker en modell til å forutsi og sier hva den ikke kan forklare (atommodellen, klimamodeller). Ikke ennå: tror en god modell er riktig i alt."
+      eng: "Uses a model to predict and says what it cannot explain (the atomic model, climate models). Not yet: thinks a good model is right about everything."
+    stages: [abstract]
+    misconceptions: [model-is-a-copy]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.risk-assessment
+    strand: materials
+    checkpoint: 10
+    refs: [KM13857]
+    needs: [nat.materials.hazard-symbols]
+    i_can:
+      nob: Jeg kan fylle ut et risikokort før et forsøk.
+      eng: I can fill in a risk card before an experiment.
+    teacher:
+      nob: "Fyller ut risikokortet før forsøket og følger sikkerhetstiltakene. Ikke ennå: fyller ut kortet etter forsøket."
+      eng: "Fills in the risk card before the experiment and follows the safety measures. Not yet: fills in the card afterwards."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.materials.mass-conservation
+    strand: materials
+    checkpoint: 10
+    refs: [KM13861]
+    needs: [nat.materials.chemical-reactions]
+    i_can:
+      nob: Jeg kan forklare at massen er bevart i en kjemisk reaksjon.
+      eng: I can explain that mass is conserved in a reaction.
+    teacher:
+      nob: "Forklarer at atomene bare stokkes om, og regner ut massen av en gass som slapp ut. Ikke ennå: sier at stoff forsvinner når noe brenner."
+      eng: "Explains that atoms are only rearranged, and works out the mass of a gas that escaped. Not yet: says matter disappears when something burns."
+    stages: [concrete, abstract]
+    misconceptions: [burning-destroys-matter]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.combustion
+    strand: materials
+    checkpoint: 10
+    refs: [KM13861]
+    needs: [nat.materials.mass-conservation]
+    i_can:
+      nob: Jeg kan forklare hva som skjer når noe brenner.
+      eng: I can explain what happens when something burns.
+    teacher:
+      nob: "Forklarer forbrenning som reaksjon med oksygen som gir karbondioksid og vann, og hvorfor den er viktig. Ikke ennå: tror flammen er et stoff."
+      eng: "Explains combustion as a reaction with oxygen giving carbon dioxide and water, and why it matters. Not yet: thinks the flame is a substance."
+    stages: [pictorial, abstract]
+    misconceptions: [burning-destroys-matter]
+    assessable: true
+    reviewed: false
+
+  - id: nat.materials.atoms-periodic-table
+    strand: materials
+    checkpoint: 10
+    refs: [KM13862]
+    needs: [nat.materials.particle-model]
+    i_can:
+      nob: Jeg kan bruke atommodellen og periodesystemet til å forklare egenskaper.
+      eng: I can use atoms and the periodic table to explain properties.
+    teacher:
+      nob: "Plasserer grunnstoffer etter egenskaper og forklarer hvorfor stoffer i samme gruppe ligner hverandre. Ikke ennå: pugger plassene uten å kunne si hvorfor."
+      eng: "Places elements by their properties and explains why elements in one group are alike. Not yet: memorises positions without knowing why."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.energy-conservation
+    strand: energy-forces
+    checkpoint: 10
+    refs: [KM13864]
+    needs: [nat.energy-forces.energy-chain]
+    i_can:
+      nob: Jeg kan forklare at energi ikke forsvinner, bare skifter form.
+      eng: I can explain that energy is not lost, only changes form.
+    teacher:
+      nob: "Følger energien gjennom en omforming og viser at summen er den samme, med noe som varme. Ikke ennå: sier at energien er brukt opp."
+      eng: "Follows energy through a conversion and shows the total stays the same, with some as heat. Not yet: says the energy is used up."
+    stages: [pictorial, abstract]
+    misconceptions: [energy-gets-used-up]
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.energy-quality
+    strand: energy-forces
+    checkpoint: 10
+    refs: [KM13864]
+    needs: [nat.energy-forces.energy-conservation]
+    i_can:
+      nob: Jeg kan forklare hva energikvalitet betyr.
+      eng: I can explain what energy quality means.
+    teacher:
+      nob: "Forklarer at elektrisk energi er lett å bruke, mens spredt varme er lite nyttig. Ikke ennå: tror all energi er like nyttig."
+      eng: "Explains that electric energy is easy to use, while spread-out heat is of little use. Not yet: thinks all energy is equally useful."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.store-transport-energy
+    strand: energy-forces
+    checkpoint: 10
+    refs: [KM13864]
+    needs: [nat.energy-forces.electricity-everyday]
+    i_can:
+      nob: Jeg kan gi eksempler på hvordan energi omformes, fraktes og lagres.
+      eng: I can give examples of converting, moving and storing energy.
+    teacher:
+      nob: "Gir eksempler som vannkraftverk, strømnettet og batterier, og sier hvilken form energien har. Ikke ennå: nevner eksempler uten energiform."
+      eng: "Gives examples such as hydropower, the power grid and batteries, and names the energy form. Not yet: lists examples without the energy form."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.energy-forces.energy-and-environment
+    strand: energy-forces
+    checkpoint: 10
+    refs: [KM13865]
+    needs: [nat.energy-forces.energy-quality]
+    i_can:
+      nob: Jeg kan forklare hvordan energibruk påvirker miljøet.
+      eng: I can explain how energy use affects the environment.
+    teacher:
+      nob: "Sammenligner miljøkostnaden ved ulike energikilder lokalt og globalt (utslipp, naturinngrep). Ikke ennå: tror fornybar energi ikke har noen kostnad."
+      eng: "Compares the environmental cost of energy sources locally and globally (emissions, land use). Not yet: thinks renewable energy has no cost."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.evolution
+    strand: living-things
+    checkpoint: 10
+    refs: [KM13866]
+    needs: [nat.living-things.biodiversity]
+    i_can:
+      nob: Jeg kan bruke evolusjonsteorien til å forklare artsmangfold.
+      eng: I can use evolution to explain the variety of species.
+    teacher:
+      nob: "Forklarer variasjon, arv og naturlig utvalg, og hvordan forskere kom fram til teorien. Ikke ennå: sier at dyr endrer seg fordi de trenger det."
+      eng: "Explains variation, inheritance and natural selection, and how researchers arrived at the theory. Not yet: says animals change because they need to."
+    stages: [pictorial, abstract]
+    misconceptions: [change-by-need]
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.cells
+    strand: living-things
+    checkpoint: 10
+    refs: [KM13867]
+    needs: [nat.living-things.group-organisms]
+    i_can:
+      nob: Jeg kan sammenligne celler fra ulike organismer.
+      eng: I can compare cells from different organisms.
+    teacher:
+      nob: "Merker av dyrecelle, plantecelle og bakterie og kobler en del til det den gjør. Ikke ennå: vet ikke at planteceller har cellevegg og grønnkorn."
+      eng: "Labels an animal cell, a plant cell and a bacterium and links a part to its job. Not yet: does not know plant cells have a wall and chloroplasts."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.photosynthesis-respiration
+    strand: living-things
+    checkpoint: 10
+    refs: [KM13870]
+    needs: [nat.living-things.food-webs]
+    i_can:
+      nob: Jeg kan forklare fotosyntese og celleånding.
+      eng: I can explain photosynthesis and cellular respiration.
+    teacher:
+      nob: "Forklarer at planter lager sukker av karbondioksid og vann med lys, og at alle organismer bryter det ned igjen i karbonkretsløpet. Ikke ennå: sier at planter får maten fra jorda."
+      eng: "Explains that plants make sugar from carbon dioxide and water using light, and that all organisms break it down again in the carbon cycle. Not yet: says plants get their food from the soil."
+    stages: [pictorial, abstract]
+    misconceptions: [plants-eat-soil]
+    assessable: true
+    reviewed: false
+
+  - id: nat.living-things.ecosystem-cycles
+    strand: living-things
+    checkpoint: 10
+    refs: [KM13868]
+    needs: [nat.living-things.photosynthesis-respiration]
+    i_can:
+      nob: Jeg kan forklare hvordan energi og stoffer går gjennom et økosystem.
+      eng: I can explain how energy and matter move through an ecosystem.
+    teacher:
+      nob: "Forklarer at stoffer går i kretsløp mens energien strømmer gjennom, og kobler biotiske og abiotiske faktorer. Ikke ennå: sier at energien går i ring."
+      eng: "Explains that matter cycles while energy flows through, and links living and non-living factors. Not yet: says energy goes round in a cycle."
+    stages: [pictorial, abstract]
+    misconceptions: [energy-cycles]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.greenhouse-effect
+    strand: earth-space
+    checkpoint: 10
+    refs: [KM13863]
+    needs: [nat.earth-space.conditions-for-life]
+    i_can:
+      nob: Jeg kan forklare drivhuseffekten og hva som endrer klimaet.
+      eng: I can explain the greenhouse effect and what changes the climate.
+    teacher:
+      nob: "Forklarer hvordan drivhusgasser holder på varme og skiller naturlige og menneskeskapte årsaker. Ikke ennå: blander drivhuseffekten med hullet i ozonlaget."
+      eng: "Explains how greenhouse gases keep in heat and separates natural from human causes. Not yet: confuses the greenhouse effect with the ozone hole."
+    stages: [pictorial, abstract]
+    misconceptions: [greenhouse-is-ozone-hole]
+    assessable: true
+    reviewed: false
+
+  - id: nat.earth-space.plate-tectonics
+    strand: earth-space
+    checkpoint: 10
+    refs: [KM13871]
+    needs: [nat.earth-space.rock-cycle]
+    i_can:
+      nob: Jeg kan bruke platetektonikk til å forklare hvordan jorda har endret seg.
+      eng: I can use plate tectonics to explain how Earth has changed.
+    teacher:
+      nob: "Forklarer platebevegelser og gir observasjoner som støtter teorien (kystlinjer som passer, fossiler, jordskjelv). Ikke ennå: kjenner teorien, men ikke bevisene."
+      eng: "Explains plate movement and gives observations that support the theory (matching coastlines, fossils, earthquakes). Not yet: knows the theory but not the evidence."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.nerves-and-hormones
+    strand: body-health
+    checkpoint: 10
+    refs: [KM13873]
+    needs: [nat.body-health.organ-systems]
+    i_can:
+      nob: Jeg kan sammenligne nervesystemet og hormonsystemet.
+      eng: I can compare the nervous system and the hormone system.
+    teacher:
+      nob: "Forklarer at nervesignaler er raske og korte, mens hormoner er langsomme og varer lenger. Ikke ennå: blander de to systemene."
+      eng: "Explains that nerve signals are fast and short while hormones are slow and last longer. Not yet: mixes up the two systems."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.substances-and-signals
+    strand: body-health
+    checkpoint: 10
+    refs: [KM13873]
+    needs: [nat.body-health.nerves-and-hormones]
+    i_can:
+      nob: Jeg kan forklare hvordan rusmidler og medisiner påvirker signaler i kroppen.
+      eng: I can explain how drugs and medicines affect signals in the body.
+    teacher:
+      nob: "Forklarer hvordan rusmidler, medisiner, miljøgifter og doping kan forstyrre signalene mellom celler. Ikke ennå: sier bare at rusmidler er farlige."
+      eng: "Explains how drugs, medicines, environmental toxins and doping can disturb signals between cells. Not yet: only says drugs are dangerous."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.body-health.immune-system-vaccines
+    strand: body-health
+    checkpoint: 10
+    refs: [KM13874]
+    needs: [nat.body-health.outer-defences]
+    i_can:
+      nob: Jeg kan forklare immunforsvaret og hvordan vaksiner virker.
+      eng: I can explain the immune system and how vaccines work.
+    teacher:
+      nob: "Forklarer hvite blodceller og antistoffer, at en vaksine trener immunforsvaret, og hvorfor mange vaksinerte beskytter alle. Ikke ennå: tror en vaksine er en medisin mot en sykdom man har."
+      eng: "Explains white blood cells and antibodies, that a vaccine trains the immune system, and why many vaccinated people protect everyone. Not yet: thinks a vaccine cures an illness you already have."
+    stages: [pictorial, abstract]
+    misconceptions: [vaccine-is-a-cure]
+    assessable: true
+    reviewed: false
+
+  # sensitive: see docs/design/subjects/naturfag.md
+  - id: nat.body-health.sexual-health
+    strand: body-health
+    checkpoint: 10
+    refs: [KM13872]
+    needs: [nat.body-health.puberty]
+    i_can:
+      nob: Jeg kjenner fakta om seksuell og reproduktiv helse.
+      eng: I know the facts about sexual and reproductive health.
+    teacher:
+      nob: "Kjenner til prevensjon, seksuelt overførbare infeksjoner og hvordan de forebygges, og hvor man kan få hjelp (helsesykepleier). Ikke ennå: kjenner ikke til hvor man kan få hjelp."
+      eng: "Knows about contraception, sexually transmitted infections and how to prevent them, and where to get help (the school nurse). Not yet: does not know where to get help."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.explain-transmitter-receiver
+    strand: technology
+    checkpoint: 10
+    refs: [KM13859]
+    needs: [nat.technology.parts-of-a-system]
+    i_can:
+      nob: Jeg kan forklare hvordan en sender og en mottaker virker sammen.
+      eng: I can explain how a transmitter and a receiver work together.
+    teacher:
+      nob: "Forklarer at et signal kodes, sendes og tolkes, med et eksempel (radio, fjernkontroll). Ikke ennå: forklarer senderen, men ikke mottakeren."
+      eng: "Explains that a signal is encoded, sent and decoded, with an example (radio, remote control). Not yet: explains the transmitter but not the receiver."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.technology.build-transmitter-receiver
+    strand: technology
+    checkpoint: 10
+    refs: [KM13859]
+    needs: [nat.technology.program-a-system, nat.technology.explain-transmitter-receiver]
+    i_can:
+      nob: Jeg kan lage et system med sender og mottaker.
+      eng: I can make a system with a transmitter and a receiver.
+    teacher:
+      nob: "Bygger og programmerer to enheter som sender og tar imot en melding. Ikke ennå: får bare den ene enheten til å virke."
+      eng: "Builds and programs two devices that send and receive a message. Not yet: gets only one of the devices working."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nat.technology.program-to-explore
+    strand: technology
+    checkpoint: 10
+    refs: [KM13860]
+    needs: [nat.technology.program-a-system]
+    i_can:
+      nob: Jeg kan bruke programmering til å utforske et fenomen.
+      eng: I can use programming to explore a natural phenomenon.
+    teacher:
+      nob: "Leser og endrer et program som måler eller simulerer noe (temperatur over tid, fritt fall) og tolker resultatet. Ikke ennå: kjører programmet uten å tolke resultatet."
+      eng: "Reads and changes a program that measures or simulates something (temperature over time, free fall) and interprets the result. Not yet: runs the program without interpreting the result."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.resource-dilemmas
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM13875]
+    needs: [nat.sustainability.protect-biodiversity]
+    i_can:
+      nob: Jeg kan forklare begge sider av et dilemma om naturressurser.
+      eng: I can explain both sides of a natural-resource dilemma.
+    teacher:
+      nob: "Gjengir argumenter for og mot i en aktuell sak (gruvedrift, vindkraft, oppdrett) med fakta om naturtap. Ikke ennå: gir bare argumentene for én side."
+      eng: "Sets out arguments for and against in a current case (mining, wind power, fish farming) with facts about nature loss. Not yet: gives only one side."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.sami-nature-knowledge
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM13869]
+    needs: [nat.sustainability.northern-nature-management]
+    i_can:
+      nob: Jeg kan gi eksempler på samisk kunnskap om naturen.
+      eng: I can give examples of Sami knowledge about nature.
+    teacher:
+      nob: "Gir eksempler på samisk kunnskap (snø, beite, årstider) og hvordan den kan bidra til bærekraftig forvaltning. Ikke ennå: nevner bare reindrift uten å si hva kunnskapen er."
+      eng: "Gives examples of Sami knowledge (snow, grazing, seasons) and how it can support sustainable management. Not yet: names reindeer herding without saying what the knowledge is."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nat.sustainability.how-research-works
+    strand: sustainability
+    checkpoint: 10
+    refs: [KM13858]
+    needs: [nat.sustainability.science-develops]
+    i_can:
+      nob: Jeg kan forklare hvordan forskning skaper ny kunnskap.
+      eng: I can explain how research creates new knowledge.
+    teacher:
+      nob: "Gir et eksempel på aktuell forskning og forklarer fagfellevurdering, samarbeid og kritisk prøving. Ikke ennå: tror én forsker finner svaret alene."
+      eng: "Gives an example of current research and explains peer review, collaboration and critical testing. Not yet: thinks one researcher finds the answer alone."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false

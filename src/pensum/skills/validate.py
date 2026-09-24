@@ -14,12 +14,17 @@ silent on the page that shows skills:
 4. `i_can` is at most twelve words, so it can be read aloud to a seven-year-old.
 5. Ids are unique, strands referenced exist, and the per-field rules in
    `schema.py` hold (stages valid and ordered, both languages present).
+6. A sensitive skill says so with `sensitive: true`, never with a comment. The
+   comment was the first convention, and the code cannot read it: a skill marked
+   only that way would grow a plant on the pupil's map and appear on the class
+   grid.
 
-A subject without a file is fine. A file that exists must pass all five.
+A subject without a file is fine. A file that exists must pass all six.
 """
 
 from __future__ import annotations
 
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -33,6 +38,9 @@ from pensum.skills.loader import DEFAULT_SKILLS_DIR, read
 from pensum.skills.schema import PREFIXES, SkillFile
 
 MAX_I_CAN_WORDS = 12
+
+# The old way of marking a sensitive skill: a YAML comment above it.
+SENSITIVE_COMMENT = re.compile(r"^\s*#\s*sensitive\b", re.IGNORECASE | re.MULTILINE)
 
 
 def validate(skills_dir: Path | None = None, catalogue: Catalogue | None = None) -> list[str]:
@@ -60,6 +68,11 @@ def validate(skills_dir: Path | None = None, catalogue: Catalogue | None = None)
             continue
         files.append(skill_file)
         problems.extend(check(skill_file, subject))
+        if SENSITIVE_COMMENT.search(path.read_text(encoding="utf-8")):
+            problems.append(
+                f"{where}: marks a skill sensitive with a comment; "
+                "use `sensitive: true` on the skill, which the code can read"
+            )
 
     # Ids are globally unique, not only within a file: they are what evidence
     # and mastery will be filed under, across every subject a pupil takes.

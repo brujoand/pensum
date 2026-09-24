@@ -1,0 +1,35 @@
+{#- The growth glyphs: an empty spot, a seed, a sprout, a plant, a flower.
+
+    Shape carries the meaning, never colour: every glyph is drawn in the same
+    stylesheet colours, and each adds parts to the one before it, so the
+    difference survives greyscale, a high-contrast setting and a printer. No
+    `fill`, `stroke` or colour in the markup (a test holds that). No animation:
+    a plant that appears is calmer than one that grows in front of you.
+
+    `label` is what a screen reader says, and it is the whole meaning. -#}
+{% macro growth(state, label) -%}
+  <svg class="growth growth--{{ state.key }}" viewBox="0 0 40 40" role="img" aria-label="{{ label }}" focusable="false">
+    <path class="growth-ground" d="M6 35 H34" />
+    {% if state.value == 0 %}
+      <circle class="growth-spot" cx="20" cy="29" r="6" />
+    {% elif state.value == 1 %}
+      <ellipse class="growth-seed" cx="20" cy="31" rx="4" ry="3" />
+    {% else %}
+      {% set top = 24 if state.value == 2 else 12 %}
+      <path class="growth-stem" d="M20 35 V{{ top }}" />
+      <path class="growth-leaf" d="M20 28 C15 28 12 25 12 22 C16 22 19 24 20 28 Z" />
+      <path class="growth-leaf" d="M20 28 C25 28 28 25 28 22 C24 22 21 24 20 28 Z" />
+      {% if state.value >= 3 %}
+        <path class="growth-leaf" d="M20 20 C15 20 13 17 13 14 C17 14 19 16 20 20 Z" />
+        <path class="growth-leaf" d="M20 20 C25 20 27 17 27 14 C23 14 21 16 20 20 Z" />
+      {% endif %}
+      {% if state.value == 4 %}
+        <circle class="growth-petal" cx="20" cy="6" r="3" />
+        <circle class="growth-petal" cx="25" cy="10" r="3" />
+        <circle class="growth-petal" cx="15" cy="10" r="3" />
+        <circle class="growth-petal" cx="20" cy="14" r="3" />
+        <circle class="growth-heart" cx="20" cy="10" r="2" />
+      {% endif %}
+    {% endif %}
+  </svg>
+{%- endmacro %}

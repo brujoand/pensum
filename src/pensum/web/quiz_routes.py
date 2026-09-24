@@ -15,10 +15,11 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from pensum.domain.grades import checkpoint_for
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
+from pensum.mastery.attribution import evidence_for
 from pensum.quiz.scoring import Result, score, select
 from pensum.quiz.session import QuizSession, SessionStore
 from pensum.scores.store import Attempt, GoalTally, attempt_key
-from pensum.web.deps import current_user, get_store, sees_unreviewed
+from pensum.web.deps import current_user, get_evidence, get_store, sees_unreviewed
 from pensum.web.rendering import context, flow, templates, validate_locale
 
 router = APIRouter()
@@ -57,7 +58,7 @@ def _session_or_404(request: Request, session_id: str) -> QuizSession:
 
 
 def _remember(request: Request, session: QuizSession, outcome: Result, now: datetime) -> None:
-    """Record a finished attempt, if there is anywhere and anyone to record.
+    """Record a finished attempt and its evidence, if there is anywhere and anyone.
 
     Three conditions, all of which must hold, and none of which is the default:
     a store is configured, the pupil was signed in when they started, and they
@@ -81,6 +82,25 @@ def _remember(request: Request, session: QuizSession, outcome: Result, now: date
                 GoalTally(goal=g.goal, correct=g.correct, total=g.total) for g in outcome.by_goal
             ),
             finished_at=now,
+        )
+    )
+
+    # Evidence for the pupil's map, under the same three conditions and at the
+    # same moment. A subject with no skills file has nothing to file it under.
+    evidence = get_evidence(request)
+    skill_file = request.app.state.skills.for_subject(session.subject)
+    subject = request.app.state.catalogue.subject(session.subject)
+    goal_set = subject.goal_set(session.goal_set) if subject else None
+    if evidence is None or skill_file is None or goal_set is None:
+        return
+    evidence.record(
+        evidence_for(
+            ((item, item.is_correct(session.answers.get(item.id, ""))) for item in session.items),
+            attempt=attempt_key(session.id),
+            user_sub=str(session.user_sub),
+            checkpoint=goal_set.after_year,
+            skill_file=skill_file,
+            at=now,
         )
     )
 

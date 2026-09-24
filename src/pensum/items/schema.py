@@ -84,6 +84,14 @@ class QuizItem(BaseModel):
     # authors; the run engine will step down a stage after a wrong answer.
     stage: Stage | None = None
 
+    # The skill this item is evidence for, by id (`data/skills/`). Optional:
+    # without it, evidence goes to every assessable skill citing the item's goal
+    # at its checkpoint, which is coarse -- one goal is often three skills -- and
+    # `pensum.mastery.attribution` says so. Naming it is how an author makes
+    # the pupil's map precise. The items validator checks the skill exists, is
+    # assessable, and cites this item's goal.
+    skill: str | None = None
+
     choices: tuple[Choice, ...] = ()
     answer: float | None = None
     tolerance: float = 0.0

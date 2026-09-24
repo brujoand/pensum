@@ -25,14 +25,18 @@ from pydantic import ValidationError
 
 from pensum.catalogue.loader import Catalogue
 from pensum.items.loader import DEFAULT_ITEMS_DIR
+from pensum.items.schema import QuizItem
 from pensum.items.sets import ItemSet
 from pensum.items.template import ItemTemplate
+from pensum.skills.loader import SkillLibrary
+from pensum.skills.schema import SkillFile
 
 
-def validate(items_dir: Path | None = None) -> list[str]:
+def validate(items_dir: Path | None = None, skills: SkillLibrary | None = None) -> list[str]:
     """Return a problem per line. Empty means everything checks out."""
     directory = items_dir or DEFAULT_ITEMS_DIR
     catalogue = Catalogue.load()
+    skills = skills if skills is not None else SkillLibrary.load()
     problems: list[str] = []
     item_sets: list[ItemSet] = []
 
@@ -67,6 +71,7 @@ def validate(items_dir: Path | None = None) -> list[str]:
                     f"{item.id}: goal {item.goal} is not in {item_set.goal_set}; "
                     "it may have been renumbered by a curriculum revision"
                 )
+            problems.extend(_skill_problems(item, skills.for_subject(item_set.subject)))
         for template in item_set.templates:
             if template.goal not in known:
                 problems.append(
@@ -91,6 +96,30 @@ def validate(items_dir: Path | None = None) -> list[str]:
                 f"marked not_assessable: {', '.join(unaccounted)}"
             )
 
+    return problems
+
+
+def _skill_problems(item: QuizItem, skill_file: SkillFile | None) -> list[str]:
+    """An item that names a skill must name one it can be evidence for.
+
+    Three ways to get it wrong, all silent on the page: a skill id that does not
+    exist files evidence under nothing; a skill that is not assessable is
+    practised off screen and must never grow from a quiz; and a skill that does
+    not cite the item's goal puts the item's evidence under a goal it does not
+    test.
+    """
+    if item.skill is None:
+        return []
+    skill = skill_file.skill(item.skill) if skill_file is not None else None
+    if skill is None:
+        return [f"{item.id}: skill {item.skill} is not in this subject's skills file"]
+    problems = []
+    if not skill.assessable:
+        problems.append(f"{item.id}: skill {item.skill} is not assessable, so no item may feed it")
+    if item.goal not in skill.refs:
+        problems.append(
+            f"{item.id}: skill {item.skill} does not cite goal {item.goal}, which this item tests"
+        )
     return problems
 
 

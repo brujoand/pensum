@@ -772,3 +772,70 @@ missions:
       step2: Every sentence ends with a full stop, question mark or exclamation mark.
       step3: One sentence is made longer with and, because or but.
       step4: Read the whole text aloud once more.
+
+mastery:
+  state:
+    not-started:
+      name: Not started
+      glyph: An empty spot
+      explain: An empty spot means you have not tried this yet.
+    exploring:
+      name: Exploring
+      glyph: A seed
+      explain: A seed means you have tried.
+    practising:
+      name: Practising
+      glyph: A sprout
+      explain: A sprout means you have got it right.
+    secure:
+      name: Secure
+      glyph: A plant
+      explain: A plant means you have got it right many times, on more than one day.
+    retained:
+      name: Retained
+      glyph: A plant with a flower
+      explain: A flower means you still knew it a week later.
+  stage:
+    concrete: With objects
+    pictorial: With pictures
+    abstract: With numbers and symbols
+    unrecorded: Stage not recorded
+  map:
+    cta: See your map
+    title: "Your map in {subject}"
+    intro: >-
+      This is where what you learn grows. What you have got right stays, even if
+      a question goes badly another time.
+    legend_heading: What do the pictures mean?
+    checkpoints_label: Choose a year
+    sensitive: We talk about this in class. No plant grows here.
+    off_screen: You practise this away from the screen.
+    not_stored: >-
+      This Pensum site stores nothing about you, so there is no map to grow
+      here. You can still take every quiz.
+    sign_in_note: >-
+      Your map only grows when you are signed in, because it has to be stored
+      somewhere. You do not need to sign in to take a quiz.
+    progression_link: See every skill in the subject
+  grid:
+    title: "Class overview in {subject}"
+    intro: >-
+      Every pupil on one strand. The cells show what the answers say now, not
+      the best the pupil has reached, and the representation the pupil last got
+      right with.
+    guesses: >-
+      The thresholds for "secure" and "retained" are guesses, to be adjusted
+      once there is classroom data. Read the cells as a hint about whom to look
+      at, not as an assessment.
+    not_stored: >-
+      This Pensum site has no database, so no answers are stored and there is no
+      overview to show.
+    strands_label: Choose a strand
+    grid_label: Pupils and skills
+    concrete_only: Only with objects so far
+    slipped: "Was {state}, worth another look"
+    excluded: >-
+      Sensitive skills and skills practised away from the screen are not shown
+      here.
+    links_heading: Class overview
+    links_label: Class overview by subject

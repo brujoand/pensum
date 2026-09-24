@@ -33,12 +33,14 @@ from pensum.reading.library import ReadingLibrary
 from pensum.reading.streams import StreamStore
 from pensum.reading.transcribe import Transcriber, load_transcriber
 from pensum.review.store import ReviewLedger, ReviewStore
+from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
 from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.comfort_routes import router as comfort_router
 from pensum.web.listening_routes import router as listening_router
+from pensum.web.mastery_routes import router as mastery_router
 from pensum.web.missions_routes import router as missions_router
 from pensum.web.placement_routes import router as placement_router
 from pensum.web.quiz_routes import router as quiz_router
@@ -144,6 +146,9 @@ def create_app(
     # provider does not have to be up before Pensum is.
     app.state.oidc = OidcClient(active) if active.auth_enabled else None
     app.state.attempts = AttemptStore(active.database_path) if active.history_enabled else None
+    # Same gate and same file as the attempts: evidence is written alongside a
+    # finished attempt and never otherwise. See `pensum.scores.evidence`.
+    app.state.evidence = EvidenceStore(active.database_path) if active.history_enabled else None
 
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(router)
@@ -158,6 +163,7 @@ def create_app(
     app.include_router(skills_router)
     app.include_router(comfort_router)
     app.include_router(missions_router)
+    app.include_router(mastery_router)
     return app
 
 

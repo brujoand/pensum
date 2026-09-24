@@ -502,3 +502,27 @@ listening:
   not_a_verdict: >-
     Dette er øving, ikke vurdering. Rettskriving læres over år, og et ord du
     bommer på her er et ord du kan øve på.
+
+progression:
+  # Lærerens oversikt over et fag: ferdigheter i rader per tråd, sjekkpunkter
+  # bortover. Ferdighetene er vår lesing av læreplanen, aldri Udirs tekst.
+  title: "Progresjon i {subject}"
+  intro: >-
+    Hver tråd i faget, fra første til siste sjekkpunkt. Hver ferdighet er én
+    ting en lærer kan se at en elev får til, eller ikke får til ennå, med
+    kompetansemålene den bygger på.
+  ours_note: >-
+    Ferdighetene er Pensums egen lesing av læreplanen, ikke Utdanningsdirektoratets
+    tekst. Det er kompetansemålene, sitert ordrett under hver ferdighet, som gjelder.
+  drafts_note: >-
+    {count} av {total} ferdigheter er utkast som ingen har lest gjennom ennå. De
+    vises likevel, fordi ingenting elever ser bygger på dem foreløpig.
+  grid_label: Ferdigheter per tråd og sjekkpunkt
+  strand: Tråd
+  checkpoint: "Etter {year}. trinn"
+  pupil_label: For eleven
+  teacher_label: Slik ser læreren det
+  draft: Utkast — ikke gjennomgått
+  off_screen: Øves utenfor skjermen
+  cta: Se progresjonen i faget
+  cta_note: Alle trinn på én side, for lærere. Kan skrives ut.

@@ -486,3 +486,28 @@ listening:
   not_a_verdict: >-
     This is practice, not assessment. Spelling is learned over years, and a word
     you miss here is a word you can practise.
+
+progression:
+  # A teacher's view of a subject: skills in rows per strand, checkpoints
+  # across. The skills are our reading of the curriculum, never Udir's text.
+  title: "Progression in {subject}"
+  intro: >-
+    Every strand of the subject, from the first checkpoint to the last. Each
+    skill is one thing a teacher can see a pupil do, or not do yet, with the
+    competence goals it builds on.
+  ours_note: >-
+    The skills are Pensum's own reading of the curriculum, not the Norwegian
+    Directorate for Education and Training's text. The competence goals, quoted
+    verbatim under each skill, are what applies.
+  drafts_note: >-
+    {count} of {total} skills are drafts nobody has read through yet. They are
+    shown anyway, because nothing a pupil sees depends on them so far.
+  grid_label: Skills by strand and checkpoint
+  strand: Strand
+  checkpoint: "After year {year}"
+  pupil_label: For the pupil
+  teacher_label: What the teacher sees
+  draft: Draft — not reviewed
+  off_screen: Practised off screen
+  cta: See how the subject progresses
+  cta_note: Every year on one page, for teachers. Printable.

@@ -1828,3 +1828,191 @@ circle.figure-mark {
 .number-line-typed .answer-input {
   margin-bottom: 0;
 }
+
+/* Progression guide ---------------------------------------------------------
+   Strands down, checkpoints across. Wider than the reading measure by nature,
+   so the page lets go of it and the grid scrolls inside its own region rather
+   than the whole page scrolling sideways. The prose above it keeps the measure. */
+
+main:has(.progression-page) {
+  max-width: none;
+}
+
+.progression-page > h1,
+.progression-page > p {
+  max-width: var(--measure);
+}
+
+.progression-scroll {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.progression-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.progression {
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.progression th,
+.progression td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.progression thead th {
+  white-space: nowrap;
+  background: var(--paper);
+}
+
+/* The strand name stays in view while the checkpoints scroll past it. */
+.progression-strand {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 9rem;
+  max-width: 11rem;
+  background: var(--card);
+}
+
+.progression-cell {
+  min-width: 17rem;
+}
+
+.progression-cell--empty {
+  min-width: 4rem;
+}
+
+/* Shown only in print, where the column headers no longer sit above it. */
+.progression-cell-checkpoint {
+  display: none;
+}
+
+.skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.skill + .skill {
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line);
+}
+
+.skill p {
+  margin: 0 0 0.4rem;
+}
+
+.skill-i-can {
+  font-weight: 600;
+}
+
+.skill-teacher {
+  color: var(--ink-soft);
+}
+
+.skill-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.skill-badges .badge {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+}
+
+.skill-goals {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.skill-goals blockquote {
+  font-size: 0.85rem;
+}
+
+@media print {
+  /* A printed guide is read strand by strand, down the page. The grid unfolds
+     into a list: each strand a heading, each checkpoint a labelled block. */
+  .site-header,
+  .site-footer,
+  .breadcrumb {
+    display: none;
+  }
+
+  main,
+  .progression-page > h1,
+  .progression-page > p {
+    max-width: none;
+    padding: 0;
+  }
+
+  .progression-scroll {
+    overflow: visible;
+    border: 0;
+  }
+
+  .progression,
+  .progression tbody,
+  .progression tr,
+  .progression th,
+  .progression td {
+    display: block;
+    border: 0;
+    padding: 0;
+  }
+
+  .progression thead,
+  .progression-cell--empty {
+    display: none;
+  }
+
+  .progression-strand {
+    position: static;
+    max-width: none;
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1.2rem;
+    break-after: avoid;
+  }
+
+  .progression-cell {
+    margin: 0 0 1rem;
+  }
+
+  .progression-cell-checkpoint {
+    display: block;
+    font-weight: 600;
+    border-bottom: 1px solid var(--line);
+    break-after: avoid;
+  }
+
+  .skill {
+    break-inside: avoid;
+  }
+}
+
+.progression-cta {
+  margin: 2rem 0 0;
+}
+
+.progression-cta .field-help {
+  display: block;
+}

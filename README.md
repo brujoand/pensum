@@ -46,6 +46,26 @@ and no goal kept its old identifier. The ingest therefore selects curricula by
 *validity date*, never by a hardcoded list, so a revision is a re-run rather than
 a rewrite.
 
+**Skills are Pensum's reading, layered on top.** A single goal is often several
+things a pupil learns, and several goals often share one. So each subject can
+have a skills file, `data/skills/<SUBJECT_CODE>.yaml`: strands that run through
+the checkpoints, and skills, each one thing a teacher can see a pupil do. A
+skill cites the goals it reads (`refs`), the skills it builds on (`needs`), an
+"I can" line for the pupil and an observable description for the teacher.
+
+```
+Strand                    "Plassverdi og tallinja"
+└── Skill                 mat.place-value.exchange-tens, refs: [KM13232]
+```
+
+`python -m pensum.skills.validate` (a pre-commit hook) holds every file to the
+curriculum: each goal cited by some skill, each ref at the skill's own
+checkpoint, no cycle in `needs`. The progression guide at
+`/<locale>/progresjon/<SUBJECT_CODE>` shows a subject's skills strand by
+checkpoint, with the goals quoted verbatim beside them, and prints. Skills are
+drafts until a human sets `reviewed: true`, and the guide says so. The design,
+and the layers still to come on top of it, are in [docs/design](docs/design/).
+
 ## Running it
 
 ```bash

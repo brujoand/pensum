@@ -1,0 +1,19 @@
+{# Labels on the numbered places of a picture. `pensum.items.primitives.label`.
+   Each number also has a menu of the labels, which is the keyboard path. #}
+{% extends "partials/primitives/_cards_activity.html" %}
+{% block hint %}{{ t("activity.label.hint") }}{% endblock %}
+{% block controls %}
+  <div class="card-menus">
+    {% for place in item.activity.places() %}
+      <label class="card-menu">
+        <span>{{ t("activity.label.place", n=loop.index) }}</span>
+        <select data-slot="{{ loop.index0 }}">
+          <option value="none">{{ t("activity.cards.none") }}</option>
+          {% for j in item.activity.tray_order() %}
+            <option value="{{ j }}">{{ item.activity.labels[j].text.get(locale) }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endfor %}
+  </div>
+{% endblock %}

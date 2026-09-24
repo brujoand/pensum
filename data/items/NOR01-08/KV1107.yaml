@@ -586,6 +586,44 @@ items:
         "Pus" is a name, so it has a capital too.
     reviewed: false
 
+  - id: KM14140-03
+    goal: KM14140
+    type: sequence
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: >-
+        Les: Mia gikk en tur i skogen. Der fant hun en liten katt. Hun ga katten
+        litt melk. Så sovnet katten i fanget hennes. Sett det som skjedde i riktig
+        rekkefølge.
+      en: >-
+        Read: Mia went for a walk in the forest. There she found a small cat. She
+        gave the cat some milk. Then the cat fell asleep in her lap. Put what
+        happened in the right order.
+    activity:
+      alt:
+        nb: Fire kort om det som skjedde med Mia, i en rekke.
+        en: Four cards about what happened to Mia, in a line.
+      cards:
+        - nb: Mia går tur.
+          en: Mia goes for a walk.
+        - nb: Mia finner en katt.
+          en: Mia finds a cat.
+        - nb: Katten får melk.
+          en: The cat gets milk.
+        - nb: Katten sover.
+          en: The cat sleeps.
+    explanation:
+      nb: >-
+        Teksten forteller det i denne rekkefølgen: først turen, så katten, så
+        melken, og til slutt sover katten. Ord som «der» og «så» viser hva som
+        kommer etter hva.
+      en: >-
+        The text tells it in this order: first the walk, then the cat, then the
+        milk, and last the cat sleeps. Words like "there" and "then" show what
+        comes after what.
+    reviewed: false
+
 # Goals that no written question can honestly test. Most of this goal set is
 # about doing: talking, listening, drawing, writing by hand, visiting the
 # library. Recorded here rather than faked with an adjacent question.

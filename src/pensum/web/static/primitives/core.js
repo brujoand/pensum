@@ -1,5 +1,5 @@
 /* The shared half of every hands-on question: counters, frames, blocks, arrays,
- * balances.
+ * balances, and the card boards (sort, sequence, match, label, highlight).
  *
  * Written by hand and vendored like everything else on this site: no bundler,
  * no dependency, no third-party origin.
@@ -11,7 +11,7 @@
  *     apply: function (state, action, limits) { ... return next state or null },
  *     shown: function (state, piece, limits) { ... return true or false },
  *     describe: function (state, say, limits) { ... return a sentence },
- *     render: function (root, state, limits) { ... optional extras },
+ *     render: function (root, state, limits, say) { ... optional extras },
  *     bind: function (root, api) { ... optional keys and pointers of its own },
  *   });
  *
@@ -91,6 +91,7 @@
     if (data.from !== undefined) action.from = data.from;
     if (data.to !== undefined) action.to = data.to;
     if (data.by !== undefined) action.by = parseInt(data.by, 10);
+    if (data.index !== undefined) action.index = parseInt(data.index, 10);
     return action;
   }
 
@@ -174,7 +175,7 @@
         }
       }
       if (spec.render) {
-        spec.render(root, state, limits);
+        spec.render(root, state, limits, say);
       }
       for (var b = 0; b < buttons.length; b++) {
         var action = actionOf(buttons[b]);
@@ -304,6 +305,12 @@
 
     if (spec.pointer !== false) {
       board.addEventListener("pointerdown", function (event) {
+        /* A button or a menu inside the board (a sequence's move buttons)
+         * is its own control, not the start of a tap or a drag. */
+        if (event.target.closest("button, select, input, a")) {
+          press = null;
+          return;
+        }
         var element = event.target.closest("[data-piece]");
         press = {
           id: event.pointerId,
@@ -331,6 +338,13 @@
         }
         press.dragging = true;
         press.element.classList.add("is-dragging");
+        if (!board.viewBox) {
+          /* An HTML board (the card primitives) is laid out in screen
+           * pixels already. */
+          press.element.style.transform =
+            "translate(" + dx.toFixed(1) + "px, " + dy.toFixed(1) + "px)";
+          return;
+        }
         /* Screen pixels to board units, so the piece stays under the finger
          * at any rendered size. */
         var box = board.getBoundingClientRect();
@@ -351,6 +365,7 @@
         if (done.element) {
           done.element.classList.remove("is-dragging");
           done.element.removeAttribute("transform");
+          done.element.style.transform = "";
         }
         if (event.type === "pointercancel") {
           return;

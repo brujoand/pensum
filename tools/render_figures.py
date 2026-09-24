@@ -198,13 +198,17 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
             draft = "" if item.reviewed else "  [DRAFT]"
             if item.activity is not None:
                 activity = item.activity
-                out.append(
-                    (
-                        f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
-                        f"{item.prompt.nb}",
-                        activity.board(activity.solution(), "nb"),
+                board = activity.board(activity.solution(), "nb")
+                # The card boards (sort, sequence, match, highlight) are HTML,
+                # not a picture this gallery can draw; their answer is words.
+                if isinstance(board, Board):
+                    out.append(
+                        (
+                            f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
+                            f"{item.prompt.nb}",
+                            board,
+                        )
                     )
-                )
                 continue
             if item.figure is None:
                 continue

@@ -41,7 +41,10 @@ Two properties every primitive keeps, and the tests hold them to:
 
   * grading is a pure function of the final state, never of time or process;
   * the question is answerable with no script at all, by typing a number into
-    the same form, and that number is graded against the same target.
+    the same form, and that number is graded against the same target. The
+    card primitives (sort, sequence, match, label, highlight) have no number,
+    so theirs is a choice between whole arrangements, each one a state graded
+    by the same rule as a built one (`cards.py`).
 """
 
 from __future__ import annotations
@@ -58,7 +61,12 @@ from pensum.items.primitives.base_ten import BaseTenActivity
 from pensum.items.primitives.blend import BlendActivity
 from pensum.items.primitives.counters import CountersActivity
 from pensum.items.primitives.dialogue import DialogueActivity
+from pensum.items.primitives.highlight import HighlightActivity
+from pensum.items.primitives.label import LabelActivity
+from pensum.items.primitives.match import MatchActivity
 from pensum.items.primitives.sentence_build import SentenceBuildActivity
+from pensum.items.primitives.sequence import SequenceActivity
+from pensum.items.primitives.sort import SortActivity
 from pensum.items.primitives.sound_boxes import SoundBoxesActivity
 from pensum.items.primitives.ten_frame import TenFrameActivity
 from pensum.items.primitives.word_build import WordBuildActivity
@@ -193,6 +201,23 @@ PRIMITIVES: dict[str, Primitive] = {
             "partials/primitives/dialogue.html",
             "primitives/dialogue.js",
             DialogueActivity,
+        ),
+        # The card primitives: the knowledge-and-reasoning boards every subject
+        # uses. Their no-script road is a choice between arrangements (`cards.py`).
+        Primitive("sort", "partials/primitives/sort.html", "primitives/sort.js", SortActivity),
+        Primitive(
+            "sequence",
+            "partials/primitives/sequence.html",
+            "primitives/sequence.js",
+            SequenceActivity,
+        ),
+        Primitive("match", "partials/primitives/match.html", "primitives/match.js", MatchActivity),
+        Primitive("label", "partials/primitives/label.html", "primitives/label.js", LabelActivity),
+        Primitive(
+            "highlight",
+            "partials/primitives/highlight.html",
+            "primitives/highlight.js",
+            HighlightActivity,
         ),
     )
 }

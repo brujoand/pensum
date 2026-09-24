@@ -141,6 +141,19 @@ not be a question at all.
   goal is *representing* or *building*: place value, grouping, make-ten,
   equals as a relation. A question that could be answered as well by typing is
   still a `numeric`.
+- **Card kinds**, for every subject: `sort` (cards into `bins`, each card's
+  `bin` declared; `venn: true` with two bins and `bin: both` for the overlap),
+  `sequence` (`cards` in the right order; `cycle: true` grades up to
+  rotation), `match` (`pairs` of `left` and `right`), `label` (a built-in
+  `diagram` -- `water_cycle`, `skeleton`, `compass` -- and `labels`, each with
+  the `slot` it goes on) and `highlight` (`unit: word` with a `text` whose
+  answers are in `[brackets]`, or `unit: sentence` with `sentences`, each
+  `mark: true` or not). Like the hands-on kinds they take an `activity:` block
+  with an `alt`. There is no `fallback:`: without JavaScript the pupil picks
+  the right arrangement from a few near misses the board makes itself. No two
+  cards may read the same in either language; a norsk `highlight` text is the
+  material and is shown as written in both. In KRLE and samfunnsfag, sort
+  and match facts about traditions and society, never beliefs or opinions.
 
 `difficulty` is 1–3 **relative to this checkpoint**. A hard year-2 question is
 not a hard year-10 question.

@@ -739,6 +739,61 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14687-03
+    goal: KM14687
+    type: sort
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sorter setningene i fakta, meninger og reklame.
+      en: Sort the sentences into facts, opinions and advertising.
+    activity:
+      alt:
+        nb: Seks setninger på kort, og tre bokser for fakta, mening og reklame.
+        en: Six sentences on cards, and three boxes for fact, opinion and advertising.
+      bins:
+        - nb: Fakta
+          en: Fact
+        - nb: Mening
+          en: Opinion
+        - nb: Reklame
+          en: Advertising
+      cards:
+        - text:
+            nb: Oslo er hovedstaden i Norge.
+            en: Oslo is the capital of Norway.
+          bin: 0
+        - text:
+            nb: Sommeren er den fineste årstiden.
+            en: Summer is the nicest season.
+          bin: 1
+        - text:
+            nb: Kjøp Lynsko i dag – halv pris!
+            en: Buy Flash Shoes today – half price!
+          bin: 2
+        - text:
+            nb: Det bor over fem millioner mennesker i Norge.
+            en: More than five million people live in Norway.
+          bin: 0
+        - text:
+            nb: Fotball er kjedelig å se på.
+            en: Football is boring to watch.
+          bin: 1
+        - text:
+            nb: Prøv den nye Fruktbaren – den gir deg energi hele dagen!
+            en: Try the new Fruit Bar – it gives you energy all day!
+          bin: 2
+    explanation:
+      nb: >-
+        En faktasetning kan sjekkes og er sann eller usann. En mening sier hva
+        noen synes, og andre kan synes noe annet. Reklame vil få deg til å kjøpe
+        noe, og nevner ofte et produkt og et tilbud.
+      en: >-
+        A fact can be checked and is true or false. An opinion says what someone
+        thinks, and others may think differently. Advertising wants you to buy
+        something, and often names a product and an offer.
+    reviewed: false
+
 # Kompetansemål der selve substansen er elevens egen refleksjon, drøfting,
 # undersøkelse eller presentasjon. Et skriftlig spørsmål kan ikke prøve dem, og
 # et spørsmål som later som ville prøvd noe annet enn målet.

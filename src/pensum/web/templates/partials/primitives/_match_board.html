@@ -1,0 +1,34 @@
+{# The two columns of a match. `pensum.items.primitives.match`.
+
+   Each left-hand term is a row, and the right-hand card linked to it is
+   written into the row beside it, so a finished board reads as a list of
+   pairs. On the question page the right-hand cards also stand in a column of
+   their own to take from; a card already linked says which row it is in, in
+   words. In the feedback only the rows are drawn. #}
+<div class="match-board">
+  <ul class="match-rows">
+    {% for place in board.places %}
+      <li class="card-place card-place--row"{% if interactive %} data-drop="{{ place.name }}"{% endif %}>
+        {% if interactive %}
+          <span class="card card--term" data-piece data-zone="supply-left" data-index="{{ loop.index0 }}">{{ place.title }}</span>
+        {% else %}
+          <span class="card card--term">{{ place.title }}</span>
+        {% endif %}
+        <span class="match-link" aria-hidden="true">–</span>
+        <ul class="card-list match-slot">
+          {% for card in place.cards %}{% include "partials/primitives/_card.html" %}{% endfor %}
+          {% if not interactive and not place.cards|selectattr("shown")|list %}
+            <li class="match-empty">{{ t("activity.cards.none") }}</li>
+          {% endif %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+  {% if interactive %}
+    <ul class="card-list match-supply" data-drop="supply">
+      {% for card in board.supply %}
+        <li class="card" data-piece data-zone="supply" data-index="{{ card.index }}">{{ card.text }}<span class="card-used" data-used hidden></span></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>

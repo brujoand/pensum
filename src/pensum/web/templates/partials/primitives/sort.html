@@ -1,0 +1,20 @@
+{# Cards into bins, or into a Venn diagram. `pensum.items.primitives.sort`.
+   Each card also has a menu naming the bins, which is the keyboard path and
+   the one that needs no aim. #}
+{% extends "partials/primitives/_cards_activity.html" %}
+{% block hint %}{{ t("activity.sort.hint") }}{% endblock %}
+{% block controls %}
+  <div class="card-menus">
+    {% for card in item.activity.cards %}
+      <label class="card-menu">
+        <span>{{ card.text.get(locale) }}</span>
+        <select data-card="{{ loop.index0 }}">
+          <option value="tray">{{ t("activity.cards.tray") }}</option>
+          {% for title in item.activity.titles(locale) %}
+            <option value="r{{ loop.index0 }}">{{ title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endfor %}
+  </div>
+{% endblock %}

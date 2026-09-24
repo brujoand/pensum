@@ -634,6 +634,86 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14669-03
+    goal: KM14669
+    type: sequence
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sett tingene i rekkefølge, fra den eldste til den nyeste.
+      en: Put the things in order, from the oldest to the newest.
+    activity:
+      alt:
+        nb: Fire kort med ting fra ulike tider i en rekke.
+        en: Four cards with things from different times in a line.
+      cards:
+        - nb: et vikingskip
+          en: a Viking ship
+        - nb: en stavkirke
+          en: a stave church
+        - nb: et damplokomotiv
+          en: a steam locomotive
+        - nb: en mobiltelefon
+          en: a mobile phone
+    explanation:
+      nb: >-
+        Vikingskipene er over tusen år gamle. Stavkirkene ble bygget litt senere,
+        i middelalderen. Det første damplokomotivet i Norge kom for rundt 170 år
+        siden, og mobiltelefoner har vi hatt i noen tiår.
+      en: >-
+        The Viking ships are over a thousand years old. The stave churches were
+        built a little later, in the Middle Ages. Norway's first steam locomotive
+        came about 170 years ago, and we have had mobile phones for a few decades.
+    reviewed: false
+
+  - id: KM14670-03
+    goal: KM14670
+    type: match
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Hvilken rettighet passer til hvert barn?
+      en: Which right goes with each child?
+    activity:
+      alt:
+        nb: Fire barn til venstre, og fire rettigheter til høyre.
+        en: Four children on the left, and four rights on the right.
+      pairs:
+        - left:
+            nb: Kari går på skolen hver dag.
+            en: Kari goes to school every day.
+          right:
+            nb: retten til utdanning
+            en: the right to education
+        - left:
+            nb: Ali får si hva han mener om en sak som gjelder ham.
+            en: Ali gets to say what he thinks about something that concerns him.
+          right:
+            nb: retten til å bli hørt
+            en: the right to be heard
+        - left:
+            nb: Sara får hjelp av en lege når hun er syk.
+            en: Sara gets help from a doctor when she is ill.
+          right:
+            nb: retten til helsehjelp
+            en: the right to health care
+        - left:
+            nb: Jonas har tid til å leke etter skolen.
+            en: Jonas has time to play after school.
+          right:
+            nb: retten til lek og fritid
+            en: the right to play and free time
+    explanation:
+      nb: >-
+        Alle disse rettighetene står i FNs barnekonvensjon, som gjelder for alle
+        barn i Norge. Den sier at barn har rett til skole, til å bli hørt, til
+        helsehjelp og til lek og hvile.
+      en: >-
+        All of these rights are in the UN Convention on the Rights of the Child,
+        which applies to every child in Norway. It says children have a right to
+        school, to be heard, to health care, and to play and rest.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

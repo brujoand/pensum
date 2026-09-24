@@ -388,6 +388,57 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM13809-03
+    goal: KM13809
+    type: sort
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Hva flyter, og hva synker i vann?
+      en: What floats and what sinks in water?
+    activity:
+      alt:
+        nb: Seks kort med ting, og to bokser som heter «Flyter» og «Synker».
+        en: Six cards with things on them, and two boxes called "Floats" and "Sinks".
+      bins:
+        - nb: Flyter
+          en: Floats
+        - nb: Synker
+          en: Sinks
+      cards:
+        - text:
+            nb: en kork
+            en: a cork
+          bin: 0
+        - text:
+            nb: en stein
+            en: a stone
+          bin: 1
+        - text:
+            nb: et tørt blad
+            en: a dry leaf
+          bin: 0
+        - text:
+            nb: en nøkkel
+            en: a key
+          bin: 1
+        - text:
+            nb: en pinne av tre
+            en: a wooden stick
+          bin: 0
+        - text:
+            nb: en spiker
+            en: a nail
+          bin: 1
+    explanation:
+      nb: >-
+        Kork, tre og tørre blader er lette for sin størrelse, så de flyter.
+        Stein og metall er tunge for sin størrelse, så de synker.
+      en: >-
+        Cork, wood and dry leaves are light for their size, so they float.
+        Stone and metal are heavy for their size, so they sink.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

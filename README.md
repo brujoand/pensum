@@ -755,7 +755,30 @@ graded by the same code, not an error page. What the page submits either way is
 one form field, so the quiz, the nivåtest and the score history know nothing
 about boards.
 
-Adding a sixth is one module and one line in the registry; the module docstring
+**The same seam carries the cards every subject sorts and orders.** Five more
+boards, for naturfag, samfunnsfag, KRLE and norsk as much as for matematikk:
+
+| | the pupil | graded on |
+|---|---|---|
+| `sort` | moves cards into two to four bins, or into a two-set Venn diagram with a *both* in the middle | every card in its bin |
+| `sequence` | puts cards in order along a line, or around a cycle | the order; a cycle up to where it starts |
+| `match` | links each thing on the left to one on the right | the set of pairs |
+| `label` | puts labels on the numbered places of a built-in picture (the water cycle, a skeleton, a compass rose) | the label on each place |
+| `highlight` | taps the words or sentences in a short text that fit | exactly the set tapped |
+
+Their cards are words and sentences, so four of them are HTML rather than SVG,
+with the same rule that the script only shows and hides what the server drew.
+A picture for `label` is declared by name, never drawn from paths, and a
+diagram joins the set only when a few fixed strokes can draw it honestly.
+Every card moves by drag, by tap-then-tap, and by a menu or button that is also
+the keyboard path. Without JavaScript there is no number to type, so the
+question becomes a choice between the right arrangement and a few near misses
+(one card in the wrong bin, two neighbours swapped), each option carrying a
+whole state that is graded by the same code as a built one. KRLE and
+samfunnsfag items sort and match facts about traditions and society, never a
+belief or an opinion.
+
+Adding another is one module and one line in the registry; the module docstring
 in `pensum/items/primitives/__init__.py` says what the module has to provide.
 `tools/render_figures.py` draws every committed board with its answer on it,
 which is the picture the feedback shows a pupil as "what the task asked for".

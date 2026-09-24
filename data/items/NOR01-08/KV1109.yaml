@@ -576,6 +576,31 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14177-04
+    goal: KM14177
+    type: highlight
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Trykk på alle adjektivene i setningen.
+      en: Tap all the adjectives in the Norwegian sentence.
+    activity:
+      alt:
+        nb: En setning om en båt. Hvert ord kan trykkes på.
+        en: A Norwegian sentence about a boat. Every word can be tapped.
+      unit: word
+      text: Den [gamle] båten hadde et [rødt] seil og en [lang] mast.
+    explanation:
+      nb: >-
+        Adjektiv sier hvordan noe er. Båten er gammel, seilet er rødt og masta er
+        lang. Legg merke til at adjektivet bøyes etter ordet det står til: «den
+        gamle båten», «et rødt seil».
+      en: >-
+        Adjectives say what something is like. The boat is old (gamle), the sail
+        is red (rødt) and the mast is long (lang). Notice that the adjective
+        changes to fit the word it goes with: "den gamle båten", "et rødt seil".
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

@@ -1,0 +1,20 @@
+{# Two columns, linked in pairs. `pensum.items.primitives.match`.
+   Each row also has a menu of the right-hand cards, which is the keyboard
+   path. #}
+{% extends "partials/primitives/_cards_activity.html" %}
+{% block hint %}{{ t("activity.match.hint") }}{% endblock %}
+{% block controls %}
+  <div class="card-menus">
+    {% for pair in item.activity.pairs %}
+      <label class="card-menu">
+        <span>{{ pair.left.get(locale) }}</span>
+        <select data-row="{{ loop.index0 }}">
+          <option value="none">{{ t("activity.cards.none") }}</option>
+          {% for j in item.activity.right_order() %}
+            <option value="{{ j }}">{{ item.activity.pairs[j].right.get(locale) }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endfor %}
+  </div>
+{% endblock %}

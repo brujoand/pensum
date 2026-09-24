@@ -28,6 +28,18 @@
      data-say='{{ activity.say(locale)|tojson }}'>
   <p class="activity-hint" data-live hidden>{% block hint %}{% endblock %}</p>
 
+  {% if board.template is defined %}
+  {# The card boards (`pensum.items.primitives.cards`) are HTML, because their
+     cards are words and sentences that have to wrap and be read out. Same
+     contract as the SVG: every card in every place it could be, the ones not
+     there `hidden`, and the script only shows and hides them. #}
+  <div class="card-board card-board--{{ item.type }}"
+       data-board
+       role="group"
+       aria-label="{{ board.alt }}">
+    {% with interactive = true %}{% include board.template %}{% endwith %}
+  </div>
+  {% else %}
   {# tabindex and any role beyond img are set by the script where a primitive
      takes keys on the board itself, for the reason the number line gives: a
      focus stop that does nothing without the script is worse than none. #}
@@ -40,6 +52,7 @@
     {% with interactive = true %}{% include "partials/primitives/_board.html" %}{% endwith %}
     {% block board_extra scoped %}{% endblock %}
   </svg>
+  {% endif %}
 
   <div class="activity-live" data-live hidden>
     {% block live_extra scoped %}{% endblock %}

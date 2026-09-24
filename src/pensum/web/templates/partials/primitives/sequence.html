@@ -1,0 +1,5 @@
+{# Cards in order along a line or around a cycle.
+   `pensum.items.primitives.sequence`. The move-up and move-down buttons are on
+   each card's row, in the board itself. #}
+{% extends "partials/primitives/_cards_activity.html" %}
+{% block hint %}{{ t("activity.sequence.hint_cycle" if item.activity.cycle else "activity.sequence.hint") }}{% endblock %}

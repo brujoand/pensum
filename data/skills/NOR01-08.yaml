@@ -1,0 +1,1667 @@
+# Skills for norsk (NOR01-08): the smallest things a teacher would note about a
+# pupil, grouped into the strands of docs/design/subjects/norsk.md. Every goal in
+# the curriculum is in some skill's refs; goals the design lists as missions get
+# skills with assessable: false. Authored, not reviewed: a human sets reviewed.
+subject: NOR01-08
+strands:
+  - id: decoding
+    title: {nob: "Lyder, bokstaver og avkoding", eng: "Sounds, letters and decoding"}
+  - id: reading
+    title: {nob: Leseflyt og leseforståelse, eng: Reading fluency and comprehension}
+  - id: handwriting
+    title: {nob: Håndskrift og tastatur, eng: Handwriting and keyboard}
+  - id: spelling
+    title: {nob: Rettskriving og tegnsetting, eng: Spelling and punctuation}
+  - id: grammar
+    title: {nob: Ord og grammatikk, eng: Words and grammar}
+  - id: writing
+    title: {nob: Å skrive tekster, eng: Writing texts}
+  - id: literature
+    title: {nob: Litteratur og tolkning, eng: Literature and interpretation}
+  - id: sources
+    title: {nob: Kilder og kritisk lesing, eng: Sources and critical reading}
+  - id: language
+    title: {nob: Språket rundt oss, eng: Language around us}
+  - id: talking
+    title: {nob: "Samtale, lytting og presentasjon", eng: "Talking, listening and presenting"}
+
+skills:
+  # ---- etter 2. trinn -------------------------------------------------------
+
+  - id: nor.decoding.hear-rhymes
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14145]
+    needs: []
+    i_can:
+      nob: Jeg kan høre om to ord rimer.
+      eng: I can hear whether two words rhyme.
+    teacher:
+      nob: "Sorterer bilder av ord som rimer på hus (mus, lus) fra dem som ikke gjør det, bare ved å høre. Ikke ennå: sorterer etter hva bildene betyr (hus og hytte sammen)."
+      eng: "Sorts pictures of words that rhyme with hus (mus, lus) from those that do not, by ear alone. Not yet: sorts by meaning (hus goes with hytte)."
+    stages: [concrete, pictorial]
+    misconceptions: [rhyme-by-meaning]
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.clap-syllables
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14145]
+    needs: []
+    i_can:
+      nob: Jeg kan klappe stavelsene i et ord.
+      eng: I can clap the syllables in a word.
+    teacher:
+      nob: "Klapper so-mmer-fugl i tre og sier at ordet har tre deler. Ikke ennå: klapper én gang per ord, eller én gang per bokstav."
+      eng: "Claps sommerfugl as three beats and says the word has three parts. Not yet: claps once per word, or once per letter."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.hear-sounds-in-words
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14145]
+    needs: [nor.decoding.clap-syllables]
+    i_can:
+      nob: Jeg kan høre første, siste og midterste lyd i et ord.
+      eng: I can hear the first, last and middle sound.
+    teacher:
+      nob: "Sier at sol starter med s-lyden og slutter med l-lyden, og at o er i midten. Ikke ennå: sier bokstavnavnet (ess) i stedet for lyden, eller hører bare første lyd."
+      eng: "Says that sol starts with the s sound, ends with the l sound, and has o in the middle. Not yet: gives the letter name (ess) instead of the sound, or hears only the first sound."
+    stages: [concrete, pictorial]
+    misconceptions: [letter-name-for-sound]
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.count-sounds
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14146]
+    needs: [nor.decoding.hear-sounds-in-words]
+    i_can:
+      nob: Jeg kan telle lydene i et kort ord.
+      eng: I can count the sounds in a short word.
+    teacher:
+      nob: "Skyver én brikke i en boks for hver lyd i sol og får tre. Ikke ennå: teller stavelser eller bokstaver i stedet for lyder."
+      eng: "Pushes one counter into a box for each sound in sol and gets three. Not yet: counts syllables or letters instead of sounds."
+    stages: [concrete, pictorial]
+    misconceptions: [counts-letters-not-sounds]
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.letter-sounds
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14146]
+    needs: []
+    i_can:
+      nob: Jeg vet hvilken lyd hver bokstav har.
+      eng: I know the sound each letter makes.
+    teacher:
+      nob: "Sier lyden til de vanlige bokstavene raskt når hun ser dem, i GraphoGame-rekkefølgen og ikke alfabetet. Ikke ennå: sier bokstavnavnet, eller blander b og d."
+      eng: "Says the sound for the common letters quickly on sight, learned in frequency order rather than alphabetical. Not yet: says the letter name, or mixes up b and d."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [letter-name-for-sound, reverses-b-d]
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.blend-words
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14146]
+    needs: [nor.decoding.letter-sounds, nor.decoding.count-sounds]
+    i_can:
+      nob: Jeg kan trekke lyder sammen til et ord.
+      eng: I can blend sounds together into a word.
+    teacher:
+      nob: "Leser korte lydrette ord som sol, mat og bil ved å trekke lydene sammen. Ikke ennå: gjetter ordet ut fra første bokstav eller bildet."
+      eng: "Reads short regular words such as sol, mat and bil by blending the sounds. Not yet: guesses the word from its first letter or from the picture."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [guesses-from-first-letter, guesses-from-picture]
+    assessable: true
+    reviewed: false
+
+  - id: nor.decoding.spell-by-sound
+    strand: decoding
+    checkpoint: 2
+    refs: [KM14146]
+    needs: [nor.decoding.letter-sounds, nor.decoding.count-sounds]
+    i_can:
+      nob: Jeg kan skrive korte ord slik de høres.
+      eng: I can write short words the way they sound.
+    teacher:
+      nob: "Skriver sol, mus og bil riktig etter diktat, med én bokstav per lyd. Ikke ennå: skriver bare første bokstav, eller hopper over vokalen (sl for sol)."
+      eng: "Writes sol, mus and bil from dictation, one letter per sound. Not yet: writes only the first letter, or leaves out the vowel (sl for sol)."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [drops-vowel]
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.answer-from-text
+    strand: reading
+    checkpoint: 2
+    refs: [KM14140]
+    needs: [nor.decoding.blend-words]
+    i_can:
+      nob: Jeg kan finne svaret på hvem, hva og hvor i teksten.
+      eng: I can find who, what and where in a text.
+    teacher:
+      nob: "Leser en kort tekst og peker på setningen som sier hvem som var med. Ikke ennå: svarer ut fra det hun vet fra før, ikke fra teksten."
+      eng: "Reads a short text and points to the sentence that says who was there. Not yet: answers from what she already knows rather than from the text."
+    stages: [pictorial, abstract]
+    misconceptions: [answers-from-prior-knowledge]
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.predict-from-cover
+    strand: reading
+    checkpoint: 2
+    refs: [KM14140]
+    needs: []
+    i_can:
+      nob: Jeg kan gjette hva en bok handler om fra forsiden.
+      eng: I can guess what a book is about from its cover.
+    teacher:
+      nob: "Bruker bildet og tittelen til å si hva teksten kanskje handler om, før hun leser. Ikke ennå: begynner å lese uten å se på tittel eller bilde."
+      eng: "Uses the picture and title to say what the text might be about before reading. Not yet: starts reading without looking at the title or picture."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.story-order
+    strand: reading
+    checkpoint: 2
+    refs: [KM14140]
+    needs: []
+    i_can:
+      nob: Jeg kan sette det som skjedde i riktig rekkefølge.
+      eng: I can put what happened in the right order.
+    teacher:
+      nob: "Legger fire bilder fra en fortelling hun nettopp har hørt eller lest i riktig rekkefølge. Ikke ennå: legger det mest spennende bildet først."
+      eng: "Orders four picture panels from a story she has just heard or read. Not yet: puts the most exciting panel first."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.library-book
+    strand: reading
+    checkpoint: 2
+    refs: [KM14151]
+    needs: []
+    i_can:
+      nob: Jeg kan låne en bok på biblioteket og lese den.
+      eng: I can borrow a library book and read it.
+    teacher:
+      nob: "Låner en bok hun har valgt og skriver tittelen i leseloggen. Ikke ennå: trenger en voksen til å velge og låne for seg."
+      eng: "Borrows a book she chose and writes its title in her reading log. Not yet: needs an adult to choose and borrow for her."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.handwriting.form-letters
+    strand: handwriting
+    checkpoint: 2
+    refs: [KM14147]
+    needs: []
+    i_can:
+      nob: Jeg kan skrive alle bokstavene, store og små.
+      eng: I can write every letter, capital and small.
+    teacher:
+      nob: "Former alle bokstavene med riktig startpunkt og retning. Ikke ennå: starter bokstaver nedenfra, eller speilvender b, d og j."
+      eng: "Forms every letter from the right starting point and in the right direction. Not yet: starts letters from the bottom, or mirrors b, d and j."
+    stages: [concrete, pictorial]
+    misconceptions: [reverses-b-d]
+    assessable: true
+    reviewed: false
+
+  - id: nor.handwriting.type-words
+    strand: handwriting
+    checkpoint: 2
+    refs: [KM14147]
+    needs: [nor.decoding.spell-by-sound]
+    i_can:
+      nob: Jeg kan skrive ord på tastaturet.
+      eng: I can type words on a keyboard.
+    teacher:
+      nob: "Finner bokstavene på tastaturet og skriver navnet sitt og korte ord, med mellomrom. Ikke ennå: leter lenge etter hver tast, eller glemmer mellomrom."
+      eng: "Finds letters on the keyboard and types her name and short words, with spaces. Not yet: hunts for every key, or leaves out spaces."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.spelling.capital-full-stop
+    strand: spelling
+    checkpoint: 2
+    refs: [KM14144]
+    needs: []
+    i_can:
+      nob: Jeg kan starte en setning med stor bokstav og slutte med punktum.
+      eng: I can begin with a capital and end with a full stop.
+    teacher:
+      nob: "Bygger en setning med stor forbokstav og punktum, og bruker stor bokstav på navn. Ikke ennå: setter stor bokstav midt i ord, eller punktum etter hvert ord."
+      eng: "Builds a sentence with a capital first letter and a full stop, and capitalises names. Not yet: puts capitals mid-word, or a full stop after every word."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.question-exclamation
+    strand: spelling
+    checkpoint: 2
+    refs: [KM14144]
+    needs: [nor.spelling.capital-full-stop]
+    i_can:
+      nob: Jeg vet når jeg skal bruke spørsmålstegn og utropstegn.
+      eng: I know when to use a question mark or exclamation mark.
+    teacher:
+      nob: "Setter spørsmålstegn etter Hvor bor du og utropstegn etter Pass deg. Ikke ennå: bruker punktum etter alt."
+      eng: "Puts a question mark after Hvor bor du and an exclamation mark after Pass deg. Not yet: uses a full stop after everything."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.compound-words
+    strand: grammar
+    checkpoint: 2
+    refs: [KM14148]
+    needs: []
+    i_can:
+      nob: Jeg kan sette to ord sammen til et nytt ord.
+      eng: I can join two words into a new word.
+    teacher:
+      nob: "Bygger fotball av fot og ball, og sier at en fotball er en slags ball. Ikke ennå: tror sammensatte ord betyr begge delene likt (en fotball er en fot)."
+      eng: "Builds fotball from fot and ball and says a fotball is a kind of ball. Not yet: thinks the compound means both parts equally (a fotball is a foot)."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [compound-head-first]
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.word-meanings
+    strand: grammar
+    checkpoint: 2
+    refs: [KM14148]
+    needs: []
+    i_can:
+      nob: Jeg kan finne ord som betyr nesten det samme.
+      eng: I can find words that mean nearly the same.
+    teacher:
+      nob: "Parer glad med blid og stor med diger, og kan si hva et nytt uttrykk betyr ut fra delene. Ikke ennå: parer ord som hører sammen i en situasjon (katt og mus)."
+      eng: "Matches glad with blid and stor with diger, and can say what a new expression means from its parts. Not yet: pairs words that belong together in a scene (cat and mouse)."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.beginning-and-end
+    strand: writing
+    checkpoint: 2
+    refs: [KM14143]
+    needs: [nor.reading.story-order]
+    i_can:
+      nob: Jeg kan fortelle noe med en begynnelse og en slutt.
+      eng: I can tell something with a beginning and an end.
+    teacher:
+      nob: "Ordner kortene begynnelse, noe skjer og slutt, og forteller en kort hendelse etter dem. Ikke ennå: forteller og så, og så, og så uten å avslutte."
+      eng: "Orders the beginning, something-happens and ending cards and tells a short event from them. Not yet: tells and then, and then, and then with no ending."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.write-short-account
+    strand: writing
+    checkpoint: 2
+    refs: [KM14143]
+    needs: [nor.writing.beginning-and-end, nor.decoding.spell-by-sound]
+    i_can:
+      nob: Jeg kan skrive noen setninger om noe som har skjedd.
+      eng: I can write a few sentences about something that happened.
+    teacher:
+      nob: "Skriver to eller tre setninger om en hendelse, én per kort i fortellingsstigen. Ikke ennå: skriver enkeltord i stedet for setninger."
+      eng: "Writes two or three sentences about an event, one per story-ladder card. Not yet: writes single words instead of sentences."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.writing.text-and-pictures
+    strand: writing
+    checkpoint: 2
+    refs: [KM14152]
+    needs: []
+    i_can:
+      nob: Jeg kan lage en tekst med både ord og bilder.
+      eng: I can make a text with both words and pictures.
+    teacher:
+      nob: "Lager en side der tegningen og setningen forteller om det samme. Ikke ennå: tegningen og teksten handler om hver sin ting."
+      eng: "Makes a page where the drawing and the sentence tell about the same thing. Not yet: the drawing and the text are about different things."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.literature.story-questions
+    strand: literature
+    checkpoint: 2
+    refs: [KM14139]
+    needs: []
+    i_can:
+      nob: Jeg kan svare på spørsmål om en fortelling jeg har hørt.
+      eng: I can answer questions about a story I heard.
+    teacher:
+      nob: "Svarer på hvem, hva og hvorfor om en fortelling eller en faktatekst som er lest høyt. Ikke ennå: svarer om noe hun selv har opplevd i stedet."
+      eng: "Answers who, what and why about a story or factual text read aloud. Not yet: answers about something from her own life instead."
+    stages: [pictorial]
+    misconceptions: [answers-from-prior-knowledge]
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.hear-nynorsk
+    strand: literature
+    checkpoint: 2
+    refs: [KM14139]
+    needs: [nor.literature.story-questions]
+    i_can:
+      nob: Jeg forstår en fortelling på nynorsk.
+      eng: I understand a story told in nynorsk.
+    teacher:
+      nob: "Svarer like godt på spørsmål om en fortelling på nynorsk som på bokmål. Ikke ennå: sier at hun ikke forstår fordi ordene er annerledes."
+      eng: "Answers questions about a story in nynorsk as well as about one in bokmål. Not yet: says she cannot understand because the words look different."
+    stages: [pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.creative-response
+    strand: literature
+    checkpoint: 2
+    refs: [KM14141]
+    needs: [nor.literature.story-questions]
+    i_can:
+      nob: Jeg kan tegne, spille eller bygge noe fra en fortelling.
+      eng: I can draw, act or build something from a story.
+    teacher:
+      nob: "Lager en tegning, en lek eller en figur fra fortellingen og viser den til noen. Ikke ennå: lager noe som ikke har med fortellingen å gjøre."
+      eng: "Makes a drawing, a play or a model from the story and shows it to someone. Not yet: makes something unrelated to the story."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.spoken-and-written
+    strand: language
+    checkpoint: 2
+    refs: [KM14150]
+    needs: [nor.decoding.letter-sounds]
+    i_can:
+      nob: Jeg vet at vi ofte sier ord annerledes enn vi skriver dem.
+      eng: I know we often say words differently from how we write them.
+    teacher:
+      nob: "Parer det hun sier (jæ, dæ) med ordene jeg og deg. Ikke ennå: tror at hun har skrevet feil når ordet ikke ser ut som hun sier det."
+      eng: "Matches what she says (jæ, dæ) with the written words jeg and deg. Not yet: thinks a word is wrong when it does not look the way she says it."
+    stages: [pictorial, abstract]
+    misconceptions: [spells-as-dialect]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.words-affect-others
+    strand: language
+    checkpoint: 2
+    refs: [KM14149]
+    needs: []
+    i_can:
+      nob: Jeg kan si hvordan ord kan gjøre andre glade eller lei seg.
+      eng: I can say how words can make others happy or sad.
+    teacher:
+      nob: "Finner to måter å si det samme på, en snill og en sur, og sier hvordan den andre ville ha det. Ikke ennå: mener at det bare er det man gjør som betyr noe."
+      eng: "Finds two ways to say the same thing, one kind and one unkind, and says how the listener would feel. Not yet: says only what you do matters, not what you say."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.take-turns
+    strand: talking
+    checkpoint: 2
+    refs: [KM14142]
+    needs: []
+    i_can:
+      nob: Jeg kan lytte og vente på tur i en samtale.
+      eng: I can listen and wait for my turn in a talk.
+    teacher:
+      nob: "Følger turkortet: lytter, gjentar det partneren sa, og legger til én ting. Ikke ennå: snakker i munnen på andre eller svarer på noe annet."
+      eng: "Follows the turn card: listens, repeats what the partner said, adds one thing. Not yet: talks over others or answers something else."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.give-a-reason
+    strand: talking
+    checkpoint: 2
+    refs: [KM14142]
+    needs: [nor.talking.take-turns]
+    i_can:
+      nob: Jeg kan si hva jeg mener og hvorfor.
+      eng: I can say what I think and why.
+    teacher:
+      nob: "Sier en mening med et fordi: Jeg liker vinter fordi jeg kan ake. Ikke ennå: sier bare meningen, eller bare fordi."
+      eng: "Gives an opinion with a because: I like winter because I can go sledging. Not yet: gives only the opinion, or just says because."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # ---- etter 4. trinn -------------------------------------------------------
+
+  - id: nor.reading.read-fluently
+    strand: reading
+    checkpoint: 4
+    refs: [KM14164]
+    needs: [nor.decoding.blend-words]
+    i_can:
+      nob: Jeg kan lese en tekst for trinnet mitt uten å stoppe opp.
+      eng: I can read a text for my year without stopping.
+    teacher:
+      nob: "Leser en tekst på eget nivå høyt i jevnt tempo, med pauser ved punktum. Ikke ennå: lyderer mange vanlige ord, eller leser over punktum."
+      eng: "Reads an age-level text aloud at an even pace, pausing at full stops. Not yet: still sounds out many common words, or reads through full stops."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.find-the-sentence
+    strand: reading
+    checkpoint: 4
+    refs: [KM14164]
+    needs: [nor.reading.answer-from-text]
+    i_can:
+      nob: Jeg kan finne setningen som svarer på spørsmålet.
+      eng: I can find the sentence that answers the question.
+    teacher:
+      nob: "Trykker på setningen som viser svaret før hun velger svaret. Ikke ennå: velger riktig svar, men trykker på en setning som ikke viser det."
+      eng: "Taps the sentence that shows the answer before choosing it. Not yet: picks the right answer but taps a sentence that does not show it."
+    stages: [abstract]
+    misconceptions: [answers-from-prior-knowledge]
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.summarise
+    strand: reading
+    checkpoint: 4
+    refs: [KM14164]
+    needs: [nor.reading.story-order, nor.reading.find-the-sentence]
+    i_can:
+      nob: Jeg kan si det viktigste i en tekst med to setninger.
+      eng: I can give the main point of a text in two sentences.
+    teacher:
+      nob: "Velger eller skriver et sammendrag som tar med det viktigste og ikke detaljene. Ikke ennå: gjenforteller alt, eller bare begynnelsen."
+      eng: "Chooses or writes a summary that keeps the main point and drops the details. Not yet: retells everything, or only the beginning."
+    stages: [abstract]
+    misconceptions: [summary-as-retelling]
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.choose-library-book
+    strand: reading
+    checkpoint: 4
+    refs: [KM14166]
+    needs: [nor.reading.library-book]
+    i_can:
+      nob: Jeg kan velge en bok som passer for meg.
+      eng: I can choose a book that suits me.
+    teacher:
+      nob: "Velger en bok ut fra det hun liker og hvor godt hun leser, og skriver den i leseloggen. Ikke ennå: velger bare etter forsiden, og gir opp bøker som er for vanskelige."
+      eng: "Picks a book by interest and reading level and logs it. Not yet: picks by cover only and abandons books that are too hard."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.handwriting.joined-handwriting
+    strand: handwriting
+    checkpoint: 4
+    refs: [KM14156]
+    needs: [nor.handwriting.form-letters]
+    i_can:
+      nob: Jeg kan skrive en håndskrift som andre kan lese.
+      eng: I can write by hand so others can read it.
+    teacher:
+      nob: "Skriver lesbart og jevnt, med bokstavene bundet der det passer. Ikke ennå: bokstavene er ulike store, eller andre må spørre hva det står."
+      eng: "Writes legibly and evenly, joining letters where it fits. Not yet: letters vary in size, or others have to ask what it says."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.handwriting.type-short-texts
+    strand: handwriting
+    checkpoint: 4
+    refs: [KM14156]
+    needs: [nor.handwriting.type-words]
+    i_can:
+      nob: Jeg kan skrive en kort tekst på tastaturet.
+      eng: I can type a short text on a keyboard.
+    teacher:
+      nob: "Skriver noen setninger på tastatur med stor bokstav, punktum og mellomrom. Ikke ennå: skriver alt med små bokstaver fordi hun ikke finner shift."
+      eng: "Types a few sentences with capitals, full stops and spaces. Not yet: types everything in lower case because she cannot find shift."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.spelling.commas
+    strand: spelling
+    checkpoint: 4
+    refs: [KM14157]
+    needs: [nor.spelling.question-exclamation]
+    i_can:
+      nob: Jeg kan sette komma mellom ting i en oppramsing.
+      eng: I can put commas between things in a list.
+    teacher:
+      nob: "Setter komma i epler, pærer og bananer, og foran men. Ikke ennå: setter komma der hun ville tatt pause, eller ikke i det hele tatt."
+      eng: "Puts commas in epler, pærer og bananer and before men. Not yet: puts a comma wherever she would pause, or nowhere."
+    stages: [pictorial, abstract]
+    misconceptions: [comma-at-every-pause]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.speech-marks-colon
+    strand: spelling
+    checkpoint: 4
+    refs: [KM14157]
+    needs: [nor.spelling.question-exclamation]
+    i_can:
+      nob: Jeg kan vise at noen snakker med kolon og anførselstegn.
+      eng: I can show speech with a colon and speech marks.
+    teacher:
+      nob: "Skriver Mamma sa: «Kom inn!» med kolon og anførselstegn på riktig sted. Ikke ennå: skriver replikken uten tegn, så det ikke synes hvem som snakker."
+      eng: "Writes Mamma sa: «Kom inn!» with the colon and speech marks in place. Not yet: writes the line with no marks, so it is unclear who speaks."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.name-word-classes
+    strand: grammar
+    checkpoint: 4
+    refs: [KM14159]
+    needs: []
+    i_can:
+      nob: Jeg kan finne substantiv, verb og adjektiv i en setning.
+      eng: I can find nouns, verbs and adjectives in a sentence.
+    teacher:
+      nob: "Trykker på alle verbene i et avsnitt, og vet at løp er et substantiv i et løp. Ikke ennå: bestemmer ordklasse bare ut fra hva ordet betyr."
+      eng: "Taps every verb in a passage and knows løp is a noun in et løp. Not yet: decides a word's class from its meaning alone."
+    stages: [pictorial, abstract]
+    misconceptions: [class-from-meaning-alone]
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.inflect-verbs
+    strand: grammar
+    checkpoint: 4
+    refs: [KM14159]
+    needs: [nor.grammar.name-word-classes]
+    i_can:
+      nob: Jeg kan bøye verb i nåtid og fortid.
+      eng: I can put verbs in the present and past.
+    teacher:
+      nob: "Bygger hoppet av hopp og et, og vet at gå blir gikk. Ikke ennå: legger -et på alle verb (gået)."
+      eng: "Builds hoppet from hopp and et, and knows gå becomes gikk. Not yet: adds -et to every verb (gået)."
+    stages: [pictorial, abstract]
+    misconceptions: [overregularises-past]
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.inflect-nouns-adjectives
+    strand: grammar
+    checkpoint: 4
+    refs: [KM14159]
+    needs: [nor.grammar.name-word-classes]
+    i_can:
+      nob: Jeg kan bøye substantiv og adjektiv.
+      eng: I can change nouns and adjectives to fit.
+    teacher:
+      nob: "Skriver en bil, bilen, biler, bilene og en stor bil, to store biler. Ikke ennå: glemmer å bøye adjektivet (to stor biler)."
+      eng: "Writes en bil, bilen, biler, bilene and en stor bil, to store biler. Not yet: leaves the adjective unchanged (to stor biler)."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.talk-about-sentences
+    strand: grammar
+    checkpoint: 4
+    refs: [KM14159]
+    needs: [nor.grammar.name-word-classes]
+    i_can:
+      nob: Jeg kan bruke ordene verb og substantiv når jeg snakker om setninger.
+      eng: I can use verb and noun when talking about sentences.
+    teacher:
+      nob: "Sier at en setning mangler et verb, eller at hun vil bytte ut et adjektiv. Ikke ennå: sier bare at det høres rart ut."
+      eng: "Says a sentence is missing a verb, or that she wants to swap an adjective. Not yet: only says it sounds odd."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.retell-in-order
+    strand: writing
+    checkpoint: 4
+    refs: [KM14162]
+    needs: [nor.writing.beginning-and-end]
+    i_can:
+      nob: Jeg kan gjenfortelle noe i riktig rekkefølge.
+      eng: I can retell something in the right order.
+    teacher:
+      nob: "Ordner hendelser og beskrivelser i en rekkefølge som en leser kan følge. Ikke ennå: hopper fram og tilbake i tid uten å si det."
+      eng: "Orders events and descriptions so a reader can follow them. Not yet: jumps back and forth in time without saying so."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.describe-and-give-reasons
+    strand: writing
+    checkpoint: 4
+    refs: [KM14162]
+    needs: [nor.writing.retell-in-order, nor.talking.give-a-reason]
+    i_can:
+      nob: Jeg kan beskrive noe og begrunne hva jeg mener skriftlig.
+      eng: I can describe something and give reasons in writing.
+    teacher:
+      nob: "Skriver en beskrivelse med detaljer og en mening med minst én begrunnelse. Ikke ennå: skriver bare at noe er fint eller dumt."
+      eng: "Writes a description with details and an opinion with at least one reason. Not yet: writes only that something is nice or stupid."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.writing.multimedia-poster
+    strand: writing
+    checkpoint: 4
+    refs: [KM14155]
+    needs: [nor.writing.text-and-pictures]
+    i_can:
+      nob: Jeg kan lage en plakat med bilder og tekst.
+      eng: I can make a poster with pictures and text.
+    teacher:
+      nob: "Lager en plakat der overskrift, bilde og tekst virker sammen. Ikke ennå: bildene er pynt uten sammenheng med teksten."
+      eng: "Makes a poster where heading, picture and text work together. Not yet: the pictures are decoration unrelated to the text."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.literature.what-text-means
+    strand: literature
+    checkpoint: 4
+    refs: [KM14153]
+    needs: [nor.literature.story-questions]
+    i_can:
+      nob: Jeg kan si hva en tekst betyr for meg, og hvorfor.
+      eng: I can say what a text means to me, and why.
+    teacher:
+      nob: "Sier hva en fortelling, et dikt eller en oversatt tekst fikk henne til å tenke på, og peker på noe i teksten. Ikke ennå: sier bare at den var bra."
+      eng: "Says what a story, poem or translated text made her think of, and points to something in it. Not yet: only says it was good."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.literature.present-a-text
+    strand: literature
+    checkpoint: 4
+    refs: [KM14158]
+    needs: [nor.literature.creative-response]
+    i_can:
+      nob: Jeg kan vise fram en tekst gjennom lek, drama eller tegning.
+      eng: I can show a text through play, drama or drawing.
+    teacher:
+      nob: "Lager noe fra en tekst og forklarer hvilken del av teksten det viser. Ikke ennå: kan ikke si hva i teksten det bygger på."
+      eng: "Makes something from a text and explains which part of the text it shows. Not yet: cannot say what in the text it is based on."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.sources.fact-or-opinion
+    strand: sources
+    checkpoint: 4
+    refs: [KM14163]
+    needs: [nor.reading.answer-from-text]
+    i_can:
+      nob: Jeg kan skille en mening fra et faktum.
+      eng: I can tell an opinion from a fact.
+    teacher:
+      nob: "Sorterer Hunden er fire år og Hunder er de beste dyrene riktig. Ikke ennå: kaller alt hun er enig i for fakta."
+      eng: "Sorts The dog is four years old and Dogs are the best animals correctly. Not yet: calls anything she agrees with a fact."
+    stages: [abstract]
+    misconceptions: [agreement-as-fact]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.compare-languages
+    strand: language
+    checkpoint: 4
+    refs: [KM14168]
+    needs: []
+    i_can:
+      nob: Jeg kan finne like ord på norsk og andre språk.
+      eng: I can find similar words in Norwegian and other languages.
+    teacher:
+      nob: "Parer skole med school og Schule, og sier hva som er likt og ulikt. Ikke ennå: tror ord som ser like ut alltid betyr det samme."
+      eng: "Matches skole with school and Schule and says what is alike and what differs. Not yet: assumes words that look alike always mean the same."
+    stages: [pictorial, abstract]
+    misconceptions: [trusts-false-friends]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.bokmal-or-nynorsk
+    strand: language
+    checkpoint: 4
+    refs: [KM14161]
+    needs: [nor.literature.hear-nynorsk]
+    i_can:
+      nob: Jeg kan se om et ord er bokmål eller nynorsk.
+      eng: I can tell whether a word is bokmål or nynorsk.
+    teacher:
+      nob: "Sorterer ikke og ikkje, hvem og kven, og parer dem. Ikke ennå: tror nynorsk er feilstavet bokmål."
+      eng: "Sorts ikke and ikkje, hvem and kven, and pairs them. Not yet: thinks nynorsk is misspelled bokmål."
+    stages: [pictorial, abstract]
+    misconceptions: [nynorsk-as-misspelling]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.local-dialects
+    strand: language
+    checkpoint: 4
+    refs: [KM14165]
+    needs: [nor.language.spoken-and-written]
+    i_can:
+      nob: Jeg kan finne ut hvordan folk rundt meg sier ord.
+      eng: I can find out how people around me say words.
+    teacher:
+      nob: "Spør en voksen hvordan hen sier tre ord, og skriver dem ned. Ikke ennå: sier at andre snakker feil."
+      eng: "Asks an adult how they say three words and writes them down. Not yet: says other people talk wrong."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.adapt-to-situation
+    strand: language
+    checkpoint: 4
+    refs: [KM14160]
+    needs: [nor.language.words-affect-others]
+    i_can:
+      nob: Jeg kan snakke ulikt til en venn og til rektor.
+      eng: I can talk differently to a friend and the headteacher.
+    teacher:
+      nob: "Finner to måter å si det samme til en venn og til rektor. Ikke ennå: snakker likt til alle, eller vet ikke hvorfor det betyr noe."
+      eng: "Finds two ways to say the same thing to a friend and to the headteacher. Not yet: talks the same way to everyone, or cannot say why it matters."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.follow-up-questions
+    strand: talking
+    checkpoint: 4
+    refs: [KM14167]
+    needs: [nor.talking.take-turns]
+    i_can:
+      nob: Jeg kan stille et spørsmål om det andre sier.
+      eng: I can ask a question about what someone said.
+    teacher:
+      nob: "Stiller et oppfølgingsspørsmål som hvorfor det eller hva skjedde så. Ikke ennå: bytter tema til noe om seg selv."
+      eng: "Asks a follow-up question such as why or what happened next. Not yet: changes the topic to something about herself."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.present-with-pictures
+    strand: talking
+    checkpoint: 4
+    refs: [KM14154]
+    needs: [nor.talking.give-a-reason]
+    i_can:
+      nob: Jeg kan fortelle i ett minutt fra tre bildekort.
+      eng: I can present for one minute from three picture cards.
+    teacher:
+      nob: "Presenterer i ett minutt med eller uten skjerm, med ett poeng per kort. Ikke ennå: leser alt fra et ark, eller stopper etter første kort."
+      eng: "Presents for a minute, with or without a screen, one point per card. Not yet: reads everything from a sheet, or stops after the first card."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # ---- etter 7. trinn -------------------------------------------------------
+
+  - id: nor.reading.skim-and-scan
+    strand: reading
+    checkpoint: 7
+    refs: [KM14185]
+    needs: [nor.reading.find-the-sentence]
+    i_can:
+      nob: Jeg kan skumlese og lete raskt etter ett svar.
+      eng: I can skim a text and scan for one answer.
+    teacher:
+      nob: "Finner et årstall i en lang tekst uten å lese alt, og sier hva teksten handler om etter å ha skumlest. Ikke ennå: leser alt fra start hver gang."
+      eng: "Finds a year in a long text without reading it all, and gives the gist after skimming. Not yet: reads every word from the start every time."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.reading.pick-a-strategy
+    strand: reading
+    checkpoint: 7
+    refs: [KM14185]
+    needs: [nor.reading.skim-and-scan]
+    i_can:
+      nob: Jeg kan velge hvordan jeg leser etter hva jeg skal finne ut.
+      eng: I can choose how to read for what I need.
+    teacher:
+      nob: "Velger nærlesing for en oppskrift, leting for et telefonnummer og skumlesing for å se om en tekst er nyttig. Ikke ennå: bruker samme lesemåte til alt."
+      eng: "Chooses close reading for a recipe, scanning for a phone number and skimming to judge if a text is useful. Not yet: reads every text the same way."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.handwriting.fluent-handwriting
+    strand: handwriting
+    checkpoint: 7
+    refs: [KM14180]
+    needs: [nor.handwriting.joined-handwriting]
+    i_can:
+      nob: Jeg skriver for hånd raskt og lesbart.
+      eng: I write by hand quickly and clearly.
+    teacher:
+      nob: "Skriver en side for hånd i jevnt tempo, og den er lett å lese. Ikke ennå: blir sliten eller uleselig etter noen linjer."
+      eng: "Writes a page by hand at an even pace and it is easy to read. Not yet: tires or becomes illegible after a few lines."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.handwriting.fluent-typing
+    strand: handwriting
+    checkpoint: 7
+    refs: [KM14180]
+    needs: [nor.handwriting.type-short-texts]
+    i_can:
+      nob: Jeg skriver på tastaturet uten å lete etter tastene.
+      eng: I type without hunting for the keys.
+    teacher:
+      nob: "Skriver en tekst på tastatur med flere fingre og ser mest på skjermen. Ikke ennå: bruker én finger og ser på tastene hele tiden."
+      eng: "Types a text with several fingers, eyes mostly on the screen. Not yet: uses one finger and watches the keys throughout."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.spelling.double-consonants
+    strand: spelling
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.decoding.spell-by-sound]
+    i_can:
+      nob: Jeg vet når et ord skal ha dobbel konsonant.
+      eng: I know when a word needs a double consonant.
+    teacher:
+      nob: "Skriver takk og tak, hopper og hoper riktig, og hører den korte vokalen. Ikke ennå: skriver én konsonant der det skal være to, eller dobler alle."
+      eng: "Spells takk and tak, hopper and hoper correctly and hears the short vowel. Not yet: writes one consonant where two belong, or doubles every one."
+    stages: [pictorial, abstract]
+    misconceptions: [misses-double-consonant]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.silent-letters
+    strand: spelling
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.decoding.spell-by-sound, nor.language.spoken-and-written]
+    i_can:
+      nob: Jeg kan stave ord med stumme bokstaver, som hv og gj.
+      eng: I can spell words with silent letters, like hv and gj.
+    teacher:
+      nob: "Staver hvor, gjerne og godt riktig selv om h, g og d ikke høres. Ikke ennå: skriver vor, jerne og gott."
+      eng: "Spells hvor, gjerne and godt correctly although the h, g and d are silent. Not yet: writes vor, jerne and gott."
+    stages: [pictorial, abstract]
+    misconceptions: [spells-silent-letters-by-sound]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.kj-and-skj
+    strand: spelling
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.decoding.spell-by-sound]
+    i_can:
+      nob: Jeg kan høre forskjell på kj-lyden og skj-lyden.
+      eng: I can hear the kj sound and the skj sound apart.
+    teacher:
+      nob: "Staver kjole, kino, skjorte og ski riktig. Ikke ennå: blander kj og skj, eller skriver sj for alt."
+      eng: "Spells kjole, kino, skjorte and ski correctly. Not yet: mixes up kj and skj, or writes sj for all of them."
+    stages: [pictorial, abstract]
+    misconceptions: [confuses-kj-and-skj]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.inflect-correctly
+    strand: spelling
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.grammar.inflect-verbs, nor.grammar.inflect-nouns-adjectives]
+    i_can:
+      nob: Jeg bøyer ordene riktig i det jeg skriver.
+      eng: I use the right word endings when I write.
+    teacher:
+      nob: "Bøyer verb, substantiv og adjektiv riktig i egen tekst uten å bli minnet på det. Ikke ennå: kan bøyningen i en oppgave, men ikke i egen tekst."
+      eng: "Inflects verbs, nouns and adjectives correctly in her own text without prompting. Not yet: gets them right in an exercise but not in her own writing."
+    stages: [abstract]
+    misconceptions: [overregularises-past]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.punctuate-own-text
+    strand: spelling
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.spelling.commas, nor.spelling.speech-marks-colon]
+    i_can:
+      nob: Jeg setter punktum og komma riktig i egne tekster.
+      eng: I put full stops and commas right in my texts.
+    teacher:
+      nob: "Setter punktum mellom setninger og komma der reglene sier det, i egen tekst. Ikke ennå: skriver lange setninger bundet sammen med og."
+      eng: "Puts full stops between sentences and commas where the rules say, in her own text. Not yet: writes long sentences strung together with og."
+    stages: [abstract]
+    misconceptions: [comma-at-every-pause]
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.find-sentence-parts
+    strand: grammar
+    checkpoint: 7
+    refs: [KM14177]
+    needs: [nor.grammar.talk-about-sentences]
+    i_can:
+      nob: Jeg kan finne subjekt og verbal i en setning.
+      eng: I can find the subject and verb in a sentence.
+    teacher:
+      nob: "Finner subjektet og verbalet også når setningen starter med noe annet, som I går spiste vi pizza. Ikke ennå: tror det første ordet alltid er subjektet."
+      eng: "Finds the subject and verb even when the sentence starts with something else, as in I går spiste vi pizza. Not yet: assumes the first word is always the subject."
+    stages: [abstract]
+    misconceptions: [first-word-is-subject]
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.word-class-in-context
+    strand: grammar
+    checkpoint: 7
+    refs: [KM14177]
+    needs: [nor.grammar.name-word-classes]
+    i_can:
+      nob: Jeg kan se ordklassen ut fra hvordan ordet brukes.
+      eng: I can tell a word's class from how it is used.
+    teacher:
+      nob: "Sorterer løp i et løp og de løp til to ulike ordklasser, og forklarer hvorfor. Ikke ennå: gir samme ord samme ordklasse overalt."
+      eng: "Sorts løp in et løp and de løp into two classes and explains why. Not yet: gives a word the same class everywhere."
+    stages: [abstract]
+    misconceptions: [class-from-meaning-alone]
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.genre-structure
+    strand: writing
+    checkpoint: 7
+    refs: [KM14181]
+    needs: [nor.writing.retell-in-order]
+    i_can:
+      nob: Jeg vet hvilke deler en fortelling og en fagtekst har.
+      eng: I know the parts of a story and a factual text.
+    teacher:
+      nob: "Ordner deler av en fortelling (innledning, problem, vendepunkt, slutt) og av en fagtekst (innledning, hoveddel, avslutning). Ikke ennå: bruker fortellingsmønsteret til alle tekster."
+      eng: "Orders the parts of a story (opening, problem, turning point, ending) and of a factual text (introduction, body, conclusion). Not yet: uses the story pattern for every text."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.paragraphs
+    strand: writing
+    checkpoint: 7
+    refs: [KM14172]
+    needs: [nor.writing.genre-structure]
+    i_can:
+      nob: Jeg kan dele teksten min i avsnitt.
+      eng: I can split my text into paragraphs.
+    teacher:
+      nob: "Starter nytt avsnitt når tema, tid eller sted skifter, og kan ordne avsnitt i en rekkefølge som henger sammen. Ikke ennå: skriver alt i én blokk."
+      eng: "Starts a new paragraph when topic, time or place changes, and can order paragraphs so they hang together. Not yet: writes everything as one block."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.write-in-genres
+    strand: writing
+    checkpoint: 7
+    refs: [KM14181]
+    needs: [nor.writing.genre-structure, nor.writing.describe-and-give-reasons]
+    i_can:
+      nob: Jeg kan skrive både fortellinger, fagtekster og meningstekster.
+      eng: I can write stories, factual texts and opinion texts.
+    teacher:
+      nob: "Skriver tekster i ulike sjangre der oppbygningen passer til formålet. Ikke ennå: alle tekstene ligner hverandre uansett hva de skal brukes til."
+      eng: "Writes texts in different genres whose structure fits the purpose. Not yet: every text looks the same whatever it is for."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.writing.peer-feedback
+    strand: writing
+    checkpoint: 7
+    refs: [KM14174]
+    needs: [nor.writing.genre-structure]
+    i_can:
+      nob: Jeg kan gi og bruke tilbakemelding på tekster.
+      eng: I can give and use feedback on texts.
+    teacher:
+      nob: "Bruker tilbakemeldingskortet: én ting som virker og én ting å prøve, og endrer egen tekst etter det hun fikk. Ikke ennå: sier bare bra, eller endrer ingenting."
+      eng: "Uses the feedback card, one this-works and one try-this, and changes her own text from what she got. Not yet: only says good, or changes nothing."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.writing.multimedia-texts
+    strand: writing
+    checkpoint: 7
+    refs: [KM14183]
+    needs: [nor.writing.multimedia-poster]
+    i_can:
+      nob: Jeg kan lage en tekst der bilder og ord virker sammen.
+      eng: I can make a text where pictures and words work together.
+    teacher:
+      nob: "Lager en sammensatt tekst og sier hva bildet gjør som teksten ikke gjør. Ikke ennå: bildet gjentar bare det teksten sier."
+      eng: "Makes a multimedia text and says what the picture does that the words do not. Not yet: the picture only repeats the text."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.literature.purpose-form-content
+    strand: literature
+    checkpoint: 7
+    refs: [KM14176]
+    needs: [nor.literature.what-text-means]
+    i_can:
+      nob: Jeg kan si hva en tekst vil, og hvordan den er bygd.
+      eng: I can say a text's purpose, form and content.
+    teacher:
+      nob: "Sier at et dikt vil vekke en følelse, har vers og rim, og handler om savn, også for tekster på nynorsk, svensk og dansk. Ikke ennå: forteller bare handlingen."
+      eng: "Says a poem wants to stir a feeling, has verses and rhyme, and is about longing, for texts in nynorsk, Swedish and Danish too. Not yet: only retells the plot."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.figurative-meaning
+    strand: literature
+    checkpoint: 7
+    refs: [KM14171]
+    needs: [nor.grammar.word-meanings]
+    i_can:
+      nob: Jeg vet hva et uttrykk betyr når det ikke er bokstavelig.
+      eng: I know what an expression means when not meant literally.
+    teacher:
+      nob: "Velger at sommerfugler i magen betyr å være nervøs, og kan forklare den bokstavelige tegningen. Ikke ennå: tar uttrykket bokstavelig."
+      eng: "Picks nervous for sommerfugler i magen and can explain the literal drawing. Not yet: takes the expression literally."
+    stages: [pictorial, abstract]
+    misconceptions: [takes-idiom-literally]
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.literary-devices
+    strand: literature
+    checkpoint: 7
+    refs: [KM14171]
+    needs: [nor.literature.figurative-meaning]
+    i_can:
+      nob: Jeg kan finne sammenligning, gjentakelse og besjeling i en tekst.
+      eng: I can spot simile, repetition and personification in a text.
+    teacher:
+      nob: "Trykker på sammenligningen sterk som en bjørn og sier hva den gjør med teksten, og prøver den selv. Ikke ennå: kaller alle beskrivelser for virkemidler."
+      eng: "Taps the simile sterk som en bjørn, says what it adds, and tries one herself. Not yet: calls every description a literary device."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.sources.find-information
+    strand: sources
+    checkpoint: 7
+    refs: [KM14173]
+    needs: [nor.reading.skim-and-scan]
+    i_can:
+      nob: Jeg kan finne informasjon i bøker og på nettet.
+      eng: I can find information in books and online.
+    teacher:
+      nob: "Velger gode søkeord og finner et svar i et oppslagsverk eller på en nettside. Ikke ennå: skriver hele spørsmålet i søket og tar første treff."
+      eng: "Chooses good search words and finds an answer in a reference book or web page. Not yet: types the whole question and takes the first hit."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.sources.judge-reliability
+    strand: sources
+    checkpoint: 7
+    refs: [KM14173]
+    needs: [nor.sources.fact-or-opinion]
+    i_can:
+      nob: Jeg kan sjekke hvem som skrev noe, når og hvorfor.
+      eng: I can check who wrote something, when and why.
+    teacher:
+      nob: "Trykker på avsender, dato og formål på en oppdiktet nettside, og kjenner igjen reklame. Ikke ennå: stoler på siden fordi den ser proff ut."
+      eng: "Taps the author, date and purpose on a made-up web page, and recognises advertising. Not yet: trusts a page because it looks professional."
+    stages: [abstract]
+    misconceptions: [trusts-looks-over-author, advert-as-fact]
+    assessable: true
+    reviewed: false
+
+  - id: nor.sources.name-sources
+    strand: sources
+    checkpoint: 7
+    refs: [KM14173]
+    needs: [nor.sources.find-information]
+    i_can:
+      nob: Jeg kan skrive hvor jeg fant informasjonen.
+      eng: I can write where I found the information.
+    teacher:
+      nob: "Skriver en kildeliste med tittel, forfatter eller nettsted og dato. Ikke ennå: skriver bare Google eller internett."
+      eng: "Writes a source list with title, author or site, and date. Not yet: writes only Google or the internet."
+    stages: [abstract]
+    misconceptions: [search-engine-as-source]
+    assessable: true
+    reviewed: false
+
+  - id: nor.sources.self-in-digital-media
+    strand: sources
+    checkpoint: 7
+    refs: [KM14182]
+    needs: []
+    i_can:
+      nob: Jeg tenker over hva jeg legger ut om meg selv og andre.
+      eng: I think about what I post about myself and others.
+    teacher:
+      nob: "Kan i en klassesamtale si hvorfor et bilde av en venn ikke bør deles uten å spørre. Ikke ennå: ser ikke forskjell på å dele om seg selv og om andre. Øves ikke i Pensum."
+      eng: "Can say in a class discussion why a photo of a friend should not be shared without asking. Not yet: sees no difference between sharing about herself and about others. Not practised in Pensum."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.dialects-and-neighbours
+    strand: language
+    checkpoint: 7
+    refs: [KM14178]
+    needs: [nor.language.compare-languages, nor.language.local-dialects]
+    i_can:
+      nob: Jeg kan sammenligne dialekter, svensk og dansk med mitt eget språk.
+      eng: I can compare dialects, Swedish and Danish with my own speech.
+    teacher:
+      nob: "Parer svenske og danske ord med norske og vet at rolig betyr morsom på svensk. Ikke ennå: tror ord som ser like ut betyr det samme."
+      eng: "Matches Swedish and Danish words to Norwegian ones and knows rolig means fun in Swedish. Not yet: assumes look-alike words mean the same."
+    stages: [pictorial, abstract]
+    misconceptions: [trusts-false-friends]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.dialect-interview
+    strand: language
+    checkpoint: 7
+    refs: [KM14178]
+    needs: [nor.language.local-dialects]
+    i_can:
+      nob: Jeg kan spørre noen hvordan de sier ord og skrive det ned.
+      eng: I can ask someone how they say words and note it.
+    teacher:
+      nob: "Spør en voksen fra et annet sted hvordan hen sier tre ord, og sammenligner med egen dialekt. Ikke ennå: skriver ned ordene uten å sammenligne."
+      eng: "Asks an adult from elsewhere how they say three words and compares them with her own dialect. Not yet: writes the words down without comparing."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.try-sidemal
+    strand: language
+    checkpoint: 7
+    refs: [KM14175]
+    needs: [nor.language.bokmal-or-nynorsk]
+    i_can:
+      nob: Jeg kan skrive korte setninger på sidemålet mitt.
+      eng: I can write short sentences in my second written form.
+    teacher:
+      nob: "Skriver korte setninger på nynorsk med vanlige ord som ikkje, kva og eg. Ikke ennå: blander bokmål og nynorsk i samme setning."
+      eng: "Writes short nynorsk sentences with common words such as ikkje, kva and eg. Not yet: mixes bokmål and nynorsk in one sentence."
+    stages: [pictorial, abstract]
+    misconceptions: [mixes-bokmal-nynorsk]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.sami-names
+    strand: language
+    checkpoint: 7
+    refs: [KM14184]
+    needs: [nor.decoding.letter-sounds]
+    i_can:
+      nob: Jeg kan uttale samiske navn og stedsnavn.
+      eng: I can say Sami names and place names.
+    teacher:
+      nob: "Parer skrevne samiske navn med riktig uttale, også de med samiske bokstaver som á og š. Ikke ennå: leser dem som norske ord."
+      eng: "Matches written Sami names with their spoken form, including those with Sami letters such as á and š. Not yet: reads them as Norwegian words."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.sami-texts
+    strand: language
+    checkpoint: 7
+    refs: [KM14184]
+    needs: [nor.literature.what-text-means]
+    i_can:
+      nob: Jeg kan snakke om hva som er viktig i en samisk tekst.
+      eng: I can talk about what matters in a Sami text.
+    teacher:
+      nob: "Leser en samisk tekst på norsk og sier hvilke verdier den viser, for eksempel forholdet til naturen. Ikke ennå: forteller bare handlingen."
+      eng: "Reads a Sami text in Norwegian and names the values it shows, such as a relationship with nature. Not yet: only retells the plot."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.language-and-identity
+    strand: language
+    checkpoint: 7
+    refs: [KM14179]
+    needs: [nor.language.local-dialects]
+    i_can:
+      nob: Jeg kan si hvordan språket mitt henger sammen med hvem jeg er.
+      eng: I can say how my language is part of who I am.
+    teacher:
+      nob: "Forteller hvorfor hun holder på dialekten eller bruker et ord fra et annet språk hjemme. Ikke ennå: ser på språk bare som et verktøy."
+      eng: "Explains why she keeps her dialect, or uses a word from another language at home. Not yet: sees language only as a tool."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.build-on-others
+    strand: talking
+    checkpoint: 7
+    refs: [KM14169]
+    needs: [nor.talking.follow-up-questions]
+    i_can:
+      nob: Jeg kan bygge videre på det andre sier og begrunne meningen min.
+      eng: I can build on what others say and justify my view.
+    teacher:
+      nob: "Sier jeg er enig med Ali fordi, og legger til et nytt poeng. Ikke ennå: gjentar sin egen mening uten å ta med det andre sa."
+      eng: "Says I agree with Ali because, and adds a new point. Not yet: repeats her own view without taking up what others said."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.present-a-topic
+    strand: talking
+    checkpoint: 7
+    refs: [KM14170]
+    needs: [nor.talking.present-with-pictures]
+    i_can:
+      nob: Jeg kan holde en presentasjon om et fagtema.
+      eng: I can give a talk on a school topic.
+    teacher:
+      nob: "Presenterer et tema med innledning, hoveddel og avslutning, med eller uten lysark. Ikke ennå: leser lysarkene høyt ord for ord."
+      eng: "Presents a topic with an introduction, a body and a conclusion, with or without slides. Not yet: reads the slides aloud word for word."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # ---- etter 10. trinn ------------------------------------------------------
+
+  - id: nor.reading.reflect-on-strategies
+    strand: reading
+    checkpoint: 10
+    refs: [KM14201]
+    needs: [nor.reading.pick-a-strategy]
+    i_can:
+      nob: Jeg kan forklare hvordan jeg leser, og når jeg bytter lesemåte.
+      eng: I can explain how I read and when I switch.
+    teacher:
+      nob: "Beskriver hvordan hun leste en roman og en fagtekst forskjellig, og når hun gikk tilbake. Ikke ennå: sier bare at hun leste den."
+      eng: "Describes how she read a novel and a factual text differently, and when she went back. Not yet: only says she read it."
+    stages: [abstract]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.spelling.correct-hovedmal
+    strand: spelling
+    checkpoint: 10
+    refs: [KM14191]
+    needs: [nor.spelling.double-consonants, nor.spelling.silent-letters, nor.spelling.kj-and-skj, nor.spelling.inflect-correctly, nor.spelling.punctuate-own-text]
+    i_can:
+      nob: Jeg staver, bøyer og setter tegn riktig på hovedmålet mitt.
+      eng: I spell, inflect and punctuate correctly in my main written form.
+    teacher:
+      nob: "Leverer tekster på hovedmålet med få feil i rettskriving, bøyning og tegnsetting, og retter selv. Ikke ennå: gjør de samme feilene tekst etter tekst."
+      eng: "Hands in texts in her main written form with few spelling, inflection or punctuation errors, and corrects herself. Not yet: repeats the same errors text after text."
+    stages: [abstract]
+    misconceptions: [misses-double-consonant, spells-silent-letters-by-sound]
+    assessable: true
+    reviewed: false
+
+  - id: nor.spelling.correct-sidemal
+    strand: spelling
+    checkpoint: 10
+    refs: [KM14191]
+    needs: [nor.language.try-sidemal, nor.spelling.inflect-correctly]
+    i_can:
+      nob: Jeg staver og bøyer riktig på sidemålet mitt.
+      eng: I spell and inflect correctly in my second written form.
+    teacher:
+      nob: "Skriver nynorsk med riktige former som kva, eg, ikkje og bøyer substantiv riktig (jenter, bøker). Ikke ennå: bruker bokmålsformer der nynorsk har egne."
+      eng: "Writes nynorsk with correct forms such as kva, eg, ikkje and inflects nouns correctly. Not yet: uses bokmål forms where nynorsk has its own."
+    stages: [abstract]
+    misconceptions: [mixes-bokmal-nynorsk]
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.coherent-text
+    strand: writing
+    checkpoint: 10
+    refs: [KM14191]
+    needs: [nor.writing.paragraphs]
+    i_can:
+      nob: Jeg kan binde setninger og avsnitt sammen så teksten henger sammen.
+      eng: I can link sentences and paragraphs so the text flows.
+    teacher:
+      nob: "Bruker bindeord som derfor, likevel og dessuten riktig, og velger den rekkefølgen av avsnitt som henger best sammen. Ikke ennå: bruker og så mellom alt."
+      eng: "Uses linking words such as derfor, likevel and dessuten correctly, and picks the paragraph order that flows best. Not yet: uses og så between everything."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.adapt-to-receiver
+    strand: writing
+    checkpoint: 10
+    refs: [KM14188]
+    needs: [nor.writing.write-in-genres, nor.language.adapt-to-situation]
+    i_can:
+      nob: Jeg kan tilpasse teksten til hvem som skal lese den.
+      eng: I can fit my text to who will read it.
+    teacher:
+      nob: "Velger den versjonen av en melding som passer til en rektor og til en venn, og til e-post eller chat, og forklarer hvorfor. Ikke ennå: skriver likt til alle."
+      eng: "Picks the version of a message that fits a headteacher or a friend, email or chat, and says why. Not yet: writes the same to everyone."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.writing.experiment-with-genre
+    strand: writing
+    checkpoint: 10
+    refs: [KM14187]
+    needs: [nor.writing.write-in-genres]
+    i_can:
+      nob: Jeg kan leke med sjangre når jeg skriver.
+      eng: I can play with genres when I write.
+    teacher:
+      nob: "Skriver for eksempel en nyhetsartikkel om et eventyr, og bruker trekkene i begge sjangrene med vilje. Ikke ennå: holder seg alltid til én sjanger."
+      eng: "Writes, say, a news article about a fairy tale, using features of both genres on purpose. Not yet: always stays inside one genre."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.writing.justify-multimedia
+    strand: writing
+    checkpoint: 10
+    refs: [KM14189]
+    needs: [nor.writing.multimedia-texts]
+    i_can:
+      nob: Jeg kan forklare hvorfor jeg valgte bilder, lyd og tekst.
+      eng: I can explain why I chose pictures, sound and text.
+    teacher:
+      nob: "Lager en sammensatt tekst og begrunner hvert valg av uttrykk. Ikke ennå: velger fordi det ser kult ut."
+      eng: "Makes a multimedia text and justifies each choice of form. Not yet: chooses because it looks cool."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.grammar.revise-with-terms
+    strand: grammar
+    checkpoint: 10
+    refs: [KM14194]
+    needs: [nor.grammar.find-sentence-parts, nor.grammar.word-class-in-context]
+    i_can:
+      nob: Jeg kan bruke grammatikkord når jeg forbedrer en tekst.
+      eng: I can use grammar words when I improve a text.
+    teacher:
+      nob: "Velger den beste omskrivingen av en setning og sier hvorfor, for eksempel at subjektet manglet. Ikke ennå: retter uten å kunne si hva som var galt."
+      eng: "Picks the best rewrite of a sentence and says why, for example that the subject was missing. Not yet: corrects without being able to say what was wrong."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.grammar.genre-terms
+    strand: grammar
+    checkpoint: 10
+    refs: [KM14194]
+    needs: [nor.writing.genre-structure]
+    i_can:
+      nob: Jeg kan bruke ord om sjanger og oppbygning i tekster.
+      eng: I can use genre and structure words about texts.
+    teacher:
+      nob: "Kjenner igjen sjangertrekk som ingress, argument og motargument, og bruker ordene når hun gir respons. Ikke ennå: sier bare at teksten er lang eller kort."
+      eng: "Recognises genre features such as lead paragraph, argument and counter-argument, and uses the terms when responding. Not yet: only says a text is long or short."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.analyse-devices
+    strand: literature
+    checkpoint: 10
+    refs: [KM14193]
+    needs: [nor.literature.literary-devices, nor.literature.purpose-form-content]
+    i_can:
+      nob: Jeg kan forklare hva et virkemiddel gjør med teksten.
+      eng: I can explain what a literary device does to a text.
+    teacher:
+      nob: "Finner sjangertrekk og virkemidler i en tekst, også oversatt fra samisk, og forklarer virkningen. Ikke ennå: nevner virkemidlet uten å si hva det gjør."
+      eng: "Finds genre features and devices in a text, including one translated from Sami, and explains their effect. Not yet: names the device without saying what it does."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.rhetoric
+    strand: literature
+    checkpoint: 10
+    refs: [KM14192]
+    needs: [nor.literature.literary-devices]
+    i_can:
+      nob: Jeg kan kjenne igjen og bruke retoriske virkemidler.
+      eng: I can recognise and use rhetorical devices.
+    teacher:
+      nob: "Sorterer utsagn i en tale etter om de spiller på troverdighet, følelser eller fornuft, og bruker selv et slikt grep. Ikke ennå: tror at bare fornuftsargumenter teller."
+      eng: "Sorts lines from a speech by whether they appeal to credibility, feeling or reason, and uses one herself. Not yet: thinks only reasoned arguments count."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.text-and-its-time
+    strand: literature
+    checkpoint: 10
+    refs: [KM14197]
+    needs: [nor.literature.purpose-form-content]
+    i_can:
+      nob: Jeg kan lese en tekst i lys av tiden sin.
+      eng: I can read a text in the light of its time.
+    teacher:
+      nob: "Knytter trekk ved en novelle eller et dikt til tiden den ble skrevet i, og sammenligner to tekster fra ulike tider. Ikke ennå: leser alle tekster som om de var skrevet i dag."
+      eng: "Links features of a short story or poem to its period and compares two texts from different times. Not yet: reads every text as if written today."
+    stages: [abstract]
+    misconceptions: [reads-past-as-present]
+    assessable: true
+    reviewed: false
+
+  - id: nor.literature.young-lives
+    strand: literature
+    checkpoint: 10
+    refs: [KM14198]
+    needs: [nor.literature.what-text-means]
+    i_can:
+      nob: Jeg kan snakke om hvordan tekster viser livet til unge.
+      eng: I can discuss how texts show young people's lives.
+    teacher:
+      nob: "Sammenligner hvordan to tekster viser ungdom, og om det stemmer med det hun kjenner. Ikke ennå: sier bare om hun likte hovedpersonen."
+      eng: "Compares how two texts show young people and whether it matches what she knows. Not yet: only says whether she liked the main character."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.sources.quote-and-reference
+    strand: sources
+    checkpoint: 10
+    refs: [KM14190]
+    needs: [nor.sources.name-sources]
+    i_can:
+      nob: Jeg kan sitere og vise til kilder så andre kan finne dem.
+      eng: I can quote and cite sources so others can find them.
+    teacher:
+      nob: "Markerer sitater og skriver kildehenvisninger en leser kan følge. Ikke ennå: kopierer tekst uten anførselstegn eller henvisning."
+      eng: "Marks quotations and writes references a reader can follow. Not yet: copies text with no quotation marks or reference."
+    stages: [abstract]
+    misconceptions: [copies-without-quoting]
+    assessable: true
+    reviewed: false
+
+  - id: nor.sources.use-critically
+    strand: sources
+    checkpoint: 10
+    refs: [KM14190]
+    needs: [nor.sources.judge-reliability]
+    i_can:
+      nob: Jeg kan velge kilder med omtanke og vise hvorfor.
+      eng: I can choose sources with care and show why.
+    teacher:
+      nob: "Velger mellom to kilder og begrunner valget med avsender, formål og dato. Ikke ennå: bruker den første kilden hun fant."
+      eng: "Chooses between two sources and justifies it by author, purpose and date. Not yet: uses the first source she found."
+    stages: [abstract]
+    misconceptions: [trusts-looks-over-author]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.bokmal-nynorsk-history
+    strand: language
+    checkpoint: 10
+    refs: [KM14195]
+    needs: [nor.language.bokmal-or-nynorsk]
+    i_can:
+      nob: Jeg kan fortelle hvorfor vi har både bokmål og nynorsk.
+      eng: I can tell why we have both bokmål and nynorsk.
+    teacher:
+      nob: "Plasserer Aasen, Knudsen og dansketiden på en tidslinje og sier hvilke språk som er offisielle i Norge i dag. Ikke ennå: tror nynorsk er en dialekt."
+      eng: "Places Aasen, Knudsen and the Danish period on a timeline and names Norway's official languages today. Not yet: thinks nynorsk is a dialect."
+    stages: [abstract]
+    misconceptions: [nynorsk-as-dialect]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.read-swedish-danish
+    strand: language
+    checkpoint: 10
+    refs: [KM14200]
+    needs: [nor.language.dialects-and-neighbours]
+    i_can:
+      nob: Jeg kan lese og forstå tekster på svensk og dansk.
+      eng: I can read and understand Swedish and Danish texts.
+    teacher:
+      nob: "Svarer på spørsmål om en svensk eller dansk tekst og peker på ord som skiller seg fra norsk. Ikke ennå: gir opp fordi skrivemåten er ukjent."
+      eng: "Answers questions on a Swedish or Danish text and points to words that differ from Norwegian. Not yet: gives up because the spelling is unfamiliar."
+    stages: [abstract]
+    misconceptions: [trusts-false-friends]
+    assessable: true
+    reviewed: false
+
+  - id: nor.language.language-attitudes
+    strand: language
+    checkpoint: 10
+    refs: [KM14196]
+    needs: [nor.language.language-and-identity]
+    i_can:
+      nob: Jeg kan snakke om hva folk mener om språk og dialekter.
+      eng: I can discuss what people think of languages and dialects.
+    teacher:
+      nob: "Gir eksempler på fordommer mot dialekter eller språk og sier hvor de kan komme fra. Ikke ennå: sier at noen dialekter bare er stygge."
+      eng: "Gives examples of prejudice about dialects or languages and where it may come from. Not yet: says some dialects are simply ugly."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.language.digital-media-language
+    strand: language
+    checkpoint: 10
+    refs: [KM14199]
+    needs: [nor.sources.self-in-digital-media]
+    i_can:
+      nob: Jeg kan si hvordan nettet endrer måten vi skriver på.
+      eng: I can say how the internet changes how we write.
+    teacher:
+      nob: "Gir eksempler på forkortelser, emojier og engelske ord i chat, og drøfter hva de gjør med språket. Ikke ennå: sier bare at det er feil. Øves ikke i Pensum."
+      eng: "Gives examples of abbreviations, emoji and English words in chat and discusses what they do to language. Not yet: only calls them wrong. Not practised in Pensum."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: nor.talking.argue-with-terms
+    strand: talking
+    checkpoint: 10
+    refs: [KM14186]
+    needs: [nor.talking.build-on-others, nor.talking.present-a-topic]
+    i_can:
+      nob: Jeg kan argumentere med fagord i en diskusjon.
+      eng: I can argue using subject terms in a discussion.
+    teacher:
+      nob: "Argumenterer med fagbegreper og begrunnelser, muntlig og skriftlig, og svarer på motargumenter. Ikke ennå: gjentar meningen høyere i stedet for å begrunne den."
+      eng: "Argues with subject terms and reasons, orally and in writing, and answers counter-arguments. Not yet: repeats the opinion louder instead of backing it up."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false

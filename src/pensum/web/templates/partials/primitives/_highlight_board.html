@@ -1,0 +1,23 @@
+{# The text of a highlight, one button per word or sentence.
+   `pensum.items.primitives.highlight`.
+
+   The buttons are drawn `disabled` and the script enables them, for the reason
+   the number line gives: a focus stop that does nothing without a script is
+   worse than none. A marked one carries a ring (the `token-mark`, the piece
+   the script shows and hides) and `aria-pressed`, never only a colour.
+   Punctuation sits outside the buttons: it is not a thing to find. #}
+{% set marks = board.places[0].cards %}
+<p class="highlight-text highlight-text--{{ board.get('unit') }}">
+  {% for token in board.get('tokens') %}
+    {%- set mark = marks[loop.index0] -%}
+    {{ token.before }}
+    {%- if interactive -%}
+      <button class="token" type="button" data-token="{{ loop.index0 }}" aria-pressed="false" disabled>{{ token.text }}<span class="token-mark" data-piece data-zone="mark" data-index="{{ loop.index0 }}" aria-hidden="true" hidden></span></button>
+    {%- elif mark.shown -%}
+      <mark class="token is-marked">{{ token.text }}<span class="token-mark" aria-hidden="true"></span></mark>
+    {%- else -%}
+      <span class="token">{{ token.text }}</span>
+    {%- endif -%}
+    {{ token.after }}
+  {% endfor %}
+</p>

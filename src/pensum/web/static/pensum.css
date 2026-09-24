@@ -3073,3 +3073,326 @@ fieldset.activity-fallback legend span {
 :root[data-calm] .activity--sentence_build .piece rect {
   transition-duration: 150ms;
 }
+
+/* The card primitives: sort, sequence, match, label and highlight
+   (`pensum.items.primitives.cards`).
+
+   Four of them are HTML rather than SVG, because their cards are words and
+   sentences that wrap and are read out. The same rules hold: every colour is a
+   variable, and no state is carried by colour alone. A picked-up card has a
+   heavy dashed edge, a place a card can go has a dashed edge, a marked word a
+   ring and an underline, and a Venn diagram's two sets a solid and a dashed
+   outline. */
+.card-board {
+  margin-bottom: 0.5rem;
+}
+
+.card-board--static {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.card {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+}
+
+/* Only once the script has taken over: before that a card is a picture, and a
+   finger on it has to scroll the page like anywhere else. */
+[data-activity-ready] .card {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.card[hidden] {
+  display: none;
+}
+
+.card-board--static .card {
+  min-height: 0;
+  cursor: default;
+}
+
+.card.is-selected {
+  border-width: 3px;
+  border-style: dashed;
+  background: var(--accent-soft);
+}
+
+.card.is-dragging {
+  pointer-events: none;
+  cursor: grabbing;
+  opacity: 0.85;
+  position: relative;
+  z-index: 2;
+}
+
+.card-place {
+  min-height: 3.5rem;
+  padding: 0.5rem;
+  background: var(--quote);
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.card-place-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.card-place--tray {
+  margin-bottom: 0.6rem;
+  background: none;
+}
+
+.sort-bins {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.6rem;
+}
+
+/* A Venn diagram: three regions side by side under two overlapping outlines.
+   The outlines are grid items of their own, behind the regions. */
+.sort-bins--venn {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  padding: 0.75rem 0;
+}
+
+.sort-bins--venn::before,
+.sort-bins--venn::after {
+  content: "";
+  grid-row: 1;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  margin: -0.75rem 0;
+  pointer-events: none;
+}
+
+.sort-bins--venn::before {
+  grid-column: 1 / 3;
+}
+
+.sort-bins--venn::after {
+  grid-column: 2 / 4;
+  border-style: dashed;
+}
+
+.sort-bins--venn > .card-place {
+  grid-row: 1;
+  background: none;
+  border: none;
+}
+
+.sort-bins--venn > .venn-a {
+  grid-column: 1;
+}
+
+.sort-bins--venn > .venn-both {
+  grid-column: 2;
+}
+
+.sort-bins--venn > .venn-b {
+  grid-column: 3;
+}
+
+.sequence-line {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.card-place--step {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.card-place-number {
+  min-width: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.card-place--step .card-list {
+  flex: 1;
+}
+
+.sequence-moves {
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.activity-button--small {
+  padding: 0.3rem 0.6rem;
+}
+
+.sequence-cycle-note {
+  margin: 0.4rem 0 0;
+  color: var(--ink-soft);
+}
+
+.match-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+}
+
+.match-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.card-place--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 0;
+}
+
+.card--term {
+  font-weight: 700;
+  border-style: double;
+  border-width: 3px;
+}
+
+.match-slot {
+  flex: 1;
+  min-width: 6rem;
+}
+
+.match-empty {
+  color: var(--ink-soft);
+}
+
+/* A card in the column that is already linked is drawn dashed and says which
+   row it is in; it can still be picked up and linked elsewhere. */
+.match-supply .card.is-used {
+  border-style: dashed;
+  color: var(--ink-soft);
+}
+
+.card-used {
+  margin-left: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.card-menus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.4rem 0.8rem;
+  width: 100%;
+}
+
+.card-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-menu span {
+  flex: 1;
+}
+
+.card-menu select {
+  min-height: 2.75rem;
+  max-width: 60%;
+  font: inherit;
+  color: inherit;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.highlight-text {
+  line-height: 2.4;
+  font-size: 1.1rem;
+}
+
+.token {
+  position: relative;
+  padding: 0.15rem 0.2rem;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 1.5px solid transparent;
+  border-radius: 0.4rem;
+}
+
+button.token {
+  cursor: pointer;
+  border-color: var(--line);
+}
+
+button.token:disabled {
+  cursor: default;
+  border-color: transparent;
+}
+
+.highlight-text--sentence .token {
+  text-align: left;
+}
+
+/* A marked word: a ring round it and a thick underline. */
+.token[aria-pressed="true"],
+.token.is-marked {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.2em;
+  background: var(--accent-soft);
+}
+
+.token-mark {
+  position: absolute;
+  inset: -0.2rem;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.token-mark[hidden] {
+  display: none;
+}
+
+.activity-fallback--choices {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.activity-fallback--choices legend {
+  margin-bottom: 0.3rem;
+}
+
+/* The label primitive's picture: its numbered markers. Its places and labels
+   are the language primitives' slots and tiles. */
+.figure-marker {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}

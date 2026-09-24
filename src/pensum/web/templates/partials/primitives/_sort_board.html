@@ -1,0 +1,26 @@
+{# The places of a sort: the cards not sorted yet, then the bins, or the three
+   regions of a Venn diagram. `pensum.items.primitives.sort`.
+
+   A Venn diagram's two sets are drawn as two overlapping outlines, one solid
+   and one dashed, so which set a region belongs to is carried by line and by
+   its written title, never by colour alone. In the feedback an empty tray is
+   left out: nothing was left unsorted. #}
+{% set tray = board.places[0] %}
+{% if interactive or tray.cards|selectattr("shown")|list %}
+<section class="card-place card-place--tray"{% if interactive %} data-drop="{{ tray.name }}"{% endif %}>
+  <h3 class="card-place-title">{{ tray.title }}</h3>
+  <ul class="card-list">
+    {% for card in tray.cards %}{% include "partials/primitives/_card.html" %}{% endfor %}
+  </ul>
+</section>
+{% endif %}
+<div class="sort-bins{% if board.get('venn') %} sort-bins--venn{% endif %}">
+  {% for place in board.places[1:] %}
+    <section class="card-place card-place--{{ place.role }}"{% if interactive %} data-drop="{{ place.name }}"{% endif %}>
+      <h3 class="card-place-title">{{ place.title }}</h3>
+      <ul class="card-list">
+        {% for card in place.cards %}{% include "partials/primitives/_card.html" %}{% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>

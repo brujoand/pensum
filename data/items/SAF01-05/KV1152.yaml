@@ -542,6 +542,49 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14718-03
+    goal: KM14718
+    type: label
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: På et kart er nord oppe. Sett himmelretningene på riktig nummer.
+      en: On a map, north is at the top. Put the directions on the right number.
+    activity:
+      alt:
+        nb: >-
+          En kompassrose med fire spisser. Spissen øverst er fylt. Nummer 1 er
+          øverst, 2 til høyre, 3 nederst og 4 til venstre.
+        en: >-
+          A compass rose with four points. The top point is filled in. Number 1 is
+          at the top, 2 on the right, 3 at the bottom and 4 on the left.
+      diagram: compass
+      labels:
+        - text:
+            nb: nord
+            en: north
+          slot: north
+        - text:
+            nb: øst
+            en: east
+          slot: east
+        - text:
+            nb: sør
+            en: south
+          slot: south
+        - text:
+            nb: vest
+            en: west
+          slot: west
+    explanation:
+      nb: >-
+        Nord er oppe og sør er nede. Øst er til høyre, der sola står opp, og vest
+        er til venstre, der sola går ned.
+      en: >-
+        North is at the top and south at the bottom. East is on the right, where
+        the sun rises, and west is on the left, where the sun sets.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

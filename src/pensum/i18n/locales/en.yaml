@@ -687,6 +687,51 @@ activity:
     you_made: "Your conversation: {made}. A whole conversation: {asked}."
     you_answered: "You answered {made}. A reply that fits: {asked}."
     ask: What do you answer? Choose a line.
+  # The card primitives: sort, sequence, match, label, highlight.
+  cards:
+    you_placed: "You put them like this: {made}. The task asked for: {asked}."
+    you_linked: "You linked: {made}. The task asked for: {asked}."
+    you_marked: "You marked {made}. The task asked for {asked}."
+    none: none
+    tray: Not placed yet
+  sort:
+    hint: >-
+      Drag each card to the right box, or tap the card and then the box. The
+      menus below do the same.
+    only: "Only {name}"
+    both: Both
+    ask: Which sorting is right?
+  sequence:
+    hint: >-
+      Put the cards in the right order. Drag a card to a new place, tap the card
+      and then the place, or use Up and Down.
+    hint_cycle: >-
+      This is a cycle, so you can start with any card. Drag a card to a new
+      place, tap the card and then the place, or use Up and Down.
+    place: "Place {n}"
+    up: Up
+    down: Down
+    up_card: "Move “{card}” up"
+    down_card: "Move “{card}” down"
+    cycle_note: "↻ After the last card it starts again with the first."
+    ask: Which order is right?
+  match:
+    hint: >-
+      Tap something on the left and then what goes with it on the right. You
+      can also drag a card to a row. The menus below do the same.
+    used: "(with {term})"
+    ask: Which pairs go together?
+  label:
+    hint: >-
+      Drag each label to the right number, or tap the label and then the
+      number. The menus below do the same.
+    place: "Number {n}"
+    ask: Which label goes with which number?
+  highlight:
+    hint_word: Tap the words that fit. Tap again to take the mark away.
+    hint_sentence: Tap the sentences that fit. Tap again to take the mark away.
+    nothing: nothing
+    ask: What should be marked?
 
 comfort:
   # Every setting is described by what it does, never by who it is for. No

@@ -703,6 +703,52 @@ activity:
     you_made: "Samtalen din: {made}. En hel samtale: {asked}."
     you_answered: "Du svarte {made}. Et svar som passer: {asked}."
     ask: Hva svarer du? Velg en replikk.
+  # The card primitives: sort, sequence, match, label, highlight.
+  cards:
+    you_placed: "Du la dem slik: {made}. Oppgaven ba om: {asked}."
+    you_linked: "Du koblet: {made}. Oppgaven ba om: {asked}."
+    you_marked: "Du markerte {made}. Oppgaven ba om {asked}."
+    none: ingen
+    tray: Ikke plassert ennå
+  sort:
+    hint: >-
+      Dra hvert kort til riktig boks, eller trykk på kortet og så på boksen.
+      Menyene under gjør det samme.
+    only: "Bare {name}"
+    both: Begge
+    ask: Hvilken sortering er riktig?
+  sequence:
+    hint: >-
+      Sett kortene i riktig rekkefølge. Dra et kort til en ny plass, trykk på
+      kortet og så på plassen, eller bruk Opp og Ned.
+    hint_cycle: >-
+      Dette er et kretsløp, så du kan begynne med hvilket kort du vil. Dra et
+      kort til en ny plass, trykk på kortet og så på plassen, eller bruk Opp og
+      Ned.
+    place: "Plass {n}"
+    up: Opp
+    down: Ned
+    up_card: "Flytt «{card}» opp"
+    down_card: "Flytt «{card}» ned"
+    cycle_note: "↻ Etter det siste kortet begynner det på nytt med det første."
+    ask: Hvilken rekkefølge er riktig?
+  match:
+    hint: >-
+      Trykk på noe til venstre og så på det som hører til det, til høyre. Du kan
+      også dra et kort til en rad. Menyene under gjør det samme.
+    used: "(ved {term})"
+    ask: Hvilke par hører sammen?
+  label:
+    hint: >-
+      Dra hver lapp til riktig nummer, eller trykk på lappen og så på nummeret.
+      Menyene under gjør det samme.
+    place: "Nummer {n}"
+    ask: Hvilken lapp hører til hvilket nummer?
+  highlight:
+    hint_word: Trykk på ordene som passer. Trykk en gang til for å ta bort merket.
+    hint_sentence: Trykk på setningene som passer. Trykk en gang til for å ta bort merket.
+    nothing: ingenting
+    ask: Hva skal være markert?
 
 comfort:
   # Hver innstilling beskrives ut fra hva den gjør, aldri ut fra hvem den er

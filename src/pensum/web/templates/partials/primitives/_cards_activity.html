@@ -1,0 +1,22 @@
+{# What the card primitives (sort, sequence, match, label, highlight) add to
+   `_activity.html`: their no-script question. There is no number to type on
+   these boards, so it asks which of a few whole arrangements is right -- the
+   answer and the board's own near misses (`cards.ChoiceActivity`). Each
+   option's value is that arrangement exactly as the script would submit it, so
+   both roads are graded by the same rule. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block fallback %}
+  <fieldset class="activity-fallback activity-fallback--choices" data-fallback>
+    <legend>{{ item.activity.fallback_prompt(locale) }}</legend>
+    <ul class="choices">
+      {% for value, words in item.activity.fallback_choices(locale) %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ value }}" required />
+            <span>{{ words }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

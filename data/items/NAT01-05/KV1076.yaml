@@ -773,6 +773,129 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM13828-03
+    goal: KM13828
+    type: sequence
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sett vannets kretsløp i riktig rekkefølge.
+      en: Put the water cycle in the right order.
+    activity:
+      alt:
+        nb: Fire kort om vann i en rekke som skal bli et kretsløp.
+        en: Four cards about water in a line that is to become a cycle.
+      cycle: true
+      cards:
+        - nb: Vann fra havet fordamper.
+          en: Water from the sea evaporates.
+        - nb: Vanndampen blir til skyer.
+          en: The water vapour turns into clouds.
+        - nb: Det regner eller snør.
+          en: It rains or snows.
+        - nb: Vannet renner i elver ut i havet.
+          en: The water runs in rivers out to the sea.
+    explanation:
+      nb: >-
+        Sola varmer havet, og vann fordamper. Dampen kjøles ned høyt oppe og blir
+        til skyer. Fra skyene kommer regn og snø, og vannet renner tilbake til
+        havet. Så begynner det på nytt, og derfor heter det et kretsløp.
+      en: >-
+        The sun warms the sea and water evaporates. High up the vapour cools and
+        becomes clouds. Rain and snow fall from the clouds, and the water runs
+        back to the sea. Then it starts again, which is why it is called a cycle.
+    reviewed: false
+
+  - id: KM13828-04
+    goal: KM13828
+    type: label
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sett navnet på hver del av vannets kretsløp på riktig nummer.
+      en: Put the name of each part of the water cycle on the right number.
+    activity:
+      alt:
+        nb: >-
+          En tegning av et hav, en sol, en sky, regn over et fjell og en elv ned
+          til havet. Fire steder er nummerert fra 1 til 4.
+        en: >-
+          A drawing of a sea, a sun, a cloud, rain over a mountain and a river
+          down to the sea. Four places are numbered 1 to 4.
+      diagram: water_cycle
+      labels:
+        - text:
+            nb: fordamping
+            en: evaporation
+          slot: evaporation
+        - text:
+            nb: kondensasjon
+            en: condensation
+          slot: condensation
+        - text:
+            nb: nedbør
+            en: precipitation
+          slot: precipitation
+        - text:
+            nb: avrenning
+            en: runoff
+          slot: runoff
+    explanation:
+      nb: >-
+        Vann fordamper fra havet og stiger opp. Høyt oppe kondenserer dampen til
+        skyer. Nedbør er regn og snø som faller. Avrenning er vannet som renner
+        tilbake til havet i bekker og elver.
+      en: >-
+        Water evaporates from the sea and rises. High up the vapour condenses into
+        clouds. Precipitation is the rain and snow that falls. Runoff is the water
+        running back to the sea in streams and rivers.
+    reviewed: false
+
+  - id: KM13831-03
+    goal: KM13831
+    type: label
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sett navnet på hvert bein på riktig nummer.
+      en: Put the name of each bone on the right number.
+    activity:
+      alt:
+        nb: >-
+          En enkel tegning av et skjelett. Fire bein er nummerert: i hodet, i
+          brystet, midt i ryggen og i låret.
+        en: >-
+          A simple drawing of a skeleton. Four bones are numbered: in the head,
+          in the chest, in the middle of the back and in the thigh.
+      diagram: skeleton
+      labels:
+        - text:
+            nb: hodeskallen
+            en: the skull
+          slot: skull
+        - text:
+            nb: ribbeina
+            en: the ribs
+          slot: ribs
+        - text:
+            nb: ryggraden
+            en: the spine
+          slot: spine
+        - text:
+            nb: lårbeinet
+            en: the thigh bone
+          slot: thigh
+    explanation:
+      nb: >-
+        Hodeskallen beskytter hjernen, og ribbeina beskytter hjertet og lungene.
+        Ryggraden holder kroppen oppreist. Lårbeinet er det lengste beinet vi har,
+        og musklene rundt det gjør at vi kan gå og løpe.
+      en: >-
+        The skull protects the brain, and the ribs protect the heart and lungs.
+        The spine holds the body upright. The thigh bone is our longest bone, and
+        the muscles round it let us walk and run.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

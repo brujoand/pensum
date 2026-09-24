@@ -1097,6 +1097,93 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM13841-03
+    goal: KM13841
+    type: match
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Koble hver faseovergang til det som skjer.
+      en: Link each change of state to what happens.
+    activity:
+      alt:
+        nb: Fire navn på faseoverganger til venstre, og fire beskrivelser til høyre.
+        en: Four names of changes of state on the left, and four descriptions on the right.
+      pairs:
+        - left:
+            nb: smelting
+            en: melting
+          right:
+            nb: fast stoff blir til væske
+            en: a solid becomes a liquid
+        - left:
+            nb: fordamping
+            en: evaporation
+          right:
+            nb: væske blir til gass
+            en: a liquid becomes a gas
+        - left:
+            nb: kondensasjon
+            en: condensation
+          right:
+            nb: gass blir til væske
+            en: a gas becomes a liquid
+        - left:
+            nb: størkning
+            en: freezing
+          right:
+            nb: væske blir til fast stoff
+            en: a liquid becomes a solid
+    explanation:
+      nb: >-
+        Is som smelter, blir vann. Vann som fordamper, blir vanndamp. Damp som
+        kondenserer, blir dråper, som på et kaldt speil. Vann som størkner, blir
+        is. Stoffet er det samme hele tiden; det er bare tilstanden som endrer seg.
+      en: >-
+        Ice that melts becomes water. Water that evaporates becomes vapour.
+        Vapour that condenses becomes drops, as on a cold mirror. Water that
+        freezes becomes ice. The substance stays the same; only its state changes.
+    reviewed: false
+
+  - id: KM13834-03
+    goal: KM13834
+    type: highlight
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Trykk på de to setningene som er observasjoner, ikke slutninger.
+      en: Tap the two sentences that are observations, not conclusions.
+    activity:
+      alt:
+        nb: Fire setninger om et glass vann i et vindu.
+        en: Four sentences about a glass of water in a window.
+      unit: sentence
+      sentences:
+        - text:
+            nb: Glasset sto i vinduet i sola.
+            en: The glass stood in the window in the sun.
+          mark: true
+        - text:
+            nb: Etter tre dager var vannet borte.
+            en: After three days the water was gone.
+          mark: true
+        - text:
+            nb: Vannet må ha fordampet.
+            en: The water must have evaporated.
+        - text:
+            nb: Varme får vann til å fordampe fortere.
+            en: Heat makes water evaporate faster.
+    explanation:
+      nb: >-
+        En observasjon er noe du ser eller måler: hvor glasset sto, og at vannet
+        var borte. En slutning er noe du tenker ut fra det du så: at vannet
+        fordampet, og hvorfor.
+      en: >-
+        An observation is something you see or measure: where the glass stood,
+        and that the water was gone. A conclusion is something you work out from
+        what you saw: that the water evaporated, and why.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

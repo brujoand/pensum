@@ -1,0 +1,9 @@
+{# One card in one place. On the question page every card is drawn in every
+   place it could be, with the ones not there `hidden`, and carries its address
+   for the script; in the feedback only the cards that are there are drawn, and
+   nothing on them moves. #}
+{%- if interactive -%}
+<li class="card" data-piece data-zone="{{ card.zone }}" data-index="{{ card.index }}"{% if not card.shown %} hidden{% endif %}>{{ card.text }}</li>
+{%- elif card.shown -%}
+<li class="card">{{ card.text }}</li>
+{%- endif -%}

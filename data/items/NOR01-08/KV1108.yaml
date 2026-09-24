@@ -558,6 +558,178 @@ items:
         epler, pærer og bananer.
     reviewed: false
 
+  - id: KM14159-06
+    goal: KM14159
+    type: highlight
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Trykk på alle verbene i teksten.
+      en: Tap all the verbs in the Norwegian text.
+    activity:
+      alt:
+        nb: En kort tekst om en hund. Hvert ord kan trykkes på.
+        en: A short Norwegian text about a dog. Every word can be tapped.
+      unit: word
+      text: Hunden [løper] ut i hagen og [graver] et hull. Så [legger] den seg i sola.
+    explanation:
+      nb: >-
+        Et verb forteller hva noen gjør. Hunden løper, graver og legger seg.
+        «Hunden», «hagen» og «hull» er substantiver: de er navn på ting.
+      en: >-
+        A verb says what someone does. The dog runs (løper), digs (graver) and
+        lies down (legger seg). "Hunden", "hagen" and "hull" are nouns: they name
+        things.
+    reviewed: false
+
+  - id: KM14159-07
+    goal: KM14159
+    type: sort
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sorter ordene i substantiv, verb og adjektiv.
+      en: Sort the Norwegian words into nouns, verbs and adjectives.
+    activity:
+      alt:
+        nb: Åtte ord på kort, og tre bokser for substantiv, verb og adjektiv.
+        en: Eight Norwegian words on cards, and three boxes for noun, verb and adjective.
+      bins:
+        - nb: Substantiv
+          en: Noun
+        - nb: Verb
+          en: Verb
+        - nb: Adjektiv
+          en: Adjective
+      cards:
+        - text:
+            nb: hund
+            en: hund
+          bin: 0
+        - text:
+            nb: sover
+            en: sover
+          bin: 1
+        - text:
+            nb: rød
+            en: rød
+          bin: 2
+        - text:
+            nb: bok
+            en: bok
+          bin: 0
+        - text:
+            nb: spiser
+            en: spiser
+          bin: 1
+        - text:
+            nb: glad
+            en: glad
+          bin: 2
+        - text:
+            nb: stol
+            en: stol
+          bin: 0
+        - text:
+            nb: går
+            en: går
+          bin: 1
+    explanation:
+      nb: >-
+        Substantiv er navn på ting, dyr og personer: hund, bok, stol. Verb
+        forteller hva noen gjør: sover, spiser, går. Adjektiv forteller hvordan
+        noe er: rød, glad.
+      en: >-
+        Nouns name things, animals and people: hund (dog), bok (book), stol
+        (chair). Verbs say what someone does: sover (sleeps), spiser (eats), går
+        (walks). Adjectives say what something is like: rød (red), glad (happy).
+    reviewed: false
+
+  - id: KM14164-04
+    goal: KM14164
+    type: highlight
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Hvorfor tok Nora med paraplyen? Trykk på setningen som viser det.
+      en: Why did Nora take her umbrella? Tap the sentence that shows it.
+    activity:
+      alt:
+        nb: En kort tekst om Nora i fire setninger. Hver setning kan trykkes på.
+        en: A short text about Nora in four sentences. Each sentence can be tapped.
+      unit: sentence
+      sentences:
+        - text:
+            nb: Nora skulle gå til skolen.
+            en: Nora was going to walk to school.
+        - text:
+            nb: Hun så ut av vinduet.
+            en: She looked out of the window.
+        - text:
+            nb: Himmelen var grå, og det regnet.
+            en: The sky was grey, and it was raining.
+          mark: true
+        - text:
+            nb: Derfor tok hun med paraplyen.
+            en: So she took her umbrella.
+    explanation:
+      nb: >-
+        Svaret står i teksten: det regnet. Den siste setningen sier at hun tok
+        med paraplyen, men det er setningen før som forteller hvorfor.
+      en: >-
+        The answer is in the text: it was raining. The last sentence says she
+        took her umbrella, but it is the sentence before that tells you why.
+    reviewed: false
+
+  - id: KM14168-03
+    goal: KM14168
+    type: match
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: Koble hvert svensk ord til det norske ordet det betyr.
+      en: Link each Swedish word to the Norwegian word it means.
+    activity:
+      alt:
+        nb: Fire svenske ord til venstre, og fire norske ord til høyre.
+        en: Four Swedish words on the left, and four Norwegian words on the right.
+      pairs:
+        - left:
+            nb: rolig
+            en: rolig
+          right:
+            nb: morsom
+            en: morsom
+        - left:
+            nb: glass
+            en: glass
+          right:
+            nb: is
+            en: is
+        - left:
+            nb: semester
+            en: semester
+          right:
+            nb: ferie
+            en: ferie
+        - left:
+            nb: sjukhus
+            en: sjukhus
+          right:
+            nb: sykehus
+            en: sykehus
+    explanation:
+      nb: >-
+        Svensk og norsk ligner hverandre, men noen ord lurer oss. På svensk betyr
+        «rolig» morsom, «glass» betyr is, og «semester» betyr ferie. «Sjukhus»
+        er nesten likt det norske «sykehus».
+      en: >-
+        Swedish and Norwegian are alike, but some words trick us. In Swedish
+        "rolig" means fun (morsom), "glass" means ice cream (is), and "semester"
+        means holiday (ferie). "Sjukhus" is almost the same as the Norwegian
+        "sykehus", hospital.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

@@ -1,0 +1,26 @@
+{# The line of a sequence: numbered places, each holding one card, with the
+   move-up and move-down buttons on the card's own row. Those buttons are the
+   keyboard path, and are only shown once the script runs. A cycle says so
+   under the line, since its last card leads back to its first.
+   `pensum.items.primitives.sequence`. #}
+<ol class="sequence-line{% if board.get('cycle') %} sequence-line--cycle{% endif %}">
+  {% for place in board.places %}
+    <li class="card-place card-place--step"{% if interactive %} data-drop="{{ place.name }}"{% endif %}>
+      <span class="card-place-number" aria-hidden="true">{{ place.number }}</span>
+      <ul class="card-list">
+        {% for card in place.cards %}{% include "partials/primitives/_card.html" %}{% endfor %}
+      </ul>
+      {% if interactive %}
+        <span class="sequence-moves" data-live hidden>
+          <button class="activity-button activity-button--small" type="button"
+                  data-action="up" data-zone="{{ place.name }}">{{ t("activity.sequence.up") }}</button>
+          <button class="activity-button activity-button--small" type="button"
+                  data-action="down" data-zone="{{ place.name }}">{{ t("activity.sequence.down") }}</button>
+        </span>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ol>
+{% if board.get('cycle') %}
+  <p class="sequence-cycle-note">{{ t("activity.sequence.cycle_note") }}</p>
+{% endif %}

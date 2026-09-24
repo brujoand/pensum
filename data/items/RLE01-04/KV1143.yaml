@@ -457,6 +457,88 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14587-04
+    goal: KM14587
+    type: sequence
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Sett høytidene i kirkeåret i riktig rekkefølge.
+      en: Put the festivals of the church year in the right order.
+    activity:
+      alt:
+        nb: Fire kort med kristne høytider som skal bli et år rundt.
+        en: Four cards with Christian festivals that are to go round as a year.
+      cycle: true
+      cards:
+        - nb: advent
+          en: Advent
+        - nb: jul
+          en: Christmas
+        - nb: påske
+          en: Easter
+        - nb: pinse
+          en: Pentecost
+    explanation:
+      nb: >-
+        Kirkeåret begynner med advent, de fire søndagene før jul. Så kommer jul.
+        Påske er om våren, og pinse kommer femti dager etter påske. Så begynner
+        et nytt kirkeår med advent igjen.
+      en: >-
+        The church year begins with Advent, the four Sundays before Christmas.
+        Then comes Christmas. Easter is in spring, and Pentecost comes fifty days
+        after Easter. Then a new church year begins with Advent again.
+    reviewed: false
+
+  - id: KM14587-05
+    goal: KM14587
+    type: match
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Hvilken tradisjon hører hver høytid til?
+      en: Which tradition does each festival belong to?
+    activity:
+      alt:
+        nb: Fire høytider til venstre, og fire religioner til høyre.
+        en: Four festivals on the left, and four religions on the right.
+      pairs:
+        - left:
+            nb: jul
+            en: Christmas
+          right:
+            nb: kristendom
+            en: Christianity
+        - left:
+            nb: id al-fitr
+            en: Eid al-Fitr
+          right:
+            nb: islam
+            en: Islam
+        - left:
+            nb: pesach
+            en: Passover
+          right:
+            nb: jødedom
+            en: Judaism
+        - left:
+            nb: divali
+            en: Diwali
+          right:
+            nb: hinduisme
+            en: Hinduism
+    explanation:
+      nb: >-
+        Kristne feirer at Jesus ble født i julen. Muslimer feirer id al-fitr når
+        fastemåneden ramadan er over. Jøder minnes utvandringen fra Egypt i
+        pesach. Hinduer feirer lysfesten divali.
+      en: >-
+        Christians celebrate the birth of Jesus at Christmas. Muslims celebrate
+        Eid al-Fitr when the fasting month of Ramadan ends. Jews remember the
+        exodus from Egypt at Passover. Hindus celebrate Diwali, the festival of
+        lights.
+    reviewed: false
+
 # Goals whose substance is the pupil's own reflection, conversation or life.
 # A written question could only test something adjacent and call it the goal.
 not_assessable:

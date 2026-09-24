@@ -554,6 +554,65 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  - id: KM14609-04
+    goal: KM14609
+    type: sort
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: Hva hører til kristendom, hva hører til islam, og hva finnes i begge?
+      en: What belongs to Christianity, what belongs to Islam, and what is in both?
+    activity:
+      alt:
+        nb: >-
+          Seks kort med skikker, og et Venn-diagram med to ringer: kristendom og
+          islam. Der ringene overlapper, står «Begge».
+        en: >-
+          Six cards with practices, and a Venn diagram with two rings:
+          Christianity and Islam. Where the rings overlap it says "Both".
+      venn: true
+      bins:
+        - nb: kristendom
+          en: Christianity
+        - nb: islam
+          en: Islam
+      cards:
+        - text:
+            nb: dåp
+            en: baptism
+          bin: 0
+        - text:
+            nb: nattverd
+            en: Holy Communion
+          bin: 0
+        - text:
+            nb: bønn
+            en: prayer
+          bin: both
+        - text:
+            nb: å gi til de fattige
+            en: giving to the poor
+          bin: both
+        - text:
+            nb: valfart til Mekka
+            en: pilgrimage to Mecca
+          bin: 1
+        - text:
+            nb: fasten i ramadan
+            en: the Ramadan fast
+          bin: 1
+    explanation:
+      nb: >-
+        Dåp og nattverd er kristne ritualer. Valfarten til Mekka og fasten i
+        ramadan er to av islams fem søyler. Bønn og å gi til de fattige er viktig
+        i begge tradisjonene, selv om det gjøres på ulike måter.
+      en: >-
+        Baptism and Holy Communion are Christian rituals. The pilgrimage to Mecca
+        and the Ramadan fast are two of the five pillars of Islam. Prayer and
+        giving to the poor matter in both traditions, though they are done in
+        different ways.
+    reviewed: false
+
 # Goals whose substance is the pupil's own exploring, reasoning or conversation.
 # A written question could only test something adjacent and call it the goal.
 not_assessable:

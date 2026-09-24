@@ -1,0 +1,5 @@
+{# Words or sentences in a text, tapped to mark them.
+   `pensum.items.primitives.highlight`. Every word or sentence is a button of
+   its own, which is already the keyboard path. #}
+{% extends "partials/primitives/_cards_activity.html" %}
+{% block hint %}{{ t("activity.highlight.hint_" ~ item.activity.unit) }}{% endblock %}

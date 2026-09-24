@@ -671,3 +671,122 @@ comfort:
     annet sted.
   # Knappen som comfort.js legger ved spørsmål og svar.
   speak: Les høyt
+
+# Oppdrag: korte oppgaver utenfor skjermen, for målene en skjerm ikke kan
+# sjekke. Linjene til eleven er bokstavelige og korte, som stegene. Ingenting
+# fra et oppdrag lastes opp eller lagres, og siden sier det der eleven ser det.
+missions:
+  list_title: "Oppdrag i {subject}"
+  list_intro: >-
+    Noen kompetansemål er samtaler, besøk, bygging og framføringer, og dem kan
+    ikke en skjerm sjekke. Et oppdrag er en kort oppgave for ett av disse
+    målene: noen steg eleven kan krysse av, noen ganger et kort med et
+    manus, og hvem som bekrefter at det er gjort. Hvert oppdrag får plass på én
+    side når det skrives ut.
+  ours_note: >-
+    Oppdragene er Pensums egne forslag, ikke Utdanningsdirektoratets tekst.
+    Hvert av dem hører til en ferdighet i progresjonsoversikten.
+  drafts_note: >-
+    {count} av {total} oppdrag er utkast som ingen har lest gjennom ennå.
+  nothing_kept: >-
+    Ingenting lastes opp eller lagres: ingen bilder, ingen opptak, ingen notat
+    om hva en elev sa. Et avkrysset steg blir bare i elevens egen nettleser.
+  list_cta: Målene en skjerm ikke kan sjekke, som oppdrag
+  link: "Oppdrag: {title}"
+  none: Ingen oppdrag. Dette målet er overlatt til klasserommet.
+  skill_heading: Ferdighet
+  missions_heading: Oppdrag
+  confirm_teacher_short: Læreren bekrefter
+  confirm_self_short: Eleven bekrefter selv
+  card_short: "Kort: {card}"
+  cards_heading: Kortene
+  cards_intro: >-
+    De samme manusene i alle fag. En samtale med en skrevet struktur er
+    forutsigbar, og det gjør det lettere å være med.
+  back_to_list: "Alle oppdrag i {subject}"
+  goal_label: Målet mitt
+  steps_label: Slik gjør du
+  confirm_teacher: Når du er ferdig, viser du det til læreren din.
+  confirm_self: Når du er ferdig, bestemmer du selv at det er gjort.
+  ticks_note: >-
+    Kryssene finnes bare i denne nettleseren. Ingenting sendes noe sted, og
+    ingenting lagres.
+  teacher_label: "Til læreren: dette ser du etter"
+  question_label: Spørsmålet
+  card:
+    turn:
+      title: Turkort
+      intro: Når du snakker med noen. Én snakker om gangen.
+      step1: Lytt til den andre er ferdig.
+      step2: "Si hva du hørte: «Du sa at …»"
+      step3: Legg til én ting selv.
+      starter1: Jeg tror … fordi …
+      starter2: Jeg er enig med … fordi …
+      starter3: Jeg ser det annerledes fordi …
+    feedback:
+      title: Tilbakemeldingskort
+      intro: Når du gir tilbakemelding på noe en annen har laget.
+      step1: Les eller hør alt først.
+      step2: Si én ting som virker, og pek på hvor.
+      step3: Si én ting å prøve, og pek på hvor.
+      step4: Den som laget det, bestemmer hva som skal endres.
+      starter1: "Dette virker: …"
+      starter2: "Prøv dette: …"
+    question:
+      title: Spørsmålskort
+      intro: Ett åpent spørsmål. Det finnes ikke ett riktig svar.
+      step1: Les spørsmålet høyt.
+      step2: Tenk stille først.
+      step3: Svar med turkortet.
+    ladder:
+      title: Tenkestigen
+      intro: Klatre ett trinn om gangen.
+      step1: Hva mener vi med …?
+      step2: Gi et eksempel.
+      step3: Gi et moteksempel.
+    interview:
+      title: Intervjukort
+      intro: Når du stiller noen spørsmål.
+      step1: Spør om det passer nå.
+      step2: Si hva du vil finne ut.
+      step3: Still ett spørsmål om gangen, og hør hele svaret.
+      step4: Skriv ned svarene, og si takk.
+      starter1: Hvordan var det da …?
+      starter2: Hvordan sier du …?
+      starter3: Hva gjorde du da du var på min alder?
+      starter4: Hva er annerledes nå enn før?
+      starter5: Kan du fortelle mer om …?
+    risk:
+      title: Risikokort
+      intro: Fyll det ut før forsøket, ikke etterpå.
+      step1: Hva skal vi gjøre?
+      step2: Hva kan gå galt?
+      step3: Hvordan kan noen bli skadet?
+      step4: Hva gjør vi for å være trygge?
+      step5: Hva gjør vi hvis noe går galt?
+    solve_it:
+      title: Løs det-kortet
+      intro: For to som er uenige. Ett steg om gangen.
+      step1: Hva skjedde? Hver forteller én gang, uten å bli avbrutt.
+      step2: Hvordan følte hver av dere det?
+      step3: Hva trenger hver av dere?
+      step4: Hver kommer med én idé til en løsning.
+      step5: Velg én dere begge godtar.
+      starter1: Jeg følte … da …
+      starter2: Jeg trenger …
+    method:
+      title: Metodekort
+      intro: Seks steg for å finne ut av noe.
+      step1: Still et spørsmål.
+      step2: Skriv ned det du vet fra før.
+      step3: "Velg metode: intervju, spørreundersøkelse eller kilder."
+      step4: Samle inn informasjonen.
+      step5: Sorter det du fant, og se etter mønstre.
+      step6: Legg fram det du fant, og det du fortsatt er usikker på.
+    checklist:
+      title: Sjekklistekort
+      intro: Når du går gjennom din egen tekst.
+      step1: Hver setning begynner med stor bokstav.
+      step2: Hver setning slutter med punktum, spørsmålstegn eller utropstegn.
+      step3: Én setning er gjort lengre med og, fordi eller men.
+      step4: Les hele teksten høyt én gang til.

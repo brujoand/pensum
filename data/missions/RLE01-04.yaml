@@ -1,0 +1,118 @@
+---
+# Missions for KRLE: the goals a screen does not check, practised off screen.
+# One skill each, and only skills marked `assessable: false` in
+# data/skills/RLE01-04.yaml. Drafts until a human sets `reviewed: true`.
+#
+# The philosophy goals are conversations, and a screen does not stand in for
+# one (docs/design/subjects/krle.md). Their missions hand the teacher the three
+# cards that make a conversation predictable: the question card, the turn card
+# and the thinking ladder. A teacher confirms the pupil took part; nothing about
+# what the pupil said is recorded.
+subject: RLE01-04
+missions:
+  # --- etter 4. trinn --------------------------------------------------------
+  - id: krle.place-of-worship-on-a-map
+    skill: krle.religions.local-religion
+    title: {nob: "Et livssynssted på kartet", eng: "A place of worship on the map"}
+    steps:
+      - {nob: "Finn et gudshus eller en gravplass nær deg på et kart.", eng: "Find a place of worship or a burial ground near you on a map."}
+      - {nob: "Finn ut hvilken tradisjon stedet hører til.", eng: "Find out which tradition the place belongs to."}
+      - {nob: "Skriv navnet på stedet og tradisjonen.", eng: "Write down the name of the place and the tradition."}
+    confirm: teacher
+    reviewed: false
+
+  - id: krle.one-thing-in-the-art
+    skill: krle.religions.look-at-religious-art
+    title: {nob: "Én ting jeg la merke til", eng: "One thing I noticed"}
+    steps:
+      - {nob: "Se på et religiøst kunstverk eller hør på et stykke religiøs musikk.", eng: "Look at a piece of religious art or listen to a piece of religious music."}
+      - {nob: "Se eller lytt i ett minutt uten å si noe.", eng: "Look or listen for one minute without saying anything."}
+      - {nob: "Si én ting du la merke til: en farge, en figur, en lyd.", eng: "Say one thing you noticed: a colour, a figure, a sound."}
+    confirm: teacher
+    reviewed: false
+
+  - id: krle.class-conversation-turns
+    skill: krle.philosophy.philosophical-conversation
+    title: {nob: "Filosofisk samtale med turkortet", eng: "Philosophical conversation with the turn card"}
+    steps:
+      - {nob: "Sitt i ring med klassen. Læreren leser spørsmålet.", eng: "Sit in a circle with the class. The teacher reads the question."}
+      - {nob: "Vent til det er din tur.", eng: "Wait until it is your turn."}
+      - {nob: "Svar med turkortet: «Jeg tror … fordi …»", eng: "Answer with the turn card: «I think … because …»"}
+      - {nob: "Si én gang hva en annen sa før du svarer.", eng: "Once, say what someone else said before you answer."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: krle.question-what-is-a-friend
+    skill: krle.philosophy.philosophical-conversation
+    title: {nob: "Spørsmålskort: Hva er en venn?", eng: "Question card: What is a friend?"}
+    steps:
+      - {nob: "Les spørsmålet på kortet høyt.", eng: "Read the question on the card aloud."}
+      - {nob: "Tenk stille i ett minutt.", eng: "Think quietly for one minute."}
+      - {nob: "Si hva du tror, og hvorfor.", eng: "Say what you think, and why."}
+    confirm: teacher
+    card: question
+    question: {nob: "Kan en venn være noen du aldri har møtt?", eng: "Can a friend be someone you have never met?"}
+    reviewed: false
+
+  # --- etter 7. trinn --------------------------------------------------------
+  - id: krle.thinking-ladder
+    skill: krle.philosophy.philosophical-thinking
+    title: {nob: "Klatre på tenkestigen", eng: "Climb the thinking ladder"}
+    steps:
+      - {nob: "Læreren gir klassen et filosofisk spørsmål.", eng: "The teacher gives the class a philosophical question."}
+      - {nob: "Spør hva vi mener med ett av ordene i spørsmålet.", eng: "Ask what we mean by one of the words in the question."}
+      - {nob: "Gi et eksempel.", eng: "Give an example."}
+      - {nob: "Gi et moteksempel.", eng: "Give a counterexample."}
+    confirm: teacher
+    card: ladder
+    reviewed: false
+
+  - id: krle.question-is-it-fair
+    skill: krle.philosophy.philosophical-thinking
+    title: {nob: "Spørsmålskort: Er det rettferdig?", eng: "Question card: Is it fair?"}
+    steps:
+      - {nob: "Les spørsmålet på kortet høyt.", eng: "Read the question on the card aloud."}
+      - {nob: "Bruk tenkestigen på ordet «rettferdig».", eng: "Use the thinking ladder on the word «fair»."}
+      - {nob: "Si om svaret ditt endret seg, og hvorfor.", eng: "Say whether your answer changed, and why."}
+    confirm: teacher
+    card: question
+    question: {nob: "Er det rettferdig at alle får like mye?", eng: "Is it fair that everyone gets the same?"}
+    reviewed: false
+
+  # --- etter 10. trinn -------------------------------------------------------
+  - id: krle.question-growing-up
+    skill: krle.philosophy.existential-diverse-society
+    title: {nob: "Spørsmålskort: Å vokse opp i dag", eng: "Question card: Growing up today"}
+    steps:
+      - {nob: "Les spørsmålet på kortet høyt.", eng: "Read the question on the card aloud."}
+      - {nob: "Skriv ned én tanke før samtalen starter.", eng: "Write down one thought before the conversation starts."}
+      - {nob: "Delta i samtalen med turkortet og tenkestigen.", eng: "Take part in the conversation with the turn card and the thinking ladder."}
+    confirm: teacher
+    card: question
+    question: {nob: "Kan man høre hjemme flere steder samtidig?", eng: "Can you belong in more than one place at once?"}
+    reviewed: false
+
+  - id: krle.big-questions-turns
+    skill: krle.philosophy.existential-diverse-society
+    title: {nob: "Store spørsmål med turkortet", eng: "Big questions with the turn card"}
+    steps:
+      - {nob: "Klassen velger et stort spørsmål om å leve i et mangfoldig samfunn.", eng: "The class chooses a big question about living in a diverse society."}
+      - {nob: "Bruk turkortet minst to ganger uten å bli spurt.", eng: "Use the turn card at least twice without being asked."}
+      - {nob: "Si én gang: «Jeg ser det annerledes fordi …»", eng: "Once, say: «I see it differently because …»"}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: krle.say-it-back
+    skill: krle.perspectives.handle-disagreement
+    title: {nob: "Si det tilbake til partneren er enig", eng: "Say it back until your partner agrees"}
+    steps:
+      - {nob: "Finn en partner som mener noe annet enn deg om et spørsmål.", eng: "Find a partner who thinks differently from you about a question."}
+      - {nob: "La partneren forklare sitt syn.", eng: "Let your partner explain their view."}
+      - {nob: "Forklar synet tilbake med dine ord.", eng: "Explain the view back in your own words."}
+      - {nob: "Prøv igjen til partneren sier «ja, det er det jeg mener».", eng: "Try again until your partner says «yes, that is what I mean»."}
+      - {nob: "Bytt roller.", eng: "Swap roles."}
+    confirm: teacher
+    card: turn
+    reviewed: false

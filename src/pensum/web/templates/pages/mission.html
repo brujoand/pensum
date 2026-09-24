@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% set title = mission.title.get(locale) %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a> ›
+    <a href="/{{ locale }}/progresjon/{{ subject.code }}/oppdrag">{{ t("missions.back_to_list", subject=subject.display_title.get(lang)) }}</a>
+  </nav>
+
+  {# `data-mission` is what missions.js files the ticks under. #}
+  <article class="mission-page" data-mission="{{ mission.id }}">
+    <h1>{{ title }}</h1>
+    {% if not mission.reviewed %}
+      <p class="skill-badges"><span class="badge badge--draft">{{ t("progression.draft") }}</span></p>
+    {% endif %}
+
+    <p class="mission-goal">
+      <span class="skill-label">{{ t("missions.goal_label") }}</span>
+      {{ skill.i_can.get(locale) }}
+    </p>
+
+    {# Plain checkboxes and no form: they tick without a script and there is
+       nowhere to send them. The script only remembers them in this browser. #}
+    <h2 class="mission-steps-label" id="mission-steps">{{ t("missions.steps_label") }}</h2>
+    <ol class="mission-steps" aria-labelledby="mission-steps">
+      {% for step in mission.steps %}
+        <li>
+          <label>
+            <input type="checkbox" value="{{ loop.index0 }}" />
+            <span>{{ step.get(locale) }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ol>
+
+    <p class="mission-confirm">
+      {{ t("missions.confirm_teacher") if mission.confirm == "teacher" else t("missions.confirm_self") }}
+    </p>
+
+    {% if card %}
+      {% include "partials/mission_card.html" %}
+    {% endif %}
+
+    <p class="mission-teacher">
+      <span class="skill-label">{{ t("missions.teacher_label") }}</span>
+      {{ skill.teacher.get(locale) }}
+    </p>
+    <p class="mission-ticks-note">{{ t("missions.ticks_note") }}</p>
+  </article>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/missions.js" defer></script>
+{% endblock %}

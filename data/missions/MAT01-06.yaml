@@ -1,0 +1,82 @@
+---
+# Missions for matematikk: the goals kept off screen (docs/design/subjects/
+# matematikk.md, "Goals kept off screen"), practised away from it. One skill
+# each, and only skills marked `assessable: false` in data/skills/MAT01-06.yaml.
+# Drafts until a human sets `reviewed: true`.
+subject: MAT01-06
+missions:
+  - id: mat.count-in-twos-and-fives
+    skill: mat.counting.explore-numbers
+    title: {nob: "Tell i toere og femmere hjemme", eng: "Count in twos and fives at home"}
+    steps:
+      - {nob: "Tell skoene i gangen to og to.", eng: "Count the shoes in the hall two at a time."}
+      - {nob: "Tell fingrene til alle hjemme fem og fem.", eng: "Count everyone's fingers at home five at a time."}
+      - {nob: "Skriv ned de to tallene du kom til.", eng: "Write down the two numbers you reached."}
+    confirm: self
+    reviewed: false
+
+  - id: mat.numbers-on-a-walk
+    skill: mat.counting.explore-numbers
+    title: {nob: "Tall på tur", eng: "Numbers on a walk"}
+    steps:
+      - {nob: "Gå en tur ute eller i skolegården.", eng: "Go for a walk outside or in the playground."}
+      - {nob: "Finn tre ting du kan telle, for eksempel kongler eller vinduer.", eng: "Find three things you can count, such as pine cones or windows."}
+      - {nob: "Klapp en rytme og tell klappene.", eng: "Clap a rhythm and count the claps."}
+      - {nob: "Vis en voksen hva du talte.", eng: "Show an adult what you counted."}
+    confirm: teacher
+    reviewed: false
+
+  - id: mat.what-works-in-a-solution
+    skill: mat.add-subtract.judge-solutions
+    title: {nob: "Hva virker i en annens løsning?", eng: "What works in someone else's solution?"}
+    steps:
+      - {nob: "Bytt løsning på én oppgave med en partner.", eng: "Swap your solution to one task with a partner."}
+      - {nob: "Si én ting som stemmer i partnerens løsning.", eng: "Say one thing that holds in your partner's solution."}
+      - {nob: "Si én ting som kunne vært gjort annerledes, og hvorfor.", eng: "Say one thing that could be done differently, and why."}
+    confirm: teacher
+    card: feedback
+    reviewed: false
+
+  - id: mat.board-game-patterns
+    skill: mat.shape-space.patterns-in-games
+    title: {nob: "Mønster i et brettspill", eng: "Patterns in a board game"}
+    steps:
+      - {nob: "Spill et brettspill med noen i klassen.", eng: "Play a board game with others in the class."}
+      - {nob: "Se etter en regel eller et mønster i spillet.", eng: "Look for a rule or a pattern in the game."}
+      - {nob: "Forklar mønsteret, for eksempel om det lønner seg å starte.", eng: "Explain the pattern, for example whether it helps to go first."}
+    confirm: teacher
+    reviewed: false
+
+  - id: mat.compare-trip-plans
+    skill: mat.money-modelling.judge-solutions
+    title: {nob: "Klassetur for 500 kroner", eng: "A class trip for 500 kroner"}
+    steps:
+      - {nob: "Lag en plan i gruppa for en klassetur som koster høyst 500 kr.", eng: "In your group, plan a class trip that costs at most 500 kr."}
+      - {nob: "Bytt plan med en annen gruppe.", eng: "Swap plans with another group."}
+      - {nob: "Regn etter om den andre planen holder seg innenfor 500 kr.", eng: "Check whether the other plan stays within 500 kr."}
+      - {nob: "Si hvilken plan som holder best, og gi grunner.", eng: "Say which plan holds up better, and give reasons."}
+    confirm: teacher
+    card: feedback
+    reviewed: false
+
+  - id: mat.compare-phone-plans
+    skill: mat.money-modelling.judge-solutions
+    title: {nob: "Sammenlign to mobilabonnement", eng: "Compare two phone plans"}
+    steps:
+      - {nob: "Finn to mobilabonnement med ulik pris og datamengde.", eng: "Find two phone plans with different prices and data."}
+      - {nob: "Regn ut hva hvert koster for ett år.", eng: "Work out what each costs for a year."}
+      - {nob: "Si hvilket du ville valgt og hvorfor.", eng: "Say which you would choose and why."}
+    confirm: teacher
+    reviewed: false
+
+  - id: mat.money-project
+    skill: mat.money-modelling.exploratory-assignment
+    title: {nob: "Et eget pengeprosjekt", eng: "A money project of your own"}
+    steps:
+      - {nob: "Velg noe du vil spare til, og finn prisen.", eng: "Choose something you want to save for, and find its price."}
+      - {nob: "Lag en plan for hvor mye du sparer hver måned.", eng: "Make a plan for how much you save each month."}
+      - {nob: "Regn ut hvor lang tid det tar, med og uten rente.", eng: "Work out how long it takes, with and without interest."}
+      - {nob: "Presenter planen og si hvor modellen slutter å stemme.", eng: "Present the plan and say where the model stops being right."}
+    confirm: teacher
+    card: method
+    reviewed: false

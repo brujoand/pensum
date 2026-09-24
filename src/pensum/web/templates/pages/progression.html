@@ -22,6 +22,9 @@
       <p class="note note--draft">{{ t("progression.drafts_note", count=draft_count, total=skill_count) }}</p>
     {% endif %}
     <p class="verbatim-note">{{ t("curriculum.verbatim_note") }}</p>
+    {% if missions %}
+      <p><a href="/{{ locale }}/progresjon/{{ subject.code }}/oppdrag">{{ t("missions.list_cta") }}</a></p>
+    {% endif %}
 
     {# Wider than the page on any screen: nine checkpoints of prose do not fit a
        reading measure. The region scrolls on its own, and takes focus so the
@@ -63,6 +66,13 @@
                                 <span class="badge">{{ t("progression.off_screen") }}</span>
                               {% endif %}
                             </p>
+                          {% endif %}
+                          {% if missions.get(skill.id) %}
+                            <ul class="skill-missions">
+                              {% for mission in missions[skill.id] %}
+                                <li><a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ t("missions.link", title=mission.title.get(locale)) }}</a></li>
+                              {% endfor %}
+                            </ul>
                           {% endif %}
                           <p class="skill-teacher">
                             <span class="skill-label">{{ t("progression.teacher_label") }}</span>

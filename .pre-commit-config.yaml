@@ -106,6 +106,16 @@ repos:
         files: ^(data/(skills|curriculum)/|src/pensum/skills/)
         pass_filenames: false
 
+      # A mission is filed under a skill, so renaming the skill, or making it
+      # assessable on screen, strands the mission on no page at all. Checked
+      # whenever either side changes.
+      - id: validate-missions
+        name: Validate missions against the skills they serve
+        entry: uv run python -m pensum.missions.validate
+        language: system
+        files: ^(data/(missions|skills|curriculum)/|src/pensum/missions/)
+        pass_filenames: false
+
       # The same failure mode for reading passages, plus one of its own: a
       # checkpoint with passages but no speed band would show a pupil a pace
       # with nothing to read it against.

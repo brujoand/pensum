@@ -1,0 +1,28 @@
+{# One printable card. The shape comes from `pensum.missions.cards`, the words
+   from the locale files, so every mission that uses a card prints the same
+   card. `question` is set only for a question card that carries one. #}
+<section class="mission-card mission-card--{{ card.kind }}" aria-labelledby="card-{{ card.kind }}">
+  <h2 id="card-{{ card.kind }}" class="mission-card-title">{{ t(card.key("title")) }}</h2>
+  <p class="mission-card-intro">{{ t(card.key("intro")) }}</p>
+  {% if question %}
+    <p class="mission-card-question">
+      <span class="skill-label">{{ t("missions.question_label") }}</span>
+      {{ question.get(locale) }}
+    </p>
+  {% endif %}
+  <ol class="mission-card-steps">
+    {% for key in card.step_keys %}
+      <li>
+        {{ t(key) }}
+        {% if card.write_in %}<span class="mission-card-write" aria-hidden="true"></span>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+  {% if card.starters %}
+    <ul class="mission-card-starters">
+      {% for key in card.starter_keys %}
+        <li>{{ t(key) }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>

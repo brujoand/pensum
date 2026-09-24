@@ -1,0 +1,374 @@
+---
+# Missions for norsk: the goals a screen does not check, practised off screen.
+# One skill each, and only skills marked `assessable: false` in
+# data/skills/NOR01-08.yaml. Drafts until a human sets `reviewed: true`.
+#
+# Two such skills have no mission on purpose: nor.sources.self-in-digital-media
+# and nor.language.digital-media-language are a classroom discussion the design
+# keeps out of Pensum (docs/design/subjects/norsk.md, the last Missions row).
+subject: NOR01-08
+missions:
+  # --- etter 2. trinn --------------------------------------------------------
+  - id: nor.borrow-a-book
+    skill: nor.reading.library-book
+    title: {nob: "Lån en bok du har valgt selv", eng: "Borrow a book you chose yourself"}
+    steps:
+      - {nob: "Gå på biblioteket.", eng: "Go to the library."}
+      - {nob: "Velg en bok du har lyst til å lese.", eng: "Choose a book you want to read."}
+      - {nob: "Lån den.", eng: "Borrow it."}
+      - {nob: "Skriv tittelen i leseloggen din.", eng: "Write its title in your reading log."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.type-my-name
+    skill: nor.handwriting.type-words
+    title: {nob: "Skriv navnet ditt på tastaturet", eng: "Type your name on the keyboard"}
+    steps:
+      - {nob: "Skriv navnet ditt med stor forbokstav.", eng: "Type your name with a capital first letter."}
+      - {nob: "Trykk på mellomrom.", eng: "Press the space bar."}
+      - {nob: "Skriv tre korte ord med mellomrom mellom.", eng: "Type three short words with spaces between them."}
+    confirm: self
+    reviewed: false
+
+  - id: nor.what-happened
+    skill: nor.writing.write-short-account
+    title: {nob: "Skriv om noe som skjedde", eng: "Write about something that happened"}
+    steps:
+      - {nob: "Tenk på noe som skjedde med deg.", eng: "Think of something that happened to you."}
+      - {nob: "Skriv én setning om starten.", eng: "Write one sentence about the start."}
+      - {nob: "Skriv én setning om hva som skjedde.", eng: "Write one sentence about what happened."}
+      - {nob: "Skriv én setning om slutten.", eng: "Write one sentence about the end."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.picture-and-sentence
+    skill: nor.writing.text-and-pictures
+    title: {nob: "Tegning og setning om det samme", eng: "A drawing and a sentence about the same thing"}
+    steps:
+      - {nob: "Tegn noe du liker.", eng: "Draw something you like."}
+      - {nob: "Skriv én setning under som forteller om tegningen.", eng: "Write one sentence underneath about the drawing."}
+      - {nob: "Vis det til noen og les setningen.", eng: "Show it to someone and read the sentence."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.make-something-from-the-story
+    skill: nor.literature.creative-response
+    title: {nob: "Lag noe fra fortellingen", eng: "Make something from the story"}
+    steps:
+      - {nob: "Tenk på en fortelling du har hørt eller lest.", eng: "Think of a story you have heard or read."}
+      - {nob: "Tegn, spill eller bygg noe fra den.", eng: "Draw, act or build something from it."}
+      - {nob: "Vis det til noen og si hvilken del av fortellingen det er.", eng: "Show it to someone and say which part of the story it is."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.kind-and-unkind
+    skill: nor.language.words-affect-others
+    title: {nob: "Snill og uvennlig måte å si det på", eng: "A kind and an unkind way to say it"}
+    steps:
+      - {nob: "Velg én ting du vil si til en venn.", eng: "Choose one thing you want to say to a friend."}
+      - {nob: "Finn en snill måte å si det på.", eng: "Find a kind way to say it."}
+      - {nob: "Finn en uvennlig måte å si det samme på.", eng: "Find an unkind way to say the same thing."}
+      - {nob: "Si hvordan vennen ville følt seg etter hver av dem.", eng: "Say how the friend would feel after each one."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.turn-card-talk
+    skill: nor.talking.take-turns
+    title: {nob: "Samtale med turkortet", eng: "A talk with the turn card"}
+    steps:
+      - {nob: "Snakk med en partner om et tema læreren gir.", eng: "Talk with a partner about a topic the teacher gives."}
+      - {nob: "Lytt til partneren helt til hun eller han er ferdig.", eng: "Listen to your partner until they have finished."}
+      - {nob: "Si det partneren sa, med dine ord.", eng: "Say what your partner said, in your own words."}
+      - {nob: "Legg til én ting.", eng: "Add one thing."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: nor.because
+    skill: nor.talking.give-a-reason
+    title: {nob: "Si hva du mener, og hvorfor", eng: "Say what you think, and why"}
+    steps:
+      - {nob: "Tenk på noe du liker eller ikke liker.", eng: "Think of something you like or do not like."}
+      - {nob: "Si det med «fordi»: Jeg liker vinter fordi …", eng: "Say it with because: I like winter because …"}
+      - {nob: "Gjør det samme med en ting til.", eng: "Do the same with one more thing."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  # --- etter 4. trinn --------------------------------------------------------
+  - id: nor.choose-a-book-that-fits
+    skill: nor.reading.choose-library-book
+    title: {nob: "Velg en bok som passer deg", eng: "Choose a book that suits you"}
+    steps:
+      - {nob: "Finn en bok om noe du er interessert i.", eng: "Find a book about something you are interested in."}
+      - {nob: "Les én side. Tell ordene du ikke kan.", eng: "Read one page. Count the words you do not know."}
+      - {nob: "Er det mer enn fem, velg en annen bok.", eng: "If there are more than five, choose another book."}
+      - {nob: "Skriv boka i leseloggen din.", eng: "Write the book in your reading log."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.type-three-sentences
+    skill: nor.handwriting.type-short-texts
+    title: {nob: "Skriv tre setninger på tastaturet", eng: "Type three sentences on the keyboard"}
+    steps:
+      - {nob: "Skriv tre setninger om dagen din.", eng: "Type three sentences about your day."}
+      - {nob: "Bruk skift for stor bokstav først i hver setning.", eng: "Use shift for a capital letter at the start of each sentence."}
+      - {nob: "Sett punktum til slutt i hver setning.", eng: "Put a full stop at the end of each sentence."}
+    confirm: self
+    reviewed: false
+
+  - id: nor.describe-and-say-why
+    skill: nor.writing.describe-and-give-reasons
+    title: {nob: "Beskriv og begrunn", eng: "Describe and give reasons"}
+    steps:
+      - {nob: "Velg en ting, et sted eller et dyr.", eng: "Choose a thing, a place or an animal."}
+      - {nob: "Skriv tre setninger som beskriver det.", eng: "Write three sentences that describe it."}
+      - {nob: "Skriv hva du mener om det, med minst én grunn.", eng: "Write what you think of it, with at least one reason."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.poster
+    skill: nor.writing.multimedia-poster
+    title: {nob: "Lag en plakat", eng: "Make a poster"}
+    steps:
+      - {nob: "Velg et tema og skriv en overskrift.", eng: "Choose a topic and write a heading."}
+      - {nob: "Tegn eller finn et bilde som viser temaet.", eng: "Draw or find a picture that shows the topic."}
+      - {nob: "Skriv to setninger som passer til bildet.", eng: "Write two sentences that go with the picture."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.what-the-text-made-me-think
+    skill: nor.literature.what-text-means
+    title: {nob: "Hva teksten fikk meg til å tenke på", eng: "What the text made me think of"}
+    steps:
+      - {nob: "Les en fortelling, et dikt eller en oversatt tekst.", eng: "Read a story, a poem or a translated text."}
+      - {nob: "Skriv hva den fikk deg til å tenke på.", eng: "Write what it made you think of."}
+      - {nob: "Pek på stedet i teksten som gjorde det.", eng: "Point to the place in the text that did it."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.show-the-text
+    skill: nor.literature.present-a-text
+    title: {nob: "Vis teksten med drama eller tegning", eng: "Show the text with drama or drawing"}
+    steps:
+      - {nob: "Velg én del av en tekst du har lest.", eng: "Choose one part of a text you have read."}
+      - {nob: "Lag et lite skuespill eller en tegning av den delen.", eng: "Make a short play or a drawing of that part."}
+      - {nob: "Vis det, og si hvilken del av teksten det er fra.", eng: "Show it, and say which part of the text it comes from."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.three-words-from-an-adult
+    skill: nor.language.local-dialects
+    title: {nob: "Hvordan sier du det?", eng: "How do you say it?"}
+    steps:
+      - {nob: "Spør en voksen hvordan hun eller han sier «jeg», «ikke» og «hvem».", eng: "Ask an adult how they say «jeg», «ikke» and «hvem»."}
+      - {nob: "Skriv ned de tre ordene slik de ble sagt.", eng: "Write the three words down the way they were said."}
+      - {nob: "Vis dem til klassen.", eng: "Show them to the class."}
+    confirm: teacher
+    card: interview
+    reviewed: false
+
+  - id: nor.friend-and-headteacher
+    skill: nor.language.adapt-to-situation
+    title: {nob: "Til en venn og til rektor", eng: "To a friend and to the headteacher"}
+    steps:
+      - {nob: "Velg én beskjed, for eksempel at du kommer for sent.", eng: "Choose one message, for example that you will be late."}
+      - {nob: "Skriv hvordan du sier det til en venn.", eng: "Write how you say it to a friend."}
+      - {nob: "Skriv hvordan du sier det til rektor.", eng: "Write how you say it to the headteacher."}
+      - {nob: "Si hvorfor de er forskjellige.", eng: "Say why they are different."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.ask-a-follow-up
+    skill: nor.talking.follow-up-questions
+    title: {nob: "Still et oppfølgingsspørsmål", eng: "Ask a follow-up question"}
+    steps:
+      - {nob: "La en partner fortelle om noe hun eller han har gjort.", eng: "Let a partner tell you about something they did."}
+      - {nob: "Still ett spørsmål om det, for eksempel «hvorfor?» eller «hva skjedde så?».", eng: "Ask one question about it, such as «why?» or «what happened next?»."}
+      - {nob: "Bytt roller.", eng: "Swap roles."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: nor.one-minute-three-pictures
+    skill: nor.talking.present-with-pictures
+    title: {nob: "Ett minutt, tre bildekort", eng: "One minute, three picture cards"}
+    steps:
+      - {nob: "Velg tre bilder om ett tema.", eng: "Choose three pictures about one topic."}
+      - {nob: "Øv på å si én ting om hvert bilde.", eng: "Practise saying one thing about each picture."}
+      - {nob: "Presenter i ett minutt, ett bilde om gangen.", eng: "Present for one minute, one picture at a time."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 7. trinn --------------------------------------------------------
+  - id: nor.one-handwritten-page
+    skill: nor.handwriting.fluent-handwriting
+    title: {nob: "En side for hånd", eng: "One page by hand"}
+    steps:
+      - {nob: "Skriv en hel side for hånd om et tema du velger.", eng: "Write a whole page by hand on a topic you choose."}
+      - {nob: "Hold jevn fart fra første til siste linje.", eng: "Keep an even pace from the first line to the last."}
+      - {nob: "La en annen lese siden og si om alt er lett å lese.", eng: "Let someone else read it and say whether it is all easy to read."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.eyes-on-the-screen
+    skill: nor.handwriting.fluent-typing
+    title: {nob: "Øynene på skjermen", eng: "Eyes on the screen"}
+    steps:
+      - {nob: "Legg fingrene på grunnlinja på tastaturet.", eng: "Put your fingers on the home row of the keyboard."}
+      - {nob: "Skriv av et avsnitt mens du ser på skjermen.", eng: "Copy a paragraph while looking at the screen."}
+      - {nob: "Gjør det en gang i uka i en måned.", eng: "Do it once a week for a month."}
+    confirm: self
+    reviewed: false
+
+  - id: nor.three-genres
+    skill: nor.writing.write-in-genres
+    title: {nob: "Én hendelse, tre sjangre", eng: "One event, three genres"}
+    steps:
+      - {nob: "Velg én hendelse.", eng: "Choose one event."}
+      - {nob: "Skriv den som en kort fortelling.", eng: "Write it as a short story."}
+      - {nob: "Skriv den som en kort fagtekst.", eng: "Write it as a short factual text."}
+      - {nob: "Skriv hva du mener om den, som et kort meningsinnlegg.", eng: "Write what you think of it as a short opinion piece."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.feedback-card
+    skill: nor.writing.peer-feedback
+    title: {nob: "Tilbakemelding med kortet", eng: "Feedback with the card"}
+    steps:
+      - {nob: "Les teksten til en medelev.", eng: "Read a classmate's text."}
+      - {nob: "Gi én «dette virker» og én «prøv dette» med tilbakemeldingskortet.", eng: "Give one «this works» and one «try this» with the feedback card."}
+      - {nob: "Ta imot en tilbakemelding på din egen tekst.", eng: "Receive feedback on your own text."}
+      - {nob: "Endre én ting i teksten din ut fra den.", eng: "Change one thing in your text because of it."}
+    confirm: teacher
+    card: feedback
+    reviewed: false
+
+  - id: nor.picture-does-more
+    skill: nor.writing.multimedia-texts
+    title: {nob: "Bildet sier noe teksten ikke sier", eng: "The picture says what the text does not"}
+    steps:
+      - {nob: "Lag en tekst med minst ett bilde.", eng: "Make a text with at least one picture."}
+      - {nob: "Sjekk at bildet ikke bare gjentar teksten.", eng: "Check that the picture does not only repeat the text."}
+      - {nob: "Skriv én setning om hva bildet viser som ordene ikke gjør.", eng: "Write one sentence on what the picture shows that the words do not."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.dialect-interview
+    skill: nor.language.dialect-interview
+    title: {nob: "Dialektintervju", eng: "Dialect interview"}
+    steps:
+      - {nob: "Finn en voksen som kommer fra et annet sted i landet.", eng: "Find an adult who comes from another part of the country."}
+      - {nob: "Spør hvordan hun eller han sier tre ord du velger.", eng: "Ask how they say three words you choose."}
+      - {nob: "Skriv ordene ned ved siden av hvordan du sier dem selv.", eng: "Write the words down next to how you say them yourself."}
+      - {nob: "Si hva som er likt og hva som er ulikt.", eng: "Say what is the same and what differs."}
+    confirm: teacher
+    card: interview
+    reviewed: false
+
+  - id: nor.sami-text-values
+    skill: nor.language.sami-texts
+    title: {nob: "Hva er viktig i en samisk tekst?", eng: "What matters in a Sami text?"}
+    steps:
+      - {nob: "Les en samisk tekst på norsk.", eng: "Read a Sami text in Norwegian."}
+      - {nob: "Finn ett sted i teksten som viser noe som er viktig for folkene i den.", eng: "Find one place in the text that shows something important to the people in it."}
+      - {nob: "Snakk med en partner om hva det er.", eng: "Talk with a partner about what it is."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.my-language-and-me
+    skill: nor.language.language-and-identity
+    title: {nob: "Språket mitt og meg", eng: "My language and me"}
+    steps:
+      - {nob: "Skriv tre ord du bruker som ikke alle bruker.", eng: "Write three words you use that not everyone uses."}
+      - {nob: "Skriv hvor du har dem fra.", eng: "Write where you got them from."}
+      - {nob: "Si hva de betyr for deg.", eng: "Say what they mean to you."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.agree-and-add
+    skill: nor.talking.build-on-others
+    title: {nob: "Bygg videre på det andre sier", eng: "Build on what others say"}
+    steps:
+      - {nob: "Delta i en gruppesamtale om et tema.", eng: "Take part in a group talk on a topic."}
+      - {nob: "Bruk turkortet: «Jeg er enig med … fordi …»", eng: "Use the turn card: «I agree with … because …»"}
+      - {nob: "Legg til et nytt poeng hver gang du snakker.", eng: "Add a new point each time you speak."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: nor.school-topic-talk
+    skill: nor.talking.present-a-topic
+    title: {nob: "Foredrag om et skoletema", eng: "A talk on a school topic"}
+    steps:
+      - {nob: "Velg et tema fra et fag.", eng: "Choose a topic from a subject."}
+      - {nob: "Lag en innledning, en hoveddel og en avslutning.", eng: "Make an introduction, a body and a conclusion."}
+      - {nob: "Skriv bare stikkord på lysbildene eller arket.", eng: "Write only key words on the slides or the sheet."}
+      - {nob: "Hold foredraget for klassen.", eng: "Give the talk to the class."}
+    confirm: teacher
+    reviewed: false
+
+  # --- etter 10. trinn -------------------------------------------------------
+  - id: nor.how-i-read
+    skill: nor.reading.reflect-on-strategies
+    title: {nob: "Hvordan jeg leste", eng: "How I read"}
+    steps:
+      - {nob: "Les et kapittel i en roman og et kapittel i en fagbok.", eng: "Read a chapter of a novel and a chapter of a textbook."}
+      - {nob: "Noter hvor du leste raskt og hvor du gikk tilbake.", eng: "Note where you read quickly and where you went back."}
+      - {nob: "Forklar for en partner hvorfor du leste dem forskjellig.", eng: "Explain to a partner why you read them differently."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.fairy-tale-news
+    skill: nor.writing.experiment-with-genre
+    title: {nob: "Eventyret som nyhetssak", eng: "The fairy tale as news"}
+    steps:
+      - {nob: "Velg et eventyr.", eng: "Choose a fairy tale."}
+      - {nob: "Skriv det som en nyhetsartikkel med tittel, ingress og kilder.", eng: "Write it as a news article with a headline, a lead and sources."}
+      - {nob: "Marker to trekk fra eventyret og to fra nyheten.", eng: "Mark two features from the fairy tale and two from the news."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.justify-the-form
+    skill: nor.writing.justify-multimedia
+    title: {nob: "Begrunn hvert valg", eng: "Justify each choice"}
+    steps:
+      - {nob: "Lag en sammensatt tekst med bilde, lyd og skrift.", eng: "Make a multimedia text with picture, sound and writing."}
+      - {nob: "Skriv én setning om hvorfor du valgte hvert element.", eng: "Write one sentence on why you chose each element."}
+      - {nob: "Presenter valgene for en partner.", eng: "Present the choices to a partner."}
+    confirm: teacher
+    reviewed: false
+
+  - id: nor.young-lives-in-two-texts
+    skill: nor.literature.young-lives
+    title: {nob: "Unge liv i to tekster", eng: "Young lives in two texts"}
+    steps:
+      - {nob: "Les to tekster der hovedpersonen er ung.", eng: "Read two texts where the main character is young."}
+      - {nob: "Skriv hvordan livet til de unge blir vist i hver av dem.", eng: "Write how young people's lives are shown in each."}
+      - {nob: "Diskuter i en gruppe om det stemmer med det dere kjenner til.", eng: "Discuss in a group whether it matches what you know."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: nor.where-prejudice-comes-from
+    skill: nor.language.language-attitudes
+    title: {nob: "Hvor kommer holdninger til språk fra?", eng: "Where do attitudes to language come from?"}
+    steps:
+      - {nob: "Finn to eksempler på at noen har fordommer mot en dialekt eller et språk.", eng: "Find two examples of someone being prejudiced about a dialect or a language."}
+      - {nob: "Skriv hvor du tror hver fordom kommer fra.", eng: "Write where you think each prejudice comes from."}
+      - {nob: "Diskuter eksemplene i gruppa.", eng: "Discuss the examples in your group."}
+    confirm: teacher
+    card: turn
+    reviewed: false
+
+  - id: nor.argue-with-terms
+    skill: nor.talking.argue-with-terms
+    title: {nob: "Argumenter med fagbegreper", eng: "Argue with subject terms"}
+    steps:
+      - {nob: "Velg en påstand fra et fag og skriv to argumenter for den.", eng: "Choose a claim from a subject and write two arguments for it."}
+      - {nob: "Bruk minst to fagbegreper i argumentene.", eng: "Use at least two subject terms in the arguments."}
+      - {nob: "Skriv ett motargument og svar på det.", eng: "Write one counter-argument and answer it."}
+      - {nob: "Legg fram argumentene i en debatt i klassen.", eng: "Put the arguments forward in a class debate."}
+    confirm: teacher
+    card: turn
+    reviewed: false

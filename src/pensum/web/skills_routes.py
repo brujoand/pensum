@@ -23,6 +23,7 @@ from fastapi.responses import HTMLResponse
 from pensum.domain.models import Goal, Subject
 from pensum.skills.loader import SkillLibrary
 from pensum.skills.schema import Skill, SkillFile, Strand
+from pensum.web.missions_routes import missions_by_skill
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter()
@@ -92,5 +93,6 @@ async def progression_page(request: Request, locale: str, subject_code: str) -> 
             rows=rows,
             skill_count=len(skill_file.skills),
             draft_count=sum(1 for skill in skill_file.skills if not skill.reviewed),
+            missions=missions_by_skill(request, subject.code),
         ),
     )

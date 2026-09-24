@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t(card.key("title")) }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a>
+  </nav>
+
+  <div class="mission-page mission-page--card">
+    {% include "partials/mission_card.html" %}
+  </div>
+{% endblock %}

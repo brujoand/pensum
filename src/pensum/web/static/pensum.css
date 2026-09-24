@@ -2016,3 +2016,269 @@ main:has(.progression-page) {
 .progression-cta .field-help {
   display: block;
 }
+
+/* Questions answered with the hands: counters, ten-frames, base-ten blocks,
+   arrays and balances (`pensum.items.primitives`).
+
+   The board is the same kind of server-drawn SVG as a figure, and follows the
+   same rule: no colour in the markup, every colour a variable from the top of
+   this file, so dark mode and high contrast reach it without it knowing. And
+   no colour carries meaning on its own (activity rule 8): a picked-up piece is
+   marked by a thicker dashed outline, a keyboard cursor by a heavy frame, an
+   empty place by a dashed one. */
+.activity {
+  margin-bottom: 1.25rem;
+}
+
+.activity-hint {
+  margin: 0 0 0.25rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* touch-action stops a drag from scrolling the page with it; see the number
+   line above for why that matters on a phone. */
+.activity-board {
+  margin-bottom: 0.5rem;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.activity-board--static {
+  touch-action: auto;
+  margin: 0.25rem auto 0.5rem;
+}
+
+.activity-board:focus-visible,
+.array-handle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Drop zones: invisible until they matter, then a dashed edge. A zone has a
+   fill so a tap anywhere inside it lands on it, but the fill is the page. */
+.zone {
+  fill: var(--card);
+  fill-opacity: 0;
+  stroke: var(--line);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  cursor: pointer;
+}
+
+.zone.mat,
+.zone.column,
+.zone.pan {
+  fill: var(--quote);
+  fill-opacity: 1;
+}
+
+.zone.cell,
+.zone.grid,
+.zone.strip {
+  stroke: none;
+}
+
+.zone.cell.is-cursor {
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-dasharray: none;
+}
+
+.piece {
+  cursor: grab;
+}
+
+/* `hidden` on an SVG child is not honoured the way it is in HTML. */
+.piece[hidden],
+.array-split[hidden],
+.array-handle[hidden] {
+  display: none;
+}
+
+.piece circle,
+.piece rect {
+  fill: var(--accent);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+/* A rod and a flat show the units they are made of, in the page colour, so
+   what a block is worth can be counted off it. */
+.piece-detail {
+  fill: none;
+  stroke: var(--card);
+  stroke-width: 1;
+}
+
+.piece--cell rect {
+  fill-opacity: 0.3;
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+/* A box is an unknown: hollow, with its mark in it, never a filled block that
+   reads as a weight. */
+.piece--box rect {
+  fill: var(--card);
+  stroke-width: 2.5;
+}
+
+.piece-label {
+  fill: var(--ink);
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.piece.is-selected circle,
+.piece.is-selected rect {
+  stroke-width: 3.5;
+  stroke-dasharray: 3 2;
+}
+
+.piece.is-dragging {
+  pointer-events: none;
+  cursor: grabbing;
+  opacity: 0.85;
+}
+
+.figure-guide-faint {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.figure-split,
+.array-split {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-dasharray: 6 3;
+}
+
+.figure-array-caption {
+  fill: var(--ink);
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.array-handle {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 3;
+  cursor: nwse-resize;
+}
+
+.array-handle.is-dragging {
+  stroke-dasharray: 3 2;
+}
+
+.activity-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.activity-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* The buttons are the keyboard path and the no-aim path, so they are proper
+   targets: at least 44 pixels high, the way WCAG 2.5.5 asks. */
+.activity-button {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.8rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.activity-button:disabled {
+  color: var(--ink-soft);
+  background: var(--card);
+  border-style: dashed;
+  border-color: var(--line);
+  cursor: default;
+}
+
+.activity-button--undo {
+  margin-left: auto;
+}
+
+.activity-readout output {
+  font-weight: 700;
+}
+
+.activity-status {
+  margin: 0;
+  font-weight: 600;
+}
+
+.activity-fallback {
+  display: block;
+}
+
+.activity-fallback span {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* Feedback: what was built beside what was asked. Side by side where there is
+   room, one above the other on a phone. */
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.comparison-side {
+  margin: 0;
+}
+
+.comparison-side figcaption {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.comparison-sentence {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+/* A tipping balance eases into place rather than jumping. Everything else on
+   a board changes by showing and hiding, which needs no motion at all. */
+.balance-beam,
+.balance-pan {
+  transition: transform 250ms ease-out;
+}
+
+.piece circle,
+.piece rect {
+  transition: opacity 150ms ease-out;
+}
+
+/* Reduced motion, and the calm comfort setting: no movement at all, and fades
+   no longer than 150 ms. `data-calm` is set on <html> by the comfort profile,
+   not here. */
+@media (prefers-reduced-motion: reduce) {
+  .balance-beam,
+  .balance-pan {
+    transition: none;
+  }
+}
+
+:root[data-calm] .balance-beam,
+:root[data-calm] .balance-pan {
+  transition: none;
+}

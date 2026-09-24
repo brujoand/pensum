@@ -17,6 +17,8 @@ from pensum import __version__
 from pensum.i18n import SUPPORTED_LOCALES, curriculum_language, translate
 from pensum.items.figures import draw as draw_figure
 from pensum.items.figures import line_geometry
+from pensum.items.primitives import primitive_for
+from pensum.items.primitives import scripts as primitive_scripts
 from pensum.web.deps import current_user, get_settings, sees_unreviewed
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
@@ -44,6 +46,12 @@ templates.env.filters["day"] = _day
 templates.env.globals["draw_figure"] = draw_figure
 # Where a number line's ticks land, for the one figure a pupil answers on.
 templates.env.globals["line_geometry"] = line_geometry
+# Which primitive answers an item, and every script those primitives need. The
+# templates ask the registry rather than branching on `item.type`, so a new
+# primitive reaches the question page, the feedback and the page scripts by
+# being registered. See `pensum.items.primitives`.
+templates.env.globals["primitive_for"] = primitive_for
+templates.env.globals["primitive_scripts"] = primitive_scripts
 
 
 def validate_locale(locale: str) -> None:

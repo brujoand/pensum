@@ -57,6 +57,8 @@ def sign_in(client: TestClient, user: User) -> None:
 
 def correct_response(item: QuizItem) -> str:
     """The right answer, in the form the answer endpoint expects."""
+    if item.activity is not None:
+        return item.activity.serialise(item.activity.solution())
     if item.type == "multiple_choice":
         return next(choice.id for choice in item.choices if choice.correct)
     if item.type in ("numeric", "number_line"):

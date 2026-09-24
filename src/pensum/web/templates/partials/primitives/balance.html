@@ -1,0 +1,19 @@
+{# A pan balance. `pensum.items.primitives.balance`.
+   "Take the same from both sides" is a button, and a drag of a block or a box to
+   "Take away", and a tap on one pan's block then the other pan: three roads to
+   the one move that keeps a balance balanced. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.balance.hint_open" if item.activity.open_box else "activity.balance.hint") }}{% endblock %}
+{% block controls %}
+  {% if not item.activity.open_box %}
+    <span class="activity-group">
+      <button class="activity-button" type="button" data-action="take" data-zone="weights">{{ t("activity.balance.take_weight") }}</button>
+      <button class="activity-button" type="button" data-action="take" data-zone="boxes">{{ t("activity.balance.take_box") }}</button>
+    </span>
+  {% endif %}
+  <span class="activity-group">
+    <span class="activity-readout">{{ t("activity.balance.box_label") }} <output data-box-value>0</output></span>
+    <button class="activity-button" type="button" data-action="box" data-by="1">{{ t("activity.balance.box_more") }}</button>
+    <button class="activity-button" type="button" data-action="box" data-by="-1">{{ t("activity.balance.box_less") }}</button>
+  </span>
+{% endblock %}

@@ -1,0 +1,66 @@
+{# The inside of a primitive's <svg>: its layers, each with strokes, drop zones,
+   pieces and labels.
+
+   Every piece the board could hold is drawn, and the ones not on it yet carry
+   `hidden`. The page's script only ever shows and hides them, so where a
+   counter sits is decided here, once, and a drag cannot put one anywhere the
+   server did not. With `interactive` false -- the pictures in the feedback --
+   the hidden pieces and the trays are left out and the zones are only
+   outlines, since nothing will move.
+
+   No colour anywhere: every part is a class, and the stylesheet decides what a
+   rod or a zone looks like (activity rule 8). Every part is hidden from
+   assistive tech, for the reason `_drawing.html` gives; the wrapper carries the
+   words, and the live status line under the board says what is on it. #}
+{% for layer in board.layers %}
+  <g class="board-layer {{ layer.role }}"{% if layer.transform %} transform="{{ layer.transform }}"{% endif %}>
+    {% for path in layer.paths %}
+      <path class="figure-{{ path.role }}" d="{{ path.d }}" aria-hidden="true" />
+    {% endfor %}
+    {# Zones are drawn in the feedback too: a ring or a column is part of what
+       the pupil built into, even when nothing will be dropped on it. #}
+    {% for zone in layer.zones if interactive or "tray" not in zone.role %}
+      <rect class="{{ zone.role }}"
+            x="{{ "%.2f"|format(zone.x) }}" y="{{ "%.2f"|format(zone.y) }}"
+            width="{{ "%.2f"|format(zone.w) }}" height="{{ "%.2f"|format(zone.h) }}"
+            rx="4"
+            {%- if interactive %} data-drop="{{ zone.name }}"{% if zone.index >= 0 %} data-index="{{ zone.index }}"{% endif %}{% endif %}
+            aria-hidden="true" />
+    {% endfor %}
+    {% for piece in layer.pieces %}
+      {% if interactive or (piece.shown and not piece.zone.startswith("supply")) %}
+        <g class="piece piece--{{ piece.shape }}"
+           data-piece
+           data-zone="{{ piece.zone }}"
+           data-index="{{ piece.index }}"
+           data-row="{{ piece.row }}"
+           data-col="{{ piece.col }}"
+           aria-hidden="true"{% if not piece.shown %} hidden{% endif %}>
+          {% if piece.shape == "counter" %}
+            <circle cx="{{ "%.2f"|format(piece.cx) }}" cy="{{ "%.2f"|format(piece.cy) }}"
+                    r="{{ "%.2f"|format(piece.w / 2) }}" />
+          {% else %}
+            <rect x="{{ "%.2f"|format(piece.x) }}" y="{{ "%.2f"|format(piece.y) }}"
+                  width="{{ "%.2f"|format(piece.w) }}" height="{{ "%.2f"|format(piece.h) }}"
+                  rx="{{ '3' if piece.shape == 'box' else '1' }}" />
+          {% endif %}
+          {% if piece.detail %}<path class="piece-detail" d="{{ piece.detail }}" />{% endif %}
+          {% if piece.label %}
+            <text class="piece-label" data-piece-label
+                  x="{{ "%.2f"|format(piece.cx) }}" y="{{ "%.2f"|format(piece.cy) }}"
+                  font-size="13" text-anchor="middle" dominant-baseline="central">{{ piece.label }}</text>
+          {% endif %}
+        </g>
+      {% endif %}
+    {% endfor %}
+    {% for label in layer.labels %}
+      <text class="figure-{{ label.role }}"
+            x="{{ "%.2f"|format(label.x) }}"
+            y="{{ "%.2f"|format(label.y) }}"
+            font-size="{{ "%.1f"|format(label.size) }}"
+            text-anchor="{{ label.anchor }}"
+            dominant-baseline="{{ label.baseline }}"
+            aria-hidden="true">{{ label.text }}</text>
+    {% endfor %}
+  </g>
+{% endfor %}

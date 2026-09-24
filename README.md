@@ -666,6 +666,53 @@ question rather than an illustration beside it. Adding one to a question that
 was already reviewed changes what that question tests, so it wants the reviewer
 back — `tools/render_figures.py` is what to hand them.
 
+## Answering with your hands
+
+A figure is something to look at. For the early number work it is not enough:
+a child learns what 34 is by putting three tens and four ones down, and learns
+what a ten is by swapping ten ones for one. So some matematikk items are not
+answered by typing at all. The pupil builds the answer on a board and presses
+the same *Sjekk svaret* button as for any other question.
+
+Five boards, each an item `type` with an `activity:` block:
+
+| | the pupil | graded on |
+|---|---|---|
+| `counters` | puts counters on a mat, and shares them into rings | the count, and the group sizes if the item asks for groups |
+| `ten_frame` | fills one or two ten-frames | the count, and optionally the fill order |
+| `base_ten` | puts units, tens and hundreds on a place-value mat, and swaps ten ones for a ten and back | the value, and optionally that no place holds more than nine |
+| `array` | drags the corner of a grid, and can split it with a line | rows and columns, either way round, or only the area |
+| `balance` | fills a box until the scales balance, or takes the same from both sides to find what a box is worth | the value of the box |
+
+**It is declared, like a figure.** `target: 34, accept: canonical` is either
+right or a typo somebody can see, and the board, its geometry and its grading
+live in code (`pensum/items/primitives/`), tested once rather than per item. A
+balance does not even carry its answer: the box's value is worked out from the
+two pans, and a pair of pans with no whole-number answer does not load.
+
+**Nothing is graded until Check.** Undo is always there and never counted.
+Every piece snaps to a place, so a finger three pixels short is not a wrong
+answer. Every drag can also be done as tap-then-tap, and every move has a
+button, which is also the keyboard path. The ten-frame and the grid take the
+arrow keys directly.
+
+**A wrong answer is shown before it is said.** The feedback draws what the pupil
+built next to what the task asked for, and then says it in the plainest words
+there are: *Du laget 43 (4 tiere og 3 enere). Oppgaven var 34 (3 tiere og 4
+enere).* No cross, no buzzer, no shake.
+
+**Without JavaScript it is the same question, typed.** The board is drawn as a
+picture and the pupil types a number: how many counters in each group, how many
+dots to add, what is in the box. That is a real question with the same target,
+graded by the same code, not an error page. What the page submits either way is
+one form field, so the quiz, the nivåtest and the score history know nothing
+about boards.
+
+Adding a sixth is one module and one line in the registry; the module docstring
+in `pensum/items/primitives/__init__.py` says what the module has to provide.
+`tools/render_figures.py` draws every committed board with its answer on it,
+which is the picture the feedback shows a pupil as "what the task asked for".
+
 ## Development
 
 ```bash

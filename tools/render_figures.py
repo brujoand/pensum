@@ -10,6 +10,10 @@ same thing as the words -- can be answered by looking.
     uv run python tools/render_figures.py MAT01-06 > /tmp/f.html
     uv run python tools/render_figures.py --gallery > /tmp/g.html
 
+Hands-on items (`pensum.items.primitives`) are drawn too, as their board with
+the right answer on it, because that board is what the feedback shows a pupil
+as "what the task asked for".
+
 `--gallery` ignores the committed data and draws one of each kind with made-up
 parameters. That is the sheet to look at when changing the geometry itself: it
 covers the shapes and options no item happens to use yet, which is exactly where
@@ -38,6 +42,12 @@ from pensum.items.figures import (  # noqa: E402
     draw,
 )
 from pensum.items.loader import ItemBank  # noqa: E402
+from pensum.items.primitives.array import ArrayActivity  # noqa: E402
+from pensum.items.primitives.balance import BalanceActivity  # noqa: E402
+from pensum.items.primitives.base import Board  # noqa: E402
+from pensum.items.primitives.base_ten import BaseTenActivity  # noqa: E402
+from pensum.items.primitives.counters import CountersActivity  # noqa: E402
+from pensum.items.primitives.ten_frame import TenFrameActivity  # noqa: E402
 from pensum.items.text import AuthoredText  # noqa: E402
 
 ALT = AuthoredText(nb="Eksempelfigur", en="Example figure")
@@ -139,6 +149,45 @@ def gallery() -> list[tuple[str, object]]:
     ]
 
 
+def boards() -> list[tuple[str, object]]:
+    """One board per primitive, opened and solved: the two states a pupil sees
+    first and the one the feedback draws as the task."""
+    activities = [
+        (
+            "counters: share 12 into 3",
+            CountersActivity(alt=ALT, target=12, start=12, groups=(4, 4, 4)),
+        ),
+        ("counters: count 7", CountersActivity(alt=ALT, target=7)),
+        (
+            "ten_frame: two frames, 13 in order",
+            TenFrameActivity(alt=ALT, frames=2, target=13, order="in_order"),
+        ),
+        (
+            "base_ten: 34 from 2 tens and 14 ones",
+            BaseTenActivity(alt=ALT, target=34, start={"tens": 2, "ones": 14}),
+        ),
+        ("base_ten: 134 with flats", BaseTenActivity(alt=ALT, target=134, flats=True)),
+        ("array: 3 by 7 split after 5", ArrayActivity(alt=ALT, rows=3, cols=7, split=5)),
+        (
+            "balance: open box",
+            BalanceActivity(
+                alt=ALT, left={"weights": 7}, right={"boxes": 1, "weights": 5}, open_box=True
+            ),
+        ),
+        (
+            "balance: 3x + 2 = x + 10",
+            BalanceActivity(
+                alt=ALT, left={"boxes": 3, "weights": 2}, right={"boxes": 1, "weights": 10}
+            ),
+        ),
+    ]
+    out: list[tuple[str, object]] = []
+    for caption, activity in activities:
+        out.append((f"{caption} (opens)", activity.board(activity.initial(), "nb")))
+        out.append((f"{caption} (solved)", activity.board(activity.solution(), "nb")))
+    return out
+
+
 def committed(subjects: list[str]) -> list[tuple[str, object]]:
     bank = ItemBank.load(include_unreviewed=True)
     out = []
@@ -146,9 +195,19 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
         if subjects and item_set.subject not in subjects:
             continue
         for item in item_set.items:
+            draft = "" if item.reviewed else "  [DRAFT]"
+            if item.activity is not None:
+                activity = item.activity
+                out.append(
+                    (
+                        f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
+                        f"{item.prompt.nb}",
+                        activity.board(activity.solution(), "nb"),
+                    )
+                )
+                continue
             if item.figure is None:
                 continue
-            draft = "" if item.reviewed else "  [DRAFT]"
             out.append(
                 (
                     f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
@@ -180,6 +239,56 @@ def svg(drawing: Drawing) -> str:
     return "".join(parts)
 
 
+def board_svg(board: Board) -> str:
+    """A primitive's board, with only what is on it: nothing moves here."""
+    parts = [
+        f'<svg class="fig" viewBox="0 0 {board.width:.0f} {board.height:.0f}" '
+        f'role="img" aria-label="{html.escape(board.alt)}">'
+    ]
+    for layer in board.layers:
+        transform = f' transform="{layer.transform}"' if layer.transform else ""
+        parts.append(f"<g{transform}>")
+        parts.extend(f'<path class="fig-{p.role}" d="{p.d}" />' for p in layer.paths)
+        parts.extend(
+            f'<rect class="fig-zone {z.role}" x="{z.x:.2f}" y="{z.y:.2f}" '
+            f'width="{z.w:.2f}" height="{z.h:.2f}" rx="4" />'
+            for z in layer.zones
+        )
+        for piece in layer.pieces:
+            if not piece.shown:
+                continue
+            if piece.shape == "counter":
+                parts.append(
+                    f'<circle class="fig-piece" cx="{piece.cx:.2f}" cy="{piece.cy:.2f}" '
+                    f'r="{piece.w / 2:.2f}" />'
+                )
+            else:
+                parts.append(
+                    f'<rect class="fig-piece fig-{piece.shape}" x="{piece.x:.2f}" y="{piece.y:.2f}" '
+                    f'width="{piece.w:.2f}" height="{piece.h:.2f}" />'
+                )
+            if piece.detail:
+                parts.append(f'<path class="fig-detail" d="{piece.detail}" />')
+            if piece.label:
+                parts.append(
+                    f'<text class="fig-label" x="{piece.cx:.2f}" y="{piece.cy:.2f}" '
+                    f'text-anchor="middle" dominant-baseline="central">{html.escape(piece.label)}</text>'
+                )
+        for label in layer.labels:
+            parts.append(
+                f'<text class="fig-label" x="{label.x:.2f}" y="{label.y:.2f}" '
+                f'font-size="{label.size:.1f}" text-anchor="{label.anchor}" '
+                f'dominant-baseline="{label.baseline}">{html.escape(label.text)}</text>'
+            )
+        parts.append("</g>")
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def picture(figure: object) -> str:
+    return board_svg(figure) if isinstance(figure, Board) else svg(draw(figure, "nb"))
+
+
 STYLE = """
 body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem; background: #fbfaf7; color: #1c2024; }
 .sheet { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.5rem; }
@@ -196,6 +305,16 @@ circle.fig-outline { fill: #fff; }
 circle.fig-fill { fill: #1f5c8b; fill-opacity: 1; }
 circle.fig-mark { fill: #1c2024; stroke: none; }
 .fig-label { fill: #1c2024; }
+.fig-zone { fill: none; stroke: #dfdcd4; stroke-width: 1.5; stroke-dasharray: 4 4; }
+.fig-zone.mat, .fig-zone.column, .fig-zone.pan { fill: #f3f1ec; }
+.fig-zone.cell, .fig-zone.grid, .fig-zone.strip { stroke: none; }
+.fig-piece { fill: #1f5c8b; stroke: #1c2024; stroke-width: 1.5; }
+.fig-box { fill: #fff; stroke-width: 2.5; }
+.fig-cell { fill-opacity: 0.3; stroke-width: 1; }
+.fig-detail { fill: none; stroke: #fff; stroke-width: 1; }
+.fig-guide-faint { fill: none; stroke: #dfdcd4; stroke-width: 1; }
+.fig-split { fill: none; stroke: #1c2024; stroke-width: 3; stroke-dasharray: 6 3; }
+.fig-array-caption { fill: #1c2024; }
 """
 
 
@@ -207,13 +326,13 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    entries = gallery() if args.gallery else committed(args.subjects)
+    entries = gallery() + boards() if args.gallery else committed(args.subjects)
     if not entries:
         print("No figures found.", file=sys.stderr)
         return 1
 
     cards = "\n".join(
-        f"<figure>{svg(draw(figure, 'nb'))}<figcaption>{html.escape(caption)}</figcaption></figure>"
+        f"<figure>{picture(figure)}<figcaption>{html.escape(caption)}</figcaption></figure>"
         for caption, figure in entries
     )
     print(

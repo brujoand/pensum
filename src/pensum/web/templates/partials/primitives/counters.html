@@ -1,0 +1,15 @@
+{# Counters on a mat, and rings to share them into. `pensum.items.primitives.counters`.
+   Every move is a button as well as a tap or a drag: the buttons are the
+   keyboard path, and on a touch screen they are the one that needs no aim. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.counters.hint_groups" if item.activity.groups else "activity.counters.hint") }}{% endblock %}
+{% block controls %}
+  <button class="activity-button" type="button" data-action="move" data-from="supply" data-to="loose">{{ t("activity.counters.add") }}</button>
+  <button class="activity-button" type="button" data-action="move" data-from="loose" data-to="supply">{{ t("activity.counters.remove") }}</button>
+  {% for size in item.activity.groups %}
+    <span class="activity-group">
+      <button class="activity-button" type="button" data-action="add" data-zone="g{{ loop.index0 }}">{{ t("activity.counters.group_add", n=loop.index) }}</button>
+      <button class="activity-button" type="button" data-action="move" data-from="g{{ loop.index0 }}" data-to="loose">{{ t("activity.counters.group_remove", n=loop.index) }}</button>
+    </span>
+  {% endfor %}
+{% endblock %}

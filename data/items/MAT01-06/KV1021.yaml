@@ -343,6 +343,261 @@ items:
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
+
+  # --- Answered with the hands -------------------------------------------
+  # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
+  # board, and without a script the same target is asked as a number.
+
+  - id: KM13241-02
+    goal: KM13241
+    type: counters
+    stage: concrete
+    difficulty: 1
+    prompt:
+      nb: Legg 7 brikker på matta.
+      en: Put 7 counters on the mat.
+    activity:
+      alt:
+        nb: En tom matte med plass til brikker i rader på ti, og en boks med brikker.
+        en: An empty mat with room for counters in rows of ten, and a box of counters.
+      target: 7
+    explanation:
+      nb: 7 er 5 og 2 til. En halv rad på fem og to brikker til er 7.
+      en: 7 is 5 and 2 more. Half a row of five and two more counters is 7.
+    reviewed: false
+
+  - id: KM13231-02
+    goal: KM13231
+    type: counters
+    stage: concrete
+    difficulty: 1
+    prompt:
+      nb: Del 8 brikker i to like store grupper.
+      en: Share 8 counters into two groups of the same size.
+    activity:
+      alt:
+        nb: Åtte brikker på en matte, og to tomme ringer under den.
+        en: Eight counters on a mat, and two empty rings below it.
+      target: 8
+      start: 8
+      groups: [4, 4]
+    explanation:
+      nb: 8 blir 4 og 4. Når et tall kan deles i to like store grupper, er det et partall.
+      en: 8 becomes 4 and 4. When a number splits into two equal groups, it is an even number.
+    reviewed: false
+
+  - id: KM13234-02
+    goal: KM13234
+    type: counters
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Det ligger 6 brikker på matta. Legg på 3 til.
+      en: There are 6 counters on the mat. Put 3 more on it.
+    activity:
+      alt:
+        nb: En matte med seks brikker på, og en boks med flere brikker.
+        en: A mat with six counters on it, and a box with more counters.
+      target: 9
+      start: 6
+    explanation:
+      nb: 6 + 3 = 9. Du kan telle videre fra 6 – 7, 8, 9.
+      en: 6 + 3 = 9. You can count on from 6 – 7, 8, 9.
+    reviewed: false
+
+  - id: KM13241-03
+    goal: KM13241
+    type: ten_frame
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Vis 8 på tierrammen.
+      en: Show 8 on the ten-frame.
+    activity:
+      alt:
+        nb: En tom tierramme med to rader på fem ruter.
+        en: An empty ten-frame with two rows of five squares.
+      target: 8
+    explanation:
+      nb: 8 er en full rad på 5 og 3 til. Da er det 2 tomme ruter, og 8 + 2 = 10.
+      en: 8 is a full row of 5 and 3 more. That leaves 2 empty squares, and 8 + 2 = 10.
+    reviewed: false
+
+  - id: KM13234-03
+    goal: KM13234
+    type: ten_frame
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Det er 7 prikker i rammen. Fyll den opp til 10.
+      en: There are 7 dots in the frame. Fill it up to 10.
+    activity:
+      alt:
+        nb: En tierramme med sju prikker og tre tomme ruter.
+        en: A ten-frame with seven dots and three empty squares.
+      target: 10
+      start: 7
+    explanation:
+      nb: Det var 3 tomme ruter. 7 + 3 = 10.
+      en: There were 3 empty squares. 7 + 3 = 10.
+    reviewed: false
+
+  - id: KM13241-04
+    goal: KM13241
+    type: ten_frame
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Vis 13 på to tierrammer. Fyll den første rammen helt først.
+      en: Show 13 on two ten-frames. Fill the first frame all the way first.
+    activity:
+      alt:
+        nb: To tomme tierrammer, den ene over den andre.
+        en: Two empty ten-frames, one above the other.
+      frames: 2
+      target: 13
+      order: in_order
+    explanation:
+      nb: 13 er en full tier og 3 til. Den første rammen blir full, og den andre får 3 prikker.
+      en: 13 is a full ten and 3 more. The first frame is full, and the second gets 3 dots.
+    reviewed: false
+
+  - id: KM13234-04
+    goal: KM13234
+    type: ten_frame
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Vis 6 + 6 på to tierrammer.
+      en: Show 6 + 6 on two ten-frames.
+    activity:
+      alt:
+        nb: To tomme tierrammer, den ene over den andre.
+        en: Two empty ten-frames, one above the other.
+      frames: 2
+      target: 12
+    explanation:
+      nb: 6 + 6 = 12. Du kan fylle 10 i den første rammen og legge 2 i den andre.
+      en: 6 + 6 = 12. You can fill 10 in the first frame and put 2 in the second.
+    reviewed: false
+
+  - id: KM13232-02
+    goal: KM13232
+    type: base_ten
+    stage: concrete
+    difficulty: 1
+    prompt:
+      nb: Vis 34 med tiere og enere.
+      en: Show 34 with tens and ones.
+    activity:
+      alt:
+        nb: En tom plassverdi-matte med en kolonne for tiere og en for enere.
+        en: An empty place-value mat with a column for tens and one for ones.
+      target: 34
+    explanation:
+      nb: 34 er 3 tiere og 4 enere. 3 tiere er 30, og 30 + 4 = 34.
+      en: 34 is 3 tens and 4 ones. 3 tens is 30, and 30 + 4 = 34.
+    reviewed: false
+
+  - id: KM13232-03
+    goal: KM13232
+    type: base_ten
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Vis 47 med så få klosser som mulig.
+      en: Show 47 with as few blocks as you can.
+    activity:
+      alt:
+        nb: En tom plassverdi-matte med en kolonne for tiere og en for enere.
+        en: An empty place-value mat with a column for tens and one for ones.
+      target: 47
+      accept: canonical
+    explanation:
+      nb: >-
+        Ti enere kan byttes til én tier, så færrest klosser får du med 4 tiere og
+        7 enere.
+      en: >-
+        Ten ones can be swapped for one ten, so the fewest blocks is 4 tens and 7
+        ones.
+    reviewed: false
+
+  - id: KM13232-04
+    goal: KM13232
+    type: base_ten
+    stage: concrete
+    difficulty: 3
+    prompt:
+      nb: Her er 2 tiere og 14 enere. Bytt slik at det blir færre enn 10 enere.
+      en: Here are 2 tens and 14 ones. Swap so there are fewer than 10 ones.
+    activity:
+      alt:
+        nb: En plassverdi-matte med 2 tiere og 14 enere.
+        en: A place-value mat with 2 tens and 14 ones.
+      target: 34
+      accept: canonical
+      start:
+        tens: 2
+        ones: 14
+    explanation:
+      nb: >-
+        10 av de 14 enerne blir én tier. Da er det 3 tiere og 4 enere, og det er
+        fortsatt 34.
+      en: >-
+        10 of the 14 ones become one ten. That makes 3 tens and 4 ones, which is
+        still 34.
+    reviewed: false
+
+  - id: KM13242-02
+    goal: KM13242
+    type: balance
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: "3 + 4 = ☐ + 5. Legg klosser i boksen til vekten er i likevekt."
+      en: "3 + 4 = ☐ + 5. Put blocks in the box until the scales balance."
+    activity:
+      alt:
+        nb: En skålvekt med 7 klosser på venstre side og en tom boks og 5 klosser på høyre side.
+        en: A pan balance with 7 blocks on the left, and an empty box and 5 blocks on the right.
+      left:
+        weights: 7
+      right:
+        boxes: 1
+        weights: 5
+      open_box: true
+    explanation:
+      nb: >-
+        Venstre side er 3 + 4 = 7. Høyre side har 5, så boksen må ha 2. Likhetstegnet
+        betyr at begge sidene er like mye.
+      en: >-
+        The left side is 3 + 4 = 7. The right side has 5, so the box needs 2. The
+        equals sign means both sides are the same amount.
+    reviewed: false
+
+  - id: KM13242-03
+    goal: KM13242
+    type: balance
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: "6 + 2 = 4 + ☐. Legg klosser i boksen til vekten er i likevekt."
+      en: "6 + 2 = 4 + ☐. Put blocks in the box until the scales balance."
+    activity:
+      alt:
+        nb: En skålvekt med 8 klosser på venstre side og 4 klosser og en tom boks på høyre side.
+        en: A pan balance with 8 blocks on the left, and 4 blocks and an empty box on the right.
+      left:
+        weights: 8
+      right:
+        boxes: 1
+        weights: 4
+      open_box: true
+    explanation:
+      nb: Venstre side er 8. Høyre side har 4, og 4 + 4 = 8. Boksen må ha 4.
+      en: The left side is 8. The right side has 4, and 4 + 4 = 8. The box needs 4.
+    reviewed: false
+
 not_assessable:
   - goal: KM13229
     reason: >-

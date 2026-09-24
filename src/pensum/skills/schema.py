@@ -88,6 +88,12 @@ class Skill(BaseModel):
     assessable: bool
     # Always false when authored. A human who has read it sets it true.
     reviewed: bool
+    # Taught, and therefore in the progression guide, but never a reward and
+    # never a cell on the class grid: puberty, abuse, genocide. A teacher does
+    # not need to see which pupil got the puberty question wrong, and a pupil
+    # should not earn a plant for it. No evidence is recorded against it either;
+    # see `pensum.mastery.attribution`. The subject design files say which.
+    sensitive: bool = False
 
     @field_validator("stages")
     @classmethod

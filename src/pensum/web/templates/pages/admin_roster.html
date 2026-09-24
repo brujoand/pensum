@@ -11,6 +11,17 @@
      less. #}
   <p class="note">{{ t("admin.not_a_verdict") }}</p>
 
+  {% if grids %}
+    <nav class="class-grid-links" aria-label="{{ t('mastery.grid.links_label') }}">
+      <h2>{{ t("mastery.grid.links_heading") }}</h2>
+      <ul>
+        {% for subject in grids %}
+          <li><a href="/{{ locale }}/admin/klasse/{{ subject.code }}">{{ subject.display_title.get(lang) }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+
   {% if users %}
     <table class="roster">
       <thead>

@@ -502,7 +502,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/naturfag.md
   - id: nat.body-health.body-differences
     strand: body-health
     checkpoint: 5
@@ -518,8 +517,8 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/naturfag.md
 
-  # sensitive: see docs/design/subjects/naturfag.md
   - id: nat.body-health.human-reproduction
     strand: body-health
     checkpoint: 5
@@ -535,6 +534,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.parts-of-a-system
     strand: technology
@@ -921,7 +921,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/naturfag.md
   - id: nat.body-health.puberty
     strand: body-health
     checkpoint: 7
@@ -937,6 +936,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.program-a-system
     strand: technology
@@ -1387,7 +1387,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/naturfag.md
   - id: nat.body-health.sexual-health
     strand: body-health
     checkpoint: 10
@@ -1403,6 +1402,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.explain-transmitter-receiver
     strand: technology

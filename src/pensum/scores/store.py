@@ -18,7 +18,7 @@ import hashlib
 import json
 import sqlite3
 from collections.abc import Iterator
-from contextlib import contextmanager
+from contextlib import AbstractContextManager, contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -106,6 +106,26 @@ class UserSummary:
         return round(100 * self.correct / self.total) if self.total else 0
 
 
+@contextmanager
+def connect(path: Path) -> Iterator[sqlite3.Connection]:
+    """One connection, in a transaction, closed afterwards.
+
+    Shared with `pensum.scores.evidence`, which keeps its rows in the same file:
+    one file is what an adult copies, inspects or deletes, and two stores
+    opening it two different ways would be two chances to get WAL wrong.
+    """
+    connection = sqlite3.connect(path, timeout=5.0)
+    connection.row_factory = sqlite3.Row
+    try:
+        # A reader must never block on the writer -- an admin refreshing the
+        # roster while a child finishes a quiz is the expected collision.
+        connection.execute("PRAGMA journal_mode=WAL")
+        with connection:
+            yield connection
+    finally:
+        connection.close()
+
+
 class AttemptStore:
     """Reads and writes attempts. One instance per app.
 
@@ -120,18 +140,8 @@ class AttemptStore:
         with self._connect() as connection:
             connection.executescript(SCHEMA)
 
-    @contextmanager
-    def _connect(self) -> Iterator[sqlite3.Connection]:
-        connection = sqlite3.connect(self.path, timeout=5.0)
-        connection.row_factory = sqlite3.Row
-        try:
-            # A reader must never block on the writer -- an admin refreshing the
-            # roster while a child finishes a quiz is the expected collision.
-            connection.execute("PRAGMA journal_mode=WAL")
-            with connection:
-                yield connection
-        finally:
-            connection.close()
+    def _connect(self) -> AbstractContextManager[sqlite3.Connection]:
+        return connect(self.path)
 
     def record(self, attempt: Attempt) -> None:
         """Write an attempt, or do nothing if it is already there.

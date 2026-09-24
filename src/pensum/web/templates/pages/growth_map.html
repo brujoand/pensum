@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% from "partials/growth.html" import growth %}
+
+{% set title = subject.display_title.get(lang) %}
+
+{% block title %}{{ t("mastery.map.title", subject=title) }} · {{ t("site.name") }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a>
+  </nav>
+
+  <div class="growth-page">
+    <h1>{{ t("mastery.map.title", subject=title) }}</h1>
+
+    {% if not recording %}
+      {# The default instance. Said plainly rather than shown as an empty map,
+         which would read as "you have done nothing". #}
+      <p class="note">{{ t("mastery.map.not_stored") }}</p>
+      <p><a href="/{{ locale }}/progresjon/{{ subject.code }}">{{ t("mastery.map.progression_link") }}</a></p>
+    {% elif not user %}
+      <p class="note">{{ t("mastery.map.sign_in_note") }}</p>
+      <p><a href="/auth/login?next={{ request.url.path | urlencode }}">{{ t("auth.sign_in") }}</a></p>
+    {% else %}
+      <p class="growth-intro">{{ t("mastery.map.intro") }}</p>
+
+      {# What makes each one grow, stated in full: a reward nobody can explain
+         is a slot machine. No numbers and no thresholds -- those are for the
+         adult's grid. #}
+      <details class="growth-legend">
+        <summary>{{ t("mastery.map.legend_heading") }}</summary>
+        <ul class="growth-legend-list">
+          {% for state in legend %}
+            <li>
+              {{ growth(state, t("mastery.state." ~ state.key ~ ".glyph")) }}
+              <span>{{ t("mastery.state." ~ state.key ~ ".explain") }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+
+      {% if checkpoints | length > 1 %}
+        <nav class="growth-checkpoints" aria-label="{{ t('mastery.map.checkpoints_label') }}">
+          <ul>
+            {% for year in checkpoints %}
+              <li>
+                <a href="?trinn={{ year }}" {% if year == checkpoint %}aria-current="page"{% endif %}>
+                  {{ t("progression.checkpoint", year=year) }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      {% for entry in strands %}
+        <section class="growth-strand">
+          <h2>{{ entry.strand.title.get(locale) }}</h2>
+          <ul class="growth-spots">
+            {% for spot in entry.spots %}
+              <li class="growth-item">
+                {% if spot.state is not none %}
+                  {{ growth(spot.state, t("mastery.state." ~ spot.state.key ~ ".glyph")) }}
+                {% else %}
+                  {# Nothing grows here by design, and the page says why rather
+                     than showing a spot that can never fill. #}
+                  <span class="growth-none" aria-hidden="true"></span>
+                {% endif %}
+                <p class="growth-i-can">{{ spot.skill.i_can.get(locale) }}</p>
+                {% if spot.state is none %}
+                  <p class="field-help">
+                    {{ t("mastery.map.sensitive") if spot.skill.sensitive else t("mastery.map.off_screen") }}
+                  </p>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

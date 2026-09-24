@@ -790,3 +790,71 @@ missions:
       step2: Hver setning slutter med punktum, spørsmålstegn eller utropstegn.
       step3: Én setning er gjort lengre med og, fordi eller men.
       step4: Les hele teksten høyt én gang til.
+
+mastery:
+  # Elevens kart og lærerens klasseoversikt. Kartet har ingen tall, ingen
+  # prosenter og ingen sammenligning med andre, og det krymper aldri.
+  state:
+    not-started:
+      name: Ikke startet
+      glyph: En tom plass
+      explain: En tom plass betyr at du ikke har prøvd denne ennå.
+    exploring:
+      name: Utforsker
+      glyph: Et frø
+      explain: Et frø betyr at du har prøvd.
+    practising:
+      name: Øver
+      glyph: En spire
+      explain: En spire betyr at du har fått det til.
+    secure:
+      name: Sikker
+      glyph: En plante
+      explain: En plante betyr at du har fått det til mange ganger, på flere dager.
+    retained:
+      name: Husker
+      glyph: En plante med blomst
+      explain: En blomst betyr at du fortsatt kunne det en uke senere.
+  stage:
+    concrete: Med ting
+    pictorial: Med bilder
+    abstract: Med tall og tegn
+    unrecorded: Uten oppgitt trinn
+  map:
+    cta: Se kartet ditt
+    title: "Kartet ditt i {subject}"
+    intro: >-
+      Her vokser det du lærer. Det du har fått til, blir stående, også om en
+      oppgave går dårlig en annen gang.
+    legend_heading: Hva betyr tegnene?
+    checkpoints_label: Velg trinn
+    sensitive: Dette snakker vi om i klassen. Her vokser det ingen plante.
+    off_screen: Dette øver du på utenfor skjermen.
+    not_stored: >-
+      Denne Pensum-siden lagrer ingenting om deg, så det er ikke noe kart som kan
+      vokse her. Du kan fortsatt ta alle quizene.
+    sign_in_note: >-
+      Kartet ditt vokser bare når du er logget inn, fordi det må lagres et sted.
+      Du trenger ikke logge inn for å ta en quiz.
+    progression_link: Se alle ferdighetene i faget
+  grid:
+    title: "Klasseoversikt i {subject}"
+    intro: >-
+      Hver elev på én tråd. Cellene viser hva svarene sier nå, ikke det beste
+      eleven har nådd, og hvilken framstilling eleven sist har fått til.
+    guesses: >-
+      Grensene for «sikker» og «husker» er anslag som skal justeres når det
+      finnes data fra klasserom. Les cellene som et hint om hvem du bør se på,
+      ikke som en vurdering.
+    not_stored: >-
+      Denne Pensum-siden har ingen database, så ingen svar blir lagret og det er
+      ingen oversikt å vise.
+    strands_label: Velg tråd
+    grid_label: Elever og ferdigheter
+    concrete_only: Bare med ting ennå
+    slipped: "Var {state}, se på denne igjen"
+    excluded: >-
+      Sensitive ferdigheter og ferdigheter som øves utenfor skjermen vises ikke
+      her.
+    links_heading: Klasseoversikt
+    links_label: Klasseoversikt per fag

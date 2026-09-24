@@ -347,11 +347,14 @@ items:
   # --- Answered with the hands -------------------------------------------
   # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
   # board, and without a script the same target is asked as a number.
+  # A few name the skill they are evidence for (`skill:`); the rest are
+  # attributed by goal, which is coarser. See `pensum.mastery.attribution`.
 
   - id: KM13241-02
     goal: KM13241
     type: counters
     stage: concrete
+    skill: mat.counting.represent-numbers
     difficulty: 1
     prompt:
       nb: Legg 7 brikker på matta.
@@ -390,6 +393,7 @@ items:
     goal: KM13234
     type: counters
     stage: concrete
+    skill: mat.add-subtract.within-20
     difficulty: 2
     prompt:
       nb: Det ligger 6 brikker på matta. Legg på 3 til.
@@ -409,6 +413,7 @@ items:
     goal: KM13241
     type: ten_frame
     stage: pictorial
+    skill: mat.counting.represent-numbers
     difficulty: 1
     prompt:
       nb: Vis 8 på tierrammen.
@@ -427,6 +432,7 @@ items:
     goal: KM13234
     type: ten_frame
     stage: pictorial
+    skill: mat.add-subtract.within-20
     difficulty: 1
     prompt:
       nb: Det er 7 prikker i rammen. Fyll den opp til 10.
@@ -485,6 +491,7 @@ items:
     goal: KM13232
     type: base_ten
     stage: concrete
+    skill: mat.place-value.tens-and-ones
     difficulty: 1
     prompt:
       nb: Vis 34 med tiere og enere.
@@ -526,6 +533,7 @@ items:
     goal: KM13232
     type: base_ten
     stage: concrete
+    skill: mat.place-value.exchange-tens
     difficulty: 3
     prompt:
       nb: Her er 2 tiere og 14 enere. Bytt slik at det blir færre enn 10 enere.

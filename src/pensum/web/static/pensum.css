@@ -2648,3 +2648,158 @@ main:has(.progression-page) {
     font-size: 9pt;
   }
 }
+
+/* --- Mastery: the pupil's map and the class grid ----------------------------
+   One block, kept together. The glyphs differ by shape, never by colour: every
+   part is drawn in the same two stylesheet colours, so the meaning survives
+   greyscale, dark mode and a printer. Nothing here moves. */
+
+.growth {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+}
+
+.growth-ground {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.growth-spot {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.growth-seed,
+.growth-leaf,
+.growth-heart {
+  fill: var(--accent);
+}
+
+.growth-stem {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.growth-petal {
+  fill: var(--card);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.growth-none {
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+}
+
+.growth-legend {
+  margin: 0 0 1rem;
+}
+
+.growth-legend-list,
+.growth-spots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.growth-legend-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.4rem 0;
+}
+
+.growth-checkpoints ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.growth-checkpoints a[aria-current="page"] {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.growth-strand h2 {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.growth-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.growth-item .growth-i-can {
+  margin: 0;
+}
+
+.growth-item .field-help {
+  grid-column: 2;
+  margin: 0;
+}
+
+.class-grid {
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.class-grid th,
+.class-grid td {
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.class-grid thead th {
+  min-width: 9rem;
+}
+
+.class-grid-skill,
+.class-cell span {
+  display: block;
+}
+
+.class-cell--not-started .class-cell-state {
+  color: var(--ink-soft);
+}
+
+.class-cell-stage {
+  color: var(--ink-soft);
+}
+
+.class-cell-flag {
+  font-weight: 600;
+}
+
+/* The cell the teacher is looking for. A heavier border as well as the words,
+   so it is findable at a glance without relying on a colour. */
+.class-cell--concrete-only {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.class-grid-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  padding: 0;
+}

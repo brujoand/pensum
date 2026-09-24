@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% set title = subject.display_title.get(lang) %}
+
+{% block title %}{{ t("mastery.grid.title", subject=title) }} · {{ t("admin.heading") }}{% endblock %}
+
+{% block content %}
+  <p class="breadcrumb"><a href="/{{ locale }}/admin">{{ t("admin.back") }}</a></p>
+
+  <h1>{{ t("mastery.grid.title", subject=title) }}</h1>
+
+  {% if not recording %}
+    <p class="note">{{ t("mastery.grid.not_stored") }}</p>
+  {% else %}
+    <p class="intro">{{ t("mastery.grid.intro") }}</p>
+    {# Open decision 2 in the design: the thresholds are guesses until there is
+       classroom data, and the page an adult acts on says so. #}
+    <p class="note">{{ t("mastery.grid.guesses") }}</p>
+
+    {% if strands | length > 1 %}
+      <nav class="growth-checkpoints" aria-label="{{ t('mastery.grid.strands_label') }}">
+        <ul>
+          {% for entry in strands %}
+            <li>
+              <a href="?strand={{ entry.id }}" {% if strand and entry.id == strand.id %}aria-current="page"{% endif %}>
+                {{ entry.title.get(locale) }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    {% if strand %}
+      <h2>{{ strand.title.get(locale) }}</h2>
+    {% endif %}
+
+    {% if rows %}
+      <div class="progression-scroll" role="region" tabindex="0"
+           aria-label="{{ t('mastery.grid.grid_label') }}">
+        <table class="class-grid">
+          <thead>
+            <tr>
+              <th scope="col">{{ t("admin.column.pupil") }}</th>
+              {% for skill in skills %}
+                <th scope="col">
+                  <span class="class-grid-skill">{{ skill.i_can.get(locale) }}</span>
+                  <span class="field-help">{{ t("progression.checkpoint", year=skill.checkpoint) }}</span>
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+              <tr>
+                <th scope="row">{{ row.name }}</th>
+                {% for cell in row.cells %}
+                  {# The state is words, not a colour. The concrete-only cell is
+                     marked with a border and a sentence, so it is findable in
+                     greyscale and by a screen reader alike. #}
+                  <td class="class-cell class-cell--{{ cell.current.key }}{{ ' class-cell--concrete-only' if cell.concrete_only else '' }}">
+                    <span class="class-cell-state">{{ t("mastery.state." ~ cell.current.key ~ ".name") }}</span>
+                    {% if cell.furthest_stage %}
+                      <span class="class-cell-stage">{{ t("mastery.stage." ~ cell.furthest_stage) }}</span>
+                    {% elif cell.unstaged_correct %}
+                      <span class="class-cell-stage">{{ t("mastery.stage.unrecorded") }}</span>
+                    {% endif %}
+                    {% if cell.concrete_only %}
+                      <span class="class-cell-flag">{{ t("mastery.grid.concrete_only") }}</span>
+                    {% endif %}
+                    {% if cell.slipped %}
+                      <span class="class-cell-flag">{{ t("mastery.grid.slipped", state=(t("mastery.state." ~ cell.shown.key ~ ".name") | lower)) }}</span>
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="field-help">{{ t("mastery.grid.excluded") }}</p>
+    {% else %}
+      <p class="empty">{{ t("admin.no_attempts") }}</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

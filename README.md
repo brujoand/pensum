@@ -104,9 +104,11 @@ rather than documented as intent:
 - **Only finished quizzes are kept.** An abandoned attempt is not a result and
   leaves nothing behind.
 - **A summary, not a transcript.** What is stored is the checkpoint, the score
-  and the per-goal tally the pupil's own result page shows. Not which answer was
-  given to which question. The tally is what an adult can act on; a log of a
-  seven-year-old's individual mistakes is not.
+  and the per-goal tally the pupil's own result page shows, and one evidence row
+  per answer for the pupil's map (below): which skill, which question, the
+  representation stage it asked for, right or not, and hints used. Not the
+  answer that was given, and not how long it took. The tally and the skill are
+  what an adult can act on; a log of a seven-year-old's actual answers is not.
 - **The pupil is told.** A signed-in pupil's result page says their score was
   saved and that an adult with access can see it.
 
@@ -172,6 +174,48 @@ attempt broken down by competence goal.
 The pages are read-only. There is nothing there to re-grade or delete a child's
 record with — for that, the database is one SQLite file and `sqlite3` is a better
 tool than a web form anyone can misclick.
+
+### The pupil's map and the class grid
+
+Every finished quiz also files its answers under the **skills** they show
+(`data/skills/`, the same skills the progression guide prints). An item can
+name its skill with `skill:`; one that does not counts towards every skill that
+cites its competence goal at that checkpoint, which is coarse — one goal is
+often two or three skills — and gets precise as items are tagged.
+
+The rows are exactly these, in the `evidence` table of the same SQLite file:
+
+| column | what it is |
+|---|---|
+| `attempt` | the quiz it came from, as the same hash the attempt row uses |
+| `user_sub` | the pupil |
+| `skill`, `item` | which skill, from which question |
+| `stage` | concrete, pictorial or abstract, when the question says |
+| `correct` | right or not |
+| `hints` | hints used (always 0 until hints exist) |
+| `recorded_at` | when the quiz was finished |
+
+From those, each skill is in one of five states — not started, exploring,
+practising, secure, retained — by a rule, not a model: *secure* is four of the
+last five right, on at least two days, at two representation stages including
+the skill's last; *retained* is secure and then right again a week later. The
+thresholds are starting guesses and the grid says so. Questions without a stage
+count as the skill's last stage, which makes *secure* easier than intended until
+stages are authored.
+
+- **`/{locale}/kart/{subject}`** is the pupil's own map: each skill as an empty
+  spot, a seed, a sprout, a plant or a flower. It never shrinks — a skill that
+  was secure stays a plant on the map even after a bad day. No numbers, no
+  percentages, nobody else.
+- **`/{locale}/admin/klasse/{subject}`** is the class grid for an admin: pupils
+  down, one strand's skills across, each cell the state the evidence supports
+  *now* and the furthest stage reached. "Practising, with objects only" is
+  marked, and so is a skill that has slipped since it was secure.
+
+Sensitive skills (puberty, abuse, genocide; `sensitive: true` in the skills
+file) are shown on the map without a glyph, never appear on the grid, and have
+no evidence recorded against them at all. Without a database, both pages say
+that nothing is stored rather than showing an empty map.
 
 ## Reviewing drafts
 

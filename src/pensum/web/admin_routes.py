@@ -63,10 +63,18 @@ async def roster(request: Request, locale: str) -> HTMLResponse:
     require_admin(request)
     store = _store_or_404(request)
 
+    # The class grids, one per subject with skills authored. Listed here because
+    # the roster is the page an admin already has open.
+    catalogue = request.app.state.catalogue
+    grids = [
+        catalogue.subject(code)
+        for code in request.app.state.skills.subjects
+        if catalogue.subject(code) is not None
+    ]
     return templates.TemplateResponse(
         request,
         "pages/admin_roster.html",
-        context(request, locale, users=store.users()),
+        context(request, locale, users=store.users(), grids=grids),
     )
 
 

@@ -323,7 +323,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.digital.name-feelings
     strand: digital
     checkpoint: 2
@@ -339,8 +338,8 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.digital.body-and-boundaries
     strand: digital
     checkpoint: 2
@@ -356,6 +355,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # ---------------------------------------------------------------- etter 4.
   - id: saf.sources.search-several-sources
@@ -614,7 +614,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.digital.abuse-and-help
     strand: digital
     checkpoint: 4
@@ -630,6 +629,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # ---------------------------------------------------------------- etter 7.
   - id: saf.sources.research-project
@@ -936,7 +936,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.digital.respect-boundaries
     strand: digital
     checkpoint: 7
@@ -952,6 +951,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # --------------------------------------------------------------- etter 10.
   - id: saf.sources.research-with-method
@@ -1018,7 +1018,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.history.terrorism-and-genocide
     strand: history
     checkpoint: 10
@@ -1034,6 +1033,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   - id: saf.history.views-of-the-past
     strand: history
@@ -1243,7 +1243,6 @@ skills:
     assessable: true
     reviewed: false
 
-  # sensitive: see docs/design/subjects/samfunnsfag.md
   - id: saf.digital.identity-under-influence
     strand: digital
     checkpoint: 10
@@ -1259,6 +1258,7 @@ skills:
     misconceptions: []
     assessable: true
     reviewed: false
+    sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   - id: saf.digital.digital-debate
     strand: digital

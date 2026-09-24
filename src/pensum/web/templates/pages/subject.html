@@ -111,6 +111,14 @@
       <a href="/{{ locale }}/progresjon/{{ subject.code }}">{{ t("progression.cta") }}</a>
       <span class="field-help">{{ t("progression.cta_note") }}</span>
     </p>
+    {# The pupil's own map. Offered only where it can hold something: with no
+       database there is nothing to grow, and the link would lead to a page
+       saying so. #}
+    {% if history_enabled %}
+      <p class="progression-cta">
+        <a href="/{{ locale }}/kart/{{ subject.code }}">{{ t("mastery.map.cta") }}</a>
+      </p>
+    {% endif %}
   {% endif %}
 
   <section>

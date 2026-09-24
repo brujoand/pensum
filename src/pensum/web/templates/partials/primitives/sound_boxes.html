@@ -1,0 +1,18 @@
+{# Sound boxes. `pensum.items.primitives.sound_boxes`.
+   The word is heard, never shown, while there is a voice to say it: the
+   "Hear the word" button appears once the script has found one, and the written
+   word only if it has not. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.sound_boxes.hint") }}{% if item.activity.letters %} {{ t("activity.sound_boxes.hint_letters") }}{% endif %}{% endblock %}
+{% block live_extra %}
+  {% include "partials/primitives/_speech.html" %}
+  <p class="activity-written" data-no-voice hidden>{{ t("activity.sound_boxes.written", word=item.activity.word) }}</p>
+{% endblock %}
+{% block controls %}
+  <button class="activity-button activity-button--speak" type="button" data-speak="word" hidden>{{ t("activity.sound_boxes.hear") }}</button>
+  <span class="activity-group">
+    <button class="activity-button" type="button" data-action="move" data-from="supply" data-to="counters">{{ t("activity.sound_boxes.add") }}</button>
+    <button class="activity-button" type="button" data-action="move" data-from="counters" data-to="supply">{{ t("activity.sound_boxes.remove") }}</button>
+  </span>
+  {% if item.activity.letters %}{% include "partials/primitives/_tile_buttons.html" %}{% endif %}
+{% endblock %}

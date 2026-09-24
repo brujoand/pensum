@@ -12,7 +12,9 @@
    rod or a zone looks like (activity rule 8). Every part is hidden from
    assistive tech, for the reason `_drawing.html` gives; the wrapper carries the
    words, and the live status line under the board says what is on it. #}
-{% for layer in board.layers %}
+{#- A layer with the role "tray" holds the tiles a pupil has not used yet. It is
+    part of the question and not of the answer, so the feedback leaves it out. #}
+{% for layer in board.layers if interactive or layer.role != "tray" %}
   <g class="board-layer {{ layer.role }}"{% if layer.transform %} transform="{{ layer.transform }}"{% endif %}>
     {% for path in layer.paths %}
       <path class="figure-{{ path.role }}" d="{{ path.d }}" aria-hidden="true" />

@@ -617,6 +617,76 @@ activity:
     made: "☐ = {box}, so the left side weighs {left} and the right side {right}"
     status: "{equation}, ☐ = {box}"
     ask: Which number is in the box?
+  # The language primitives: sound boxes, blending, word and sentence
+  # building, and dialogue. The voice is the browser's own; nothing is recorded.
+  speech:
+    no_voice: >-
+      This browser has no {language} voice here, so nothing is read aloud. The
+      task works without sound.
+    lang_nb: Norwegian
+    lang_en: English
+  tiles:
+    tray: Tiles you can use
+    place: "Put “{tile}” in the next free place"
+    take_back: Take back the last one
+  sound_boxes:
+    hint: >-
+      Listen to the word. Put a counter in a box for every sound you hear. Tap a
+      box, or use the buttons.
+    hint_letters: >-
+      Then put the letters in the boxes, one sound in each: drag them, or tap a
+      letter and then a box.
+    hear: Hear the word
+    add: Put a counter in the next box
+    remove: Take away a counter
+    supply: Counters
+    written: "The word is: {word}"
+    made: "{count} sounds"
+    made_one: 1 sound
+    ask: "How many sounds are there in the word “{word}”?"
+  blend:
+    hint: >-
+      Tap a letter to hear its sound. Slide the letters together, one at a time
+      from the left. Then choose what the word means.
+    join: Slide the next letter in
+    split: Slide the last one out again
+    hear_tile: "Hear “{tile}”"
+    hear_word: Hear the word
+    pick_label: What does the word mean?
+    picked: "Chosen:"
+    made: "“{choice}”"
+    none: nothing yet
+    you_picked: "You chose {made}. The right one was {asked}."
+    ask: Read the letters together. What does the word mean?
+  word_build:
+    hint: >-
+      Build the word in the frame: drag the tiles, or tap a tile and then a
+      place. Tap a tile twice to put it in the next place.
+    made: "“{word}”"
+    empty: nothing in the frame yet
+    ask: Write the word.
+  sentence_build:
+    hint: >-
+      Build the sentence: drag the words and marks, or tap a tile and then a
+      place. Tap a word in the frame twice to give it a capital or a small first
+      letter.
+    flip: Capital or small first letter on the first word
+    made: "“{sentence}”"
+    empty: nothing in the frame yet
+    ask: Write the sentence.
+  dialogue:
+    hint: >-
+      Choose what to say. If a line does not fit, the other person answers, and
+      you can choose again.
+    you: You
+    hear: Hear the line
+    made: "{count} picks, and the conversation is finished"
+    made_one: 1 pick, and the conversation is finished
+    open: "{count} picks, and the conversation is not finished"
+    open_one: 1 pick, and the conversation is not finished
+    you_made: "Your conversation: {made}. A whole conversation: {asked}."
+    you_answered: "You answered {made}. A reply that fits: {asked}."
+    ask: What do you answer? Choose a line.
 
 comfort:
   # Every setting is described by what it does, never by who it is for. No

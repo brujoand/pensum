@@ -1,0 +1,17 @@
+{# A sentence frame. `pensum.items.primitives.sentence_build`.
+   The capital is a flip of the tile, by a double tap on it in the frame or by
+   the button, which flips the first word. Without a script the pupil types the
+   sentence, capital and mark included. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.sentence_build.hint") }}{% endblock %}
+{% block controls %}
+  {% include "partials/primitives/_tile_buttons.html" %}
+  <button class="activity-button" type="button" data-action="flip">{{ t("activity.sentence_build.flip") }}</button>
+{% endblock %}
+{% block fallback %}
+  <label class="activity-fallback" data-fallback>
+    <span>{{ item.activity.fallback_prompt(locale) }}</span>
+    <input class="answer-input" type="text" name="response"
+           placeholder="{{ t('quiz.text_placeholder') }}" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+  </label>
+{% endblock %}

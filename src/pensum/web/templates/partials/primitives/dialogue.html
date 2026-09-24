@@ -1,0 +1,45 @@
+{# A scripted conversation. `pensum.items.primitives.dialogue`.
+   Every option of every line is rendered once, as a button, so the core can
+   wire them all; the page's script shows only the ones for the line the
+   conversation is at, and writes the conversation so far into the log. The
+   board, which is the same conversation drawn for the feedback, stands down
+   while the log is live. Without a script the pupil answers the opening line
+   with a radio button. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.dialogue.hint") }}{% endblock %}
+{% block live_extra %}
+  {% include "partials/primitives/_speech.html" %}
+  <ol class="dialogue-log" data-log aria-live="polite"
+      data-script='{{ item.activity.script(locale)|tojson }}'></ol>
+{% endblock %}
+{% block controls %}
+  <button class="activity-button activity-button--speak" type="button" data-speak="line" hidden>{{ t("activity.dialogue.hear") }}</button>
+  <span class="activity-group dialogue-options">
+    {% for name in item.activity.nodes %}
+      {% for index, option in item.activity.shown_options(name) %}
+        <button class="activity-button activity-button--line" type="button"
+                data-action="pick" data-zone="{{ name }}" data-by="{{ index }}"
+                {%- if name != item.activity.start %} hidden{% endif %}>{{ option.text.get(locale) }}</button>
+      {% endfor %}
+    {% endfor %}
+  </span>
+{% endblock %}
+{% block fallback %}
+  {% set opening = item.activity.nodes[item.activity.start] %}
+  <fieldset class="activity-fallback" data-fallback>
+    <legend>
+      <span class="dialogue-opening">{{ item.activity.partner.get(locale) }}: {{ opening.says.get(locale) }}</span>
+      <span>{{ item.activity.fallback_prompt(locale) }}</span>
+    </legend>
+    <ul class="choices">
+      {% for index, option in item.activity.shown_options(item.activity.start) %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ index + 1 }}" required />
+            <span>{{ option.text.get(locale) }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

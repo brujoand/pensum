@@ -633,6 +633,76 @@ activity:
     made: "☐ = {box}, og da veier venstre side {left} og høyre side {right}"
     status: "{equation}, ☐ = {box}"
     ask: Hvilket tall står i boksen?
+  # The language primitives: sound boxes, blending, word and sentence
+  # building, and dialogue. The voice is the browser's own; nothing is recorded.
+  speech:
+    no_voice: >-
+      Nettleseren har ingen stemme for {language} her, så ingenting blir lest
+      opp. Oppgaven går an uten lyd.
+    lang_nb: norsk
+    lang_en: engelsk
+  tiles:
+    tray: Brikker du kan bruke
+    place: "Legg «{tile}» på neste ledige plass"
+    take_back: Ta tilbake den siste
+  sound_boxes:
+    hint: >-
+      Hør ordet. Legg en brikke i en boks for hver lyd du hører. Trykk på en
+      boks, eller bruk knappene.
+    hint_letters: >-
+      Legg så bokstavene i boksene, én lyd i hver: dra dem, eller trykk på en
+      bokstav og så på en boks.
+    hear: Hør ordet
+    add: Legg en brikke i neste boks
+    remove: Ta bort en brikke
+    supply: Brikker
+    written: "Ordet er: {word}"
+    made: "{count} lyder"
+    made_one: 1 lyd
+    ask: "Hvor mange lyder er det i ordet «{word}»?"
+  blend:
+    hint: >-
+      Trykk på en bokstav for å høre lyden. Skyv bokstavene sammen, én og én fra
+      venstre. Velg så hva ordet betyr.
+    join: Skyv neste bokstav inn
+    split: Skyv den siste ut igjen
+    hear_tile: "Hør «{tile}»"
+    hear_word: Hør ordet
+    pick_label: Hva betyr ordet?
+    picked: "Valgt:"
+    made: "«{choice}»"
+    none: ingenting ennå
+    you_picked: "Du valgte {made}. Riktig var {asked}."
+    ask: Les bokstavene sammen. Hva betyr ordet?
+  word_build:
+    hint: >-
+      Bygg ordet i rammen: dra brikkene, eller trykk på en brikke og så på en
+      plass. Trykk to ganger på en brikke for å legge den på neste plass.
+    made: "«{word}»"
+    empty: ingenting i rammen ennå
+    ask: Skriv ordet.
+  sentence_build:
+    hint: >-
+      Bygg setningen: dra ordene og tegnene, eller trykk på en brikke og så på
+      en plass. Trykk to ganger på et ord i rammen for å gi det stor eller liten
+      forbokstav.
+    flip: Stor eller liten forbokstav på det første ordet
+    made: "«{sentence}»"
+    empty: ingenting i rammen ennå
+    ask: Skriv setningen.
+  dialogue:
+    hint: >-
+      Velg hva du vil si. Passer ikke replikken, svarer den andre, og du kan
+      velge på nytt.
+    you: Du
+    hear: Hør replikken
+    made: "{count} valg, og samtalen er ferdig"
+    made_one: 1 valg, og samtalen er ferdig
+    open: "{count} valg, og samtalen er ikke ferdig"
+    open_one: 1 valg, og samtalen er ikke ferdig
+    you_made: "Samtalen din: {made}. En hel samtale: {asked}."
+    you_answered: "Du svarte {made}. Et svar som passer: {asked}."
+    ask: Hva svarer du? Velg en replikk.
 
 comfort:
   # Hver innstilling beskrives ut fra hva den gjør, aldri ut fra hvem den er

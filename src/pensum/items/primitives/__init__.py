@@ -55,8 +55,13 @@ from pensum.items.primitives import base
 from pensum.items.primitives.array import ArrayActivity
 from pensum.items.primitives.balance import BalanceActivity
 from pensum.items.primitives.base_ten import BaseTenActivity
+from pensum.items.primitives.blend import BlendActivity
 from pensum.items.primitives.counters import CountersActivity
+from pensum.items.primitives.dialogue import DialogueActivity
+from pensum.items.primitives.sentence_build import SentenceBuildActivity
+from pensum.items.primitives.sound_boxes import SoundBoxesActivity
 from pensum.items.primitives.ten_frame import TenFrameActivity
+from pensum.items.primitives.word_build import WordBuildActivity
 
 if TYPE_CHECKING:
     from pensum.items.schema import QuizItem
@@ -105,9 +110,7 @@ class Primitive:
             raise ValueError(f"{item.id}: the {self.kind} activity cannot be answered")
         if activity.read(activity.serialise(activity.initial())) is None:
             raise ValueError(f"{item.id}: the {self.kind} activity cannot start as declared")
-        if activity.fallback is None and not base.grade(
-            activity, base.number_text(activity.fallback_answer())
-        ):
+        if activity.fallback is None and not base.grade(activity, activity.typed_example()):
             raise ValueError(f"{item.id}: the no-script answer does not grade as right")
 
     def grade(self, item: QuizItem, response: str) -> bool:
@@ -164,6 +167,32 @@ PRIMITIVES: dict[str, Primitive] = {
         Primitive("array", "partials/primitives/array.html", "primitives/array.js", ArrayActivity),
         Primitive(
             "balance", "partials/primitives/balance.html", "primitives/balance.js", BalanceActivity
+        ),
+        # The language primitives.
+        Primitive(
+            "sound_boxes",
+            "partials/primitives/sound_boxes.html",
+            "primitives/sound-boxes.js",
+            SoundBoxesActivity,
+        ),
+        Primitive("blend", "partials/primitives/blend.html", "primitives/blend.js", BlendActivity),
+        Primitive(
+            "word_build",
+            "partials/primitives/word_build.html",
+            "primitives/word-build.js",
+            WordBuildActivity,
+        ),
+        Primitive(
+            "sentence_build",
+            "partials/primitives/sentence_build.html",
+            "primitives/sentence-build.js",
+            SentenceBuildActivity,
+        ),
+        Primitive(
+            "dialogue",
+            "partials/primitives/dialogue.html",
+            "primitives/dialogue.js",
+            DialogueActivity,
         ),
     )
 }

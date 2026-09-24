@@ -459,6 +459,122 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22'
 
+  # --- answered with the hands: a sentence frame and a dialogue
+  # (`pensum.items.primitives`). Drafts, not yet reviewed.
+
+  - id: KM13345-03
+    goal: KM13345
+    type: sentence_build
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Bygg en engelsk setning som betyr «I går spilte jeg fotball».
+      en: Build an English sentence that means "I går spilte jeg fotball".
+    activity:
+      alt:
+        nb: En tom ramme og fem brikker, fire engelske ord og et punktum.
+        en: An empty frame and five tiles, four English words and a full stop.
+      words: [yesterday, I, played, football, "."]
+      accept:
+        - Yesterday I played football.
+        - I played football yesterday.
+    explanation:
+      nb: >-
+        På engelsk kommer «I» foran verbet, også når setningen begynner med
+        «yesterday»: Yesterday I played football. På norsk bytter de plass
+        (i går spilte jeg), men ikke på engelsk.
+      en: >-
+        In English "I" comes before the verb, even when the sentence starts with
+        "yesterday": Yesterday I played football. Norwegian swaps them (i går
+        spilte jeg), English does not.
+    reviewed: false
+
+  - id: KM13341-03
+    goal: KM13341
+    type: dialogue
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Du er på kafé og vil ha appelsinjus. Velg hva du sier til kelneren.
+      en: You are at a café and want orange juice. Choose what you say to the waiter.
+    activity:
+      alt:
+        nb: En samtale mellom deg og kelneren. Kelneren sier «Hello! What would you like?».
+        en: A conversation between you and the waiter. The waiter says "Hello! What would you like?".
+      language: en
+      partner:
+        nb: Kelneren
+        en: The waiter
+      start: order
+      nodes:
+        order:
+          says:
+            nb: Hello! What would you like?
+            en: Hello! What would you like?
+          options:
+            - text:
+                nb: Could I have an orange juice, please?
+                en: Could I have an orange juice, please?
+              next: size
+            - text:
+                nb: Juice. Now.
+                en: Juice. Now.
+              reply:
+                nb: Sorry? Try asking nicely, “Could I have …, please?”
+                en: Sorry? Try asking nicely, “Could I have …, please?”
+            - text:
+                nb: Goodbye!
+                en: Goodbye!
+              reply:
+                nb: But you have not ordered yet! Try “Could I have …, please?”
+                en: But you have not ordered yet! Try “Could I have …, please?”
+        size:
+          says:
+            nb: Of course. Small or large?
+            en: Of course. Small or large?
+          options:
+            - text:
+                nb: A small one, please.
+                en: A small one, please.
+              next: pay
+            - text:
+                nb: Large, please.
+                en: Large, please.
+              next: pay
+            - text:
+                nb: I am nine years old.
+                en: I am nine years old.
+              reply:
+                nb: That is nice! But I asked about the juice. Small or large?
+                en: That is nice! But I asked about the juice. Small or large?
+        pay:
+          says:
+            nb: Here you are.
+            en: Here you are.
+          options:
+            - text:
+                nb: Thank you!
+                en: Thank you!
+              next: bye
+            - text:
+                nb: Where is my juice?
+                en: Where is my juice?
+              reply:
+                nb: It is right here in front of you! What do you say?
+                en: It is right here in front of you! What do you say?
+        bye:
+          says:
+            nb: You're welcome. Have a nice day!
+            en: You're welcome. Have a nice day!
+    explanation:
+      nb: >-
+        «Could I have …, please?» er en høflig måte å bestille på, og «Thank
+        you!» sier du når du får det du ba om.
+      en: >-
+        "Could I have …, please?" is a polite way to order, and "Thank you!" is
+        what you say when you get what you asked for.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

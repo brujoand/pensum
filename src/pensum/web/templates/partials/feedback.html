@@ -3,7 +3,14 @@
 <div class="feedback feedback--{{ 'correct' if correct else 'incorrect' }}">
   <p class="verdict">{{ t("quiz.correct") if correct else t("quiz.incorrect") }}</p>
 
-  {% if not correct %}
+  {% set primitive = primitive_for(item) %}
+  {% set comparison = primitive.compare(item, given, locale) if primitive else none %}
+  {% if not correct and comparison %}
+    {# Built with the hands: show what was built beside what was asked, then
+       say it (activity rule 7). Drawn, not only told, because a pupil who made
+       43 for 34 sees the swap faster than they read it. #}
+    {% include "partials/primitives/_comparison.html" %}
+  {% elif not correct %}
     {# Show what they actually put. Without it a pupil cannot tell whether they
        misread the question, mistyped, or genuinely did not know. #}
     <dl class="answers">

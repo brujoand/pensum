@@ -1,0 +1,10 @@
+{# A board as a picture, for feedback: nothing on it moves, so the drop zones
+   and the pieces that are not there are left out. `label` is what the picture
+   shows, in words. #}
+<svg class="figure activity-board activity-board--static"
+     viewBox="0 0 {{ "%.0f"|format(board.width) }} {{ "%.0f"|format(board.height) }}"
+     style="max-width: {{ "%.0f"|format([board.width * 0.08, 20]|min) }}rem"
+     role="img"
+     aria-label="{{ label }}">
+  {% with interactive = false %}{% include "partials/primitives/_board.html" %}{% endwith %}
+</svg>

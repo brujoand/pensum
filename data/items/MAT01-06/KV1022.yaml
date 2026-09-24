@@ -466,6 +466,238 @@ items:
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
+
+  # --- Answered with the hands -------------------------------------------
+  # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
+  # board, and without a script the same target is asked as a number.
+
+  - id: KM13245-03
+    goal: KM13245
+    type: counters
+    stage: concrete
+    difficulty: 1
+    prompt:
+      nb: Lag 3 grupper med 4 brikker i hver.
+      en: Make 3 groups with 4 counters in each.
+    activity:
+      alt:
+        nb: En tom matte, tre tomme ringer og en boks med brikker.
+        en: An empty mat, three empty rings and a box of counters.
+      target: 12
+      groups: [4, 4, 4]
+      fallback:
+        prompt:
+          nb: Hvor mange brikker er det til sammen?
+          en: How many counters are there altogether?
+        answer: 12
+    explanation:
+      nb: 3 grupper med 4 er 4 + 4 + 4 = 12. Det skriver vi 3 · 4 = 12.
+      en: 3 groups of 4 is 4 + 4 + 4 = 12. We write that as 3 · 4 = 12.
+    reviewed: false
+
+  - id: KM13246-03
+    goal: KM13246
+    type: counters
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Del 15 brikker likt på 3 grupper.
+      en: Share 15 counters equally between 3 groups.
+    activity:
+      alt:
+        nb: Femten brikker på en matte, og tre tomme ringer under den.
+        en: Fifteen counters on a mat, and three empty rings below it.
+      target: 15
+      start: 15
+      groups: [5, 5, 5]
+    explanation:
+      nb: "Hver gruppe får 5. 15 : 3 = 5, fordi 3 · 5 = 15."
+      en: "Each group gets 5. 15 ÷ 3 = 5, because 3 × 5 = 15."
+    reviewed: false
+
+  - id: KM13243-03
+    goal: KM13243
+    type: base_ten
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Her er 52. Ta bort 17.
+      en: Here is 52. Take away 17.
+    activity:
+      alt:
+        nb: En plassverdi-matte med 5 tiere og 2 enere.
+        en: A place-value mat with 5 tens and 2 ones.
+      target: 35
+      start:
+        tens: 5
+        ones: 2
+      fallback:
+        prompt:
+          nb: Hva er 52 − 17?
+          en: What is 52 − 17?
+        answer: 35
+    explanation:
+      nb: >-
+        Det er bare 2 enere, så én tier byttes til 10 enere. Da er det 4 tiere og
+        12 enere. Ta bort 1 tier og 7 enere, og det blir 3 tiere og 5 enere: 35.
+      en: >-
+        There are only 2 ones, so one ten is swapped for 10 ones. That makes 4 tens
+        and 12 ones. Take away 1 ten and 7 ones, and that leaves 3 tens and 5 ones:
+        35.
+    reviewed: false
+
+  - id: KM13243-04
+    goal: KM13243
+    type: base_ten
+    stage: concrete
+    difficulty: 2
+    prompt:
+      nb: Her er 46. Legg til 38.
+      en: Here is 46. Add 38.
+    activity:
+      alt:
+        nb: En plassverdi-matte med 4 tiere og 6 enere.
+        en: A place-value mat with 4 tens and 6 ones.
+      target: 84
+      start:
+        tens: 4
+        ones: 6
+      fallback:
+        prompt:
+          nb: Hva er 46 + 38?
+          en: What is 46 + 38?
+        answer: 84
+    explanation:
+      nb: >-
+        4 tiere og 3 tiere er 7 tiere. 6 enere og 8 enere er 14 enere, og 10 av dem
+        blir en tier til. Det blir 8 tiere og 4 enere: 84.
+      en: >-
+        4 tens and 3 tens is 7 tens. 6 ones and 8 ones is 14 ones, and 10 of them
+        make one more ten. That is 8 tens and 4 ones: 84.
+    reviewed: false
+
+  - id: KM13247-03
+    goal: KM13247
+    type: array
+    stage: pictorial
+    difficulty: 1
+    prompt:
+      nb: Lag et rutenett med 3 rader og 5 ruter i hver rad.
+      en: Make a grid with 3 rows and 5 squares in each row.
+    activity:
+      alt:
+        nb: Et rutenett på ti ganger ti med én rute fylt i hjørnet og et håndtak som kan dras.
+        en: A ten-by-ten grid with one square filled in the corner and a handle that can be dragged.
+      rows: 3
+      cols: 5
+    explanation:
+      nb: 3 rader med 5 er 5 + 5 + 5 = 15. Det skriver vi 3 · 5 = 15.
+      en: 3 rows of 5 is 5 + 5 + 5 = 15. We write that as 3 × 5 = 15.
+    reviewed: false
+
+  - id: KM13248-03
+    goal: KM13248
+    type: array
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Lag 4 · 6 som et rutenett. Du kan snu det som du vil.
+      en: Make 4 × 6 as a grid. You can turn it whichever way you like.
+    activity:
+      alt:
+        nb: Et rutenett på ti ganger ti med én rute fylt i hjørnet og et håndtak som kan dras.
+        en: A ten-by-ten grid with one square filled in the corner and a handle that can be dragged.
+      rows: 4
+      cols: 6
+      accept: either_way
+    explanation:
+      nb: >-
+        4 rader med 6 og 6 rader med 4 er det samme rutenettet snudd. Begge har 24
+        ruter, så 4 · 6 = 6 · 4.
+      en: >-
+        4 rows of 6 and 6 rows of 4 are the same grid turned round. Both have 24
+        squares, so 4 × 6 = 6 × 4.
+    reviewed: false
+
+  - id: KM13248-04
+    goal: KM13248
+    type: array
+    stage: pictorial
+    difficulty: 3
+    prompt:
+      nb: Lag 3 rader med 7. Del rutenettet med en strek etter 5 ruter.
+      en: Make 3 rows of 7. Split the grid with a line after 5 squares.
+    activity:
+      alt:
+        nb: Et rutenett på ti ganger ti med én rute fylt i hjørnet og et håndtak som kan dras.
+        en: A ten-by-ten grid with one square filled in the corner and a handle that can be dragged.
+      rows: 3
+      cols: 7
+      split: 5
+    explanation:
+      nb: >-
+        Streken deler 3 · 7 i 3 · 5 og 3 · 2. Det er 15 og 6, og 15 + 6 = 21. Så
+        3 · 7 = 21.
+      en: >-
+        The line splits 3 × 7 into 3 × 5 and 3 × 2. That is 15 and 6, and 15 + 6 =
+        21. So 3 × 7 = 21.
+    reviewed: false
+
+  - id: KM13253-03
+    goal: KM13253
+    type: array
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: Lag et rektangel som dekker 12 ruter.
+      en: Make a rectangle that covers 12 squares.
+    activity:
+      alt:
+        nb: Et rutenett på ti ganger ti med én rute fylt i hjørnet og et håndtak som kan dras.
+        en: A ten-by-ten grid with one square filled in the corner and a handle that can be dragged.
+      rows: 3
+      cols: 4
+      accept: product
+      fallback:
+        prompt:
+          nb: Et rektangel har 2 rader med 6 ruter. Hvor mange ruter dekker det?
+          en: A rectangle has 2 rows of 6 squares. How many squares does it cover?
+        answer: 12
+    explanation:
+      nb: >-
+        3 rader med 4, 2 rader med 6 og 1 rad med 12 dekker alle 12 ruter. Arealet
+        er 12 ruter.
+      en: >-
+        3 rows of 4, 2 rows of 6 and 1 row of 12 all cover 12 squares. The area is
+        12 squares.
+    reviewed: false
+
+  - id: KM13250-02
+    goal: KM13250
+    type: balance
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: "Vekten er i likevekt: ☐ + 6 = 10. Hvilket tall står i boksen?"
+      en: "The scales balance: ☐ + 6 = 10. Which number is in the box?"
+    activity:
+      alt:
+        nb: En skålvekt i likevekt med en boks og 6 klosser til venstre og 10 klosser til høyre.
+        en: A balanced pan balance with a box and 6 blocks on the left and 10 blocks on the right.
+      left:
+        boxes: 1
+        weights: 6
+      right:
+        weights: 10
+    explanation:
+      nb: >-
+        Ta bort 6 klosser fra begge sider. Da står boksen alene til venstre og 4
+        klosser til høyre, så boksen er 4.
+      en: >-
+        Take 6 blocks from both sides. Then the box stands alone on the left with 4
+        blocks on the right, so the box is 4.
+    reviewed: false
+
 not_assessable:
   - goal: KM13252
     reason: >-

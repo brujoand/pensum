@@ -1,0 +1,24 @@
+{# What the pupil built next to what was asked, drawn, then said (activity rule
+   7). No verdict mark on either picture: the difference between them is the
+   feedback, and the sentence under it names it in the plainest words there
+   are. Each picture is labelled by what it shows rather than by the item's alt
+   text, which describes the task and not either answer. #}
+<div class="comparison">
+  {% if comparison.made_board %}
+    <figure class="comparison-side">
+      <figcaption>{{ t("activity.made_caption") }}</figcaption>
+      {% with board = comparison.made_board, label = comparison.made %}
+        {% include "partials/primitives/_board_static.html" %}
+      {% endwith %}
+    </figure>
+  {% endif %}
+  {% if comparison.asked_board %}
+    <figure class="comparison-side">
+      <figcaption>{{ t("activity.asked_caption") }}</figcaption>
+      {% with board = comparison.asked_board, label = comparison.asked %}
+        {% include "partials/primitives/_board_static.html" %}
+      {% endwith %}
+    </figure>
+  {% endif %}
+</div>
+<p class="comparison-sentence">{{ comparison.sentence }}</p>

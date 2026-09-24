@@ -16,5 +16,9 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="/static/number-line.js" defer></script>
+  {# Every primitive's script, from the registry, core first. Each is small and
+     does nothing on a page without its questions. #}
+  {% for script in primitive_scripts() %}
+    <script src="/static/{{ script }}" defer></script>
+  {% endfor %}
 {% endblock %}

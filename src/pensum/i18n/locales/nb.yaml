@@ -526,3 +526,107 @@ progression:
   off_screen: Øves utenfor skjermen
   cta: Se progresjonen i faget
   cta_note: Alle trinn på én side, for lærere. Kan skrives ut.
+
+# Questions answered with the hands: counters, ten-frames, base-ten blocks,
+# arrays and a balance. Every sentence here is literal (principle 7): it says
+# what is on the board and what the task asked for, and never judges the child.
+activity:
+  and: og
+  undo: Angre
+  you_made: "Du laget {made}. Oppgaven var {asked}."
+  you_wrote: "Du skrev {made}. Svaret er {asked}."
+  unreadable: Svaret kom ikke fram slik det ble bygget.
+  made_caption: Det du laget
+  asked_caption: Det oppgaven ba om
+  counters:
+    hint: Trykk på matta for å legge på en brikke. Trykk på en brikke og så på boksen for å ta den bort.
+    hint_groups: >-
+      Flytt brikkene inn i gruppene: dra dem, eller trykk på en brikke og så på
+      en gruppe. Knappene under gjør det samme.
+    add: Legg på en brikke
+    remove: Ta bort en brikke
+    group: Gruppe {n}
+    group_add: Legg en i gruppe {n}
+    group_remove: Ta en fra gruppe {n}
+    supply: Boksen med brikker
+    made: "{count} brikker"
+    made_one: 1 brikke
+    made_groups: "{count} brikker, fordelt {sizes}"
+    made_loose: "{loose} utenfor gruppene"
+    ask_count: Hvor mange brikker skal det være?
+    ask_each: Hvor mange blir det i hver gruppe?
+  ten_frame:
+    hint: >-
+      Trykk på en tom rute for å legge en prikk der. Trykk to ganger på en prikk
+      for å ta den bort. Med tastaturet flytter du med piltastene og bruker
+      mellomrom.
+    add: Legg til en prikk
+    remove: Ta bort en prikk
+    made: "{count} prikker"
+    made_one: 1 prikk
+    out_of_order: men ikke fylt fra venstre på øverste rad først
+    ask_count: Hvor mange prikker blir det?
+    ask_add: Hvor mange prikker må du legge til?
+    cell: "Ramme {frame}, rute {cell}: {state}"
+    full: en prikk
+    empty: tom
+  base_ten:
+    hint: >-
+      Trykk på en kolonne for å legge på en kloss. Trykk to ganger på ti enere
+      for å bytte dem til en tier, og to ganger på en tier for å bytte den til
+      ti enere. Knappene under gjør det samme.
+    hundreds: Hundrere
+    tens: Tiere
+    ones: Enere
+    tray: Klosser du kan ta fra
+    add_hundreds: Legg på en hundrer
+    remove_hundreds: Ta bort en hundrer
+    add_tens: Legg på en tier
+    remove_tens: Ta bort en tier
+    add_ones: Legg på en ener
+    remove_ones: Ta bort en ener
+    bundle_ones: Bytt 10 enere til 1 tier
+    break_tens: Bytt 1 tier til 10 enere
+    bundle_tens: Bytt 10 tiere til 1 hundrer
+    break_hundreds: Bytt 1 hundrer til 10 tiere
+    made: "{value} ({parts})"
+    hundreds_count: "{count} hundrere"
+    hundreds_count_one: 1 hundrer
+    tens_count: "{count} tiere"
+    tens_count_one: 1 tier
+    ones_count: "{count} enere"
+    ones_count_one: 1 ener
+    ask: Skriv tallet.
+  array:
+    hint: >-
+      Dra hjørnet for å gjøre rutenettet større eller mindre, eller trykk på
+      ruten hjørnet skal nå til. Med tastaturet bruker du piltastene på hjørnet.
+    hint_split: >-
+      Del rutenettet i to med streken: trykk over kolonnene der den skal stå,
+      eller bruk knappene.
+    handle: Hjørnet av rutenettet
+    rows_more: Én rad til
+    rows_less: Én rad mindre
+    cols_more: Én kolonne til
+    cols_less: Én kolonne mindre
+    split_left: Flytt streken til venstre
+    split_right: Flytt streken til høyre
+    made: "{rows} rader med {cols} i hver"
+    made_one: "1 rad med {cols}"
+    made_split: "delt i {left} og {right}"
+    ask: Hvor mange ruter er det til sammen?
+  balance:
+    hint: >-
+      Finn tallet i boksen. Du kan ta bort det samme fra begge sider: dra en
+      kloss eller en boks til «Ta bort», eller bruk knappene. Vekten er i
+      likevekt hele tiden.
+    hint_open: Legg klosser i boksen til begge sidene veier like mye.
+    take_weight: Ta bort 1 kloss fra begge sider
+    take_box: Ta bort 1 boks fra begge sider
+    box_more: Én mer i boksen
+    box_less: Én mindre i boksen
+    away: Ta bort
+    box_label: Boksen er
+    made: "☐ = {box}, og da veier venstre side {left} og høyre side {right}"
+    status: "{equation}, ☐ = {box}"
+    ask: Hvilket tall står i boksen?

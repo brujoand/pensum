@@ -511,3 +511,106 @@ progression:
   off_screen: Practised off screen
   cta: See how the subject progresses
   cta_note: Every year on one page, for teachers. Printable.
+
+# Questions answered with the hands: counters, ten-frames, base-ten blocks,
+# arrays and a balance. Every sentence here is literal (principle 7): it says
+# what is on the board and what the task asked for, and never judges the child.
+activity:
+  and: and
+  undo: Undo
+  you_made: "You made {made}. The task was {asked}."
+  you_wrote: "You wrote {made}. The answer is {asked}."
+  unreadable: The answer did not arrive the way it was built.
+  made_caption: What you made
+  asked_caption: What the task asked for
+  counters:
+    hint: Tap the mat to put a counter down. Tap a counter and then the box to take it away.
+    hint_groups: >-
+      Move the counters into the groups: drag them, or tap a counter and then a
+      group. The buttons below do the same.
+    add: Put a counter down
+    remove: Take a counter away
+    group: Group {n}
+    group_add: Put one in group {n}
+    group_remove: Take one from group {n}
+    supply: The box of counters
+    made: "{count} counters"
+    made_one: 1 counter
+    made_groups: "{count} counters, shared out {sizes}"
+    made_loose: "{loose} outside the groups"
+    ask_count: How many counters should there be?
+    ask_each: How many go in each group?
+  ten_frame:
+    hint: >-
+      Tap an empty square to put a dot there. Tap a dot twice to take it away.
+      With a keyboard, move with the arrow keys and use the space bar.
+    add: Add a dot
+    remove: Take a dot away
+    made: "{count} dots"
+    made_one: 1 dot
+    out_of_order: but not filled from the left of the top row first
+    ask_count: How many dots will there be?
+    ask_add: How many dots do you need to add?
+    cell: "Frame {frame}, square {cell}: {state}"
+    full: a dot
+    empty: empty
+  base_ten:
+    hint: >-
+      Tap a column to put a block there. Tap ten ones twice to swap them for a
+      ten, and tap a ten twice to swap it for ten ones. The buttons below do the
+      same.
+    hundreds: Hundreds
+    tens: Tens
+    ones: Ones
+    tray: Blocks you can take
+    add_hundreds: Put a hundred down
+    remove_hundreds: Take a hundred away
+    add_tens: Put a ten down
+    remove_tens: Take a ten away
+    add_ones: Put a one down
+    remove_ones: Take a one away
+    bundle_ones: Swap 10 ones for 1 ten
+    break_tens: Swap 1 ten for 10 ones
+    bundle_tens: Swap 10 tens for 1 hundred
+    break_hundreds: Swap 1 hundred for 10 tens
+    made: "{value} ({parts})"
+    hundreds_count: "{count} hundreds"
+    hundreds_count_one: 1 hundred
+    tens_count: "{count} tens"
+    tens_count_one: 1 ten
+    ones_count: "{count} ones"
+    ones_count_one: 1 one
+    ask: Write the number.
+  array:
+    hint: >-
+      Drag the corner to make the grid bigger or smaller, or tap the square the
+      corner should reach. With a keyboard, use the arrow keys on the corner.
+    hint_split: >-
+      Split the grid in two with the line: tap above the columns where it
+      should go, or use the buttons.
+    handle: The corner of the grid
+    rows_more: One more row
+    rows_less: One row fewer
+    cols_more: One more column
+    cols_less: One column fewer
+    split_left: Move the line left
+    split_right: Move the line right
+    made: "{rows} rows of {cols}"
+    made_one: "1 row of {cols}"
+    made_split: "split into {left} and {right}"
+    ask: How many squares are there altogether?
+  balance:
+    hint: >-
+      Find the number in the box. You can take the same away from both sides:
+      drag a block or a box to "Take away", or use the buttons. The scales stay
+      balanced the whole time.
+    hint_open: Put blocks in the box until both sides weigh the same.
+    take_weight: Take 1 block from both sides
+    take_box: Take 1 box from both sides
+    box_more: One more in the box
+    box_less: One fewer in the box
+    away: Take away
+    box_label: The box is
+    made: "☐ = {box}, so the left side weighs {left} and the right side {right}"
+    status: "{equation}, ☐ = {box}"
+    ask: Which number is in the box?

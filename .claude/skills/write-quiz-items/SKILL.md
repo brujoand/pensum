@@ -110,6 +110,37 @@ not be a question at all.
   is refused, because a marker that snaps has no near miss to forgive. Use it
   where the goal is *placing* a number rather than computing one; a question
   that merely mentions a number line is still a `numeric`.
+- **Hands-on kinds**: `counters`, `ten_frame`, `base_ten`, `array`,
+  `balance`. The pupil builds the answer on a board. The item has no `answer`,
+  `choices` or `accept`; it has an `activity:` block instead, with an `alt`
+  in both locales describing the board as it opens, and the kind's own
+  parameters. The board's rules and every parameter are documented in the
+  module docstrings under `src/pensum/items/primitives/`. For example:
+
+  ```yaml
+  - id: KM13232-02
+    goal: KM13232
+    type: base_ten
+    stage: concrete          # optional: concrete | pictorial | abstract
+    difficulty: 2
+    prompt:
+      nb: Vis 47 med så få klosser som mulig.
+      en: Show 47 with as few blocks as you can.
+    activity:
+      alt:
+        nb: En tom plassverdi-matte med en kolonne for tiere og en for enere.
+        en: An empty place-value mat with a column for tens and one for ones.
+      target: 47
+      accept: canonical      # any_equivalent (default) also takes 3 tens 17 ones
+  ```
+
+  Without JavaScript the pupil is asked a number instead (how many in all, in
+  each group, to add, in the box). When that default would be answered by the
+  prompt itself -- "make 3 groups of 4" asking "how many in each group?" --
+  add a `fallback:` with its own `prompt` and `answer`. Use these where the
+  goal is *representing* or *building*: place value, grouping, make-ten,
+  equals as a relation. A question that could be answered as well by typing is
+  still a `numeric`.
 
 `difficulty` is 1–3 **relative to this checkpoint**. A hard year-2 question is
 not a hard year-10 question.

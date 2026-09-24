@@ -86,6 +86,8 @@ def right_answer(item: QuizItem) -> str:
     so a simulation that only knows about choices silently stops exercising two
     thirds of the schema.
     """
+    if item.activity is not None:
+        return item.activity.serialise(item.activity.solution())
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if c.correct)
     if item.type in ("numeric", "number_line"):
@@ -95,6 +97,9 @@ def right_answer(item: QuizItem) -> str:
 
 def wrong_answer(item: QuizItem) -> str:
     """A response the item grades as incorrect. Asserted, not assumed."""
+    if item.activity is not None:
+        # A state no board can produce: graded wrong, never an error.
+        return "{}"
     # A number line is graded by tick, so a value a step-and-a-bit off is not
     # only wrong but off the ticks entirely -- which is the other thing the
     # server refuses, and worth walking over here.

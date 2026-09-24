@@ -392,6 +392,37 @@ items:
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
+
+  # --- Answered with the hands -------------------------------------------
+  # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
+  # board, and without a script the same target is asked as a number.
+
+  - id: KM13274-03
+    goal: KM13274
+    type: balance
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: "Vekten er i likevekt: 2 · ☐ + 3 = 11. Finn tallet i boksen."
+      en: "The scales balance: 2 × ☐ + 3 = 11. Find the number in the box."
+    activity:
+      alt:
+        nb: En skålvekt i likevekt med to bokser og 3 klosser til venstre og 11 klosser til høyre.
+        en: A balanced pan balance with two boxes and 3 blocks on the left and 11 blocks on the right.
+      left:
+        boxes: 2
+        weights: 3
+      right:
+        weights: 11
+    explanation:
+      nb: >-
+        Ta bort 3 klosser fra begge sider. Da er 2 bokser like tunge som 8 klosser,
+        så én boks er 4. Sjekk: 2 · 4 + 3 = 11.
+      en: >-
+        Take 3 blocks from both sides. Then 2 boxes weigh the same as 8 blocks, so
+        one box is 4. Check: 2 × 4 + 3 = 11.
+    reviewed: false
+
 not_assessable:
   - goal: KM13271
     reason: >-

@@ -1,0 +1,10 @@
+{# One or two ten-frames. `pensum.items.primitives.ten_frame`.
+   The frame itself takes the arrow keys and Space once the script has run; the
+   two buttons fill and empty in reading order for anyone who would rather not
+   aim at a cell. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.ten_frame.hint") }}{% endblock %}
+{% block controls %}
+  <button class="activity-button" type="button" data-action="add">{{ t("activity.ten_frame.add") }}</button>
+  <button class="activity-button" type="button" data-action="remove">{{ t("activity.ten_frame.remove") }}</button>
+{% endblock %}

@@ -1,0 +1,29 @@
+{# An array sized by its corner. `pensum.items.primitives.array`.
+   The handle and the split line are drawn here rather than as board pieces
+   because they are the two things the script moves by coordinate; their
+   starting place comes from `handle_at`, the same arithmetic the board uses. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.array.hint") }}{% if item.activity.split is not none %} {{ t("activity.array.hint_split") }}{% endif %}{% endblock %}
+{% block board_extra %}
+  {% set corner = item.activity.handle_at(item.activity.initial()) %}
+  <path class="array-split" data-split d="" hidden aria-hidden="true" />
+  <circle class="array-handle" data-handle
+          cx="{{ "%.2f"|format(corner[0]) }}" cy="{{ "%.2f"|format(corner[1]) }}" r="8"
+          aria-label="{{ t('activity.array.handle') }}" hidden />
+{% endblock %}
+{% block controls %}
+  <span class="activity-group">
+    <button class="activity-button" type="button" data-action="rows" data-by="1">{{ t("activity.array.rows_more") }}</button>
+    <button class="activity-button" type="button" data-action="rows" data-by="-1">{{ t("activity.array.rows_less") }}</button>
+  </span>
+  <span class="activity-group">
+    <button class="activity-button" type="button" data-action="cols" data-by="1">{{ t("activity.array.cols_more") }}</button>
+    <button class="activity-button" type="button" data-action="cols" data-by="-1">{{ t("activity.array.cols_less") }}</button>
+  </span>
+  {% if item.activity.split is not none %}
+    <span class="activity-group">
+      <button class="activity-button" type="button" data-action="split" data-by="-1">{{ t("activity.array.split_left") }}</button>
+      <button class="activity-button" type="button" data-action="split" data-by="1">{{ t("activity.array.split_right") }}</button>
+    </span>
+  {% endif %}
+{% endblock %}

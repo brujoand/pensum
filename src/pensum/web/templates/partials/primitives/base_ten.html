@@ -1,0 +1,21 @@
+{# Base-ten blocks on a place-value mat. `pensum.items.primitives.base_ten`.
+   The swaps are buttons of their own, not hidden behind a gesture: exchanging
+   ten ones for a ten is the thing being learned, so it is named on the page. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.base_ten.hint") }}{% endblock %}
+{% block controls %}
+  {% for place in item.activity.places() %}
+    <span class="activity-group">
+      <button class="activity-button" type="button" data-action="move" data-from="supply-{{ place }}" data-to="{{ place }}">{{ t("activity.base_ten.add_" ~ place) }}</button>
+      <button class="activity-button" type="button" data-action="move" data-from="{{ place }}" data-to="supply-{{ place }}">{{ t("activity.base_ten.remove_" ~ place) }}</button>
+    </span>
+  {% endfor %}
+  <span class="activity-group">
+    <button class="activity-button" type="button" data-action="bundle" data-zone="ones">{{ t("activity.base_ten.bundle_ones") }}</button>
+    <button class="activity-button" type="button" data-action="break" data-zone="tens">{{ t("activity.base_ten.break_tens") }}</button>
+    {% if item.activity.flats %}
+      <button class="activity-button" type="button" data-action="bundle" data-zone="tens">{{ t("activity.base_ten.bundle_tens") }}</button>
+      <button class="activity-button" type="button" data-action="break" data-zone="hundreds">{{ t("activity.base_ten.break_hundreds") }}</button>
+    {% endif %}
+  </span>
+{% endblock %}

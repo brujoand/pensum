@@ -3,7 +3,7 @@
    Shared by the trinntest and the nivåtest. The two differ in where they post
    and in whether a total is knowable, so those arrive as `answer_url`,
    `result_url` and `progress` rather than being built here -- the form markup
-   for the three item kinds is the part that must not drift between them. #}
+   for the item kinds is the part that must not drift between them. #}
 {% if item %}
   <form class="question"
         hx-post="{{ answer_url }}"
@@ -24,15 +24,21 @@
     <h2 class="prompt">{{ item.prompt.get(locale) }}</h2>
 
     {# Under the prompt, above the answers: the picture is part of reading the
-       question, not an illustration of it. A `number_line` item is the one kind
-       whose picture is also where the answer goes, so it draws its own. #}
-    {% if item.type != "number_line" %}
+       question, not an illustration of it. A primitive that answers *on* the
+       figure (the number line) draws it itself, so this one stands down. #}
+    {% set primitive = primitive_for(item) %}
+    {% if not (primitive and primitive.owns_figure) %}
       {% with figure = item.figure %}
         {% if figure %}{% include "partials/figure.html" with context %}{% endif %}
       {% endwith %}
     {% endif %}
 
-    {% if item.type == "multiple_choice" %}
+    {# An item answered with the hands brings its own partial from the registry
+       (`pensum.items.primitives`); only the three plain kinds are spelled out
+       here. #}
+    {% if primitive %}
+      {% include primitive.template with context %}
+    {% elif item.type == "multiple_choice" %}
       {# Display order, not authored order: the correct choice is written first
          far more often than chance, and a pupil who spots that stops reading. #}
       <ul class="choices">
@@ -45,8 +51,6 @@
           </li>
         {% endfor %}
       </ul>
-    {% elif item.type == "number_line" %}
-      {% include "partials/number_line_input.html" with context %}
     {% elif item.type == "numeric" %}
       <input class="answer-input" type="text" inputmode="decimal" name="response"
              placeholder="{{ t('quiz.numeric_placeholder') }}" autocomplete="off" required />

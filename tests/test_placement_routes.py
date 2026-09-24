@@ -68,6 +68,8 @@ def answer_all(client: TestClient, run_id: str, *, correct_up_to: int) -> Placem
 
 
 def _right(item) -> str:
+    if item.activity is not None:
+        return item.activity.serialise(item.activity.solution())
     if item.type == "multiple_choice":
         return next(c.id for c in item.choices if c.correct)
     if item.type in ("numeric", "number_line"):
@@ -76,6 +78,8 @@ def _right(item) -> str:
 
 
 def _wrong(item) -> str:
+    if item.activity is not None:
+        return "{}"
     if item.type in ("numeric", "number_line"):
         return str(float(item.answer) + max(1.0, item.tolerance * 2 + 1))
     if item.type == "multiple_choice":

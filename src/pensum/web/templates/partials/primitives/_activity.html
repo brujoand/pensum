@@ -1,0 +1,58 @@
+{# The answer area every hands-on primitive shares. A primitive's own partial
+   extends this and fills in `hint` and `controls` (its buttons); everything
+   else -- the board, the live status, undo, the hidden state and the no-script
+   question -- is here once, so no primitive can forget one.
+
+   Two roads to one answer, and one `response` field for each:
+
+     * Without a script, the board is a picture of the task and the pupil
+       types a number into `data-fallback`: the same target asked as a
+       numeric question (architecture.md, "Grading is a function of final
+       state"). The live controls are `hidden` and the state field is
+       `disabled`, so neither shows and neither is submitted.
+     * With `static/primitives/core.js`, the script shows the controls, enables
+       the state field and disables and hides the typed one. What is submitted
+       is then the board's final state, as JSON, and nothing is graded until
+       the existing Check button (activity rule 4).
+
+   The typed field is `required` and the state field is not, because the state
+   always has a value: the board as it opened. #}
+{% set activity = item.activity %}
+{% set state = activity.initial() %}
+{% set board = activity.board(state, locale) %}
+<div class="activity activity--{{ item.type }}"
+     data-activity="{{ item.type }}"
+     data-limits='{{ activity.limits()|tojson }}'
+     data-say='{{ activity.say(locale)|tojson }}'>
+  <p class="activity-hint" data-live hidden>{% block hint %}{% endblock %}</p>
+
+  {# tabindex and any role beyond img are set by the script where a primitive
+     takes keys on the board itself, for the reason the number line gives: a
+     focus stop that does nothing without the script is worse than none. #}
+  <svg class="figure activity-board"
+       data-board
+       viewBox="0 0 {{ "%.0f"|format(board.width) }} {{ "%.0f"|format(board.height) }}"
+       style="max-width: {{ "%.0f"|format([board.width * 0.11, 30]|min) }}rem"
+       role="img"
+       aria-label="{{ board.alt }}">
+    {% with interactive = true %}{% include "partials/primitives/_board.html" %}{% endwith %}
+    {% block board_extra scoped %}{% endblock %}
+  </svg>
+
+  <div class="activity-live" data-live hidden>
+    <div class="activity-controls">
+      {% block controls scoped %}{% endblock %}
+      <button class="activity-button activity-button--undo" type="button" data-action="undo">
+        {{ t("activity.undo") }}
+      </button>
+    </div>
+    <p class="activity-status" data-status aria-live="polite"></p>
+    <input type="hidden" name="response" value="{{ activity.serialise(state) }}" data-state disabled />
+  </div>
+
+  <label class="activity-fallback" data-fallback>
+    <span>{{ activity.fallback_prompt(locale) }}</span>
+    <input class="answer-input" type="text" inputmode="decimal" name="response"
+           placeholder="{{ t('quiz.numeric_placeholder') }}" autocomplete="off" required />
+  </label>
+</div>

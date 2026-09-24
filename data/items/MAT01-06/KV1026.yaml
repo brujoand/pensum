@@ -488,6 +488,42 @@ items:
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
+
+  # --- Answered with the hands -------------------------------------------
+  # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
+  # board, and without a script the same target is asked as a number.
+
+  - id: KM13291-03
+    goal: KM13291
+    type: balance
+    stage: pictorial
+    difficulty: 2
+    prompt:
+      nb: "Hver boks er x. Vekten er i likevekt: 3x + 2 = x + 10. Hva er x?"
+      en: "Each box is x. The scales balance: 3x + 2 = x + 10. What is x?"
+    activity:
+      alt:
+        nb: >-
+          En skålvekt i likevekt med tre bokser og 2 klosser til venstre, og én boks
+          og 10 klosser til høyre.
+        en: >-
+          A balanced pan balance with three boxes and 2 blocks on the left, and one
+          box and 10 blocks on the right.
+      left:
+        boxes: 3
+        weights: 2
+      right:
+        boxes: 1
+        weights: 10
+    explanation:
+      nb: >-
+        Ta bort én boks og 2 klosser fra begge sider. Da er 2x = 8, så x = 4.
+        Sjekk: 3 · 4 + 2 = 14 og 4 + 10 = 14.
+      en: >-
+        Take one box and 2 blocks from both sides. Then 2x = 8, so x = 4. Check:
+        3 × 4 + 2 = 14 and 4 + 10 = 14.
+    reviewed: false
+
 not_assessable:
   - goal: KM13293
     reason: >-

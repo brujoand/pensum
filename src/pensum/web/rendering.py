@@ -19,6 +19,7 @@ from pensum.items.figures import draw as draw_figure
 from pensum.items.figures import line_geometry
 from pensum.items.primitives import primitive_for
 from pensum.items.primitives import scripts as primitive_scripts
+from pensum.web.comfort import comfort_of
 from pensum.web.deps import current_user, get_settings, sees_unreviewed
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
@@ -98,6 +99,10 @@ def context(request: Request, locale: str, **extra: object) -> dict[str, object]
         # by looking at it. "dev" means the image was built outside the release
         # pipeline.
         "version": __version__,
+        # Read here, once, because `base.html` puts it on `<html>` and the
+        # stylesheet acts on it before anything else loads. Every page gets it;
+        # no page has to remember to ask.
+        "comfort": comfort_of(request),
         **extra,
     }
 

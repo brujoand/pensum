@@ -11,6 +11,7 @@ nav:
   home: Forsiden
   language: Språk
   about: Om Pensum
+  comfort: Innstillinger
 
 home:
   heading: Hvilket trinn går du på?
@@ -196,7 +197,9 @@ reading:
   first_time: Første gang du leser denne. Nå har du noe å slå.
   new_best: "Ny rekord — {delta} ord i minuttet raskere enn før."
   previous_best: "Rekorden din på denne teksten er {best}."
-  streak: "{days} dager på rad."
+  # Dager denne uken, ikke dager på rad: en dag uten lesing nullstiller
+  # ingenting (principles.md, «Hva spillifisering får lov til»).
+  week: "Dager du har lest denne uken: {days}"
 
   # Sies før mikrofonen slås på. Hvilken gjenkjenner som lytter, er ikke en
   # detalj: den ene sender ingenting noe sted, den andre sender stemmen til
@@ -630,3 +633,41 @@ activity:
     made: "☐ = {box}, og da veier venstre side {left} og høyre side {right}"
     status: "{equation}, ☐ = {box}"
     ask: Hvilket tall står i boksen?
+
+comfort:
+  # Hver innstilling beskrives ut fra hva den gjør, aldri ut fra hvem den er
+  # for. Ingen diagnose nevnes noe sted.
+  heading: Innstillinger
+  intro: >-
+    Velg hvordan Pensum skal se ut og oppføre seg på denne enheten.
+  calm: Rolig skjerm
+  calm_help: >-
+    Ingenting blinker, glitrer eller beveger seg. Det som endrer seg, toner
+    stille inn.
+  read_aloud: Les høyt
+  read_aloud_help: >-
+    En knapp ved spørsmål og svaralternativer leser teksten høyt. Krever at
+    enheten har en stemme for språket.
+  bigger_targets: Større knapper
+  bigger_targets_help: Knapper og svaralternativer blir større og lettere å treffe.
+  theme: Tema
+  theme_help: Hvordan tellebrikker og figurer ser ut. Ikke i bruk ennå.
+  theme_plain: Enkelt
+  theme_animals: Dyr
+  theme_vehicles: Kjøretøy
+  theme_space: Verdensrommet
+  theme_blocks: Klosser
+  break_reminder: Forslag om pause
+  break_reminder_help: >-
+    Etter noen oppgaver kan du velge å stoppe, og det du har gjort er tatt vare
+    på. Ikke i bruk ennå.
+  save: Lagre
+  saved: Lagret.
+  back: Tilbake
+  # Sagt der den lagres, ikke bare i README-en.
+  storage: >-
+    Innstillingene lagres i en informasjonskapsel på denne enheten. Den
+    inneholder bare disse valgene, leses bare av Pensum og sendes aldri noe
+    annet sted.
+  # Knappen som comfort.js legger ved spørsmål og svar.
+  speak: Les høyt

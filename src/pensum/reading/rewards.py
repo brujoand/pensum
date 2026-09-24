@@ -15,9 +15,9 @@ because they were asked for, and the tension is managed rather than hidden:
   landing inside it. Rewarding only the middle would turn a guideline range into
   a target with a penalty on both sides, which is the reading the norms file
   spends a paragraph refusing.
-* **Personal bests and streaks** are not computed here. They are per-pupil
-  history, and Pensum keeps none: they live in the pupil's own browser, so the
-  server never learns that a child read the same passage twice.
+* **Personal bests and the weekly count** are not computed here. They are
+  per-pupil history, and Pensum keeps none: they live in the pupil's own
+  browser, so the server never learns that a child read the same passage twice.
 """
 
 from __future__ import annotations

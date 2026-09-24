@@ -5,9 +5,9 @@
  * format the server accepts, posted to this site's own origin and dropped. It
  * is never stored here and never sent anywhere else.
  *
- * Personal bests and streaks live in this browser's localStorage and are never
- * sent to the server, which is what lets Pensum say it keeps no history of who
- * read what.
+ * Personal bests and the count of days read this week live in this browser's
+ * localStorage and are never sent to the server, which is what lets Pensum say
+ * it keeps no history of who read what.
  */
 (function () {
   "use strict";
@@ -457,22 +457,77 @@
     }
   }
 
-  function today() {
-    var now = new Date();
-    return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+  /* --- the weekly rhythm ------------------------------------------------ */
+
+  /* This used to be a daily streak, and a streak is a loss waiting to happen:
+   * one day off and the number a child was proud of goes back to one. So it
+   * counts days read this week instead. A missed day takes nothing away, and
+   * the count starting again on Monday is the calendar, not a penalty -- no
+   * message marks it (principles.md, "What gamification is allowed to do").
+   *
+   * dayKey(), isoWeekKey() and recordWeek() are pure and pulled out by
+   * tests/js/reading_week.test.js, so they take the date rather than reading
+   * the clock. Dates are the pupil's local calendar day. */
+
+  function dayKey(date) {
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    return date.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
   }
 
-  function yesterday() {
-    var then = new Date();
-    then.setDate(then.getDate() - 1);
-    return then.getFullYear() + "-" + (then.getMonth() + 1) + "-" + then.getDate();
+  /* ISO 8601: weeks start on Monday, and week 1 is the one holding the year's
+   * first Thursday -- which is how a Norwegian calendar numbers them. */
+  function isoWeekKey(date) {
+    var day = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    var weekday = day.getUTCDay() || 7;
+    day.setUTCDate(day.getUTCDate() + 4 - weekday);
+    var yearStart = new Date(Date.UTC(day.getUTCFullYear(), 0, 1));
+    var week = Math.ceil(((day - yearStart) / 86400000 + 1) / 7);
+    return day.getUTCFullYear() + "-W" + (week < 10 ? "0" : "") + week;
   }
 
-  /* Personal best and streak, computed here and never sent anywhere. */
+  /* Record a reading on `now` and return how many distinct days this ISO week
+   * have one. Mutates `state`; the caller saves it.
+   *
+   * Migration: the old `streak: {days, last}` is read once and dropped. A
+   * streak of N ending on `last` means each of those N days had a reading, so
+   * the ones that fall in the current week are carried over -- nobody loses
+   * this week's reading to the change. Anything unreadable is simply dropped. */
+  function recordWeek(state, now) {
+    var week = isoWeekKey(now);
+    var days =
+      state.week && state.week.id === week && Array.isArray(state.week.days)
+        ? state.week.days.filter(function (d) {
+            return typeof d === "string";
+          })
+        : [];
+
+    if (state.streak) {
+      var old = state.streak;
+      var parts = String(old.last || "").split("-");
+      var count = Math.min(Number(old.days) || 0, 7);
+      if (parts.length === 3 && count > 0) {
+        var last = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        for (var i = 0; i < count && !isNaN(last.getTime()); i++) {
+          var then = new Date(last.getFullYear(), last.getMonth(), last.getDate() - i);
+          var key = dayKey(then);
+          if (isoWeekKey(then) === week && days.indexOf(key) < 0) days.push(key);
+        }
+      }
+      delete state.streak;
+    }
+
+    var todayKey = dayKey(now);
+    if (days.indexOf(todayKey) < 0) days.push(todayKey);
+    days.sort();
+    state.week = { id: week, days: days };
+    return days.length;
+  }
+
+  /* Personal best and the week's count, computed here and never sent anywhere. */
   function recordAndDescribe(card, wpm) {
     var state = load();
     state.texts = state.texts || {};
-    state.streak = state.streak || { days: 0, last: null };
 
     var textId = card.dataset.textId;
     var entry = state.texts[textId] || { best: null, runs: 0 };
@@ -482,9 +537,7 @@
     if (wpm && (entry.best === null || wpm > entry.best)) entry.best = wpm;
     state.texts[textId] = entry;
 
-    if (state.streak.last === yesterday()) state.streak.days += 1;
-    else if (state.streak.last !== today()) state.streak.days = 1;
-    state.streak.last = today();
+    var daysThisWeek = recordWeek(state, new Date());
     save(state);
 
     var lines = [];
@@ -493,7 +546,7 @@
     else if (wpm > previous)
       lines.push(fill(card.dataset.labelBest, { delta: wpm - previous, best: wpm }));
     else lines.push(fill(card.dataset.labelPreviousBest, { best: previous }));
-    if (state.streak.days > 1) lines.push(fill(card.dataset.labelStreak, { days: state.streak.days }));
+    lines.push(fill(card.dataset.labelWeek, { days: daysThisWeek }));
     return lines;
   }
 

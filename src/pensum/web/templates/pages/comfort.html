@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("comfort.heading") }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a>
+  </nav>
+
+  <h1>{{ t("comfort.heading") }}</h1>
+  <p class="lede">{{ t("comfort.intro") }}</p>
+
+  {% if saved %}
+    {# role=status so a screen reader says it without moving focus. #}
+    <p class="notice" role="status">
+      {{ t("comfort.saved") }}
+      {% if back %}<a href="{{ back }}">{{ t("comfort.back") }}</a>{% endif %}
+    </p>
+  {% endif %}
+
+  {# A plain post and a redirect: this page must work with scripts off, because
+     the setting most wanted there is the one that makes pages quieter. Each
+     setting is described by what it does and nothing else. #}
+  <form class="comfort-form" method="post" action="/{{ locale }}/innstillinger">
+    {% if back %}<input type="hidden" name="next" value="{{ back }}" />{% endif %}
+
+    {% for name in ["calm", "read_aloud", "bigger_targets"] %}
+      <div class="comfort-setting">
+        <label>
+          <input type="checkbox" name="{{ name }}" value="1"
+                 aria-describedby="comfort-{{ name }}-help"
+                 {% if comfort[name] %}checked{% endif %} />
+          <span>{{ t("comfort." ~ name) }}</span>
+        </label>
+        <p class="field-help" id="comfort-{{ name }}-help">{{ t("comfort." ~ name ~ "_help") }}</p>
+      </div>
+    {% endfor %}
+
+    <fieldset class="comfort-setting">
+      <legend>{{ t("comfort.theme") }}</legend>
+      <p class="field-help">{{ t("comfort.theme_help") }}</p>
+      <ul class="choices">
+        {% for theme in themes %}
+          <li>
+            <label>
+              <input type="radio" name="theme" value="{{ theme }}"
+                     {% if comfort.theme == theme %}checked{% endif %} />
+              <span>{{ t("comfort.theme_" ~ theme) }}</span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    </fieldset>
+
+    <div class="comfort-setting">
+      <label>
+        <input type="checkbox" name="break_reminder" value="1"
+               aria-describedby="comfort-break_reminder-help"
+               {% if comfort.break_reminder %}checked{% endif %} />
+        <span>{{ t("comfort.break_reminder") }}</span>
+      </label>
+      <p class="field-help" id="comfort-break_reminder-help">{{ t("comfort.break_reminder_help") }}</p>
+    </div>
+
+    <button class="button" type="submit">{{ t("comfort.save") }}</button>
+  </form>
+
+  <p class="note">{{ t("comfort.storage") }}</p>
+{% endblock %}

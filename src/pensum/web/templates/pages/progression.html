@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% set title = subject.display_title.get(lang) %}
+
+{% block title %}{{ t("progression.title", subject=title) }}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/{{ locale }}/">{{ t("nav.home") }}</a>
+  </nav>
+
+  <div class="progression-page">
+    <h1>{{ t("progression.title", subject=title) }}</h1>
+    <p class="progression-intro">{{ t("progression.intro") }}</p>
+
+    {# Said before any skill is shown: everything in the grid that is not a
+       quoted goal is our reading, and a reader has to know that before judging
+       it. NLOD asks that official text never be presented misleadingly, and a
+       skill mistaken for a goal would be exactly that. #}
+    <p class="note">{{ t("progression.ours_note") }}</p>
+    {% if draft_count %}
+      <p class="note note--draft">{{ t("progression.drafts_note", count=draft_count, total=skill_count) }}</p>
+    {% endif %}
+    <p class="verbatim-note">{{ t("curriculum.verbatim_note") }}</p>
+
+    {# Wider than the page on any screen: nine checkpoints of prose do not fit a
+       reading measure. The region scrolls on its own, and takes focus so the
+       arrow keys can scroll it without a mouse. #}
+    <div class="progression-scroll" role="region" tabindex="0"
+         aria-label="{{ t('progression.grid_label') }}">
+      <table class="progression">
+        <thead>
+          <tr>
+            <th scope="col">{{ t("progression.strand") }}</th>
+            {% for checkpoint in checkpoints %}
+              <th scope="col">{{ t("progression.checkpoint", year=checkpoint) }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <th scope="row" class="progression-strand">{{ row.strand.title.get(locale) }}</th>
+              {% for cell in row.cells %}
+                <td class="{{ 'progression-cell' if cell.skills else 'progression-cell progression-cell--empty' }}">
+                  {% if cell.skills %}
+                    {# The column header is lost once print stacks the grid, so
+                       each cell carries its own checkpoint, shown only there. #}
+                    <p class="progression-cell-checkpoint">{{ t("progression.checkpoint", year=cell.checkpoint) }}</p>
+                    <ul class="skill-list">
+                      {% for skill, goals in cell.skills %}
+                        <li class="skill" id="{{ skill.id }}">
+                          <p class="skill-i-can">
+                            <span class="skill-label">{{ t("progression.pupil_label") }}</span>
+                            {{ skill.i_can.get(locale) }}
+                          </p>
+                          {% if not skill.reviewed or not skill.assessable %}
+                            <p class="skill-badges">
+                              {% if not skill.reviewed %}
+                                <span class="badge badge--draft">{{ t("progression.draft") }}</span>
+                              {% endif %}
+                              {% if not skill.assessable %}
+                                <span class="badge">{{ t("progression.off_screen") }}</span>
+                              {% endif %}
+                            </p>
+                          {% endif %}
+                          <p class="skill-teacher">
+                            <span class="skill-label">{{ t("progression.teacher_label") }}</span>
+                            {{ skill.teacher.get(locale) }}
+                          </p>
+                          {# Udir's words, verbatim, in the treatment the subject
+                             page gives them. Never restyled to match the skill. #}
+                          <ul class="curriculum skill-goals">
+                            {% for goal in goals %}
+                              <li class="goal">
+                                <blockquote cite="{{ goal.source_url }}">{{ goal.text.get(lang) }}</blockquote>
+                                <a class="source-link" href="{{ goal.source_url }}" rel="external">
+                                  {{ t("subject.source_link") }} ({{ goal.code }})
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

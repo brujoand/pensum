@@ -197,5 +197,8 @@ async def subject_page(
                 _items(request).for_goal_set(checkpoint.goal_set.code, unreviewed=drafts)
             ),
             coverage=_items(request).coverage(checkpoint.goal_set, unreviewed=drafts),
+            # Offered wherever a skills file exists, drafts included: the guide
+            # labels its own drafts, and no pupil-facing path depends on it.
+            has_progression=request.app.state.skills.has(subject.code),
         ),
     )

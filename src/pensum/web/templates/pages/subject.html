@@ -104,6 +104,15 @@
     </section>
   {% endif %}
 
+  {% if has_progression %}
+    {# For the teacher rather than the pupil: the whole subject, every trinn,
+       read as skills. Placed by the goals because it is a reading of them. #}
+    <p class="progression-cta">
+      <a href="/{{ locale }}/progresjon/{{ subject.code }}">{{ t("progression.cta") }}</a>
+      <span class="field-help">{{ t("progression.cta_note") }}</span>
+    </p>
+  {% endif %}
+
   <section>
     {# Collapsible, and open by default on the page whose whole purpose is
        showing them -- folding is for getting past them, not hiding them. #}

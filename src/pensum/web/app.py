@@ -34,6 +34,7 @@ from pensum.reading.streams import StreamStore
 from pensum.reading.transcribe import Transcriber, load_transcriber
 from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.store import AttemptStore
+from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.listening_routes import router as listening_router
@@ -42,6 +43,7 @@ from pensum.web.quiz_routes import router as quiz_router
 from pensum.web.reading_routes import router as reading_router
 from pensum.web.review_routes import router as review_router
 from pensum.web.routes import router
+from pensum.web.skills_routes import router as skills_router
 from pensum.web.writing_routes import router as writing_router
 from pensum.writing.library import WritingLibrary
 
@@ -60,6 +62,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # no content of its own. Building it here keeps the first request off the
     # cost of reading every passage and every item back out again.
     app.state.listening = ListeningLibrary.of(app.state.items, app.state.reading)
+    if getattr(app.state, "skills", None) is None:
+        app.state.skills = SkillLibrary.load()
     yield
 
 
@@ -70,6 +74,7 @@ def create_app(
     reading: ReadingLibrary | None = None,
     writing: WritingLibrary | None = None,
     transcriber: Transcriber | None = None,
+    skills: SkillLibrary | None = None,
 ) -> FastAPI:
     """Build the app. Pass the collaborators to substitute them in tests."""
     active = settings if settings is not None else env_settings
@@ -105,6 +110,7 @@ def create_app(
             app.state.reviews
         )
         app.state.listening = ListeningLibrary.of(app.state.items, app.state.reading)
+        app.state.skills = skills if skills is not None else SkillLibrary.load()
     else:
         # The lifespan builds the rest and attaches the ledger there. Only what
         # was injected has to be wired up here.
@@ -112,6 +118,8 @@ def create_app(
             app.state.reading = reading.with_ledger(app.state.reviews)
         if writing is not None:
             app.state.writing = writing.with_ledger(app.state.reviews)
+        # None here means the lifespan loads it, as it does the item bank.
+        app.state.skills = skills
 
     # Loaded here rather than in the lifespan so a test can inject a fake
     # without a model on disk. None -- no models configured -- is the default
@@ -145,6 +153,7 @@ def create_app(
     app.include_router(auth_router)
     app.include_router(admin_router)
     app.include_router(review_router)
+    app.include_router(skills_router)
     return app
 
 

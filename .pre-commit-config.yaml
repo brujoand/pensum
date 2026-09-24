@@ -96,6 +96,16 @@ repos:
         files: ^(data/(items|curriculum)/|src/pensum/items/)
         pass_filenames: false
 
+      # Skills cite goals the same way items do, so a revision orphans them the
+      # same way. Plus the rules of their own: every goal read by some skill,
+      # each at its own checkpoint, and no circle in what a skill needs.
+      - id: validate-skills
+        name: Validate skills against the curriculum catalogue
+        entry: uv run python -m pensum.skills.validate
+        language: system
+        files: ^(data/(skills|curriculum)/|src/pensum/skills/)
+        pass_filenames: false
+
       # The same failure mode for reading passages, plus one of its own: a
       # checkpoint with passages but no speed band would show a pupil a pace
       # with nothing to read it against.

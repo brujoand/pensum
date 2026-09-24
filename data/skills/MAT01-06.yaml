@@ -1,0 +1,1636 @@
+# Matematikk, read as skills. Pensum's own plain reading of LK20, derived from
+# the progression tables in docs/design/subjects/matematikk.md. Udir's goal text,
+# cited by `refs`, stays the authority. Every skill is a draft until a human has
+# read it and set `reviewed: true`.
+subject: MAT01-06
+
+strands:
+  - id: counting
+    title: {nob: Telling og antall, eng: Counting and quantity}
+  - id: place-value
+    title: {nob: Plassverdi og tallinja, eng: Place value and the number line}
+  - id: add-subtract
+    title: {nob: Addisjon og subtraksjon, eng: Addition and subtraction}
+  - id: multiply-divide
+    title: {nob: Multiplikasjon og divisjon, eng: Multiplication and division}
+  - id: fractions
+    title: {nob: "Brøk, desimaltall og prosent", eng: "Fractions, decimals and percent"}
+  - id: algebra
+    title: {nob: "Likhet, likninger, algebra og funksjoner", eng: "Equality, equations, algebra and functions"}
+  - id: shape-space
+    title: {nob: Form og rom, eng: Shape and space}
+  - id: measurement
+    title: {nob: Måling, eng: Measurement}
+  - id: data-chance
+    title: {nob: "Data, statistikk og sannsynlighet", eng: "Data, statistics and chance"}
+  - id: programming
+    title: {nob: Algoritmer og programmering, eng: Algorithms and programming}
+  - id: money-modelling
+    title: {nob: Penger og modellering, eng: Money and modelling}
+
+skills:
+  # 1. Counting and quantity --------------------------------------------------
+
+  - id: mat.counting.subitise
+    strand: counting
+    checkpoint: 2
+    refs: [KM13241]
+    needs: []
+    i_can:
+      nob: "Jeg ser hvor mange opp til ti uten å telle."
+      eng: "I can see how many, up to ten, without counting."
+    teacher:
+      nob: "Sier antallet i et terningmønster eller en tierramme med opptil 10 prikker uten å peke og telle. Ikke ennå: teller prikkene én og én."
+      eng: "Says how many dots are in a dice pattern or a ten-frame of up to 10 without pointing and counting. Not yet: counts the dots one by one."
+    stages: [concrete, pictorial]
+    misconceptions: [counts-object-twice]
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.count-to-100
+    strand: counting
+    checkpoint: 2
+    refs: [KM13230]
+    needs: []
+    i_can:
+      nob: "Jeg kan telle fram og tilbake til 100."
+      eng: "I can count forwards and backwards to 100."
+    teacher:
+      nob: "Teller videre fra et hvilket som helst tall, for eksempel fra 37 til 52 og tilbake til 29, uten å begynne på 1. Ikke ennå: må starte på 1, eller stopper ved tierovergangen (39, 40)."
+      eng: "Counts on from any number, for example from 37 up to 52 and back to 29, without starting again at 1. Not yet: has to start at 1, or stalls at the change of ten (39, 40)."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [recounts-from-one]
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.skip-count
+    strand: counting
+    checkpoint: 2
+    refs: [KM13230]
+    needs: [mat.counting.count-to-100]
+    i_can:
+      nob: "Jeg kan telle med to, fem og ti om gangen."
+      eng: "I can count in twos, fives and tens."
+    teacher:
+      nob: "Teller sko i toere og fingre i femmere, og peker på mønsteret i sifrene (5, 10, 15, 20). Ikke ennå: teller alle én og én og sier bare hvert annet tall høyt."
+      eng: "Counts shoes in twos and fingers in fives, and points out the pattern in the digits (5, 10, 15, 20). Not yet: counts every one and only says every other number aloud."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.represent-numbers
+    strand: counting
+    checkpoint: 2
+    refs: [KM13241]
+    needs: [mat.counting.subitise]
+    i_can:
+      nob: "Jeg kan vise et tall med ting, tegning, siffer og ord."
+      eng: "I can show a number with objects, a drawing, digits and words."
+    teacher:
+      nob: "Kobler sju klosser, en tegning av sju prikker, sifferet 7 og ordet «sju», og lager selv en ny måte å vise det på. Ikke ennå: kobler siffer og ord, men ikke mengden, eller leser 13 som 31."
+      eng: "Links seven blocks, a drawing of seven dots, the numeral 7 and the word \"seven\", and makes a new way of showing it. Not yet: links numeral and word but not the amount, or reads 13 as 31."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [reads-digits-reversed]
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.sort-sets
+    strand: counting
+    checkpoint: 2
+    refs: [KM13228]
+    needs: []
+    i_can:
+      nob: "Jeg kan sortere ting på to ulike måter."
+      eng: "I can sort things in two different ways."
+    teacher:
+      nob: "Sorterer en haug knapper etter farge, blander dem og sorterer på nytt etter størrelse eller antall hull, og sier regelen. Ikke ennå: finner bare én måte, eller kan ikke si hvilken regel som ble brukt."
+      eng: "Sorts a pile of buttons by colour, mixes them and sorts again by size or number of holes, and says the rule. Not yet: finds only one way, or cannot say which rule was used."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.odd-even
+    strand: counting
+    checkpoint: 2
+    refs: [KM13231]
+    needs: [mat.counting.skip-count]
+    i_can:
+      nob: "Jeg kan finne ut om et tall er partall eller oddetall."
+      eng: "I can tell if a number is odd or even."
+    teacher:
+      nob: "Setter brikker i par og sier at tallet er et oddetall når én blir til overs. Ikke ennå: gjetter ut fra hvor stort tallet er."
+      eng: "Puts counters into pairs and says the number is odd when one is left over. Not yet: guesses from how big the number is."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.counting.explore-numbers
+    strand: counting
+    checkpoint: 2
+    refs: [KM13229]
+    needs: []
+    i_can:
+      nob: "Jeg kan finne tall i lek, naturen, musikk og bøker."
+      eng: "I can find numbers in play, nature, music and books."
+    teacher:
+      nob: "Finner og viser tall utenfor skjermen: teller kongler på tur, klapper en rytme, finner et mønster i en bildebok. Ikke ennå: ser tall bare som noe som hører til matteboka."
+      eng: "Finds and shows numbers away from the screen: counts pine cones on a walk, claps a rhythm, spots a pattern in a picture book. Not yet: treats numbers as something that belongs only in the maths book."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # 2. Place value and the number line ----------------------------------------
+
+  - id: mat.place-value.tens-and-ones
+    strand: place-value
+    checkpoint: 2
+    refs: [KM13232]
+    needs: [mat.counting.count-to-100]
+    i_can:
+      nob: "Jeg kan bygge et tall med tiere og enere."
+      eng: "I can build a number with tens and ones."
+    teacher:
+      nob: "Bygger 34 med 3 tierstaver og 4 enerkuber og sier at 3-tallet er verdt 30. Ikke ennå: sier at 3-tallet i 34 er verdt 3, eller leser 305 som «tretti-fem»."
+      eng: "Builds 34 from 3 ten-rods and 4 unit cubes and says the 3 is worth 30. Not yet: says the 3 in 34 is worth 3, or reads 305 as \"thirty-five\"."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [reads-digits-as-units, zero-as-nothing]
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.exchange-tens
+    strand: place-value
+    checkpoint: 2
+    refs: [KM13232]
+    needs: [mat.place-value.tens-and-ones]
+    i_can:
+      nob: "Jeg kan bytte ti enere mot én tier."
+      eng: "I can swap ten ones for one ten."
+    teacher:
+      nob: "Viser 34 som 3 staver og 4 kuber uten å telle alle, og godtar at 2 staver og 14 kuber også er 34. Ikke ennå: teller hver kube."
+      eng: "Shows 34 as 3 rods and 4 cubes without counting all 34, and accepts that 2 rods and 14 cubes are also 34. Not yet: counts every cube."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [reads-digits-as-units]
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.number-line-100
+    strand: place-value
+    checkpoint: 2
+    refs: [KM13233]
+    needs: [mat.counting.count-to-100]
+    i_can:
+      nob: "Jeg kan plassere tall opp til 100 på tallinja."
+      eng: "I can place numbers up to 100 on a number line."
+    teacher:
+      nob: "Plasserer 47 omtrent riktig mellom 0 og 100, og bruker hopp på linja til å regne 47 + 10. Ikke ennå: setter tallene med lik avstand uansett verdi, eller teller streker én og én."
+      eng: "Places 47 roughly right between 0 and 100, and uses jumps on the line to work out 47 + 10. Not yet: spaces numbers evenly whatever their value, or counts tick marks one by one."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.decimals-on-line
+    strand: place-value
+    checkpoint: 6
+    refs: [KM13275]
+    needs: [mat.place-value.number-line-100]
+    i_can:
+      nob: "Jeg kan plassere desimaltall på tallinja og ordne dem."
+      eng: "I can place decimals on a number line and order them."
+    teacher:
+      nob: "Plasserer 0,25 og 0,3 på samme tallinje og sier at 0,3 er størst fordi det er 3 tideler. Ikke ennå: sier at 0,25 er størst fordi 25 er mer enn 3."
+      eng: "Places 0.25 and 0.3 on the same number line and says 0.3 is bigger because it is 3 tenths. Not yet: says 0.25 is bigger because 25 is more than 3."
+    stages: [pictorial, abstract]
+    misconceptions: [longer-decimal-is-bigger]
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.negative-numbers
+    strand: place-value
+    checkpoint: 7
+    refs: [KM13292]
+    needs: [mat.place-value.number-line-100]
+    i_can:
+      nob: "Jeg kan plassere og sammenligne negative tall."
+      eng: "I can place and compare negative numbers."
+    teacher:
+      nob: "Plasserer −5 og −2 på en termometerlinje og sier at −2 er varmest. Ikke ennå: sier at −5 er størst fordi 5 er mer enn 2."
+      eng: "Places −5 and −2 on a thermometer line and says −2 is warmer. Not yet: says −5 is bigger because 5 is more than 2."
+    stages: [pictorial, abstract]
+    misconceptions: [bigger-digit-bigger-negative]
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.negative-arithmetic
+    strand: place-value
+    checkpoint: 7
+    refs: [KM13292]
+    needs: [mat.place-value.negative-numbers]
+    i_can:
+      nob: "Jeg kan legge til og trekke fra med negative tall."
+      eng: "I can add and subtract with negative numbers."
+    teacher:
+      nob: "Regner ut at −3 °C og 5 grader varmere blir 2 °C, og viser hoppet på tallinja. Ikke ennå: svarer 8 eller −8 fordi fortegnet forsvinner underveis."
+      eng: "Works out that −3 °C getting 5 degrees warmer is 2 °C, and shows the jump on the line. Not yet: answers 8 or −8 because the sign gets lost on the way."
+    stages: [pictorial, abstract]
+    misconceptions: [bigger-digit-bigger-negative]
+    assessable: true
+    reviewed: false
+
+  - id: mat.place-value.powers-and-roots
+    strand: place-value
+    checkpoint: 8
+    refs: [KM13297]
+    needs: [mat.place-value.decimals-on-line]
+    i_can:
+      nob: "Jeg kan skrive tierpotenser og finne kvadratrøtter."
+      eng: "I can write powers of ten and find square roots."
+    teacher:
+      nob: "Skriver 1 000 000 som 10⁶, sammenligner 10³ og 10⁴, og sier at √49 er 7 fordi 7 · 7 = 49. Ikke ennå: leser 10³ som 10 · 3, eller tar √49 som halvparten av 49."
+      eng: "Writes 1 000 000 as 10⁶, compares 10³ with 10⁴, and says √49 is 7 because 7 × 7 = 49. Not yet: reads 10³ as 10 × 3, or takes √49 to be half of 49."
+    stages: [abstract]
+    misconceptions: [power-as-multiplication]
+    assessable: true
+    reviewed: false
+
+  # 3. Addition and subtraction ------------------------------------------------
+
+  - id: mat.add-subtract.within-20
+    strand: add-subtract
+    checkpoint: 2
+    refs: [KM13234]
+    needs: [mat.counting.count-to-100]
+    i_can:
+      nob: "Jeg kan legge sammen og trekke fra opp til 20."
+      eng: "I can add and subtract up to 20."
+    teacher:
+      nob: "Løser «Du har 8 kaker og får 5 til» med brikker, tallinje eller et tall som sitter, og forteller hvordan. Ikke ennå: teller alt fra 1 hver gang, eller legger sammen fordi fortellingen sier «flere»."
+      eng: "Solves \"You have 8 cakes and get 5 more\" with counters, a number line or a known fact, and says how. Not yet: counts everything from 1 each time, or adds because the story says \"more\"."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [more-always-means-add, recounts-from-one]
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.order-of-addends
+    strand: add-subtract
+    checkpoint: 2
+    refs: [KM13235]
+    needs: [mat.add-subtract.within-20]
+    i_can:
+      nob: "Jeg kan bytte om tallene når jeg legger sammen."
+      eng: "I can swap the numbers round when I add."
+    teacher:
+      nob: "Regner 2 + 9 som 9 + 2 og teller videre fra 9, og viser med klosser at 3 + 5 og 5 + 3 blir like mye. Ikke ennå: begynner alltid på det første tallet, også når det er det minste."
+      eng: "Works out 2 + 9 as 9 + 2 and counts on from 9, and shows with blocks that 3 + 5 and 5 + 3 are the same. Not yet: always starts from the first number, even when it is the smaller one."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [recounts-from-one]
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.strategies
+    strand: add-subtract
+    checkpoint: 3
+    refs: [KM13243]
+    needs: [mat.add-subtract.within-20, mat.place-value.tens-and-ones]
+    i_can:
+      nob: "Jeg kan velge en lur måte å regne på og forklare den."
+      eng: "I can choose a smart way to calculate and explain it."
+    teacher:
+      nob: "Regner 47 + 25 ved å ta tierne først eller ved å fylle opp til 50, og forklarer hvorfor hen valgte den måten. Ikke ennå: bruker bare én metode, teller i enere, eller trekker det minste sifferet fra det største i hver kolonne (52 − 17 = 45)."
+      eng: "Works out 47 + 25 by doing the tens first or by filling up to 50, and explains the choice. Not yet: uses only one method, counts in ones, or takes the smaller digit from the larger in each column (52 − 17 = 45)."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [smaller-from-larger-digit]
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.fact-families
+    strand: add-subtract
+    checkpoint: 3
+    refs: [KM13244]
+    needs: [mat.add-subtract.within-20]
+    i_can:
+      nob: "Jeg kan gjøre et plusstykke om til et minusstykke."
+      eng: "I can turn an addition into a subtraction."
+    teacher:
+      nob: "Ut fra 8 + 5 = 13 skriver eleven 13 − 5 = 8 og 13 − 8 = 5 uten å regne på nytt. Ikke ennå: regner hvert stykke fra bunnen av."
+      eng: "From 8 + 5 = 13, writes 13 − 5 = 8 and 13 − 8 = 5 without working them out again. Not yet: works out each one from scratch."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.four-operations
+    strand: add-subtract
+    checkpoint: 4
+    refs: [KM13258]
+    needs: [mat.add-subtract.strategies, mat.add-subtract.fact-families, mat.multiply-divide.equal-groups]
+    i_can:
+      nob: "Jeg kan vise hvordan de fire regneartene henger sammen."
+      eng: "I can show how the four operations fit together."
+    teacher:
+      nob: "Forklarer at 4 · 6 er 6 + 6 + 6 + 6, og at 24 : 6 svarer på det samme spørsmålet baklengs, både skriftlig og i hodet. Ikke ennå: behandler de fire regneartene som fire regler uten noe med hverandre å gjøre."
+      eng: "Explains that 4 × 6 is 6 + 6 + 6 + 6, and that 24 ÷ 6 asks the same question backwards, on paper and in their head. Not yet: treats the four operations as four unrelated rules."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.estimate-and-check
+    strand: add-subtract
+    checkpoint: 4
+    refs: [KM13259]
+    needs: [mat.add-subtract.strategies]
+    i_can:
+      nob: "Jeg kan anslå svaret først og sjekke om det er rimelig."
+      eng: "I can estimate first and check if my answer makes sense."
+    teacher:
+      nob: "Sier «omtrent 70» før eleven regner 47 + 25, og stopper opp når utregningen gir 612. Ikke ennå: godtar et hvilket som helst svar utregningen gir."
+      eng: "Says \"about 70\" before working out 47 + 25, and stops when the working gives 612. Not yet: accepts whatever answer the working produces."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.add-subtract.judge-solutions
+    strand: add-subtract
+    checkpoint: 4
+    refs: [KM13259]
+    needs: [mat.add-subtract.estimate-and-check]
+    i_can:
+      nob: "Jeg kan si hva som er bra med en annens løsning."
+      eng: "I can say what works in someone else's solution."
+    teacher:
+      nob: "Ser på en medelevs løsning i en samtale, sier hva som stemmer og hva som kunne vært gjort annerledes, og begrunner det. Ikke ennå: sier bare «riktig» eller «feil»."
+      eng: "Looks at a classmate's solution in conversation, says what holds and what could be done differently, and gives a reason. Not yet: only says \"right\" or \"wrong\"."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  # 4. Multiplication and division --------------------------------------------
+
+  - id: mat.multiply-divide.equal-groups
+    strand: multiply-divide
+    checkpoint: 3
+    refs: [KM13245, KM13247]
+    needs: [mat.counting.skip-count]
+    i_can:
+      nob: "Jeg kan vise ganging som like grupper og som rader."
+      eng: "I can show multiplication as equal groups and as an array."
+    teacher:
+      nob: "Legger 3 · 4 som tre tallerkener med fire epler og som et rutenett med tre rader, og peker på at det er samme stykke. Ikke ennå: lager grupper av ulik størrelse, eller ser ikke at de to viser det samme."
+      eng: "Lays out 3 × 4 as three plates of four apples and as an array of three rows, and points out it is the same sum. Not yet: makes groups of different sizes, or does not see that the two show the same thing."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [multiplying-makes-bigger]
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.double-halve
+    strand: multiply-divide
+    checkpoint: 3
+    refs: [KM13254]
+    needs: [mat.place-value.tens-and-ones]
+    i_can:
+      nob: "Jeg kan doble og halvere tall opp til 100 i hodet."
+      eng: "I can double and halve numbers to 100 in my head."
+    teacher:
+      nob: "Dobler 36 til 72 ved å doble tierne og enerne hver for seg, og halverer 58 til 29. Ikke ennå: må skrive stykket opp eller telle."
+      eng: "Doubles 36 to 72 by doubling the tens and the ones separately, and halves 58 to 29. Not yet: has to write it down or count."
+    stages: [concrete, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.turn-array
+    strand: multiply-divide
+    checkpoint: 3
+    refs: [KM13248]
+    needs: [mat.multiply-divide.equal-groups]
+    i_can:
+      nob: "Jeg kan snu et gangestykke og få samme svar."
+      eng: "I can turn a multiplication round and get the same answer."
+    teacher:
+      nob: "Snur et rutenett på 4 · 6 og sier at 6 · 4 fortsatt er 24 uten å telle på nytt. Ikke ennå: teller rutene igjen etter at rutenettet er snudd."
+      eng: "Turns a 4 × 6 array round and says 6 × 4 is still 24 without counting again. Not yet: counts the squares again after the array is turned."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.split-array
+    strand: multiply-divide
+    checkpoint: 3
+    refs: [KM13248]
+    needs: [mat.multiply-divide.turn-array]
+    i_can:
+      nob: "Jeg kan dele opp et gangestykke i to mindre."
+      eng: "I can split a multiplication into two smaller ones."
+    teacher:
+      nob: "Regner 4 · 6 som 4 · 5 + 4 · 1 og viser det ved å dele et rutenett med en strek. Ikke ennå: klarer bare gangestykker som sitter."
+      eng: "Works out 4 × 6 as 4 × 5 + 4 × 1 and shows it by splitting an array with a line. Not yet: manages only the facts they already know by heart."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.everyday-problems
+    strand: multiply-divide
+    checkpoint: 3
+    refs: [KM13246]
+    needs: [mat.multiply-divide.equal-groups]
+    i_can:
+      nob: "Jeg kan løse hverdagsoppgaver med ganging og deling."
+      eng: "I can solve everyday problems with multiplication and division."
+    teacher:
+      nob: "Finner ut hvor mange hjul fem sykler har, og hvor mange lag på fire som blir av 20 barn, og lager selv en slik oppgave. Ikke ennå: velger regneart ut fra hvilke tall som står i oppgaven."
+      eng: "Works out how many wheels five bikes have and how many teams of four 20 children make, and makes up a problem like it. Not yet: picks the operation from which numbers are in the problem."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [multiplying-makes-bigger]
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.sharing-and-grouping
+    strand: multiply-divide
+    checkpoint: 4
+    refs: [KM13255, KM13256]
+    needs: [mat.multiply-divide.everyday-problems]
+    i_can:
+      nob: "Jeg kan dele ut likt eller lage grupper av en størrelse."
+      eng: "I can share out equally or make groups of a size."
+    teacher:
+      nob: "Viser 12 : 3 både ved å dele ut til tre tallerkener og ved å fylle poser med tre, og sier hvilken av dem en fortelling beskriver. Ikke ennå: bruker samme handling på begge slags fortellinger."
+      eng: "Shows 12 ÷ 3 both by dealing out onto three plates and by filling bags of three, and says which one a story describes. Not yet: uses the same action for both kinds of story."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [sharing-grouping-confused]
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.division-strategies
+    strand: multiply-divide
+    checkpoint: 4
+    refs: [KM13257]
+    needs: [mat.multiply-divide.sharing-and-grouping, mat.multiply-divide.split-array]
+    i_can:
+      nob: "Jeg kan dele på mer enn én måte og forklare hvordan."
+      eng: "I can divide in more than one way and explain how."
+    teacher:
+      nob: "Regner 84 : 4 både som 80 : 4 + 4 : 4 og ved å telle i firere oppover, og forklarer én av måtene. Ikke ennå: har én oppskrift og kan ikke si hvorfor den virker."
+      eng: "Works out 84 ÷ 4 both as 80 ÷ 4 + 4 ÷ 4 and by counting up in fours, and explains one of them. Not yet: has one recipe and cannot say why it works."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.prime-factors
+    strand: multiply-divide
+    checkpoint: 8
+    refs: [KM13298]
+    needs: [mat.multiply-divide.division-strategies, mat.fractions.compare]
+    i_can:
+      nob: "Jeg kan finne primfaktorene i et tall."
+      eng: "I can find the prime factors of a number."
+    teacher:
+      nob: "Bygger et faktortre for 60 ned til 2 · 2 · 3 · 5 og bruker det til å forkorte 12/60. Ikke ennå: stopper ved faktorer som ikke er primtall, som 4 · 15."
+      eng: "Builds a factor tree for 60 down to 2 × 2 × 3 × 5 and uses it to simplify 12/60. Not yet: stops at factors that are not prime, such as 4 × 15."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.multiply-divide.laws
+    strand: multiply-divide
+    checkpoint: 8
+    refs: [KM13303]
+    needs: [mat.multiply-divide.split-array]
+    i_can:
+      nob: "Jeg kan bytte om og gruppere tall for å regne lurt."
+      eng: "I can reorder and regroup numbers to calculate smartly."
+    teacher:
+      nob: "Regner 25 · 7 · 4 som 25 · 4 · 7 og 6 · 98 som 6 · 100 − 6 · 2, og sier hvilken regel hen brukte. Ikke ennå: regner alltid fra venstre mot høyre."
+      eng: "Works out 25 × 7 × 4 as 25 × 4 × 7 and 6 × 98 as 6 × 100 − 6 × 2, and names the law used. Not yet: always works from left to right."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 5. Fractions, decimals, percent -------------------------------------------
+
+  - id: mat.fractions.equivalence
+    strand: fractions
+    checkpoint: 3
+    refs: [KM13250]
+    needs: []
+    i_can:
+      nob: "Jeg kan vise at to ulike deler er like store."
+      eng: "I can show that two different-looking parts are the same size."
+    teacher:
+      nob: "Legger to fjerdedeler oppå en halvdel og viser at de dekker det samme, eller at to kronestykker er like mye som ett tokronestykke. Ikke ennå: sier at det som ser ulikt ut, må være ulikt."
+      eng: "Lays two quarters over a half and shows they cover the same, or that two 1-krone coins are worth one 2-krone coin. Not yet: says that what looks different must be different."
+    stages: [concrete, pictorial]
+    misconceptions: [unequal-parts-as-fractions]
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.represent
+    strand: fractions
+    checkpoint: 5
+    refs: [KM13266, KM13267]
+    needs: [mat.fractions.equivalence]
+    i_can:
+      nob: "Jeg kan vise brøk som del av noe og på tallinja."
+      eng: "I can show fractions as parts and on a number line."
+    teacher:
+      nob: "Viser 3/4 som del av en pizza, som 3 av 4 kuler, som 3 : 4 og som et punkt på tallinja, og kobler dem. Ikke ennå: kjenner bare igjen brøk som kakestykker, eller teller ulike store deler som brøk."
+      eng: "Shows 3/4 as part of a pizza, as 3 of 4 marbles, as 3 ÷ 4 and as a point on a number line, and links them. Not yet: recognises fractions only as slices of cake, or counts unequal parts as fractions."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [unequal-parts-as-fractions]
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.compare
+    strand: fractions
+    checkpoint: 5
+    refs: [KM13268]
+    needs: [mat.fractions.represent]
+    i_can:
+      nob: "Jeg kan si hvilken brøk som er størst, og vise hvorfor."
+      eng: "I can tell which fraction is bigger and show why."
+    teacher:
+      nob: "Legger brøkstrimler for 1/4 og 1/2 under hverandre og viser at 1/2 er størst. Ikke ennå: sier at 1/4 er størst fordi 4 er mer enn 2, eller regner 1/2 + 1/3 som 2/5."
+      eng: "Lines up fraction strips for 1/4 and 1/2 and shows that 1/2 is bigger. Not yet: says 1/4 is bigger because 4 is more than 2, or works out 1/2 + 1/3 as 2/5."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [bigger-denominator-bigger-fraction, adds-tops-and-bottoms]
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.same-amount
+    strand: fractions
+    checkpoint: 5
+    refs: [KM13265]
+    needs: [mat.fractions.represent]
+    i_can:
+      nob: "Jeg kan se at ½, 0,5 og 50 % er like mye."
+      eng: "I can match ½, 0.5 and 50 % as the same amount."
+    teacher:
+      nob: "Kobler en halv sjokolade, 0,5 og 50 % til samme punkt på en tallinje fra 0 til 1. Ikke ennå: ser dem som tre forskjellige tall."
+      eng: "Matches half a chocolate bar, 0.5 and 50 % to the same point on a line from 0 to 1. Not yet: treats them as three different numbers."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.story-problems
+    strand: fractions
+    checkpoint: 5
+    refs: [KM13269]
+    needs: [mat.fractions.represent]
+    i_can:
+      nob: "Jeg kan løse fortellinger med brøk."
+      eng: "I can solve story problems with fractions."
+    teacher:
+      nob: "Løser «Du spiste 2/8 av en pizza og jeg 3/8, hvor mye er igjen?» med en tegning og forklarer svaret. Ikke ennå: legger sammen tellere og nevnere hver for seg."
+      eng: "Solves \"You ate 2/8 of a pizza and I ate 3/8; how much is left?\" with a drawing and explains the answer. Not yet: adds tops and bottoms separately."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [adds-tops-and-bottoms]
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.decimal-arithmetic
+    strand: fractions
+    checkpoint: 6
+    refs: [KM13276]
+    needs: [mat.place-value.decimals-on-line, mat.add-subtract.strategies]
+    i_can:
+      nob: "Jeg kan regne med desimaltall og sammenligne med hele tall."
+      eng: "I can calculate with decimals and compare it with whole numbers."
+    teacher:
+      nob: "Regner 2,4 + 1,75 ved å stille opp etter komma, og forklarer at det er samme idé som tiere og enere. Ikke ennå: stiller opp etter siste siffer, som med hele tall."
+      eng: "Works out 2.4 + 1.75 by lining up the decimal points, and explains it is the same idea as tens and ones. Not yet: lines up the last digits, as with whole numbers."
+    stages: [pictorial, abstract]
+    misconceptions: [longer-decimal-is-bigger]
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.mixed-problems
+    strand: fractions
+    checkpoint: 6
+    refs: [KM13277]
+    needs: [mat.fractions.same-amount, mat.fractions.decimal-arithmetic, mat.fractions.story-problems]
+    i_can:
+      nob: "Jeg kan løse oppgaver med brøk, desimaltall og prosent."
+      eng: "I can solve problems with fractions, decimals and percentages."
+    teacher:
+      nob: "Finner ut om 1/4 rabatt eller 20 % rabatt er best på en jakke til 400 kr, og forklarer hvorfor. Ikke ennå: sammenligner tallene 4 og 20 uten å regne om."
+      eng: "Works out whether a quarter off or 20 % off is better on a 400-krone jacket, and says why. Not yet: compares the numbers 4 and 20 without converting."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.fractions.convert
+    strand: fractions
+    checkpoint: 7
+    refs: [KM13286, KM13288]
+    needs: [mat.fractions.mixed-problems]
+    i_can:
+      nob: "Jeg kan bytte mellom brøk, desimaltall og prosent."
+      eng: "I can switch between fractions, decimals and percentages."
+    teacher:
+      nob: "Skriver 3/5 som 0,6 og 60 %, og 0,125 som 1/8, og velger den formen som gjør regningen enklest. Ikke ennå: kan bare noen få par utenat, som ½ og 50 %."
+      eng: "Writes 3/5 as 0.6 and 60 %, and 0.125 as 1/8, and picks the form that makes the working easiest. Not yet: knows only a few pairs by heart, such as ½ and 50 %."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 6. Equality, equations, algebra, functions ---------------------------------
+
+  - id: mat.algebra.equals-sign
+    strand: algebra
+    checkpoint: 2
+    refs: [KM13242]
+    needs: [mat.add-subtract.within-20]
+    i_can:
+      nob: "Jeg kan lese = som «er like mye som»."
+      eng: "I can read = as \"is the same as\"."
+    teacher:
+      nob: "Fyller inn 3 + 4 = ☐ + 5 med 2 og forklarer at begge sider må være like mye. Ikke ennå: skriver 7 i boksen fordi svaret skal komme etter likhetstegnet."
+      eng: "Fills in 3 + 4 = ☐ + 5 with 2 and explains that both sides must be the same. Not yet: writes 7 in the box because the answer comes after the equals sign."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [equals-means-answer-next]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.compare-signs
+    strand: algebra
+    checkpoint: 3
+    refs: [KM13249]
+    needs: [mat.algebra.equals-sign]
+    i_can:
+      nob: "Jeg kan bruke =, < og > til å sammenligne."
+      eng: "I can use =, < and > to compare."
+    teacher:
+      nob: "Setter riktig tegn mellom 3 + 8 og 5 + 5, og mellom 2 m og 150 cm. Ikke ennå: blander < og >, eller ser bare på det første tallet på hver side."
+      eng: "Puts the right sign between 3 + 8 and 5 + 5, and between 2 m and 150 cm. Not yet: mixes up < and >, or looks only at the first number on each side."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [equals-means-answer-next]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.expressions
+    strand: algebra
+    checkpoint: 4
+    refs: [KM13260]
+    needs: [mat.algebra.compare-signs]
+    i_can:
+      nob: "Jeg kan skrive et regnestykke til en situasjon, og omvendt."
+      eng: "I can write a calculation for a situation, and the reverse."
+    teacher:
+      nob: "Skriver 3 · 12 + 5 til «tre esker med tolv egg og fem løse», og lager en fortelling til 20 − 4 · 3. Ikke ennå: velger regneart ut fra enkeltord i teksten."
+      eng: "Writes 3 × 12 + 5 for \"three boxes of twelve eggs and five loose ones\", and makes up a story for 20 − 4 × 3. Not yet: picks the operation from single words in the text."
+    stages: [pictorial, abstract]
+    misconceptions: [more-always-means-add]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.simple-equations
+    strand: algebra
+    checkpoint: 5
+    refs: [KM13274]
+    needs: [mat.algebra.expressions]
+    i_can:
+      nob: "Jeg kan finne det ukjente tallet og sjekke svaret."
+      eng: "I can find the unknown number and check my answer."
+    teacher:
+      nob: "Finner hva en boks veier når 2 bokser og 3 lodd veier like mye som 11 lodd, og setter svaret inn for å sjekke. Ikke ennå: gjetter uten å sjekke, eller tar bort fra bare den ene siden."
+      eng: "Finds what a box weighs when 2 boxes and 3 weights balance 11 weights, and puts the answer back in to check. Not yet: guesses without checking, or takes away from one side only."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.equations
+    strand: algebra
+    checkpoint: 7
+    refs: [KM13291, KM13294]
+    needs: [mat.algebra.simple-equations]
+    i_can:
+      nob: "Jeg kan løse likninger på mer enn én måte."
+      eng: "I can solve equations in more than one way."
+    teacher:
+      nob: "Løser 3x + 4 = 19 både med vekt og ved å gjøre det samme på begge sider, lager en likning til en tekstoppgave og sjekker svaret. Ikke ennå: har én oppskrift og sjekker ikke om svaret passer."
+      eng: "Solves 3x + 4 = 19 both with a balance and by doing the same to both sides, writes an equation for a word problem and checks the answer. Not yet: has one recipe and does not check that the answer fits."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [letter-as-object]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.inequalities
+    strand: algebra
+    checkpoint: 7
+    refs: [KM13296]
+    needs: [mat.algebra.simple-equations, mat.algebra.compare-signs]
+    i_can:
+      nob: "Jeg kan løse enkle ulikheter og sjekke svaret."
+      eng: "I can solve simple inequalities and check the answer."
+    teacher:
+      nob: "Finner hvilke hele tall som passer i 2x + 1 < 9 og prøver et tall på hver side av grensen. Ikke ennå: gir ett tall som svar, som om det var en likning."
+      eng: "Finds which whole numbers fit 2x + 1 < 9 and tries a number either side of the boundary. Not yet: gives a single number, as if it were an equation."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.order-of-operations
+    strand: algebra
+    checkpoint: 7
+    refs: [KM13287]
+    needs: [mat.algebra.expressions]
+    i_can:
+      nob: "Jeg kan regne i riktig rekkefølge i lange regnestykker."
+      eng: "I can do the steps of a long calculation in order."
+    teacher:
+      nob: "Regner 20 − 4 · 3 + 2 til 10 og lager selv et regnestykke i flere steg til en situasjon. Ikke ennå: regner alltid fra venstre mot høyre og får 50."
+      eng: "Works out 20 − 4 × 3 + 2 as 10 and writes a multi-step calculation for a situation. Not yet: always works left to right and gets 50."
+    stages: [abstract]
+    misconceptions: [left-to-right-always]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.pattern-rule
+    strand: algebra
+    checkpoint: 8
+    refs: [KM13299, KM13301]
+    needs: [mat.algebra.expressions, mat.shape-space.repeating-patterns]
+    i_can:
+      nob: "Jeg kan beskrive et mønster med ord og med bokstav."
+      eng: "I can describe a pattern in words and with a letter."
+    teacher:
+      nob: "Beskriver et fyrstikkmønster som «tre nye for hver figur, pluss én» og skriver 3n + 1. Ikke ennå: kan fortsette mønsteret, men ikke si regelen, eller leser 3n som «tre n-er» uten at n er et tall."
+      eng: "Describes a matchstick pattern as \"three more for each shape, plus one\" and writes 3n + 1. Not yet: can continue the pattern but not state the rule, or reads 3n as \"three n's\" rather than a number."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [letter-as-object]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.equations-from-situations
+    strand: algebra
+    checkpoint: 8
+    refs: [KM13304]
+    needs: [mat.algebra.equations]
+    i_can:
+      nob: "Jeg kan lage og løse likninger fra hverdagen."
+      eng: "I can make and solve equations from everyday situations."
+    teacher:
+      nob: "Setter opp en likning for «To kinobilletter og en popkorn til 60 kr koster 300 kr», løser den og sier om svaret er rimelig. Ikke ennå: løser likningen, men vurderer ikke om svaret gir mening."
+      eng: "Sets up an equation for \"Two cinema tickets and a 60-krone popcorn cost 300 kr\", solves it and says whether the answer is sensible. Not yet: solves the equation but does not judge whether the answer makes sense."
+    stages: [pictorial, abstract]
+    misconceptions: [letter-as-object]
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.inequalities-from-situations
+    strand: algebra
+    checkpoint: 8
+    refs: [KM13305]
+    needs: [mat.algebra.inequalities]
+    i_can:
+      nob: "Jeg kan løse ulikheter på flere måter og sjekke svaret."
+      eng: "I can solve inequalities in different ways and check them."
+    teacher:
+      nob: "Løser «Hvor mange timer kan du jobbe og fortsatt ha minst 5 timer fri?» både med tallinje og algebraisk, og sjekker grensen. Ikke ennå: snur ikke ulikhetstegnet, eller sjekker ikke tallene rundt grensen."
+      eng: "Solves \"How many hours can you work and still have at least 5 hours free?\" both on a number line and algebraically, and checks the boundary. Not yet: keeps the inequality the wrong way round, or does not test the numbers around the boundary."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.function-representations
+    strand: algebra
+    checkpoint: 8
+    refs: [KM13302, KM13306]
+    needs: [mat.algebra.pattern-rule]
+    i_can:
+      nob: "Jeg kan vise en sammenheng som tabell, graf og uttrykk."
+      eng: "I can show a relationship as a table, graph and expression."
+    teacher:
+      nob: "Viser taxiprisen «50 kr pluss 12 kr per km» som tabell, graf og uttrykk, og peker på hvor 50 og 12 finnes i hver av dem. Ikke ennå: lager hver form for seg uten å se at de viser det samme."
+      eng: "Shows a taxi fare of \"50 kr plus 12 kr per km\" as a table, a graph and an expression, and points to where 50 and 12 appear in each. Not yet: makes each form separately without seeing that they show the same thing."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.systems
+    strand: algebra
+    checkpoint: 10
+    refs: [KM13324]
+    needs: [mat.algebra.equations-from-situations]
+    i_can:
+      nob: "Jeg kan løse to likninger med to ukjente fra hverdagen."
+      eng: "I can solve two equations with two unknowns from real life."
+    teacher:
+      nob: "Setter opp og løser to likninger for «3 epler og 2 bananer koster 29 kr, 1 eple og 2 bananer koster 19 kr», og forklarer hva løsningen betyr. Ikke ennå: løser for én ukjent og gjetter den andre."
+      eng: "Sets up and solves two equations for \"3 apples and 2 bananas cost 29 kr, 1 apple and 2 bananas cost 19 kr\", and says what the solution means. Not yet: solves for one unknown and guesses the other."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.slope
+    strand: algebra
+    checkpoint: 10
+    refs: [KM13320]
+    needs: [mat.algebra.function-representations]
+    i_can:
+      nob: "Jeg kan finne stigningstallet som endring per enhet."
+      eng: "I can find the slope as change per unit."
+    teacher:
+      nob: "Leser av en graf at prisen øker med 12 kr per km, og regner ut stigningstallet fra to punkter. Ikke ennå: leser av y-verdien i ett punkt og kaller den stigningstallet."
+      eng: "Reads off a graph that the price goes up by 12 kr per km, and works out the slope from two points. Not yet: reads the y-value at one point and calls it the slope."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.growth-types
+    strand: algebra
+    checkpoint: 10
+    refs: [KM13322, KM13319]
+    needs: [mat.algebra.slope, mat.fractions.convert]
+    i_can:
+      nob: "Jeg kan skille lineær vekst fra eksponentiell vekst."
+      eng: "I can tell linear growth from exponential growth."
+    teacher:
+      nob: "Ser at «10 % mer hvert år» gir vekstfaktor 1,1 og en graf som bøyer oppover, mens «100 kr mer hvert år» gir en rett linje, og sammenligner dem i et digitalt verktøy. Ikke ennå: behandler all vekst som lik økning hver gang."
+      eng: "Sees that \"10 % more each year\" gives a growth factor of 1.1 and a curving graph, while \"100 kr more each year\" gives a straight line, and compares them in a digital tool. Not yet: treats all growth as the same increase each time."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.square-theorems
+    strand: algebra
+    checkpoint: 10
+    refs: [KM13318]
+    needs: [mat.algebra.pattern-rule, mat.multiply-divide.laws]
+    i_can:
+      nob: "Jeg kan bruke kvadratsetningene og vise dem som areal."
+      eng: "I can use the square rules and show them as areas."
+    teacher:
+      nob: "Legger (a + b)² som et kvadrat av a², to ab-rektangler og b², og regner 51² som 50² + 2 · 50 + 1. Ikke ennå: skriver (a + b)² = a² + b²."
+      eng: "Lays out (a + b)² as a square made of a², two ab rectangles and b², and works out 51² as 50² + 2 × 50 + 1. Not yet: writes (a + b)² = a² + b²."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.algebra.general-rules
+    strand: algebra
+    checkpoint: 10
+    refs: [KM13328]
+    needs: [mat.algebra.pattern-rule, mat.algebra.order-of-operations]
+    i_can:
+      nob: "Jeg kan skrive en generell regel med bokstaver."
+      eng: "I can write a general rule with letters."
+    teacher:
+      nob: "Skriver at summen av tre tall på rad alltid er 3n + 3, og viser med regnerekkefølgen at det er det samme som 3(n + 1). Ikke ennå: viser regelen med eksempler, men ikke generelt."
+      eng: "Writes that the sum of three consecutive numbers is always 3n + 3, and uses the order of operations to show it equals 3(n + 1). Not yet: shows the rule with examples but not in general."
+    stages: [abstract]
+    misconceptions: [letter-as-object]
+    assessable: true
+    reviewed: false
+
+  # 7. Shape and space ---------------------------------------------------------
+
+  - id: mat.shape-space.sort-shapes
+    strand: shape-space
+    checkpoint: 2
+    refs: [KM13237]
+    needs: []
+    i_can:
+      nob: "Jeg kan tegne og sortere figurer og si regelen."
+      eng: "I can draw and sort shapes and say the rule."
+    teacher:
+      nob: "Finner trekanter, firkanter og sirkler i klasserommet, tegner dem og sorterer dem etter antall hjørner, og sier regelen. Ikke ennå: kaller et kvadrat som er snudd på skrå for «ikke et kvadrat»."
+      eng: "Finds triangles, quadrilaterals and circles in the classroom, draws them and sorts them by number of corners, and says the rule. Not yet: calls a square turned on its corner \"not a square\"."
+    stages: [concrete, pictorial]
+    misconceptions: [turned-square-not-square]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.repeating-patterns
+    strand: shape-space
+    checkpoint: 2
+    refs: [KM13236]
+    needs: []
+    i_can:
+      nob: "Jeg kan fortsette et mønster og lage mitt eget."
+      eng: "I can continue a pattern and make my own."
+    teacher:
+      nob: "Finner delen som gjentar seg i rød-rød-blå, fortsetter mønsteret og lager et nytt med perler. Ikke ennå: fortsetter bare den siste fargen, eller lager rekker uten noe som gjentar seg."
+      eng: "Finds the repeating part in red-red-blue, continues it and makes a new pattern with beads. Not yet: only repeats the last colour, or makes rows with nothing that repeats."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.patterns-in-games
+    strand: shape-space
+    checkpoint: 4
+    refs: [KM13262]
+    needs: [mat.shape-space.repeating-patterns]
+    i_can:
+      nob: "Jeg kan finne mønster og regler i spill og lek."
+      eng: "I can find patterns and rules in games and play."
+    teacher:
+      nob: "Under brettspill i klassen forklarer eleven et mønster eller en strategi hen har oppdaget, for eksempel at det lønner seg å starte. Ikke ennå: spiller uten å kunne si noe om hvordan spillet er bygd opp."
+      eng: "During board games in class, explains a pattern or strategy they have noticed, for example that going first is an advantage. Not yet: plays without being able to say anything about how the game is built."
+    stages: [concrete]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: mat.shape-space.coordinates
+    strand: shape-space
+    checkpoint: 3
+    refs: [KM13251, KM13252]
+    needs: []
+    i_can:
+      nob: "Jeg kan finne og sette av punkter i et rutenett."
+      eng: "I can find and plot points on a grid."
+    teacher:
+      nob: "Setter av (3, 5) ved å gå tre bortover og fem opp, og leser av koordinatene til et punkt. Ikke ennå: bytter om bortover og oppover."
+      eng: "Plots (3, 5) by going three across and five up, and reads off the coordinates of a point. Not yet: swaps across and up."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [swaps-x-and-y]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.describe-shapes
+    strand: shape-space
+    checkpoint: 4
+    refs: [KM13261]
+    needs: [mat.shape-space.sort-shapes]
+    i_can:
+      nob: "Jeg kan beskrive figurer med vinkler, kanter, hjørner og flater."
+      eng: "I can describe shapes by angles, edges, corners and faces."
+    teacher:
+      nob: "Beskriver en terning som 6 flater, 12 kanter og 8 hjørner, og en trekant etter hvor mange rette vinkler den har. Ikke ennå: beskriver figuren bare med navnet eller med hva den ligner på."
+      eng: "Describes a cube as 6 faces, 12 edges and 8 corners, and a triangle by how many right angles it has. Not yet: describes a shape only by its name or by what it looks like."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [turned-square-not-square]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.alike-and-different
+    strand: shape-space
+    checkpoint: 6
+    refs: [KM13278]
+    needs: [mat.shape-space.describe-shapes]
+    i_can:
+      nob: "Jeg kan si hva to figurer har felles og ikke."
+      eng: "I can say what two shapes share and what differs."
+    teacher:
+      nob: "Sier at kvadrat og rektangel begge har fire rette vinkler, men bare kvadratet har like lange sider, og legger kvadratet i begge boksene. Ikke ennå: mener en figur bare kan høre til én gruppe."
+      eng: "Says a square and a rectangle both have four right angles but only the square has equal sides, and puts the square in both bins. Not yet: thinks a shape can belong to only one group."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [turned-square-not-square]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.symmetry
+    strand: shape-space
+    checkpoint: 6
+    refs: [KM13283]
+    needs: [mat.shape-space.repeating-patterns]
+    i_can:
+      nob: "Jeg kan finne og lage symmetrilinjer."
+      eng: "I can find and make lines of symmetry."
+    teacher:
+      nob: "Fullfører et halvt bilde over en skrå speillinje og finner alle symmetrilinjene i et kvadrat. Ikke ennå: finner bare loddrette og vannrette speillinjer."
+      eng: "Completes half a picture across a diagonal mirror line and finds all the lines of symmetry in a square. Not yet: finds only vertical and horizontal mirror lines."
+    stages: [concrete, pictorial]
+    misconceptions: [only-straight-mirror-lines]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.transformations
+    strand: shape-space
+    checkpoint: 6
+    refs: [KM13284]
+    needs: [mat.shape-space.coordinates, mat.shape-space.symmetry]
+    i_can:
+      nob: "Jeg kan flytte, speile og dreie en figur."
+      eng: "I can slide, flip and turn a shape."
+    teacher:
+      nob: "Flytter en trekant tre ruter til høyre, speiler den om en akse og dreier den en kvart omgang, og sier hvor hjørnene havner i koordinatsystemet. Ikke ennå: figuren endrer form eller størrelse underveis."
+      eng: "Slides a triangle three squares right, flips it in an axis and turns it a quarter turn, and says where the corners land on the grid. Not yet: the shape changes shape or size on the way."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [swaps-x-and-y]
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.similar-congruent
+    strand: shape-space
+    checkpoint: 9
+    refs: [KM13308]
+    needs: [mat.shape-space.alike-and-different, mat.shape-space.transformations]
+    i_can:
+      nob: "Jeg kan skille formlike figurer fra kongruente figurer."
+      eng: "I can tell similar shapes from congruent ones."
+    teacher:
+      nob: "Sorterer trekanter i kongruente (samme form og størrelse) og formlike (samme vinkler, ulik størrelse), og forklarer valget. Ikke ennå: kaller alle figurer som ligner hverandre for like."
+      eng: "Sorts triangles into congruent (same shape and size) and similar (same angles, different size), and explains the choice. Not yet: calls any shapes that look alike the same."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.similarity-lengths
+    strand: shape-space
+    checkpoint: 9
+    refs: [KM13317]
+    needs: [mat.shape-space.similar-congruent]
+    i_can:
+      nob: "Jeg kan bruke formlikhet til å finne en lengde."
+      eng: "I can use similar shapes to find a length."
+    teacher:
+      nob: "Finner høyden på et tre ut fra skyggen av treet og skyggen av en meterstokk. Ikke ennå: legger til samme lengde i stedet for å gange med samme tall."
+      eng: "Finds the height of a tree from its shadow and the shadow of a metre stick. Not yet: adds the same length instead of multiplying by the same factor."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.pythagoras
+    strand: shape-space
+    checkpoint: 9
+    refs: [KM13307, KM13317]
+    needs: [mat.place-value.powers-and-roots]
+    i_can:
+      nob: "Jeg kan bruke Pytagoras' setning i praktiske oppgaver."
+      eng: "I can use Pythagoras' theorem in practical problems."
+    teacher:
+      nob: "Regner ut hvor lang en stige må være for å nå 4 m opp når foten står 3 m ut, og viser det med kvadrater på sidene. Ikke ennå: legger sammen sidene uten å kvadrere, eller bruker setningen på trekanter uten rett vinkel."
+      eng: "Works out how long a ladder must be to reach 4 m up with its foot 3 m out, and shows it with squares on the sides. Not yet: adds the sides without squaring, or uses the theorem on triangles without a right angle."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.shape-space.changing-assumptions
+    strand: shape-space
+    checkpoint: 9
+    refs: [KM13309]
+    needs: [mat.shape-space.similarity-lengths]
+    i_can:
+      nob: "Jeg kan forklare hva som skjer når ett mål endres."
+      eng: "I can explain what happens when one measurement changes."
+    teacher:
+      nob: "Forklarer at arealet av et kvadrat blir fire ganger så stort når siden dobles, både med tegning og med uttrykk. Ikke ennå: tror at alt dobles når én lengde dobles."
+      eng: "Explains that a square's area becomes four times as big when its side doubles, both with a drawing and with an expression. Not yet: thinks everything doubles when one length doubles."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 8. Measurement -------------------------------------------------------------
+
+  - id: mat.measurement.length-mass
+    strand: measurement
+    checkpoint: 2
+    refs: [KM13240]
+    needs: []
+    i_can:
+      nob: "Jeg kan måle lengde og vekt og sammenligne."
+      eng: "I can measure length and weight and compare."
+    teacher:
+      nob: "Måler en pult i håndbredder, i kuber og så i centimeter, veier to ting på en vekt og sier hvilken som er lengst eller tyngst. Ikke ennå: begynner på 1 på linjalen i stedet for 0."
+      eng: "Measures a desk in hand spans, in cubes and then in centimetres, weighs two things on a scale and says which is longer or heavier. Not yet: starts at 1 on the ruler instead of 0."
+    stages: [concrete, pictorial]
+    misconceptions: [measures-from-one]
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.calendar
+    strand: measurement
+    checkpoint: 2
+    refs: [KM13238]
+    needs: []
+    i_can:
+      nob: "Jeg kan finne dager og måneder på en kalender."
+      eng: "I can find days and months on a calendar."
+    teacher:
+      nob: "Finner datoen i dag og sier hvilken ukedag det er om tre dager. Ikke ennå: blander ukedager og måneder."
+      eng: "Finds today's date and says what day of the week it will be in three days. Not yet: mixes up days of the week and months."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.clock
+    strand: measurement
+    checkpoint: 2
+    refs: [KM13238]
+    needs: [mat.counting.skip-count]
+    i_can:
+      nob: "Jeg kan lese klokka, både med visere og tall."
+      eng: "I can read the time on a clock with hands and digits."
+    teacher:
+      nob: "Leser «halv fire» på en viserklokke og 15.30 på en digital klokke, og stiller en klokke selv. Ikke ennå: leser minuttviseren som timer."
+      eng: "Reads half past three on a clock with hands and 15:30 on a digital one, and sets a clock themselves. Not yet: reads the minute hand as hours."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [minute-hand-as-hours]
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.area-by-covering
+    strand: measurement
+    checkpoint: 3
+    refs: [KM13253]
+    needs: [mat.measurement.length-mass]
+    i_can:
+      nob: "Jeg kan måle areal ved å dekke med ruter."
+      eng: "I can measure area by covering it with squares."
+    teacher:
+      nob: "Dekker en tegnet hage med lapper eller kvadratcentimeter og teller dem. Ikke ennå: lar det være hull eller overlapp, eller måler rundt kanten i stedet."
+      eng: "Covers a drawn garden with tiles or square centimetres and counts them. Not yet: leaves gaps or overlaps, or measures round the edge instead."
+    stages: [concrete, pictorial]
+    misconceptions: [area-perimeter-swapped]
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.volume
+    strand: measurement
+    checkpoint: 4
+    refs: [KM13264]
+    needs: [mat.measurement.area-by-covering]
+    i_can:
+      nob: "Jeg kan måle volum med kuber og med liter."
+      eng: "I can measure volume with cubes and with litres."
+    teacher:
+      nob: "Fyller en eske med centimeterkuber, heller vann mellom målebeger og flaske, og sier hvilken som rommer mest. Ikke ennå: mener den høyeste beholderen alltid rommer mest."
+      eng: "Fills a box with centimetre cubes, pours water between a measuring jug and a bottle, and says which holds most. Not yet: thinks the tallest container always holds most."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.time-problems
+    strand: measurement
+    checkpoint: 5
+    refs: [KM13273]
+    needs: [mat.measurement.clock, mat.measurement.calendar]
+    i_can:
+      nob: "Jeg kan regne ut hvor lang tid noe tar."
+      eng: "I can work out how long something takes."
+    teacher:
+      nob: "Finner ut hvor lenge en busstur fra 08.45 til 09.20 varer ved å lese en rutetabell, og lager en slik oppgave selv. Ikke ennå: regner med 100 minutter i timen."
+      eng: "Works out how long a bus trip from 08:45 to 09:20 takes by reading a timetable, and makes up a problem like it. Not yet: counts 100 minutes to the hour."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.circle
+    strand: measurement
+    checkpoint: 6
+    refs: [KM13279]
+    needs: [mat.measurement.length-mass]
+    i_can:
+      nob: "Jeg kan måle en sirkel og finne sammenhengen med pi."
+      eng: "I can measure a circle and find how pi fits in."
+    teacher:
+      nob: "Måler diameter og omkrets på flere runde ting, deler omkretsen på diameteren og ser at det alltid blir omtrent 3,14. Ikke ennå: blander radius og diameter."
+      eng: "Measures the diameter and circumference of several round things, divides circumference by diameter and sees it always comes to about 3.14. Not yet: mixes up radius and diameter."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.area-perimeter
+    strand: measurement
+    checkpoint: 6
+    refs: [KM13280, KM13281]
+    needs: [mat.measurement.area-by-covering]
+    i_can:
+      nob: "Jeg kan finne areal og omkrets på flere måter."
+      eng: "I can find area and perimeter in more than one way."
+    teacher:
+      nob: "Finner areal og omkrets av et rektangel både ved å telle ruter og ved å regne, og velger m² eller cm² etter hva som passer. Ikke ennå: bytter om areal og omkrets."
+      eng: "Finds the area and perimeter of a rectangle both by counting squares and by calculating, and chooses m² or cm² to suit. Not yet: swaps area and perimeter."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [area-perimeter-swapped]
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.area-by-splitting
+    strand: measurement
+    checkpoint: 6
+    refs: [KM13285]
+    needs: [mat.measurement.area-perimeter, mat.multiply-divide.split-array]
+    i_can:
+      nob: "Jeg kan dele opp en figur for å finne arealet."
+      eng: "I can split a shape up to find its area."
+    teacher:
+      nob: "Deler en L-formet stue i to rektangler og legger sammen arealene, og ser at 7 · 12 kan regnes som 7 · 10 + 7 · 2. Ikke ennå: prøver å gange de to lengste sidene."
+      eng: "Splits an L-shaped room into two rectangles and adds the areas, and sees that 7 × 12 can be worked out as 7 × 10 + 7 × 2. Not yet: multiplies the two longest sides."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.surface-volume-formulas
+    strand: measurement
+    checkpoint: 9
+    refs: [KM13310]
+    needs: [mat.measurement.area-perimeter, mat.measurement.volume]
+    i_can:
+      nob: "Jeg kan bruke og forklare formler for overflate og volum."
+      eng: "I can use and explain formulas for surface area and volume."
+    teacher:
+      nob: "Regner ut hvor mye papp som trengs til en eske og hvor mye den rommer, og forklarer formelen med en brettet ut eske. Ikke ennå: bruker volumformelen når spørsmålet gjelder overflate."
+      eng: "Works out how much card a box needs and how much it holds, and explains the formula with an unfolded box. Not yet: uses the volume formula when the question is about surface area."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.measurement.compound-units
+    strand: measurement
+    checkpoint: 9
+    refs: [KM13316]
+    needs: [mat.fractions.decimal-arithmetic]
+    i_can:
+      nob: "Jeg kan regne med enheter som km/t og kr/kg."
+      eng: "I can work with units like km/h and kr/kg."
+    teacher:
+      nob: "Finner hvilken pose epler som er billigst per kilo, og hvor langt en sykkel kommer på 45 minutter i 20 km/t. Ikke ennå: deler den største størrelsen på den minste uansett hva spørsmålet er."
+      eng: "Finds which bag of apples is cheapest per kilo, and how far a bike goes in 45 minutes at 20 km/h. Not yet: divides the bigger quantity by the smaller whatever the question asks."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 9. Data, statistics, chance ------------------------------------------------
+
+  - id: mat.data-chance.chance-words
+    strand: data-chance
+    checkpoint: 5
+    refs: [KM13270]
+    needs: [mat.fractions.represent]
+    i_can:
+      nob: "Jeg kan si hvor sannsynlig noe er, og bruke brøk."
+      eng: "I can say how likely something is, and use fractions."
+    teacher:
+      nob: "Plasserer «det snør i juli» og «terningen viser et tall under 7» på en skala fra umulig til sikker, og sier at sjansen for en sekser er 1/6. Ikke ennå: tror en sekser blir mindre sannsynlig etter tre seksere på rad."
+      eng: "Places \"it snows in July\" and \"the dice shows less than 7\" on a scale from impossible to certain, and says the chance of a six is 1/6. Not yet: thinks a six becomes less likely after three sixes in a row."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [gamblers-fallacy]
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.present-data
+    strand: data-chance
+    checkpoint: 7
+    refs: [KM13290]
+    needs: []
+    i_can:
+      nob: "Jeg kan samle data og vise dem i tabell og diagram."
+      eng: "I can collect data and show it in tables and charts."
+    teacher:
+      nob: "Teller opp svar med tellestreker, lager en tabell og et stolpediagram, og forklarer hvorfor stolper passer bedre enn et linjediagram her. Ikke ennå: velger diagram tilfeldig."
+      eng: "Tallies answers, makes a table and a bar chart, and explains why bars suit this better than a line graph. Not yet: picks a chart at random."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.averages
+    strand: data-chance
+    checkpoint: 7
+    refs: [KM13289]
+    needs: [mat.data-chance.present-data]
+    i_can:
+      nob: "Jeg kan regne ut gjennomsnitt, median og typetall."
+      eng: "I can find the mean, median and mode."
+    teacher:
+      nob: "Regner ut de tre for klassens skonumre og forklarer hvorfor typetallet er mest nyttig for en skobutikk. Ikke ennå: regner bare gjennomsnitt, eller finner median uten å sortere først."
+      eng: "Works out all three for the class's shoe sizes and explains why the mode is most useful to a shoe shop. Not yet: only works out the mean, or finds the median without sorting first."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.misleading-charts
+    strand: data-chance
+    checkpoint: 9
+    refs: [KM13312, KM13314]
+    needs: [mat.data-chance.present-data]
+    i_can:
+      nob: "Jeg kan finne ut når et diagram lurer meg."
+      eng: "I can spot when a chart is misleading me."
+    teacher:
+      nob: "Peker på at aksen i et avisdiagram ikke starter på null, og viser hvordan de samme tallene kan tegnes for å støtte to ulike syn. Ikke ennå: leser høyden på stolpene rett av uten å se på aksen."
+      eng: "Points out that the axis in a newspaper chart does not start at zero, and shows how the same figures can be drawn to support two different views. Not yet: reads bar heights at face value without looking at the axis."
+    stages: [pictorial]
+    misconceptions: [axis-not-from-zero]
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.spread
+    strand: data-chance
+    checkpoint: 9
+    refs: [KM13313]
+    needs: [mat.data-chance.averages]
+    i_can:
+      nob: "Jeg kan finne variasjonsbredden og bruke den til å beskrive data."
+      eng: "I can find the range and use it to describe data."
+    teacher:
+      nob: "Sammenligner to klassers prøveresultater med både gjennomsnitt og variasjonsbredde, og sier hva det forteller. Ikke ennå: beskriver data bare med gjennomsnittet."
+      eng: "Compares two classes' test results using both the mean and the range, and says what that tells us. Not yet: describes data with the mean alone."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.probability
+    strand: data-chance
+    checkpoint: 9
+    refs: [KM13315]
+    needs: [mat.data-chance.chance-words]
+    i_can:
+      nob: "Jeg kan regne ut sannsynlighet i spill."
+      eng: "I can calculate probability in games."
+    teacher:
+      nob: "Regner ut sannsynligheten for sum 7 med to terninger ved å sette opp alle 36 utfallene. Ikke ennå: tror alle summer fra 2 til 12 er like sannsynlige."
+      eng: "Works out the probability of a total of 7 with two dice by listing all 36 outcomes. Not yet: thinks every total from 2 to 12 is equally likely."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: [gamblers-fallacy]
+    assessable: true
+    reviewed: false
+
+  - id: mat.data-chance.simulation
+    strand: data-chance
+    checkpoint: 9
+    refs: [KM13311]
+    needs: [mat.data-chance.probability, mat.programming.test-and-improve]
+    i_can:
+      nob: "Jeg kan sjekke en sannsynlighet ved å simulere med programmering."
+      eng: "I can check a probability by simulating it in code."
+    teacher:
+      nob: "Skriver et program som kaster to terninger 1000 ganger, og sammenligner andelen sjuere med det hen regnet ut. Ikke ennå: forventer at simuleringen gir nøyaktig samme tall hver gang."
+      eng: "Writes a program that rolls two dice 1000 times and compares the share of sevens with the calculated value. Not yet: expects the simulation to give exactly the same number every time."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 10. Algorithms and programming ---------------------------------------------
+
+  - id: mat.programming.follow-instructions
+    strand: programming
+    checkpoint: 2
+    refs: [KM13239]
+    needs: []
+    i_can:
+      nob: "Jeg kan følge og gi instruksjoner steg for steg."
+      eng: "I can follow and give step-by-step instructions."
+    teacher:
+      nob: "Leder en klassekamerat med bind for øynene gjennom en bane med «to skritt fram, snu til høyre», og følger andres instruksjoner i en lek. Ikke ennå: hopper over steg, eller gir instruksjoner som bare hen selv forstår."
+      eng: "Guides a blindfolded classmate through a course with \"two steps forward, turn right\", and follows others' instructions in a game. Not yet: skips steps, or gives instructions only they can follow."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.grid-instructions
+    strand: programming
+    checkpoint: 3
+    refs: [KM13252]
+    needs: [mat.programming.follow-instructions, mat.shape-space.coordinates]
+    i_can:
+      nob: "Jeg kan gi instruksjoner i et rutenett."
+      eng: "I can give instructions on a grid."
+    teacher:
+      nob: "Legger pilbrikker som flytter en figur fra (1, 1) til (4, 3) utenom en hindring. Ikke ennå: blander venstre og høyre når figuren har snudd."
+      eng: "Lays arrow tiles that move a character from (1, 1) to (4, 3) around an obstacle. Not yet: mixes up left and right once the character has turned."
+    stages: [concrete, pictorial]
+    misconceptions: [swaps-x-and-y]
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.repeat-and-condition
+    strand: programming
+    checkpoint: 4
+    refs: [KM13263]
+    needs: [mat.programming.grid-instructions]
+    i_can:
+      nob: "Jeg kan lage en algoritme med gjentakelse og vilkår."
+      eng: "I can write an algorithm with a repeat and a condition."
+    teacher:
+      nob: "Bytter fire like pilbrikker ut med «gjenta 4», og bruker «hvis vegg, snu» for å komme gjennom en labyrint. Ikke ennå: skriver alle stegene ut ett for ett."
+      eng: "Replaces four identical arrow tiles with \"repeat 4\", and uses \"if wall, turn\" to get through a maze. Not yet: writes out every step one by one."
+    stages: [concrete, pictorial]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.variables-loops
+    strand: programming
+    checkpoint: 5
+    refs: [KM13272]
+    needs: [mat.programming.repeat-and-condition]
+    i_can:
+      nob: "Jeg kan programmere med variabler, vilkår og løkker."
+      eng: "I can program with variables, conditions and loops."
+    teacher:
+      nob: "Lager et program som teller poeng i en variabel og stopper spillet når poengene når 10. Ikke ennå: bruker løkker, men ikke variabler som endrer seg."
+      eng: "Makes a program that keeps score in a variable and stops the game when the score reaches 10. Not yet: uses loops but no variables that change."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.draw-shapes
+    strand: programming
+    checkpoint: 6
+    refs: [KM13282]
+    needs: [mat.programming.variables-loops]
+    i_can:
+      nob: "Jeg kan programmere en tegning av en figur eller et mønster."
+      eng: "I can program a drawing of a shape or pattern."
+    teacher:
+      nob: "Programmerer en figur som tegner en sekskant med «gjenta 6: gå fram, snu 60°», og endrer tallene for å få en annen mangekant. Ikke ennå: finner vinkelen bare ved å prøve seg fram."
+      eng: "Programs a character to draw a hexagon with \"repeat 6: move, turn 60°\", and changes the numbers to get another polygon. Not yet: finds the angle only by trial and error."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.explore-tables
+    strand: programming
+    checkpoint: 7
+    refs: [KM13293]
+    needs: [mat.programming.variables-loops]
+    i_can:
+      nob: "Jeg kan bruke et program til å utforske en tabell."
+      eng: "I can use a program to explore a table of data."
+    teacher:
+      nob: "Skriver et program eller bruker et regneark som finner den høyeste temperaturen og gjennomsnittet i en tabell. Ikke ennå: leter gjennom tabellen for hånd."
+      eng: "Writes a program or uses a spreadsheet to find the highest temperature and the mean in a table. Not yet: searches the table by hand."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.test-and-improve
+    strand: programming
+    checkpoint: 8
+    refs: [KM13300]
+    needs: [mat.programming.draw-shapes]
+    i_can:
+      nob: "Jeg kan teste en algoritme og gjøre den bedre."
+      eng: "I can test an algorithm and make it better."
+    teacher:
+      nob: "Finner feilen i et program som nesten virker, retter den og tester på nytt med flere ulike tall. Ikke ennå: endrer tilfeldig til det virker, og tester bare én gang."
+      eng: "Finds the bug in a program that almost works, fixes it and tests again with several different numbers. Not yet: changes things at random until it works, and tests only once."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.explore-properties
+    strand: programming
+    checkpoint: 10
+    refs: [KM13326]
+    needs: [mat.programming.test-and-improve]
+    i_can:
+      nob: "Jeg kan bruke programmering til å utforske en matematisk sammenheng."
+      eng: "I can use programming to explore a mathematical pattern."
+    teacher:
+      nob: "Skriver et program som sjekker om summen av to oddetall alltid er et partall for de første tusen tallene, og sier hva det viser og ikke viser. Ikke ennå: tar et resultat fra programmet som et bevis."
+      eng: "Writes a program that checks whether two odd numbers always add to an even one for the first thousand numbers, and says what it does and does not show. Not yet: takes a program's result as proof."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.programming.read-python
+    strand: programming
+    checkpoint: 10
+    refs: [KM13327]
+    needs: [mat.programming.test-and-improve]
+    i_can:
+      nob: "Jeg kan lese Python-kode og si hva den gjør."
+      eng: "I can read Python code and say what it does."
+    teacher:
+      nob: "Leser et kort Python-program med en løkke og en if, og sier hva det skriver ut før det kjøres. Ikke ennå: må kjøre programmet for å vite hva det gjør."
+      eng: "Reads a short Python program with a loop and an if, and says what it prints before it runs. Not yet: has to run the program to know what it does."
+    stages: [abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  # 11. Money and modelling ----------------------------------------------------
+
+  - id: mat.money-modelling.budget-spreadsheet
+    strand: money-modelling
+    checkpoint: 5
+    refs: [KM13271]
+    needs: []
+    i_can:
+      nob: "Jeg kan planlegge et lite budsjett i et regneark."
+      eng: "I can plan a small budget in a spreadsheet."
+    teacher:
+      nob: "Setter opp inntekter og utgifter for en klassefest i et regneark med en formel for summen, og ser hva som skjer når ett tall endres. Ikke ennå: regner summen for hånd og skriver den inn."
+      eng: "Sets up income and costs for a class party in a spreadsheet with a formula for the total, and sees what happens when one number changes. Not yet: works out the total by hand and types it in."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.money-modelling.check-money-solution
+    strand: money-modelling
+    checkpoint: 7
+    refs: [KM13295]
+    needs: [mat.money-modelling.budget-spreadsheet]
+    i_can:
+      nob: "Jeg kan sjekke og forklare en løsning på en pengeoppgave."
+      eng: "I can check and explain a solution to a money problem."
+    teacher:
+      nob: "Anslår først hva en klassetur for 500 kr kan koste, regner så nøyaktig og forklarer om svaret er rimelig. Ikke ennå: godtar svaret uten å sammenligne med anslaget."
+      eng: "Estimates what a 500-krone class trip might cost, then works it out exactly and explains whether the answer is reasonable. Not yet: accepts the answer without comparing it with the estimate."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.money-modelling.judge-solutions
+    strand: money-modelling
+    checkpoint: 7
+    refs: [KM13295]
+    needs: [mat.money-modelling.check-money-solution]
+    i_can:
+      nob: "Jeg kan vurdere andres løsninger og si hvorfor."
+      eng: "I can judge other people's solutions and say why."
+    teacher:
+      nob: "Sammenligner to gruppers planer for en klassetur i en samtale, sier hvilken som holder og begrunner det. Ikke ennå: sier bare at en plan er bra eller dårlig."
+      eng: "Compares two groups' plans for a class trip in conversation, says which one holds up and gives reasons. Not yet: only says a plan is good or bad."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: false
+    reviewed: false
+
+  - id: mat.money-modelling.interest-and-credit
+    strand: money-modelling
+    checkpoint: 10
+    refs: [KM13321]
+    needs: [mat.money-modelling.check-money-solution, mat.fractions.convert]
+    i_can:
+      nob: "Jeg kan forklare rente, lån og kjøp på kreditt."
+      eng: "I can explain interest, loans and buying on credit."
+    teacher:
+      nob: "Finner hva en telefon til 6000 kr koster totalt når den betales over to år med rente og gebyr, og sier hva det betyr for den som kjøper. Ikke ennå: ser bare på månedsbeløpet."
+      eng: "Finds what a 6000-krone phone costs in total when paid over two years with interest and fees, and says what that means for the buyer. Not yet: looks only at the monthly amount."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.money-modelling.model-limits
+    strand: money-modelling
+    checkpoint: 10
+    refs: [KM13323]
+    needs: [mat.money-modelling.check-money-solution, mat.algebra.function-representations]
+    i_can:
+      nob: "Jeg kan lage en modell og si hvor den ikke stemmer."
+      eng: "I can make a model and say where it stops working."
+    teacher:
+      nob: "Lager en modell for to mobilabonnementer, presenterer hvilket som lønner seg, og sier for hvilket bruk modellen ikke lenger gjelder. Ikke ennå: bruker modellen langt utenfor der den passer, uten å stoppe opp."
+      eng: "Builds a model of two phone plans, presents which one pays off, and says for what use the model no longer holds. Not yet: uses the model far outside where it fits without stopping to ask."
+    stages: [pictorial, abstract]
+    misconceptions: []
+    assessable: true
+    reviewed: false
+
+  - id: mat.money-modelling.exploratory-assignment
+    strand: money-modelling
+    checkpoint: 10
+    refs: [KM13325]
+    needs: [mat.money-modelling.interest-and-credit]
+    i_can:
+      nob: "Jeg kan planlegge, gjennomføre og legge fram et økonomiprosjekt."
+      eng: "I can plan, carry out and present a money project."
+    teacher:
+      nob: "Planlegger, gjennomfører og legger fram et eget utforskende prosjekt om privatøkonomi, for eksempel sparing til et kjøp. Ikke ennå: trenger at læreren bestemmer hvert steg."
+      eng: "Plans, carries out and presents their own exploratory project on personal finance, such as saving up for a purchase. Not yet: needs the teacher to decide each step."
+    stages: [concrete, pictorial, abstract]
+    misconceptions: []
+    assessable: false
+    reviewed: false

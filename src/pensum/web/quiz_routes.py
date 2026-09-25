@@ -170,9 +170,15 @@ def _remember(request: Request, session: QuizSession, outcome: Result, now: date
     goal_set = subject.goal_set(session.goal_set) if subject else None
     if evidence is None or skill_file is None or goal_set is None:
         return
+    # Hints come from the session's answer records, which cover answered items
+    # only; an item without one is recorded with 0, as before.
+    hints = {record.item_id: record.hints_used for record in session.records()}
     evidence.record(
         evidence_for(
-            ((item, item.is_correct(session.answers.get(item.id, ""))) for item in session.items),
+            (
+                (item, item.is_correct(session.answers.get(item.id, "")), hints.get(item.id, 0))
+                for item in session.items
+            ),
             attempt=attempt_key(session.id),
             user_sub=str(session.user_sub),
             checkpoint=goal_set.after_year,

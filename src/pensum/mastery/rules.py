@@ -19,7 +19,7 @@ Four readings of the design are choices, and each is stated where it is made:
   is "correct without hints", and its rules below the table say "a hinted
   correct answer counts as evidence of practising, not of secure". The second is
   the one about hints, and the kinder one -- hints never fail an attempt -- so it
-  wins. Moot until the hint ladder exists: every row has 0 hints today.
+  wins.
 
 * **A session is a calendar day** (UTC). The design says "sessions", and a day
   is the cheapest honest proxy: two quizzes an hour apart are not the spaced

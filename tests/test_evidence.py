@@ -13,13 +13,22 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import yaml
-from test_admin import PUPIL, QUIZ_PATH, build, settings_with, sign_in, take_quiz
+from test_admin import (
+    PUPIL,
+    QUIZ_PATH,
+    build,
+    correct_response,
+    settings_with,
+    sign_in,
+    take_quiz,
+)
 
 from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
 from pensum.items.schema import QuizItem
 from pensum.items.validate import validate as validate_items
 from pensum.mastery.attribution import evidence_for, skills_for
+from pensum.mastery.rules import State, assess, is_secure
 from pensum.scores.evidence import Evidence, EvidenceStore
 from pensum.skills.loader import DEFAULT_SKILLS_DIR, SkillLibrary
 from pensum.skills.schema import SkillFile
@@ -154,7 +163,7 @@ def test_a_sensitive_skill_is_never_credited() -> None:
 
 def test_evidence_for_writes_one_row_per_answer_and_skill() -> None:
     rows = evidence_for(
-        [(item(), True), (item(id="t-2", skill="mat.place-value.exchange-tens"), False)],
+        [(item(), True, 0), (item(id="t-2", skill="mat.place-value.exchange-tens"), False, 0)],
         attempt="k",
         user_sub="u-1",
         checkpoint=2,
@@ -167,6 +176,47 @@ def test_evidence_for_writes_one_row_per_answer_and_skill() -> None:
         ("t-2", "mat.place-value.exchange-tens", False),
     ]
     assert all(r.hints == 0 and r.recorded_at == NOW for r in rows)
+
+
+def test_evidence_for_carries_the_hints_used_onto_every_row_of_that_answer() -> None:
+    rows = evidence_for(
+        [(item(), True, 2), (item(id="t-2", skill="mat.place-value.exchange-tens"), True, 0)],
+        attempt="k",
+        user_sub="u-1",
+        checkpoint=2,
+        skill_file=mat(),
+        at=NOW,
+    )
+    assert sorted((r.item, r.skill, r.hints) for r in rows) == [
+        ("t-1", "mat.place-value.exchange-tens", 2),
+        ("t-1", "mat.place-value.tens-and-ones", 2),
+        ("t-2", "mat.place-value.exchange-tens", 0),
+    ]
+
+
+def test_a_hinted_correct_answer_does_not_by_itself_count_towards_secure() -> None:
+    """Three clean answers and one hinted one: one short of secure, not secure."""
+    exchange = mat().skill("mat.place-value.exchange-tens")
+    assert exchange is not None
+
+    def answered(day: int, stage: str, hints: int) -> list[Evidence]:
+        return evidence_for(
+            [(item(id=f"t-{day}-{hints}", skill=exchange.id, stage=stage), True, hints)],
+            attempt=f"k{day}",
+            user_sub="u-1",
+            checkpoint=exchange.checkpoint,
+            skill_file=mat(),
+            at=NOW + timedelta(days=day),
+        )
+
+    first, last = exchange.stages[0], exchange.stages[-1]
+    clean = [*answered(0, first, 0), *answered(0, first, 0), *answered(1, last, 0)]
+    unhinted = [*clean, *answered(1, last, 0)]
+    hinted = [*clean, *answered(1, last, 1)]
+
+    assert is_secure(unhinted, exchange), "the same run without the hint is secure"
+    assert not is_secure(hinted, exchange)
+    assert assess(hinted, exchange).current == State.PRACTISING
 
 
 # Recording through the quiz -----------------------------------------------------
@@ -182,6 +232,41 @@ def test_a_signed_in_pupil_who_finishes_leaves_evidence(tmp_path: Path) -> None:
     assert all(skill.startswith("mat.") for skill in evidence)
     [attempt] = app.state.attempts.attempts_for(PUPIL.sub)
     assert {r.attempt for rows in evidence.values() for r in rows} == {attempt.key}
+
+
+def test_hints_taken_in_a_quiz_are_recorded_and_never_lower_the_score(tmp_path: Path) -> None:
+    app, client = build(settings_with(tmp_path))
+    sign_in(client, PUPIL)
+    started = client.post(f"{QUIZ_PATH}/quiz", follow_redirects=False)
+    session_id = started.headers["location"].rsplit("/", 1)[-1]
+    session = app.state.sessions.get(session_id, datetime.now(UTC))
+    assert session is not None
+
+    first = session.items[0]
+    client.post(f"/nb/quiz/{session_id}/help", data={"item_id": first.id})
+    assert session.hints_used(first.id) == 1
+    for quiz_item in list(session.items):
+        client.post(
+            f"/nb/quiz/{session_id}/answer",
+            data={"item_id": quiz_item.id, "response": correct_response(quiz_item)},
+        )
+    assert client.get(f"/nb/quiz/{session_id}/result").status_code == 200
+
+    rows = [r for rows in app.state.evidence.for_pupil(PUPIL.sub).values() for r in rows]
+    assert rows
+    assert {r.hints for r in rows if r.item == first.id} == {1}
+    assert {r.hints for r in rows if r.item != first.id} == {0}
+    [attempt] = app.state.attempts.attempts_for(PUPIL.sub)
+    assert attempt.correct == attempt.total, "a hinted right answer is still right"
+
+
+def test_a_quiz_without_hints_records_zero_hints(tmp_path: Path) -> None:
+    app, client = build(settings_with(tmp_path))
+    sign_in(client, PUPIL)
+    take_quiz(app, client)
+    rows = [r for rows in app.state.evidence.for_pupil(PUPIL.sub).values() for r in rows]
+    assert rows
+    assert {r.hints for r in rows} == {0}
 
 
 def test_reloading_the_result_page_adds_no_evidence(tmp_path: Path) -> None:

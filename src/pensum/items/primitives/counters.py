@@ -38,6 +38,16 @@ from pensum.items.primitives.base import (
 
 MAX_ON_MAT = 30
 MAX_GROUPS = 4
+# How many counters one ring holds, the same for every ring of every item. The
+# page shows it before the pupil answers -- in `limits()` and as the empty slots
+# each ring draws -- so it may depend on nothing the item holds back. A group
+# size is the answer to "share 8 into two equal groups"; the total is the
+# answer to "make 3 groups of 4". Sizing a ring from the groups gave the first
+# away, and sizing it from the total gave the second away. A ring as big as the
+# whole mat holds any group the schema allows (at most MAX_ON_MAT - 1) and still
+# lets a pupil overfill one and see that it is wrong. The cost is layout: every
+# ring draws six rows of five, however few counters the item shares.
+RING_HOLDS = MAX_ON_MAT
 
 SLOT = 22.0
 RADIUS = 8.0
@@ -90,17 +100,11 @@ class CountersActivity(ActivityConfig):
 
     @property
     def ring_capacity(self) -> int:
-        """How many counters one ring holds: all of them, the same for every ring.
+        """How many counters one ring holds: `RING_HOLDS`, whatever the item.
 
-        The page shows this before the pupil answers -- in `limits()` and as the
-        empty slots drawn in each ring -- so it may come only from what the
-        prompt already says. The total is stated ("share 8 counters"); a group
-        size is the answer. Sizing a ring as the biggest group plus a spare of
-        four gave "share 8 into two equal groups" away: 8 slots, less the spare,
-        is 4. Holding the whole total still lets a pupil overfill one ring and
-        see that it is wrong.
+        See `RING_HOLDS` for why this may not come from the item.
         """
-        return min(self.capacity, self.target)
+        return RING_HOLDS
 
     def _equal_groups(self) -> bool:
         return bool(self.groups) and len(set(self.groups)) == 1

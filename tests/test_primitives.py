@@ -21,6 +21,7 @@ from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.items.primitives import PRIMITIVES, primitive_for, scripts
+from pensum.items.primitives.counters import MAX_ON_MAT, RING_HOLDS
 from pensum.items.schema import AuthoredText, QuizItem
 from pensum.web.app import create_app
 from pensum.web.rendering import templates
@@ -203,25 +204,61 @@ def page_limits(html: str) -> str:
     return found.group(1)
 
 
+def assert_same_board_before_the_answer(first: str, second: str, rings: int) -> None:
+    assert page_limits(first) == page_limits(second)
+    assert json.loads(page_limits(first))["ring"] == RING_HOLDS
+    assert ring_slots(first) == ring_slots(second)
+    assert ring_slots(first) == {f"g{ring}": RING_HOLDS for ring in range(rings)}
+
+
 @pytest.mark.parametrize(
     ("groups", "other"),
     [([4, 4], [7, 1]), ([4, 4, 4], [6, 4, 2]), ([2, 3, 4], [1, 1, 7])],
 )
-def test_a_ring_is_as_big_as_the_total_whatever_the_groups(
-    groups: list[int], other: list[int]
-) -> None:
-    # What the page shows before an answer may not depend on the answer: two
-    # sharings of the same total into the same number of rings get the same
-    # limits and the same number of places in every ring.
+def test_a_ring_does_not_give_away_the_group_sizes(groups: list[int], other: list[int]) -> None:
+    # "Share 8 counters into two equal groups": the total is stated, the group
+    # size is the answer. Two sharings of the same total into the same number
+    # of rings must look the same before an answer.
     total = sum(groups)
     first, second = (
         render_question(item("counters", target=total, start=total, groups=sizes))
         for sizes in (groups, other)
     )
-    assert page_limits(first) == page_limits(second)
-    assert json.loads(page_limits(first))["ring"] == total
-    assert ring_slots(first) == ring_slots(second)
-    assert ring_slots(first) == {f"g{ring}": total for ring in range(len(groups))}
+    assert_same_board_before_the_answer(first, second, len(groups))
+
+
+@pytest.mark.parametrize(
+    ("groups", "other"),
+    # Totals picked inside one mat size: the mat is sized from the total in
+    # coarse steps of ten, which is a separate question from the rings.
+    [([1, 1], [2, 2]), ([4, 4, 4], [5, 5, 5]), ([6, 6], [7, 7])],
+)
+def test_a_ring_does_not_give_away_the_total(groups: list[int], other: list[int]) -> None:
+    # "Make 3 groups of 4 -- how many in all?": the groups are stated, the
+    # total is the answer. The board opens with an empty mat and empty rings.
+    first, second = (
+        render_question(item("counters", target=sum(sizes), groups=sizes))
+        for sizes in (groups, other)
+    )
+    assert_same_board_before_the_answer(first, second, len(groups))
+
+
+def test_every_committed_sharing_draws_the_same_rings() -> None:
+    bank = ItemBank.load(include_unreviewed=True)
+    sharings = [
+        i for s in bank.item_sets for i in s.items if i.type == "counters" and i.activity.groups
+    ]
+    assert sharings, "at least one committed counters item shares into groups"
+    for question in sharings:
+        page = render_question(question)
+        rings = len(question.activity.groups)
+        assert ring_slots(page) == {f"g{ring}": RING_HOLDS for ring in range(rings)}, question.id
+        assert json.loads(page_limits(page))["ring"] == RING_HOLDS, question.id
+
+
+def test_a_ring_holds_the_biggest_group_the_schema_allows() -> None:
+    biggest = item("counters", target=MAX_ON_MAT, groups=[MAX_ON_MAT - 1, 1])
+    assert biggest.is_correct(state(loose=0, groups=[MAX_ON_MAT - 1, 1]))
 
 
 def test_the_question_page_is_the_same_for_any_unequal_split() -> None:

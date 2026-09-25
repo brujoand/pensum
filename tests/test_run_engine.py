@@ -266,8 +266,9 @@ def test_the_full_ladder_in_its_fixed_order() -> None:
     ]
     revealed = session.revealed(item, "en")
     assert revealed[0].text == "Shorter."
-    assert revealed[1].comparison is not None
-    assert "3" in revealed[1].comparison.made
+    assert revealed[1].built is not None
+    assert revealed[1].text.startswith("So far you have made 3")
+    assert revealed[1].task == item.prompt.en
     assert revealed[2].target.id == "C1"
 
 
@@ -463,7 +464,8 @@ def test_help_with_htmx_swaps_the_slot_and_keeps_the_board(client: TestClient) -
     client.post(url, data={"item_id": "P1", "response": built}, headers=HX)
     slot = client.post(url, data={"item_id": "P1", "response": built}, headers=HX).text
     assert "<html" not in slot
-    assert "comparison-sentence" in slot, "step 2 draws what was built beside the task"
+    assert "hint-so-far" in slot, "step 2 draws what was built beside the task"
+    assert "comparison" not in slot, "and never the solution beside it"
     # The board comes back as the pupil left it, not empty.
     held = re.search(r"<input[^>]*data-state[^>]*>", slot)
     assert held is not None
@@ -567,3 +569,82 @@ def test_the_nivatest_gets_no_run_controls(client: TestClient) -> None:
     page = client.get(started.headers["location"]).text
     assert "stone" not in page
     assert "/help" not in page
+
+
+# --- hint step 2 never gives the answer away -----------------------------------
+
+
+def _render_help(item: QuizItem, held: str, locale: str) -> str:
+    session = session_with([item])
+    session.hint(item.id, held)  # restate
+    assert session.hint(item.id, held) == "show"
+    shown = [h for h in session.revealed(item, locale) if h.step == "show"]
+    return templates.get_template("partials/run_help.html").render(
+        hints=shown,
+        more_help=False,
+        locale=locale,
+        t=lambda key, **kw: translate(locale, key, **kw),
+    )
+
+
+def _visible(html: str) -> str:
+    return " ".join(re.sub(r"<[^>]+>", " ", html).split())
+
+
+def _hands_on() -> list[QuizItem]:
+    bank = ItemBank.load(include_unreviewed=True)
+    return [i for s in bank.item_sets for i in s.items if i.activity is not None]
+
+
+@pytest.mark.parametrize("locale", UI_LOCALES)
+def test_help_step_two_never_shows_the_solution(locale: str) -> None:
+    """For every committed hands-on item: before an answer, "show" draws the
+    pupil's board and names what is on it, and nothing `compare` would put on
+    the "asked" side -- not the solved board, not its caption, not its words."""
+    items = _hands_on()
+    assert items
+    for item in items:
+        activity = item.activity
+        held = activity.serialise(activity.initial())
+        html = _render_help(item, held, locale)
+        asked = activity.board(activity.solution(), locale)
+        solved = templates.get_template("partials/primitives/_board_static.html").render(
+            board=asked, label=""
+        )
+        solved_body = solved[solved.index(">") + 1 :]
+        # A board whose solved picture is the one it opens with (a closed-box
+        # balance: the pupil reads it, and answers with a number) gives away
+        # nothing the question does not already show.
+        if asked != activity.board(activity.initial(), locale):
+            assert solved_body not in html, f"{item.id}: the solution board is drawn"
+        assert translate(locale, "activity.asked_caption") not in html, item.id
+        assert "comparison" not in html, item.id
+        answer_words = activity.describe(activity.solution(), locale)
+        text = _visible(html).replace(item.prompt.get(locale), "")
+        made_words = activity.describe(activity.initial(), locale)
+        if answer_words != made_words:
+            assert answer_words not in text, f"{item.id}: the answer is said"
+        assert translate(locale, "run.hint_so_far", made=made_words) in html
+
+
+@pytest.mark.parametrize("locale", UI_LOCALES)
+def test_feedback_after_an_answer_still_compares_with_the_solution(locale: str) -> None:
+    """The fix is to the hint only: a wrong answer's feedback still draws what
+    was asked beside what was built (activity rule 7)."""
+    for item in _hands_on():
+        activity = item.activity
+        held = activity.serialise(activity.initial())
+        if item.is_correct(held):
+            continue
+        html = templates.get_template("partials/feedback.html").render(
+            item=item,
+            locale=locale,
+            t=lambda key, **kw: translate(locale, key, **kw),
+            given=held,
+            correct=False,
+            finished=False,
+            question_url="/q",
+            result_url="/r",
+        )
+        assert translate(locale, "activity.asked_caption") in html, item.id
+        assert "comparison-sentence" in html, item.id

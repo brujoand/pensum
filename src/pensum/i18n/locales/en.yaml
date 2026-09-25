@@ -672,6 +672,7 @@ run:
   help_done: There is no more help for this task.
   hint_restate: "In short:"
   hint_show: "This is where you are now:"
+  hint_so_far: "So far you have made {made}."
   hint_step_down: "You can do the same thing with {how}."
   swap: Swap to that
   hint_partial: "First step:"

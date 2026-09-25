@@ -6,9 +6,12 @@ what pressing Help will do:
 
   1. **restate** -- the task in fewer words (read aloud when that is on). An
      item's `hints.restate` if the author wrote one, else the prompt again.
-  2. **show** -- what the pupil has built so far beside what was asked. Only a
-     hands-on primitive with a board state has a "so far"; everything else,
-     including a primitive answered by typing, skips it.
+  2. **show** -- what the pupil has built so far, drawn and said, next to the
+     task as written. Only a hands-on primitive with a board state has a "so
+     far"; everything else, including a primitive answered by typing, skips it.
+     It never draws or names the solution: that is what the feedback after an
+     answer does (`base.compare`), and before an answer it would be the answer
+     to copy (README, "What a figure may and may not give away").
   3. **step_down** -- swap this task for the same goal one stage more concrete
      (`pensum.quiz.stages`). Skipped when the bank has no such item.
   4. **partial** -- the first step done for them: `hints.partial`.
@@ -28,8 +31,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+from pensum.i18n import translate
 from pensum.items.primitives import primitive_for
-from pensum.items.primitives.base import Comparison
+from pensum.items.primitives.base import Board
 from pensum.items.schema import QuizItem
 
 Step = Literal["restate", "show", "step_down", "partial", "worked"]
@@ -42,7 +46,10 @@ class Revealed:
 
     step: Step
     text: str = ""
-    comparison: Comparison | None = None
+    # `show` only: the pupil's own board as it stands, and the task as written.
+    # Deliberately nothing about the solution.
+    built: Board | None = None
+    task: str = ""
     # The item a `step_down` swaps to.
     target: QuizItem | None = None
 
@@ -82,7 +89,7 @@ def reveal(
     """The revealed steps, filled in for display.
 
     `held` is the answer as it stood at the last press -- the board's state for
-    a primitive -- so `show` compares what the pupil has now, not what the task
+    a primitive -- so `show` draws what the pupil has now, not what the task
     opened with. A step whose content has since gone (the lower-stage item was
     used elsewhere in the run) is left off rather than drawn empty.
     """
@@ -91,10 +98,8 @@ def reveal(
         if step == "restate":
             text = item.hints.restate if item.hints and item.hints.restate else item.prompt
             shown.append(Revealed(step, text.get(locale)))
-        elif step == "show" and _built(item, held):
-            primitive = primitive_for(item)
-            comparison = primitive.compare(item, held, locale) if primitive else None
-            shown.append(Revealed(step, comparison=comparison))
+        elif step == "show" and (so_far := _so_far(item, held, locale)) is not None:
+            shown.append(so_far)
         elif step == "step_down" and lower is not None:
             shown.append(Revealed(step, target=lower))
         elif step == "partial" and item.hints and item.hints.partial:
@@ -102,6 +107,27 @@ def reveal(
         elif step == "worked" and item.hints and item.hints.worked:
             shown.append(Revealed(step, item.hints.worked.get(locale)))
     return tuple(shown)
+
+
+def _so_far(item: QuizItem, held: str, locale: str) -> Revealed | None:
+    """The pupil's board and a literal sentence about it, and nothing else.
+
+    Built from the held state alone -- `board` and `describe` of that state --
+    and never from `solution()`, which is what `compare` draws after an answer.
+    """
+    activity = item.activity
+    if activity is None or not _built(item, held):
+        return None
+    state = activity.read(held)
+    if state is None:
+        return None
+    made = activity.describe(state, locale)
+    return Revealed(
+        "show",
+        translate(locale, "run.hint_so_far", made=made),
+        built=activity.board(state, locale),
+        task=item.prompt.get(locale),
+    )
 
 
 def _built(item: QuizItem, held: str) -> bool:

@@ -17,10 +17,15 @@
              question: step 1 is the task again, spoken. #}
           <p class="prompt prompt--hint">{{ hint.text }}</p>
         {% elif hint.step == "show" %}
+          {# The pupil's own board and what it holds, beside the task as
+             written. Never the solution: that is the feedback's job, after
+             the answer (`_comparison.html`). #}
           <p class="hint-label">{{ t("run.hint_show") }}</p>
-          {% with comparison = hint.comparison %}
-            {% include "partials/primitives/_comparison.html" %}
+          <p class="hint-task">{{ hint.task }}</p>
+          {% with board = hint.built, label = hint.text %}
+            {% include "partials/primitives/_board_static.html" %}
           {% endwith %}
+          <p class="hint-so-far">{{ hint.text }}</p>
         {% elif hint.step == "step_down" %}
           <p>{{ t("run.hint_step_down", how=t("run.stage." ~ hint.target.stage)) }}</p>
           <button class="button button--secondary" type="submit"

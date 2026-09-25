@@ -25,7 +25,7 @@ from pydantic import ValidationError
 
 from pensum.catalogue.loader import Catalogue
 from pensum.items.loader import DEFAULT_ITEMS_DIR
-from pensum.items.schema import QuizItem
+from pensum.items.schema import BOKMAAL, ENGLISH, QuizItem
 from pensum.items.sets import ItemSet
 from pensum.items.template import ItemTemplate
 from pensum.skills.loader import SkillLibrary
@@ -72,6 +72,7 @@ def validate(items_dir: Path | None = None, skills: SkillLibrary | None = None) 
                     "it may have been renumbered by a curriculum revision"
                 )
             problems.extend(_skill_problems(item, skills.for_subject(item_set.subject)))
+            problems.extend(_hint_problems(item))
         for template in item_set.templates:
             if template.goal not in known:
                 problems.append(
@@ -120,6 +121,39 @@ def _skill_problems(item: QuizItem, skill_file: SkillFile | None) -> list[str]:
         problems.append(
             f"{item.id}: skill {item.skill} does not cite goal {item.goal}, which this item tests"
         )
+    return problems
+
+
+def _hint_problems(item: QuizItem) -> list[str]:
+    """Hints the schema accepts but a pupil would get nothing from.
+
+    The schema checks the block's shape. What it cannot see is a hint that says
+    what the pupil already has in front of them: a restatement identical to the
+    prompt is the ladder's first step spent on nothing, and two steps with the
+    same words are one step shown twice. Both are typos in practice -- a
+    copy-paste not yet edited -- so they fail here rather than on a screen.
+    """
+    hints = item.hints
+    if hints is None:
+        return []
+    problems: list[str] = []
+    for locale in (BOKMAAL, ENGLISH):
+        prompt = item.prompt.get(locale).strip()
+        written = [
+            (name, text.get(locale).strip())
+            for name, text in (
+                ("restate", hints.restate),
+                ("partial", hints.partial),
+                ("worked", hints.worked),
+            )
+            if text is not None
+        ]
+        for name, text in written:
+            if text == prompt:
+                problems.append(f"{item.id}: hints.{name} ({locale}) repeats the prompt")
+        texts = [text for _, text in written]
+        if len(set(texts)) != len(texts):
+            problems.append(f"{item.id}: two hint steps ({locale}) say the same thing")
     return problems
 
 

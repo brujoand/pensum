@@ -3,13 +3,19 @@
    Shared by the trinntest and the nivåtest. The two differ in where they post
    and in whether a total is knowable, so those arrive as `answer_url`,
    `result_url` and `progress` rather than being built here -- the form markup
-   for the item kinds is the part that must not drift between them. #}
-{% if item %}
+   for the item kinds is the part that must not drift between them. Only the
+   trinntest passes `run` (stones, help, the finish choice, the break card);
+   see `pensum.web.quiz_routes._run`. #}
+{% if item and break_card %}
+  {% include "partials/run_break.html" %}
+{% elif item and run and run.choosing %}
+  {% include "partials/run_choose.html" %}
+{% elif item %}
   <form class="question"
         hx-post="{{ answer_url }}"
         hx-target="#quiz-slot"
         hx-swap="innerHTML">
-    <p class="progress">{{ progress }}</p>
+    {% include "partials/run_stones.html" %}
     <input type="hidden" name="item_id" value="{{ item.id }}" />
 
     {# Only ever rendered for someone allowed to see drafts; a pupil is never
@@ -60,8 +66,12 @@
     {% endif %}
 
     <button class="button" type="submit">{{ t("quiz.check") }}</button>
+
+    {# The trinntest's run: help on every task. Absent from the nivåtest,
+       which is a measurement and hands out no hints. #}
+    {% if run %}{% include "partials/run_help.html" %}{% endif %}
   </form>
 {% else %}
-  <p class="progress">{{ progress }}</p>
+  {% include "partials/run_stones.html" %}
   <a class="button" href="{{ result_url }}">{{ t("quiz.see_result") }}</a>
 {% endif %}

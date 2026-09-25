@@ -2803,3 +2803,145 @@ main:has(.progression-page) {
   list-style: none;
   padding: 0;
 }
+
+/* --- The run: stones, help, the finish choice, the break card ------------
+   See pensum/quiz/shape.py. Stones tell their state by shape alone -- filled,
+   ringed, hollow -- in one ink, so nothing depends on seeing a colour. Nothing
+   here moves: a stone filling is a state change, not an animation. */
+
+.run-bar {
+  margin: 0 0 0.75rem;
+}
+
+.stones {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+.stone {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid var(--ink-soft);
+  background: transparent;
+}
+
+.stone--done {
+  background: var(--ink-soft);
+}
+
+/* The task on screen: a thicker ring, so it differs from "to do" in outline
+   as well as from "done" in fill. */
+.stone--current {
+  border-width: 4px;
+  border-color: var(--ink);
+}
+
+.run-grew,
+.run-preview {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* One line: the preview is a glance, not a second question to read. */
+.run-preview {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.run-help {
+  margin-left: 0.5rem;
+}
+
+.hints {
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hint {
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--line);
+  background: var(--card);
+}
+
+.hint p {
+  margin: 0 0 0.3rem;
+}
+
+.hint-label {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.prompt--hint {
+  font-size: 1.1rem;
+}
+
+.hint-done {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.finish-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.finish-card form,
+.break-card {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.finish-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.finish-card form .button {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.finish-card__kind,
+.finish-card__prompt {
+  margin: 0;
+}
+
+.finish-card__kind {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.break-card__heading {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+
+.break-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.break-card__actions form {
+  margin: 0;
+}

@@ -384,6 +384,16 @@ items:
       target: 8
       start: 8
       groups: [4, 4]
+    hints:
+      restate:
+        nb: Lag to grupper med like mange i hver.
+        en: Make two groups with the same number in each.
+      partial:
+        nb: Legg én brikke i hver ring, og gjør det igjen til matta er tom.
+        en: Put one counter in each ring, and do it again until the mat is empty.
+      worked:
+        nb: 6 brikker i to like grupper blir 3 og 3.
+        en: 6 counters in two equal groups make 3 and 3.
     explanation:
       nb: 8 blir 4 og 4. Når et tall kan deles i to like store grupper, er det et partall.
       en: 8 becomes 4 and 4. When a number splits into two equal groups, it is an even number.
@@ -423,6 +433,16 @@ items:
         nb: En tom tierramme med to rader på fem ruter.
         en: An empty ten-frame with two rows of five squares.
       target: 8
+    hints:
+      restate:
+        nb: Legg 8 prikker i rammen.
+        en: Put 8 dots in the frame.
+      partial:
+        nb: Fyll den øverste raden først. Det er 5.
+        en: Fill the top row first. That is 5.
+      worked:
+        nb: 6 på en tierramme er en full rad på 5 og 1 til.
+        en: 6 on a ten-frame is a full row of 5 and 1 more.
     explanation:
       nb: 8 er en full rad på 5 og 3 til. Da er det 2 tomme ruter, og 8 + 2 = 10.
       en: 8 is a full row of 5 and 3 more. That leaves 2 empty squares, and 8 + 2 = 10.
@@ -443,6 +463,16 @@ items:
         en: A ten-frame with seven dots and three empty squares.
       target: 10
       start: 7
+    hints:
+      restate:
+        nb: Hvor mange tomme ruter er det?
+        en: How many squares are empty?
+      partial:
+        nb: "Legg én prikk i en tom rute, og tell: 8."
+        en: "Put one dot in an empty square, and count: 8."
+      worked:
+        nb: Med 6 prikker er det 4 tomme ruter. 6 + 4 = 10.
+        en: With 6 dots there are 4 empty squares. 6 + 4 = 10.
     explanation:
       nb: Det var 3 tomme ruter. 7 + 3 = 10.
       en: There were 3 empty squares. 7 + 3 = 10.
@@ -463,6 +493,16 @@ items:
       frames: 2
       target: 13
       order: in_order
+    hints:
+      restate:
+        nb: Fyll én ramme, og legg resten i den andre.
+        en: Fill one frame, and put the rest in the second.
+      partial:
+        nb: Fyll hele den første rammen. Det er 10.
+        en: Fill the whole first frame. That is 10.
+      worked:
+        nb: 12 er en full ramme på 10 og 2 i den andre rammen.
+        en: 12 is a full frame of 10 and 2 in the second frame.
     explanation:
       nb: 13 er en full tier og 3 til. Den første rammen blir full, og den andre får 3 prikker.
       en: 13 is a full ten and 3 more. The first frame is full, and the second gets 3 dots.
@@ -482,6 +522,16 @@ items:
         en: Two empty ten-frames, one above the other.
       frames: 2
       target: 12
+    hints:
+      restate:
+        nb: Legg 6 prikker, og så 6 til.
+        en: Put in 6 dots, and then 6 more.
+      partial:
+        nb: Legg 6 prikker i den første rammen.
+        en: Put 6 dots in the first frame.
+      worked:
+        nb: "5 + 5: fyll 5 i den første rammen og 5 til. Det blir 10."
+        en: "5 + 5: put 5 in the first frame and 5 more. That makes 10."
     explanation:
       nb: 6 + 6 = 12. Du kan fylle 10 i den første rammen og legge 2 i den andre.
       en: 6 + 6 = 12. You can fill 10 in the first frame and put 2 in the second.
@@ -520,6 +570,16 @@ items:
         en: An empty place-value mat with a column for tens and one for ones.
       target: 47
       accept: canonical
+    hints:
+      restate:
+        nb: Vis 47 med færrest mulig klosser.
+        en: Show 47 with the fewest blocks.
+      partial:
+        nb: Legg 4 tiere først.
+        en: Put 4 tens first.
+      worked:
+        nb: 25 med færrest klosser er 2 tiere og 5 enere.
+        en: 25 with the fewest blocks is 2 tens and 5 ones.
     explanation:
       nb: >-
         Ti enere kan byttes til én tier, så færrest klosser får du med 4 tiere og
@@ -547,6 +607,16 @@ items:
       start:
         tens: 2
         ones: 14
+    hints:
+      restate:
+        nb: Gjør 10 enere om til én tier.
+        en: Change 10 ones into one ten.
+      partial:
+        nb: Ta bort 10 enere og legg på én tier.
+        en: Take away 10 ones and put on one ten.
+      worked:
+        nb: "1 tier og 12 enere: bytt 10 enere til en tier. Da er det 2 tiere og 2 enere, som er 22."
+        en: "1 ten and 12 ones: swap 10 ones for a ten. That makes 2 tens and 2 ones, which is 22."
     explanation:
       nb: >-
         10 av de 14 enerne blir én tier. Da er det 3 tiere og 4 enere, og det er
@@ -574,6 +644,16 @@ items:
         boxes: 1
         weights: 5
       open_box: true
+    hints:
+      restate:
+        nb: Begge sidene skal veie like mye.
+        en: Both sides must weigh the same.
+      partial:
+        nb: Venstre side har 7 klosser. Høyre side har 5.
+        en: The left side has 7 blocks. The right side has 5.
+      worked:
+        nb: "2 + 4 = ☐ + 3. Venstre side er 6. 3 + 3 = 6, så boksen får 3."
+        en: "2 + 4 = ☐ + 3. The left side is 6. 3 + 3 = 6, so the box gets 3."
     explanation:
       nb: >-
         Venstre side er 3 + 4 = 7. Høyre side har 5, så boksen må ha 2. Likhetstegnet

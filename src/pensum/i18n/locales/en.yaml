@@ -642,8 +642,8 @@ comfort:
   theme_blocks: Blocks
   break_reminder: Offer a break
   break_reminder_help: >-
-    After a few tasks you can choose to stop, and what you have done is kept.
-    Not in use yet.
+    After every fourth task in a quiz you can choose to stop, and what you
+    have done is kept.
   save: Save
   saved: Saved.
   back: Back
@@ -653,6 +653,50 @@ comfort:
     choices, is read only by Pensum and is never sent anywhere else.
   # The button comfort.js puts next to questions and answers.
   speak: Read aloud
+  show_next: Show what comes next
+  show_next_help: >-
+    Under the stones it says what the next task is, before you get there.
+
+# How a quiz is laid out: stones instead of a number or a clock, help in fixed
+# steps, a choice at the end and an offer of a break. Literal wording: say what
+# happens, not how clever the pupil is.
+run:
+  stones: "{done} of {total} done"
+  grew: "One more task is coming: the same thing, shown another way."
+  next: "Next: {kind}. {prompt}"
+  next_choice: "Next: you choose one of two tasks."
+  next_last: This is the last task.
+  choose_heading: "Last task: pick one of these two."
+  choose: Choose this one
+  help: Help
+  help_done: There is no more help for this task.
+  hint_restate: "In short:"
+  hint_show: "This is where you are now:"
+  hint_step_down: "You can do the same thing with {how}."
+  swap: Swap to that
+  hint_partial: "First step:"
+  hint_worked: "An example:"
+  break_heading: You can stop here. What you have done is kept.
+  carry_on: Keep going
+  stop: Stop here
+  partial_note: >-
+    You stopped after {answered} of {total} tasks. The numbers are only for the
+    {answered} you did.
+  resume: Carry on where you stopped
+  stage:
+    concrete: things you can move
+    pictorial: a picture
+  kind:
+    multiple_choice: Choose an answer
+    numeric: Write a number
+    short_text: Write the answer
+    number_line: Number line
+    counters: Counters
+    ten_frame: Ten-frame
+    base_ten: Base-ten blocks
+    array: Rows and columns
+    balance: Balance
+
 
 # Missions: short off-screen tasks for the goals a screen cannot check. Pupil
 # lines are literal and short, as the steps are. Nothing about a mission is

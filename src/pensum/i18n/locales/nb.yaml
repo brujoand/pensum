@@ -659,8 +659,8 @@ comfort:
   theme_blocks: Klosser
   break_reminder: Forslag om pause
   break_reminder_help: >-
-    Etter noen oppgaver kan du velge å stoppe, og det du har gjort er tatt vare
-    på. Ikke i bruk ennå.
+    Etter hver fjerde oppgave i en quiz kan du velge å stoppe, og det du har
+    gjort er tatt vare på.
   save: Lagre
   saved: Lagret.
   back: Tilbake
@@ -671,6 +671,50 @@ comfort:
     annet sted.
   # Knappen som comfort.js legger ved spørsmål og svar.
   speak: Les høyt
+  show_next: Vis hva som kommer
+  show_next_help: >-
+    Under steinene står det hva neste oppgave er, før du kommer dit.
+
+# Hvordan en quiz er bygd opp: steiner i stedet for tall eller klokke, hjelp
+# i faste steg, et valg til slutt og et tilbud om pause. Bokstavelig språk:
+# si hva som skjer, ikke hvor flink eleven er.
+run:
+  stones: "{done} av {total} ferdig"
+  grew: "Én oppgave til kommer: det samme, vist på en annen måte."
+  next: "Neste: {kind}. {prompt}"
+  next_choice: "Neste: du velger én av to oppgaver."
+  next_last: Dette er den siste oppgaven.
+  choose_heading: "Siste oppgave: velg én av disse to."
+  choose: Velg denne
+  help: Hjelp
+  help_done: Det finnes ikke mer hjelp til denne oppgaven.
+  hint_restate: "Kort sagt:"
+  hint_show: "Slik ser det ut nå:"
+  hint_step_down: "Du kan gjøre det samme med {how}."
+  swap: Bytt til den
+  hint_partial: "Første steg:"
+  hint_worked: "Et eksempel:"
+  break_heading: Du kan stoppe her. Det du har gjort, er tatt vare på.
+  carry_on: Fortsett
+  stop: Stopp her
+  partial_note: >-
+    Du stoppet etter {answered} av {total} oppgaver. Tallene gjelder bare de
+    {answered} du gjorde.
+  resume: Fortsett der du stoppet
+  stage:
+    concrete: ting du kan flytte
+    pictorial: en tegning
+  kind:
+    multiple_choice: Velg et svar
+    numeric: Skriv et tall
+    short_text: Skriv svaret
+    number_line: Tallinje
+    counters: Tellebrikker
+    ten_frame: Tiramme
+    base_ten: Tierblokker
+    array: Rader og kolonner
+    balance: Skålvekt
+
 
 # Oppdrag: korte oppgaver utenfor skjermen, for målene en skjerm ikke kan
 # sjekke. Linjene til eleven er bokstavelige og korte, som stegene. Ingenting

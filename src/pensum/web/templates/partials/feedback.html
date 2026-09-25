@@ -1,5 +1,6 @@
 {# Shown after an answer. The explanation is the point: a wrong answer should
    teach something, not just score zero. #}
+{% if stones %}{% include "partials/run_stones.html" %}{% endif %}
 <div class="feedback feedback--{{ 'correct' if correct else 'incorrect' }}">
   <p class="verdict">{{ t("quiz.correct") if correct else t("quiz.incorrect") }}</p>
 

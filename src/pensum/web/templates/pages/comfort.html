@@ -52,15 +52,19 @@
       </ul>
     </fieldset>
 
-    <div class="comfort-setting">
-      <label>
-        <input type="checkbox" name="break_reminder" value="1"
-               aria-describedby="comfort-break_reminder-help"
-               {% if comfort.break_reminder %}checked{% endif %} />
-        <span>{{ t("comfort.break_reminder") }}</span>
-      </label>
-      <p class="field-help" id="comfort-break_reminder-help">{{ t("comfort.break_reminder_help") }}</p>
-    </div>
+    {# How a trinntest run is paced: both off by default, both only change what
+       is shown between tasks, never what is asked. #}
+    {% for name in ["break_reminder", "show_next"] %}
+      <div class="comfort-setting">
+        <label>
+          <input type="checkbox" name="{{ name }}" value="1"
+                 aria-describedby="comfort-{{ name }}-help"
+                 {% if comfort[name] %}checked{% endif %} />
+          <span>{{ t("comfort." ~ name) }}</span>
+        </label>
+        <p class="field-help" id="comfort-{{ name }}-help">{{ t("comfort." ~ name ~ "_help") }}</p>
+      </div>
+    {% endfor %}
 
     <button class="button" type="submit">{{ t("comfort.save") }}</button>
   </form>

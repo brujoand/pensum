@@ -690,6 +690,7 @@ run:
   help_done: Det finnes ikke mer hjelp til denne oppgaven.
   hint_restate: "Kort sagt:"
   hint_show: "Slik ser det ut nå:"
+  hint_so_far: "Så langt har du laget {made}."
   hint_step_down: "Du kan gjøre det samme med {how}."
   swap: Bytt til den
   hint_partial: "Første steg:"

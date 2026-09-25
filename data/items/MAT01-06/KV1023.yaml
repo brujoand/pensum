@@ -434,3 +434,48 @@ items:
         One stair is four tiles: step forward, turn left, step forward, turn
         right. There are three stairs, so the four tiles are repeated 3 times.
     reviewed: false
+
+  - id: KM13263-02
+    goal: KM13263
+    type: step_code
+    stage: pictorial
+    skill: mat.programming.repeat-and-condition
+    difficulty: 2
+    prompt:
+      nb: >-
+        Få roboten til ringen med høyst 4 brikker. Bruk «hvis vegg foran» så
+        roboten snur når den kommer til kanten.
+      en: >-
+        Get the robot to the ring with at most 4 tiles. Use "if wall ahead" so
+        the robot turns when it reaches the edge.
+    activity:
+      alt:
+        nb: >-
+          Et rutenett på fire ganger fire ruter. Roboten står øverst til venstre
+          og ser mot høyre. Ringen er nederst til høyre.
+        en: >-
+          A grid of four by four squares. The robot stands at the top left,
+          facing right. The ring is at the bottom right.
+      width: 4
+      height: 4
+      start:
+        x: 0
+        y: 0
+        facing: right
+      goal: [3, 3]
+      tiles: [step, left, right, repeat, if_wall]
+      repeats: [3, 4, 5, 6]
+      max_tiles: 4
+      solution:
+        - repeat: 6
+          do:
+            - if_wall: [right]
+            - step
+    explanation:
+      nb: >-
+        Roboten skal gå 6 steg i alt. Før hvert steg sjekker den om det er vegg
+        foran. Ved kanten snur den mot høyre, og går videre ned til ringen.
+      en: >-
+        The robot must take 6 steps in all. Before each step it checks for a
+        wall ahead. At the edge it turns right and carries on down to the ring.
+    reviewed: false

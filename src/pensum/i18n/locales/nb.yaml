@@ -750,6 +750,119 @@ activity:
     nothing: ingenting
     ask: Hva skal være markert?
 
+  # The simulations: trials, step code and explore_sim.
+  trials:
+    hint_spin: >-
+      Spå først: velg det du tror. Så kan du spinne 1, 10 eller 100 ganger og se
+      tellingen. Spådommen låses når du spinner første gang.
+    hint_roll: >-
+      Spå først: velg det du tror. Så kan du kaste 1, 10 eller 100 ganger og se
+      tellingen. Spådommen låses når du kaster første gang.
+    predict_label: Spådommen din
+    run_spin: "Spinn {n} ganger"
+    run_spin_one: Spinn 1 gang
+    run_roll: "Kast {n} ganger"
+    run_roll_one: Kast 1 gang
+    tally: Tellingen så langt
+    outcome: Utfall
+    times: Ganger
+    chart: Andel av alle forsøk så langt
+    dice_one: 1 terning
+    dice: 2 terninger, summen teller
+    equal: Alle er like sannsynlige
+    band: "{lo}–{hi} ganger"
+    none: ingen spådom ennå
+    made: "«{choice}»"
+    count: "{label}: {count}"
+    after_spins: "etter {count} spinn: {tally}"
+    after_spins_one: "etter 1 spinn: {tally}"
+    after_rolls: "etter {count} kast: {tally}"
+    after_rolls_one: "etter 1 kast: {tally}"
+    you_made: "Du spådde {made}. Spådommen som passer: {asked}."
+    ask_most: Hva tror du kommer oftest?
+    ask_count: "Omtrent hvor mange av {of} ganger blir det «{outcome}»?"
+  step_code:
+    hint: >-
+      Bygg et program som får roboten til målet. Trykk på en linje i programmet
+      for å velge hvor neste brikke skal, eller dra brikken dit. Trykk Kjør for
+      å se roboten gå. Roboten skal stå på målet når programmet er ferdig.
+    max: "Bruk høyst {n} brikker."
+    tiles_label: Brikker
+    program_label: Programmet
+    text_label: Det samme som tekst
+    step: gå fram
+    left: snu mot venstre
+    right: snu mot høyre
+    repeat: "gjenta {n} ganger"
+    if_wall: hvis vegg foran
+    end: slutt
+    block: "{head} ({body})"
+    out: Ut av blokka
+    remove: Slett brikken før markøren
+    start_line: Start
+    cursor: "▸ neste brikke kommer her"
+    run: Kjør
+    step_frame: Ett steg
+    reset: Tilbake til start
+    run_goal: Roboten står på målet.
+    run_short: Programmet er ferdig, men roboten står ikke på målet.
+    run_wall: Roboten stoppet foran en vegg.
+    run_limit: Programmet ble for langt og ble stoppet.
+    py_step: gå()
+    py_left: snu_venstre()
+    py_right: snu_høyre()
+    py_repeat: "for _ in range({n}):"
+    py_if: "if vegg_foran():"
+    py_pass: pass
+    empty: ingen brikker ennå
+    made: "{count} brikker: {tiles}"
+    made_one: "1 brikke: {tiles}"
+    you_made: "Programmet ditt: {made}. Et program som virker: {asked}."
+    legend: Pilen viser hvor roboten ser. Ringen er målet. Skraverte ruter er vegger.
+    ask: Hvilket program får roboten til målet?
+    option: "Program {n}"
+  explore_sim:
+    hint: >-
+      Spå først. Flytt så glidebryteren og se hva som skjer. Velg til slutt
+      forklaringen som passer. Spådommen låses når du flytter glidebryteren.
+    predict_label: 1. Spå
+    observe_label: 2. Se
+    explain_label: 3. Forklar
+    prev: Forrige
+    next: Neste
+    none: ingen spådom ennå
+    predicted: du har spådd, men ikke flyttet glidebryteren ennå
+    observed: ingen forklaring ennå
+    made: "«{choice}»"
+    you_made: "Du valgte {made}. Forklaringen som passer: {asked}."
+    ask: Velg forklaringen som passer.
+    strip: "Slik ser det ut ved hver stopp:"
+    degrees: "{t} °C"
+    place: "Månen på plass {n} av {of}"
+    floats_sinks:
+      slider: Ting
+      floats: "{thing} flyter."
+      sinks: "{thing} synker til bunnen."
+      neutral: "{thing} svever i vannet."
+    states_of_matter:
+      slider: Temperatur
+      solid: Partiklene sitter tett i faste plasser og dirrer.
+      liquid: Partiklene ligger tett, men glir forbi hverandre.
+      gas: Partiklene er langt fra hverandre og farer rundt.
+    moon_phase:
+      slider: Hvor månen er
+      sun: Lys fra sola
+      earth: Jorda
+      seen: Sett fra Norge
+      new: "Fra Norge: ingen lys side synes (nymåne)."
+      waxing_crescent: "Fra Norge: en smal sigd, lys til høyre."
+      first_quarter: "Fra Norge: høyre halvdel er lys (halvmåne)."
+      waxing_gibbous: "Fra Norge: mer enn halvparten er lys, til høyre."
+      full: "Fra Norge: hele månen er lys (fullmåne)."
+      waning_gibbous: "Fra Norge: mer enn halvparten er lys, til venstre."
+      last_quarter: "Fra Norge: venstre halvdel er lys (halvmåne)."
+      waning_crescent: "Fra Norge: en smal sigd, lys til venstre."
+
 comfort:
   # Hver innstilling beskrives ut fra hva den gjør, aldri ut fra hvem den er
   # for. Ingen diagnose nevnes noe sted.

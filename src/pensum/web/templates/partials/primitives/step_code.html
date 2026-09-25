@@ -1,0 +1,68 @@
+{# A robot, a grid and command tiles. `pensum.items.primitives.step_code`.
+   The program is a list the script writes: every line is a button that puts
+   the marker after it, so where the next tile goes is chosen by tapping a line
+   (or by dropping a tile on it) and by the keyboard alike. The tiles are
+   buttons that insert at the marker. Run, one step and back to start only
+   move the robot on the board; they change nothing that is submitted. From
+   7. trinn the same program is shown as text beside it, read-only. Without a
+   script the pupil picks one of a few listed programs. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.step_code.hint") }}{% endblock %}
+{% block live_extra %}
+  {% if item.activity.max_tiles %}
+    <p class="code-max">{{ t("activity.step_code.max", n=item.activity.max_tiles) }}</p>
+  {% endif %}
+  <div class="activity-group code-run">
+    <button class="activity-button" type="button" data-run>{{ t("activity.step_code.run") }}</button>
+    <button class="activity-button" type="button" data-frame>{{ t("activity.step_code.step_frame") }}</button>
+    <button class="activity-button" type="button" data-reset>{{ t("activity.step_code.reset") }}</button>
+  </div>
+  <div class="code-editor">
+    <div class="code-pane">
+      <p class="activity-readout" id="code-program-{{ item.id }}">{{ t("activity.step_code.program_label") }}</p>
+      <ol class="code-program" data-program aria-labelledby="code-program-{{ item.id }}"></ol>
+    </div>
+    {% if item.activity.text %}
+      <div class="code-pane">
+        <p class="activity-readout">{{ t("activity.step_code.text_label") }}</p>
+        <pre class="code-text" data-text></pre>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+{% block controls %}
+  <span class="activity-group code-tiles" role="group" aria-label="{{ t('activity.step_code.tiles_label') }}">
+    {% for tile in item.activity.tiles %}
+      {% if tile == "repeat" %}
+        {% for n in item.activity.repeats %}
+          <button class="activity-button activity-button--tile" type="button" data-action="add" data-zone="repeat" data-by="{{ n }}">{{ t("activity.step_code.repeat", n=n) }}</button>
+        {% endfor %}
+      {% else %}
+        <button class="activity-button activity-button--tile" type="button" data-action="add" data-zone="{{ tile }}">{{ t("activity.step_code." ~ tile) }}</button>
+      {% endif %}
+    {% endfor %}
+  </span>
+  {% if "repeat" in item.activity.tiles or "if_wall" in item.activity.tiles %}
+    <button class="activity-button" type="button" data-action="out">{{ t("activity.step_code.out") }}</button>
+  {% endif %}
+  <button class="activity-button" type="button" data-action="remove">{{ t("activity.step_code.remove") }}</button>
+{% endblock %}
+{% block fallback %}
+  <fieldset class="activity-fallback" data-fallback>
+    <legend>
+      <span>{{ item.activity.fallback_prompt(locale) }}</span>
+      {% if item.activity.max_tiles %}<span>{{ t("activity.step_code.max", n=item.activity.max_tiles) }}</span>{% endif %}
+    </legend>
+    <ul class="choices code-options">
+      {% for program in item.activity.options() %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ loop.index }}" required />
+            <span>{{ t("activity.step_code.option", n=loop.index) }}</span>
+            <pre class="code-text">{{ item.activity.listing(program, locale) }}</pre>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

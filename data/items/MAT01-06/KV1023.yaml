@@ -383,13 +383,54 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-not_assessable:
-  - goal: KM13263
-    reason: >-
-      Asks the pupil to make algorithms and express them using variables,
-      conditions and loops. The verb is "lage" — the pupil constructs something,
-      usually in a programming tool or on paper. A quiz can at best ask them to
-      read someone else's algorithm, which tests comprehension rather than the
-      making, so the goal is left to classroom work.
+  # --- Simulations ---------------------------------------------------------
+  # A program of command tiles moves a robot on a grid (`step_code`); it is
+  # graded by running it. Without a script the pupil picks one of a few listed
+  # programs, graded the same way.
+
+  - id: KM13263-01
+    goal: KM13263
+    type: step_code
+    stage: pictorial
+    skill: mat.programming.repeat-and-condition
+    difficulty: 2
+    prompt:
+      nb: >-
+        Få roboten opp trappa til ringen. Du kan bruke høyst 5 brikker, så du
+        trenger en gjenta-brikke.
+      en: >-
+        Get the robot up the stairs to the ring. You may use at most 5 tiles,
+        so you need a repeat tile.
+    activity:
+      alt:
+        nb: >-
+          Et rutenett på fire ganger fire ruter. Roboten står nederst til venstre
+          og ser mot høyre. Ringen er øverst til høyre.
+        en: >-
+          A grid of four by four squares. The robot stands at the bottom left,
+          facing right. The ring is at the top right.
+      width: 4
+      height: 4
+      start:
+        x: 0
+        y: 3
+        facing: right
+      goal: [3, 0]
+      tiles: [step, left, right, repeat]
+      repeats: [2, 3, 4]
+      max_tiles: 5
+      solution:
+        - repeat: 3
+          do: [step, left, step, right]
+    hints:
+      partial:
+        nb: "Ett trappetrinn er: gå fram, snu mot venstre, gå fram, snu mot høyre."
+        en: "One stair is: step forward, turn left, step forward, turn right."
+    explanation:
+      nb: >-
+        Ett trinn er fire brikker: gå fram, snu mot venstre, gå fram, snu mot
+        høyre. Trappa har tre trinn, så de fire brikkene gjentas 3 ganger.
+      en: >-
+        One stair is four tiles: step forward, turn left, step forward, turn
+        right. There are three stairs, so the four tiles are repeated 3 times.
+    reviewed: false

@@ -1182,6 +1182,149 @@ items:
         An observation is something you see or measure: where the glass stood,
         and that the water was gone. A conclusion is something you work out from
         what you saw: that the water evaporated, and why.
+
+  # --- Simulations ---------------------------------------------------------
+  # Predict, watch, explain (`explore_sim`): the prediction is recorded and
+  # never marked; the explanation is graded.
+
+  - id: KM13852-03
+    goal: KM13852
+    type: explore_sim
+    stage: pictorial
+    skill: nat.materials.particle-model
+    difficulty: 2
+    prompt:
+      nb: >-
+        Her er vannpartikler i en boks. Spå først, og flytt så temperaturen og
+        se på partiklene.
+      en: >-
+        Here are water particles in a box. Predict first, then move the
+        temperature and watch the particles.
+    activity:
+      alt:
+        nb: En boks med vannpartikler og et termometer ved siden av.
+        en: A box of water particles with a thermometer beside it.
+      model: states_of_matter
+      substance: water
+      temperatures: [-20, 20, 60, 120]
+      start: 1
+      predict:
+        prompt:
+          nb: Hva tror du skjer med partiklene ved 120 °C?
+          en: What do you think happens to the particles at 120 °C?
+        choices:
+          - id: spres
+            text:
+              nb: De kommer langt fra hverandre.
+              en: They get far apart.
+          - id: storre
+            text:
+              nb: De blir større.
+              en: They get bigger.
+          - id: stille
+            text:
+              nb: De står stille.
+              en: They stand still.
+      explain:
+        prompt:
+          nb: Hvorfor blir vann til damp når det varmes opp nok?
+          en: Why does water turn to steam when it is heated enough?
+        choices:
+          - id: fart
+            text:
+              nb: Varmen gir partiklene mer fart, så de river seg løs fra hverandre.
+              en: The heat gives the particles more speed, so they break away from each other.
+          - id: vokser
+            text:
+              nb: Partiklene vokser og blir lettere.
+              en: The particles grow and get lighter.
+          - id: nye
+            text:
+              nb: Det kommer nye partikler inn i vannet.
+              en: New particles come into the water.
+        answer: fart
+    explanation:
+      nb: >-
+        Partiklene er like mange og like store hele tiden. Det som endrer seg, er
+        farten. Varmere partikler beveger seg fortere, og ved 100 °C klarer de å
+        løsne helt fra hverandre. Da er vannet blitt damp.
+      en: >-
+        There are always as many particles, and they are always the same size.
+        What changes is their speed. Warmer particles move faster, and at
+        100 °C they manage to break away from each other completely. Then the
+        water has become steam.
+    reviewed: false
+
+  - id: KM13846-04
+    goal: KM13846
+    type: explore_sim
+    stage: pictorial
+    skill: nat.earth-space.moon-phases
+    difficulty: 2
+    prompt:
+      nb: >-
+        Flytt månen rundt jorda. Se hvordan den ser ut fra Norge på hver plass.
+      en: >-
+        Move the moon round the Earth. See what it looks like from Norway at
+        each place.
+    activity:
+      alt:
+        nb: >-
+          Jorda sett ovenfra med månen på en bane rundt. Lyset fra sola kommer
+          fra høyre. Ved siden av: månen slik den ser ut fra Norge.
+        en: >-
+          The Earth seen from above with the moon on an orbit round it. The
+          light from the sun comes from the right. Beside it: the moon as it
+          looks from Norway.
+      model: moon_phase
+      start: 0
+      predict:
+        prompt:
+          nb: >-
+            Hva tror du vi ser når månen er på motsatt side av jorda fra sola?
+          en: >-
+            What do you think we see when the moon is on the other side of the
+            Earth from the sun?
+        choices:
+          - id: full
+            text:
+              nb: Fullmåne
+              en: A full moon
+          - id: ny
+            text:
+              nb: Ingen måne
+              en: No moon
+          - id: halv
+            text:
+              nb: Halvmåne
+              en: A half moon
+      explain:
+        prompt:
+          nb: Hvorfor ser månen forskjellig ut gjennom en måned?
+          en: Why does the moon look different through a month?
+        choices:
+          - id: vinkel
+            text:
+              nb: Sola lyser alltid på halve månen, og vi ser ulike deler av den lyse halvdelen.
+              en: The sun always lights half the moon, and we see different parts of the lit half.
+          - id: skygge
+            text:
+              nb: Jordas skygge dekker ulike deler av månen.
+              en: The Earth's shadow covers different parts of the moon.
+          - id: lyser
+            text:
+              nb: Månen lyser selv, men sterkere noen netter enn andre.
+              en: The moon shines by itself, but brighter on some nights than others.
+        answer: vinkel
+    explanation:
+      nb: >-
+        Halve månen er alltid lys, den halvdelen som vender mot sola. Når månen
+        går rundt jorda, ser vi mer eller mindre av den lyse halvdelen. Jordas
+        skygge treffer månen bare ved en måneformørkelse.
+      en: >-
+        Half the moon is always lit: the half facing the sun. As the moon goes
+        round the Earth, we see more or less of that lit half. The Earth's
+        shadow only falls on the moon during a lunar eclipse.
     reviewed: false
 
 # Goals that no written question can honestly test. Recorded rather than

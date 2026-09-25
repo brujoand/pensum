@@ -423,6 +423,125 @@ items:
         one box is 4. Check: 2 × 4 + 3 = 11.
     reviewed: false
 
+  # --- Simulations ---------------------------------------------------------
+  # Trials (`trials`): the pupil predicts first, then spins or rolls and
+  # watches a tally. Graded on the prediction, never on the draws. A program
+  # of command tiles moves a robot (`step_code`), graded by running it.
+
+  - id: KM13270-03
+    goal: KM13270
+    type: trials
+    stage: pictorial
+    skill: mat.data-chance.chance-words
+    difficulty: 1
+    prompt:
+      nb: Se på lykkehjulet. Spå først, og spinn så for å se hva som skjer.
+      en: Look at the spinner. Predict first, then spin to see what happens.
+    activity:
+      alt:
+        nb: >-
+          Et lykkehjul med tre felt. Sol er halve hjulet. Sky og Regn er en
+          fjerdedel hver.
+        en: >-
+          A spinner with three parts. Sun is half the wheel. Cloud and Rain are
+          a quarter each.
+      spinner:
+        - id: sol
+          label:
+            nb: Sol
+            en: Sun
+          size: 2
+        - id: sky
+          label:
+            nb: Sky
+            en: Cloud
+          size: 1
+        - id: regn
+          label:
+            nb: Regn
+            en: Rain
+          size: 1
+    explanation:
+      nb: >-
+        Sol er halve hjulet, og Sky og Regn er en fjerdedel hver. Det største
+        feltet kommer oftest. Sjansen for Sol er 1/2.
+      en: >-
+        Sun is half the wheel, and Cloud and Rain are a quarter each. The
+        biggest part comes up most often. The chance of Sun is 1/2.
+    reviewed: false
+
+  - id: KM13270-04
+    goal: KM13270
+    type: trials
+    stage: pictorial
+    skill: mat.data-chance.chance-words
+    difficulty: 2
+    prompt:
+      nb: >-
+        Du kaster en vanlig terning mange ganger. Spå først, og kast så for å se
+        hva som skjer.
+      en: >-
+        You roll an ordinary dice many times. Predict first, then roll to see
+        what happens.
+    activity:
+      alt:
+        nb: En vanlig terning med tallene 1 til 6.
+        en: An ordinary dice with the numbers 1 to 6.
+      dice: 1
+    explanation:
+      nb: >-
+        En terning har seks sider, og hver side har like stor sjanse: 1/6. Etter
+        noen få kast kan ett tall ha kommet flere ganger, men det er tilfeldig.
+      en: >-
+        A dice has six sides, and every side has the same chance: 1/6. After a
+        few rolls one number may have come up more often, but that is chance.
+    reviewed: false
+
+  - id: KM13272-01
+    goal: KM13272
+    type: step_code
+    stage: pictorial
+    skill: mat.programming.variables-loops
+    difficulty: 2
+    prompt:
+      nb: >-
+        Få roboten til ringen med høyst 4 brikker. Bruk «hvis vegg foran» så
+        roboten snur når den kommer til kanten.
+      en: >-
+        Get the robot to the ring with at most 4 tiles. Use "if wall ahead" so
+        the robot turns when it reaches the edge.
+    activity:
+      alt:
+        nb: >-
+          Et rutenett på fire ganger fire ruter. Roboten står øverst til venstre
+          og ser mot høyre. Ringen er nederst til høyre.
+        en: >-
+          A grid of four by four squares. The robot stands at the top left,
+          facing right. The ring is at the bottom right.
+      width: 4
+      height: 4
+      start:
+        x: 0
+        y: 0
+        facing: right
+      goal: [3, 3]
+      tiles: [step, left, right, repeat, if_wall]
+      repeats: [3, 4, 5, 6]
+      max_tiles: 4
+      solution:
+        - repeat: 6
+          do:
+            - if_wall: [right]
+            - step
+    explanation:
+      nb: >-
+        Roboten skal gå 6 steg i alt. Før hvert steg sjekker den om det er vegg
+        foran. Ved kanten snur den mot høyre, og går videre ned til ringen.
+      en: >-
+        The robot must take 6 steps in all. Before each step it checks for a
+        wall ahead. At the edge it turns right and carries on down to the ring.
+    reviewed: false
+
 not_assessable:
   - goal: KM13271
     reason: >-
@@ -430,10 +549,3 @@ not_assessable:
       personal finance. The tool is the point: a quiz cannot watch anyone enter
       a formula, and asking about money a pupil is assumed to have would exclude
       children whose families have none.
-
-  - goal: KM13272
-    reason: >-
-      Asks the pupil to create and program algorithms using variables,
-      conditions and loops. The verbs are make and program; a written question
-      could at best ask a pupil to read someone else's code, which tests
-      tracing rather than the building the goal describes.

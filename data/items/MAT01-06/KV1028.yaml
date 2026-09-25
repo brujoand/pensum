@@ -489,6 +489,68 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
+  # --- Simulations ---------------------------------------------------------
+  # Trials (`trials`): the pupil predicts first, then rolls and watches a
+  # tally. Graded on the prediction, never on the draws.
+
+  - id: KM13315-03
+    goal: KM13315
+    type: trials
+    stage: pictorial
+    skill: mat.data-chance.probability
+    difficulty: 1
+    prompt:
+      nb: >-
+        Du kaster to terninger og legger sammen øynene. Spå først, og kast så
+        mange ganger.
+      en: >-
+        You roll two dice and add up the spots. Predict first, then roll many
+        times.
+    activity:
+      alt:
+        nb: To vanlige terninger. Summen av dem blir fra 2 til 12.
+        en: Two ordinary dice. Their total is from 2 to 12.
+      dice: 2
+    explanation:
+      nb: >-
+        Av de 36 mulige kastene gir 6 summen 7: 1+6, 2+5, 3+4, 4+3, 5+2 og 6+1.
+        Ingen annen sum kan lages på så mange måter.
+      en: >-
+        Of the 36 possible rolls, 6 give a total of 7: 1+6, 2+5, 3+4, 4+3, 5+2
+        and 6+1. No other total can be made in as many ways.
+    reviewed: false
+
+  - id: KM13315-04
+    goal: KM13315
+    type: trials
+    stage: pictorial
+    skill: mat.data-chance.probability
+    difficulty: 2
+    prompt:
+      nb: >-
+        Du kaster to terninger 100 ganger og legger sammen øynene hver gang.
+        Spå først, og kast så.
+      en: >-
+        You roll two dice 100 times and add up the spots each time. Predict
+        first, then roll.
+    activity:
+      alt:
+        nb: To vanlige terninger. Summen av dem blir fra 2 til 12.
+        en: Two ordinary dice. Their total is from 2 to 12.
+      dice: 2
+      question: count
+      outcome: "7"
+      of: 100
+      bands: [[0, 9], [10, 24], [25, 49], [50, 100]]
+    explanation:
+      nb: >-
+        Sannsynligheten for sum 7 er 6/36 = 1/6. En sjettedel av 100 er omtrent
+        17, og det ligger mellom 10 og 24.
+      en: >-
+        The probability of a total of 7 is 6/36 = 1/6. A sixth of 100 is about
+        17, which lies between 10 and 24.
+    reviewed: false
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

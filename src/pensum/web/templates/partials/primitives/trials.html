@@ -1,0 +1,49 @@
+{# Predict, then spin or roll. `pensum.items.primitives.trials`.
+   The prediction is a row of buttons, pressed state marked by a tick and a
+   heavier border; the runs are buttons too, and stay unusable until there is a
+   prediction. The tally is written into the table by the script, and the bars
+   on the board are the same numbers as shares. Without a script the
+   prediction is asked as radio buttons under the same picture. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.trials.hint_roll" if item.activity.dice else "activity.trials.hint_spin") }}{% endblock %}
+{% block live_extra %}
+  <div class="activity-group activity-picks" role="group" aria-label="{{ t('activity.trials.predict_label') }}">
+    <span class="activity-readout">{{ item.activity.fallback_prompt(locale) }}</span>
+    {% for id, text in item.activity.shown_choices(locale) %}
+      <button class="activity-button activity-button--pick" type="button" data-action="predict" data-zone="{{ id }}" aria-pressed="false">{{ text }}</button>
+    {% endfor %}
+  </div>
+  <table class="sim-tally" data-tally>
+    <caption>{{ t("activity.trials.tally") }}</caption>
+    <thead><tr><th scope="col">{{ t("activity.trials.outcome") }}</th><th scope="col">{{ t("activity.trials.times") }}</th></tr></thead>
+    <tbody>
+      {% for i in range(item.activity.outcomes()|length) %}
+        <tr><th scope="row">{{ item.activity.label(i, locale) }}</th><td data-count="{{ i }}">0</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block controls %}
+  {% for n in [1, 10, 100] %}
+    {% if item.activity.dice %}
+      <button class="activity-button" type="button" data-action="run" data-by="{{ n }}">{{ t("activity.trials.run_roll_one") if n == 1 else t("activity.trials.run_roll", n=n) }}</button>
+    {% else %}
+      <button class="activity-button" type="button" data-action="run" data-by="{{ n }}">{{ t("activity.trials.run_spin_one") if n == 1 else t("activity.trials.run_spin", n=n) }}</button>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+{% block fallback %}
+  <fieldset class="activity-fallback" data-fallback>
+    <legend>{{ item.activity.fallback_prompt(locale) }}</legend>
+    <ul class="choices">
+      {% for id, text in item.activity.shown_choices(locale) %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ id }}" required />
+            <span>{{ text }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

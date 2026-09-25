@@ -733,6 +733,121 @@ activity:
     nothing: nothing
     ask: What should be marked?
 
+  # The simulations: trials, step code and explore_sim.
+  trials:
+    hint_spin: >-
+      Predict first: choose what you think. Then spin 1, 10 or 100 times and
+      watch the tally. Your prediction is locked when you first spin.
+    hint_roll: >-
+      Predict first: choose what you think. Then roll 1, 10 or 100 times and
+      watch the tally. Your prediction is locked when you first roll.
+    predict_label: Your prediction
+    run_spin: "Spin {n} times"
+    run_spin_one: Spin once
+    run_roll: "Roll {n} times"
+    run_roll_one: Roll once
+    tally: The tally so far
+    outcome: Outcome
+    times: Times
+    chart: Share of all trials so far
+    dice_one: 1 die
+    dice: 2 dice, the total counts
+    equal: All are equally likely
+    band: "{lo}–{hi} times"
+    none: no prediction yet
+    made: "“{choice}”"
+    count: "{label}: {count}"
+    after_spins: "after {count} spins: {tally}"
+    after_spins_one: "after 1 spin: {tally}"
+    after_rolls: "after {count} rolls: {tally}"
+    after_rolls_one: "after 1 roll: {tally}"
+    you_made: "You predicted {made}. The prediction that fits: {asked}."
+    ask_most: What do you think comes up most often?
+    ask_count: "About how many times out of {of} will it be “{outcome}”?"
+  step_code:
+    hint: >-
+      Build a program that takes the robot to the goal. Tap a line in the
+      program to choose where the next tile goes, or drag the tile there. Press
+      Run to watch the robot. The robot must stand on the goal when the program
+      ends.
+    max: "Use at most {n} tiles."
+    tiles_label: Tiles
+    program_label: The program
+    text_label: The same as text
+    step: step forward
+    left: turn left
+    right: turn right
+    repeat: "repeat {n} times"
+    if_wall: if wall ahead
+    end: end
+    block: "{head} ({body})"
+    out: Out of the block
+    remove: Delete the tile before the marker
+    start_line: Start
+    cursor: "▸ the next tile goes here"
+    run: Run
+    step_frame: One step
+    reset: Back to the start
+    run_goal: The robot is standing on the goal.
+    run_short: The program has finished, but the robot is not on the goal.
+    run_wall: The robot stopped in front of a wall.
+    run_limit: The program ran too long and was stopped.
+    py_step: step()
+    py_left: turn_left()
+    py_right: turn_right()
+    py_repeat: "for _ in range({n}):"
+    py_if: "if wall_ahead():"
+    py_pass: pass
+    empty: no tiles yet
+    made: "{count} tiles: {tiles}"
+    made_one: "1 tile: {tiles}"
+    you_made: "Your program: {made}. A program that works: {asked}."
+    legend: The arrow shows where the robot faces. The ring is the goal. Hatched squares are walls.
+    ask: Which program takes the robot to the goal?
+    option: "Program {n}"
+  explore_sim:
+    hint: >-
+      Predict first. Then move the slider and watch what happens. Last, choose
+      the explanation that fits. Your prediction is locked when you move the
+      slider.
+    predict_label: 1. Predict
+    observe_label: 2. Watch
+    explain_label: 3. Explain
+    prev: Previous
+    next: Next
+    none: no prediction yet
+    predicted: you have predicted, but not moved the slider yet
+    observed: no explanation yet
+    made: "“{choice}”"
+    you_made: "You chose {made}. The explanation that fits: {asked}."
+    ask: Choose the explanation that fits.
+    strip: "What it looks like at each stop:"
+    degrees: "{t} °C"
+    place: "The moon at place {n} of {of}"
+    floats_sinks:
+      slider: Thing
+      floats: "The {thing} floats."
+      sinks: "The {thing} sinks to the bottom."
+      neutral: "The {thing} hangs in the water."
+    states_of_matter:
+      slider: Temperature
+      solid: The particles sit close together in fixed places and jiggle.
+      liquid: The particles are close together but slide past each other.
+      gas: The particles are far apart and fly about.
+    moon_phase:
+      slider: Where the moon is
+      sun: Light from the sun
+      earth: Earth
+      seen: Seen from Norway
+      new: "From Norway: no lit side shows (new moon)."
+      waxing_crescent: "From Norway: a thin crescent, lit on the right."
+      first_quarter: "From Norway: the right half is lit (half moon)."
+      waxing_gibbous: "From Norway: more than half is lit, on the right."
+      full: "From Norway: the whole moon is lit (full moon)."
+      waning_gibbous: "From Norway: more than half is lit, on the left."
+      last_quarter: "From Norway: the left half is lit (half moon)."
+      waning_crescent: "From Norway: a thin crescent, lit on the left."
+
 comfort:
   # Every setting is described by what it does, never by who it is for. No
   # diagnosis is named anywhere.

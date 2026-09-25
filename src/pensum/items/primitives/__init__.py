@@ -61,6 +61,7 @@ from pensum.items.primitives.base_ten import BaseTenActivity
 from pensum.items.primitives.blend import BlendActivity
 from pensum.items.primitives.counters import CountersActivity
 from pensum.items.primitives.dialogue import DialogueActivity
+from pensum.items.primitives.explore_sim import ExploreSimActivity
 from pensum.items.primitives.highlight import HighlightActivity
 from pensum.items.primitives.label import LabelActivity
 from pensum.items.primitives.match import MatchActivity
@@ -68,7 +69,9 @@ from pensum.items.primitives.sentence_build import SentenceBuildActivity
 from pensum.items.primitives.sequence import SequenceActivity
 from pensum.items.primitives.sort import SortActivity
 from pensum.items.primitives.sound_boxes import SoundBoxesActivity
+from pensum.items.primitives.step_code import StepCodeActivity
 from pensum.items.primitives.ten_frame import TenFrameActivity
+from pensum.items.primitives.trials import TrialsActivity
 from pensum.items.primitives.word_build import WordBuildActivity
 
 if TYPE_CHECKING:
@@ -218,6 +221,22 @@ PRIMITIVES: dict[str, Primitive] = {
             "partials/primitives/highlight.html",
             "primitives/highlight.js",
             HighlightActivity,
+        ),
+        # The simulations: something runs, and the page shows it.
+        Primitive(
+            "trials", "partials/primitives/trials.html", "primitives/trials.js", TrialsActivity
+        ),
+        Primitive(
+            "step_code",
+            "partials/primitives/step_code.html",
+            "primitives/step-code.js",
+            StepCodeActivity,
+        ),
+        Primitive(
+            "explore_sim",
+            "partials/primitives/explore_sim.html",
+            "primitives/explore-sim.js",
+            ExploreSimActivity,
         ),
     )
 }

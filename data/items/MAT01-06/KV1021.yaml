@@ -686,15 +686,48 @@ items:
       en: The left side is 8. The right side has 4, and 4 + 4 = 8. The box needs 4.
     reviewed: false
 
+  # --- Simulations ---------------------------------------------------------
+  # A program of command tiles moves a robot on a grid (`step_code`); it is
+  # graded by running it. Without a script the pupil picks one of a few listed
+  # programs, graded the same way.
+
+  - id: KM13239-01
+    goal: KM13239
+    type: step_code
+    stage: pictorial
+    skill: mat.programming.follow-instructions
+    difficulty: 1
+    prompt:
+      nb: Lag et program som får roboten til ringen.
+      en: Make a program that takes the robot to the ring.
+    activity:
+      alt:
+        nb: >-
+          Et rutenett med fire ruter bortover og tre nedover. Roboten står
+          nederst til venstre og ser mot høyre. Ringen er øverst til høyre.
+        en: >-
+          A grid four squares across and three down. The robot stands at the
+          bottom left, facing right. The ring is at the top right.
+      width: 4
+      height: 3
+      start:
+        x: 0
+        y: 2
+        facing: right
+      goal: [3, 0]
+      solution: [step, step, step, left, step, step]
+    explanation:
+      nb: >-
+        Roboten går tre ruter mot høyre. Så snur den mot venstre, og da ser den
+        oppover. To steg til, og den står på ringen.
+      en: >-
+        The robot walks three squares to the right. Then it turns left, so it
+        faces up. Two more steps, and it is on the ring.
+    reviewed: false
+
 not_assessable:
   - goal: KM13229
     reason: >-
       Asks the pupil to explore numbers and counting through play, nature, art,
       music and children's literature. It describes an activity a teacher sets
       up, not knowledge a question can check.
-
-  - goal: KM13239
-    reason: >-
-      Asks the pupil to make and follow rules and step-by-step instructions in
-      play and games. Following instructions is observable in a classroom but
-      not in a quiz; asking about it would test reading, not the goal.

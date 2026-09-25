@@ -13,14 +13,14 @@
       {% if interactive %}
         <span class="sequence-moves" data-live hidden>
           <button class="activity-button activity-button--small" type="button"
-                  data-action="up" data-zone="{{ place.name }}">{{ t("activity.sequence.up") }}</button>
+                  data-action="up" data-zone="{{ place.name }}">{{ board.get('up') }}</button>
           <button class="activity-button activity-button--small" type="button"
-                  data-action="down" data-zone="{{ place.name }}">{{ t("activity.sequence.down") }}</button>
+                  data-action="down" data-zone="{{ place.name }}">{{ board.get('down') }}</button>
         </span>
       {% endif %}
     </li>
   {% endfor %}
 </ol>
 {% if board.get('cycle') %}
-  <p class="sequence-cycle-note">{{ t("activity.sequence.cycle_note") }}</p>
+  <p class="sequence-cycle-note">{{ board.get('cycle_note') }}</p>
 {% endif %}

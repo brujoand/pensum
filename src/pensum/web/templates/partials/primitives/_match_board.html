@@ -18,7 +18,7 @@
         <ul class="card-list match-slot">
           {% for card in place.cards %}{% include "partials/primitives/_card.html" %}{% endfor %}
           {% if not interactive and not place.cards|selectattr("shown")|list %}
-            <li class="match-empty">{{ t("activity.cards.none") }}</li>
+            <li class="match-empty">{{ board.get('none') }}</li>
           {% endif %}
         </ul>
       </li>

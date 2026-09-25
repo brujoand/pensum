@@ -142,4 +142,6 @@ class MatchActivity(ChoiceActivity):
             places,
             supply,
             kind="match",
+            # Its own words, so it draws without the page's `t` (see sequence).
+            extra=(("none", translate(locale, "activity.cards.none")),),
         )

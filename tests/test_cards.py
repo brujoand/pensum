@@ -552,3 +552,22 @@ def test_a_built_answer_arrives_through_the_one_response_field(
     ).text
     assert translate("nb", "quiz.correct") not in wrong_feedback
     assert "comparison-sentence" in wrong_feedback
+
+
+@pytest.mark.parametrize("kind", KINDS)
+def test_a_card_board_draws_without_the_pages_context(kind: str) -> None:
+    """Hint step 2 and the review tools include a board with only `board` and
+    `label`: no `t`, no `interactive`. A card board carries its own words."""
+    activity = item(kind, **CASES[kind][0]).activity
+    for state_ in (activity.initial(), activity.solution()):
+        templates.get_template("partials/primitives/_board_static.html").render(
+            board=activity.board(state_, "nb"), label=""
+        )
+
+
+def test_the_highlight_board_does_not_carry_the_answer() -> None:
+    """The board is drawn before an answer (hint step 2) from the pupil's state
+    alone, so which words are right must not travel with it."""
+    activity = item("highlight", **HIGHLIGHT).activity
+    tokens = activity.board(activity.initial(), "nb").get("tokens")
+    assert not any(t.mark for t in tokens)

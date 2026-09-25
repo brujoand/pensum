@@ -132,5 +132,13 @@ class SequenceActivity(ChoiceActivity):
             self.alt.get(locale),
             places,
             kind="sequence",
-            extra=(("cycle", self.cycle),),
+            # The board carries its own words, as an SVG board's labels do, so
+            # it draws the same wherever it is included (question, feedback,
+            # hint) without the page's `t`.
+            extra=(
+                ("cycle", self.cycle),
+                ("cycle_note", translate(locale, "activity.sequence.cycle_note")),
+                ("up", translate(locale, "activity.sequence.up")),
+                ("down", translate(locale, "activity.sequence.down")),
+            ),
         )

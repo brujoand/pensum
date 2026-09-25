@@ -27,6 +27,8 @@ from pensum.items.primitives import PRIMITIVES, primitive_for, scripts
 from pensum.items.primitives.step_code import STEP_LIMIT, IfWall, Repeat, StepCodeState
 from pensum.items.primitives.trials import MAX_TRIALS, TrialsState, simulate
 from pensum.items.schema import QuizItem
+from pensum.mastery.attribution import skills_for
+from pensum.skills.loader import SkillLibrary
 from pensum.web.app import create_app
 from pensum.web.rendering import templates
 
@@ -697,6 +699,28 @@ def test_committed_simulation_items_are_drafts_that_answer_their_own_solution() 
             assert question.is_correct(activity.serialise(activity.solution())), question.id
             assert not question.is_correct(activity.serialise(activity.initial())), question.id
             assert question.is_correct(activity.typed_example()), question.id
+
+
+def test_no_step_code_item_feeds_a_variables_skill() -> None:
+    """The board has loops and conditions and no variables, so no answer on it
+    may count as evidence for the skill that is about variables -- neither by
+    its `skill:` tag nor by the fallback that credits every skill citing its
+    goal, which is why the check is run with the tag removed as well."""
+    bank = ItemBank.load(include_unreviewed=True)
+    catalogue = Catalogue.load()
+    skills = SkillLibrary.load()
+    checked = 0
+    for item_set in bank.item_sets:
+        skill_file = skills.for_subject(item_set.subject)
+        checkpoint = catalogue.subject(item_set.subject).goal_set(item_set.goal_set).after_year
+        for question in item_set.items:
+            if question.type != "step_code":
+                continue
+            checked += 1
+            for asked in (question, question.model_copy(update={"skill": None})):
+                credited = {s.id for s in skills_for(asked, checkpoint, skill_file)}
+                assert "mat.programming.variables-loops" not in credited, question.id
+    assert checked
 
 
 def test_the_bug_hunt_opens_on_a_program_that_does_not_work() -> None:

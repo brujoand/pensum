@@ -437,6 +437,86 @@ items:
       en: >-
         Cork, wood and dry leaves are light for their size, so they float.
         Stone and metal are heavy for their size, so they sink.
+
+  # --- Simulations ---------------------------------------------------------
+  # Predict, watch, explain (`explore_sim`): the prediction is recorded and
+  # never marked; the explanation is graded.
+
+  - id: KM13809-04
+    goal: KM13809
+    type: explore_sim
+    stage: pictorial
+    skill: nat.materials.floats-or-sinks
+    difficulty: 2
+    prompt:
+      nb: Legg ting i vannet. Flyter de, eller synker de?
+      en: Put things in the water. Do they float or sink?
+    activity:
+      alt:
+        nb: En tank med vann. En kork ligger i vannet.
+        en: A tank of water. A cork is in the water.
+      model: floats_sinks
+      objects:
+        - label:
+            nb: Korken
+            en: cork
+          density: 0.24
+        - label:
+            nb: Treklossen
+            en: wooden block
+          density: 0.6
+        - label:
+            nb: Isbiten
+            en: ice cube
+          density: 0.92
+        - label:
+            nb: Steinen
+            en: stone
+          density: 2.6
+        - label:
+            nb: Spikeren
+            en: nail
+          density: 7.8
+      start: 0
+      predict:
+        prompt:
+          nb: Hva tror du skjer med steinen?
+          en: What do you think happens to the stone?
+        choices:
+          - id: flyter
+            text:
+              nb: Den flyter.
+              en: It floats.
+          - id: synker
+            text:
+              nb: Den synker.
+              en: It sinks.
+      explain:
+        prompt:
+          nb: Alle tingene er like store. Hvorfor synker steinen?
+          en: All the things are the same size. Why does the stone sink?
+        choices:
+          - id: tung
+            text:
+              nb: Den er tung for størrelsen sin.
+              en: It is heavy for its size.
+          - id: stor
+            text:
+              nb: Den er større enn korken.
+              en: It is bigger than the cork.
+          - id: kald
+            text:
+              nb: Den er kaldere enn vannet.
+              en: It is colder than the water.
+        answer: tung
+    explanation:
+      nb: >-
+        Tingene er like store, men steinen og spikeren er tunge for størrelsen
+        sin. De synker. Korken og treet er lette for størrelsen sin. De flyter.
+      en: >-
+        The things are the same size, but the stone and the nail are heavy for
+        their size. They sink. The cork and the wood are light for their size.
+        They float.
     reviewed: false
 
 # Goals that no written question can honestly test. Recorded rather than

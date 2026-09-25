@@ -19,8 +19,10 @@
    always has a value: the board as it opened. #}
 {% set activity = item.activity %}
 {# `held` is the board as the pupil last sent it (a press of Help), so the
-   redrawn question keeps what they built instead of starting over. #}
-{% set state = (activity.read(held) if held else none) or activity.initial() %}
+   redrawn question keeps what they built instead of starting over. A fresh
+   board opens in `opening()`, which is `initial()` unless the primitive draws
+   something new per showing (a seed for its random trials). #}
+{% set state = (activity.read(held) if held else none) or activity.opening() %}
 {% set board = activity.board(state, locale) %}
 <div class="activity activity--{{ item.type }}"
      data-activity="{{ item.type }}"

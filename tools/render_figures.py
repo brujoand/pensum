@@ -198,7 +198,8 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
             draft = "" if item.reviewed else "  [DRAFT]"
             if item.activity is not None:
                 activity = item.activity
-                board = activity.board(activity.solution(), "nb")
+                # What the feedback draws as "what was asked".
+                board = activity.outcome_board(activity.solution(), "nb")
                 # The card boards (sort, sequence, match, highlight) are HTML,
                 # not a picture this gallery can draw; their answer is words.
                 if isinstance(board, Board):

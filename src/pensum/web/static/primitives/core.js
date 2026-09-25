@@ -13,6 +13,7 @@
  *     describe: function (state, say, limits) { ... return a sentence },
  *     render: function (root, state, limits, say) { ... optional extras },
  *     bind: function (root, api) { ... optional keys and pointers of its own },
+ *     sealed: function (state, limits) { ... optional: true once locked },
  *   });
  *
  * `parse`, `apply`, `shown` and `describe` are pure: a state in, a state or a
@@ -194,6 +195,14 @@
         return false;
       }
       history.push(state);
+      /* A step that seals -- the first trial run after a prediction, the
+       * first move of a simulation's slider -- cannot be undone past, or undo
+       * would unlock a prediction after its answer had been seen. Everything
+       * before it is forgotten. Only a primitive that declares `sealed` has
+       * such a step; for the rest this does nothing. */
+      if (spec.sealed && spec.sealed(next, limits) && !spec.sealed(state, limits)) {
+        history = [];
+      }
       state = next;
       render();
       return true;

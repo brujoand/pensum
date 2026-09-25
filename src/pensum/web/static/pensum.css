@@ -3396,3 +3396,277 @@ button.token:disabled {
   stroke: var(--ink);
   stroke-width: 1.5;
 }
+
+/* The simulations: trials, step code and explore_sim
+   (`pensum.items.primitives`, the simulation block).
+
+   Nothing here moves. A tally's bars, a robot's poses and a model's stills
+   are all drawn by the server and shown or hidden, with the same 150 ms fade
+   as every piece, so the calm setting and reduced motion need nothing more.
+   No colour carries meaning: a spinner's sectors are told apart by their
+   labels, walls by hatching, the goal by its rings, the robot's way by its
+   arrow, and the lit side of the moon by its outline and its label. */
+.board-layer.is-off {
+  display: none;
+}
+
+.figure-sim-sector {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.sim-sector--1 {
+  fill: var(--accent-soft);
+}
+
+.sim-sector--2 {
+  fill: var(--quote);
+}
+
+.figure-sim-pointer,
+.figure-sim-pip {
+  fill: var(--ink);
+  stroke: none;
+}
+
+.figure-sim-axis,
+.figure-sim-tank,
+.figure-sim-thermo,
+.figure-sim-moon-outline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.figure-sim-die,
+.figure-sim-object {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.piece--bar {
+  cursor: default;
+}
+
+.sim-tally {
+  border-collapse: collapse;
+  margin: 0 0 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-tally caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.sim-tally th,
+.sim-tally td {
+  padding: 0.2rem 0.8rem 0.2rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+/* Step code. */
+.figure-code-grid {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.figure-code-wall {
+  fill: var(--quote);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.figure-code-wall-hatch {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.5;
+}
+
+.figure-code-goal {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.piece--bot {
+  cursor: default;
+}
+
+.piece--bot .piece-detail {
+  fill: var(--card);
+  stroke: none;
+}
+
+.piece--trail rect {
+  fill: var(--ink-soft);
+  stroke: none;
+}
+
+.code-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.code-pane {
+  flex: 1 1 14rem;
+}
+
+.code-program {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.code-line-button {
+  min-height: 2.25rem;
+  padding: 0.2rem 0.5rem;
+  font: inherit;
+  color: var(--ink);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  text-align: left;
+  cursor: pointer;
+}
+
+.code-line-button:hover,
+.code-line-button:focus-visible {
+  border-color: var(--line);
+}
+
+/* The marker is a line of its own, with a pointer and words, so where the
+   next tile goes never depends on a highlight. */
+.code-cursor {
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+  border-left: 3px solid var(--ink);
+}
+
+.code-depth-1 {
+  margin-left: 1.5rem;
+}
+
+.code-depth-2 {
+  margin-left: 3rem;
+}
+
+.code-depth-3 {
+  margin-left: 4.5rem;
+}
+
+.code-text {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--quote);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.code-max {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.activity-button--tile.is-dragging {
+  border-style: dashed;
+  opacity: 0.85;
+}
+
+.code-options pre {
+  margin-top: 0.3rem;
+}
+
+/* Explore a simulation. */
+.figure-sim-water {
+  fill: var(--accent-soft);
+  stroke: none;
+}
+
+.figure-sim-particle {
+  fill: var(--accent);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.figure-sim-motion,
+.figure-sim-light {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.figure-sim-thermo-fill {
+  fill: var(--ink);
+  stroke: none;
+}
+
+.figure-sim-orbit {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+
+.figure-sim-earth {
+  fill: var(--accent-soft);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.figure-sim-lit {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.figure-sim-dark {
+  fill: var(--ink-soft);
+  stroke: none;
+}
+
+.sim-step {
+  margin-bottom: 0.75rem;
+}
+
+.sim-slider {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.sim-slider input {
+  display: block;
+  width: 100%;
+  max-width: 24rem;
+  min-height: 2.75rem;
+}
+
+.sim-seen {
+  margin: 0.3rem 0 0;
+}
+
+.sim-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.sim-strip li {
+  flex: 0 1 14rem;
+}

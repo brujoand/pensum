@@ -513,14 +513,57 @@ items:
     reviewed: true
     reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-not_assessable:
-  - goal: KM13300
-    reason: >-
-      Asks the pupil to explore how algorithms are created, tested and improved
-      using programming. The goal is about the loop of writing code, running it,
-      seeing it fail and fixing it — work that happens at a computer over time.
-      A written question could at best ask about a printed code listing, which
-      would test reading code rather than the practice of building and improving
-      an algorithm.
+  # --- Simulations ---------------------------------------------------------
+  # A program of command tiles moves a robot on a grid (`step_code`), shown
+  # beside the same program as Python-like text; graded by running it. This
+  # one starts from a program with one mistake in it.
+
+  - id: KM13300-01
+    goal: KM13300
+    type: step_code
+    stage: abstract
+    skill: mat.programming.test-and-improve
+    difficulty: 2
+    prompt:
+      nb: >-
+        Programmet skal få roboten til ringen, men det har én feil. Kjør det,
+        finn feilen og rett den.
+      en: >-
+        The program should take the robot to the ring, but it has one mistake.
+        Run it, find the mistake and fix it.
+    activity:
+      alt:
+        nb: >-
+          Et rutenett på fem ganger fem ruter med fire vegger. Roboten står
+          nederst til venstre og ser oppover. Ringen er øverst til høyre.
+        en: >-
+          A grid of five by five squares with four walls. The robot stands at
+          the bottom left, facing up. The ring is at the top right.
+      width: 5
+      height: 5
+      start:
+        x: 0
+        y: 4
+        facing: up
+      goal: [4, 0]
+      walls: [[0, 0], [1, 3], [3, 1], [4, 3]]
+      tiles: [step, left, right, repeat]
+      repeats: [2, 3, 4]
+      max_tiles: 7
+      text: true
+      begin:
+        - repeat: 2
+          do: [step, step, right, step, step, right]
+      solution:
+        - repeat: 2
+          do: [step, step, right, step, step, left]
+    explanation:
+      nb: >-
+        Den siste snuingen i løkka må være mot venstre, så roboten ser oppover
+        igjen før neste runde. Med høyre snur den to ganger samme vei og går
+        tilbake.
+      en: >-
+        The last turn in the loop must be to the left, so the robot faces up
+        again before the next round. With right it turns the same way twice
+        and walks back.
+    reviewed: false

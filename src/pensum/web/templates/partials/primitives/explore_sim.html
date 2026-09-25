@@ -1,0 +1,62 @@
+{# Predict, watch, explain. `pensum.items.primitives.explore_sim`.
+   Three numbered steps on the page, in the order they are done. The slider is
+   a native range input, so the arrow keys move it; the buttons beside it are
+   the same move for a tap. Every still is already in the board and the script
+   only shows the one the slider is at. Nothing is animated. Without a script
+   every still is listed in order, and the explanation is asked as radio
+   buttons. #}
+{% extends "partials/primitives/_activity.html" %}
+{% block hint %}{{ t("activity.explore_sim.hint") }}{% endblock %}
+{% block live_extra %}
+  <div class="activity-group activity-picks sim-step" role="group" aria-label="{{ t('activity.explore_sim.predict_label') }}">
+    <span class="activity-readout">{{ t("activity.explore_sim.predict_label") }}: {{ item.activity.predict.prompt.get(locale) }}</span>
+    {% for choice in item.activity.shown(item.activity.predict.choices) %}
+      <button class="activity-button activity-button--pick" type="button" data-action="predict" data-zone="{{ choice.id }}" aria-pressed="false">{{ choice.text.get(locale) }}</button>
+    {% endfor %}
+  </div>
+  <div class="sim-step sim-observe">
+    <label class="sim-slider">
+      <span class="activity-readout">{{ t("activity.explore_sim.observe_label") }}: {{ item.activity.slider_label(locale) }}</span>
+      <input type="range" min="0" max="{{ item.activity.stops() - 1 }}" step="1"
+             value="{{ item.activity.start }}" data-slider
+             aria-valuetext="{{ item.activity.stop_label(item.activity.start, locale) }}" />
+    </label>
+    <span class="activity-group">
+      <button class="activity-button" type="button" data-action="step" data-by="-1">{{ t("activity.explore_sim.prev") }}</button>
+      <button class="activity-button" type="button" data-action="step" data-by="1">{{ t("activity.explore_sim.next") }}</button>
+    </span>
+    <p class="sim-seen" data-seen aria-live="polite"></p>
+  </div>
+  <div class="activity-group activity-picks sim-step" role="group" aria-label="{{ t('activity.explore_sim.explain_label') }}">
+    <span class="activity-readout">{{ t("activity.explore_sim.explain_label") }}: {{ item.activity.explain.prompt.get(locale) }}</span>
+    {% for choice in item.activity.shown(item.activity.explain.choices) %}
+      <button class="activity-button activity-button--pick" type="button" data-action="explain" data-zone="{{ choice.id }}" aria-pressed="false">{{ choice.text.get(locale) }}</button>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block fallback %}
+  <fieldset class="activity-fallback" data-fallback>
+    <legend>{{ item.activity.fallback_prompt(locale) }}</legend>
+    <p>{{ t("activity.explore_sim.strip") }}</p>
+    <ol class="sim-strip">
+      {% for i in range(item.activity.stops()) %}
+        <li>
+          {% with board = item.activity.still_board(i, locale), label = item.activity.observation(i, locale) %}
+            {% include "partials/primitives/_board_static.html" %}
+          {% endwith %}
+          <span>{{ item.activity.stop_label(i, locale) }}: {{ item.activity.observation(i, locale) }}</span>
+        </li>
+      {% endfor %}
+    </ol>
+    <ul class="choices">
+      {% for choice in item.activity.shown(item.activity.explain.choices) %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ choice.id }}" required />
+            <span>{{ choice.text.get(locale) }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
+{% endblock %}

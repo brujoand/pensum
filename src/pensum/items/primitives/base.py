@@ -239,6 +239,29 @@ class ActivityConfig(BaseModel):
         """The i18n key of the sentence under a built answer's comparison."""
         return "activity.you_made"
 
+    # --- what a simulation adds ---------------------------------------------
+    #
+    # Two hooks for the primitives that run something -- trials that draw at
+    # random, a program that is executed -- whose defaults are exactly what
+    # every other primitive already did, so none of them changes.
+
+    def opening(self) -> BaseModel:
+        """The state a freshly drawn question opens in: `initial()` by default.
+
+        `trials` issues a new random seed here on every render, so two showings
+        of one question draw differently, while `initial()` stays one fixed
+        state that `Primitive.check` and the tests can compare with.
+        """
+        return self.initial()
+
+    def outcome_board(self, state: Any, locale: str) -> Board:
+        """The picture the feedback draws for a state: the board by default.
+
+        A program is drawn after it has run, trail and all, rather than as the
+        robot waiting at the start where the question shows it.
+        """
+        return self.board(state, locale)
+
     # --- shared ---------------------------------------------------------------
 
     def fallback_answer(self) -> float:
@@ -313,7 +336,7 @@ def compare(config: ActivityConfig, response: str, locale: str) -> Comparison:
     """Put what was built beside what was asked, in words and in pictures."""
     solution = config.solution()
     asked = config.describe(solution, locale)
-    asked_board = config.board(solution, locale)
+    asked_board = config.outcome_board(solution, locale)
     text = response.strip()
 
     if text.startswith("{"):
@@ -324,7 +347,7 @@ def compare(config: ActivityConfig, response: str, locale: str) -> Comparison:
                 translate(locale, config.made_key(), made=made, asked=asked),
                 made,
                 asked,
-                config.board(state, locale),
+                config.outcome_board(state, locale),
                 asked_board,
             )
         # A state that did not parse cannot be drawn. Said plainly rather than

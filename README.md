@@ -816,6 +816,40 @@ buttons: the pick, and the reply to the opening line. A typed sentence is split
 into the same words and marks as the tiles, so *Hvor bor du ?* and *Hvor bor
 du?* are the same answer and *hvor bor du?* is not.
 
+### Simulations
+
+Three boards run something, on the same seam and under the same rules:
+
+| | the pupil | graded on |
+|---|---|---|
+| `trials` | picks a prediction (which comes up most, or about how many of 100), then spins a spinner or rolls one or two dice 1, 10 or 100 times and watches the tally | the prediction: the biggest share, or the band holding the expected count, both worked out from the declared spinner or dice |
+| `step_code` | builds a program from tiles (step, turn, and where offered *repeat N* and *if wall ahead*), runs it or steps through it, and fixes it | the program, run on the declared grid: on the goal at the end, no wall hit, within the tile limit |
+| `explore_sim` | predicts, moves one slider across a built-in model (floats or sinks, states of matter, moon phases) and watches, then picks an explanation | the explanation only |
+
+**A prediction is locked and never marked.** It comes first, and the first
+trial or the first move of the slider locks it; undo cannot go back across that
+step. It is sent with the answer, so it is kept with it, but no feedback ever
+says whether it was right, and in `trials` the random draws are never graded
+either: a good prediction followed by a lucky streak is still right. The draws
+are made in the browser from a seed the page is given each time it is shown,
+and the server replays the seed to refuse a tally the page could not have
+drawn.
+
+**A program is graded by running it.** The server executes the submitted
+program with the same rules as the page's Run, with a hard step limit so a
+repeat inside a repeat cannot run on for ever. From 7. trinn the same program is
+shown beside the tiles as Python-like text. Every stop of a simulation's slider
+and every pose of the robot is drawn by the server; the page shows and hides
+them, so nothing is animated, and under the calm setting Run shows the last
+frame at once.
+
+**Without JavaScript** the prediction in `trials` and the explanation in
+`explore_sim` are radio buttons (the simulation's stills are listed in order
+above them, and its prediction is left out, since on a page that shows every
+result it could not come first), and `step_code` offers three or four listed
+programs: the solution and near misses made from it by one change each, every
+one checked to fail, graded by running the one picked.
+
 ## Missions
 
 Some goals are a conversation, a visit, a build or a talk in front of the

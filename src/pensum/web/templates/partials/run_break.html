@@ -1,0 +1,15 @@
+{# The break card (comfort: break reminder). Offered, never forced, and between
+   tasks only. Both choices are plain: "keep going" is a form that posts and
+   comes back to the quiz, "stop" is a link to the result, which says the run
+   was cut short and offers the way back in. #}
+{% include "partials/run_stones.html" %}
+<section class="break-card" aria-labelledby="break-heading">
+  <h2 id="break-heading" class="break-card__heading">{{ t("run.break_heading") }}</h2>
+  <div class="break-card__actions">
+    <form method="post" action="{{ carry_on_url }}"
+          hx-post="{{ carry_on_url }}" hx-target="#quiz-slot" hx-swap="innerHTML">
+      <button class="button" type="submit">{{ t("run.carry_on") }}</button>
+    </form>
+    <a class="button button--secondary" href="{{ result_url }}">{{ t("run.stop") }}</a>
+  </div>
+</section>

@@ -78,6 +78,10 @@ class Result:
     correct: int
     total: int
     by_goal: tuple[GoalResult, ...]
+    # False when the pupil stopped before the end (the break card's "stop").
+    # The numbers above are then honest about what was answered, and the result
+    # page says the run was cut short instead of giving a verdict on it.
+    complete: bool = True
 
     @property
     def share(self) -> float:
@@ -106,6 +110,11 @@ def score(session: QuizSession) -> Result:
 
     The per-goal breakdown is the point. "62%" tells a pupil nothing they can
     act on; "you have this, go practise counting backwards" does.
+
+    Only answers count, and nothing else about them: how many hints an answer
+    took is recorded on the session (`QuizSession.records`) and never read here,
+    so help is never marked down. An unchosen finish option is not in the run
+    and is not counted either.
     """
     tally: dict[str, list[int]] = {}
     correct = 0
@@ -123,4 +132,9 @@ def score(session: QuizSession) -> Result:
     by_goal = tuple(
         GoalResult(goal=goal, correct=c, total=t) for goal, (c, t) in sorted(tally.items())
     )
-    return Result(correct=correct, total=sum(g.total for g in by_goal), by_goal=by_goal)
+    return Result(
+        correct=correct,
+        total=sum(g.total for g in by_goal),
+        by_goal=by_goal,
+        complete=session.finished,
+    )

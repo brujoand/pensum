@@ -55,8 +55,10 @@ class ComfortProfile(BaseModel):
     bigger_targets: bool = False
     # Stored, not yet drawn: the primitives that take a theme come later.
     theme: Theme = "plain"
-    # Stored, not yet acted on: the break card comes with the run shape.
+    # After every few tasks of a trinntest, a card offering to stop there.
     break_reminder: bool = False
+    # A one-line preview of the next task under the stones (principle 5).
+    show_next: bool = False
 
     @classmethod
     def parse(cls, raw: str | None) -> ComfortProfile:
@@ -82,7 +84,7 @@ class ComfortProfile(BaseModel):
         return _PAIR.join(parts)
 
 
-_FLAGS = ("calm", "read_aloud", "bigger_targets", "break_reminder")
+_FLAGS = ("calm", "read_aloud", "bigger_targets", "break_reminder", "show_next")
 
 
 def comfort_of(request: Request) -> ComfortProfile:

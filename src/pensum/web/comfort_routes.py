@@ -53,6 +53,7 @@ async def save_comfort(
     read_aloud: Annotated[str | None, Form()] = None,
     bigger_targets: Annotated[str | None, Form()] = None,
     break_reminder: Annotated[str | None, Form()] = None,
+    show_next: Annotated[str | None, Form()] = None,
     theme: Annotated[str, Form()] = "plain",
     next: Annotated[str | None, Form()] = None,  # noqa: A002 -- the form field's name
 ) -> RedirectResponse:
@@ -62,6 +63,7 @@ async def save_comfort(
         read_aloud=read_aloud is not None,
         bigger_targets=bigger_targets is not None,
         break_reminder=break_reminder is not None,
+        show_next=show_next is not None,
         theme=theme if theme in THEMES else "plain",
     )
 

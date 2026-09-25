@@ -1,0 +1,22 @@
+{# The run's length as stones (architecture.md, "Session engine"): one per task,
+   filled as tasks finish, known before the first one. Shape carries the state
+   -- filled, ringed, hollow -- and the stylesheet draws all three in one ink,
+   so no colour means anything. A screen reader gets the same thing as words.
+
+   Only a trinntest passes `stones`. The nivåtest does not know its length, so
+   it keeps its line of text and never draws a total it would have to invent. #}
+{% if stones %}
+  <div class="run-bar">
+    <ol class="stones" aria-hidden="true">
+      {% for mark in stones.marks() %}<li class="stone stone--{{ mark }}"></li>{% endfor %}
+    </ol>
+    <p class="visually-hidden">{{ t("run.stones", done=stones.done, total=stones.total) }}</p>
+    {% if grew %}
+      {# Said before the new stone is drawn: it appears on the next screen. #}
+      <p class="run-grew" role="status">{{ t("run.grew") }}</p>
+    {% endif %}
+    {% if preview %}<p class="run-preview">{{ preview }}</p>{% endif %}
+  </div>
+{% else %}
+  <p class="progress">{{ progress }}</p>
+{% endif %}

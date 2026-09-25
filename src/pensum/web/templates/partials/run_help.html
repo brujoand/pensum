@@ -1,0 +1,51 @@
+{# The hint ladder (activities.md, "Hint ladder"), inside the question's form.
+
+   Help is a submit button of that form with its own `formaction`, so one press
+   sends the answer as it stands -- the board's state -- to the ladder, with no
+   script at all; htmx sends the same form to the same place and swaps the slot.
+   `formnovalidate` because asking for help is not answering: an empty required
+   field must not block it.
+
+   Revealed steps stay on screen, in ladder order. Nothing here is a verdict. #}
+{% if hints %}
+  <div class="hints">
+    {% for hint in hints %}
+      <div class="hint hint--{{ hint.step }}">
+        {% if hint.step == "restate" %}
+          <p class="hint-label">{{ t("run.hint_restate") }}</p>
+          {# `.prompt`, so read-aloud puts its button here as it does on the
+             question: step 1 is the task again, spoken. #}
+          <p class="prompt prompt--hint">{{ hint.text }}</p>
+        {% elif hint.step == "show" %}
+          <p class="hint-label">{{ t("run.hint_show") }}</p>
+          {% with comparison = hint.comparison %}
+            {% include "partials/primitives/_comparison.html" %}
+          {% endwith %}
+        {% elif hint.step == "step_down" %}
+          <p>{{ t("run.hint_step_down", how=t("run.stage." ~ hint.target.stage)) }}</p>
+          <button class="button button--secondary" type="submit"
+                  formaction="{{ swap_url }}" formmethod="post" formnovalidate
+                  hx-post="{{ swap_url }}" hx-target="#quiz-slot" hx-swap="innerHTML">
+            {{ t("run.swap") }}
+          </button>
+        {% elif hint.step == "partial" %}
+          <p class="hint-label">{{ t("run.hint_partial") }}</p>
+          <p>{{ hint.text }}</p>
+        {% elif hint.step == "worked" %}
+          <p class="hint-label">{{ t("run.hint_worked") }}</p>
+          <p>{{ hint.text }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if more_help %}
+  <button class="button button--secondary run-help" type="submit"
+          formaction="{{ help_url }}" formmethod="post" formnovalidate
+          hx-post="{{ help_url }}" hx-target="#quiz-slot" hx-swap="innerHTML">
+    {{ t("run.help") }}
+  </button>
+{% elif hints %}
+  <p class="hint-done">{{ t("run.help_done") }}</p>
+{% endif %}

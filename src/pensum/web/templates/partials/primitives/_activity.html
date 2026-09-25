@@ -18,7 +18,9 @@
    The typed field is `required` and the state field is not, because the state
    always has a value: the board as it opened. #}
 {% set activity = item.activity %}
-{% set state = activity.initial() %}
+{# `held` is the board as the pupil last sent it (a press of Help), so the
+   redrawn question keeps what they built instead of starting over. #}
+{% set state = (activity.read(held) if held else none) or activity.initial() %}
 {% set board = activity.board(state, locale) %}
 <div class="activity activity--{{ item.type }}"
      data-activity="{{ item.type }}"

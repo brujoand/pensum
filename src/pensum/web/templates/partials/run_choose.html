@@ -1,0 +1,24 @@
+{# The finish: two tasks as two cards, and the pupil picks (principle 11). Each
+   card is its own small form, so choosing works as a plain post. The option
+   not picked is never asked and never scored. #}
+{% include "partials/run_stones.html" %}
+<section class="finish-choice" aria-labelledby="finish-heading">
+  <h2 id="finish-heading" class="prompt">{{ t("run.choose_heading") }}</h2>
+  <ul class="finish-cards">
+    {% for option in run.finish_options %}
+      <li class="finish-card">
+        <form method="post" action="{{ choose_url }}"
+              hx-post="{{ choose_url }}" hx-target="#quiz-slot" hx-swap="innerHTML">
+          <input type="hidden" name="item_id" value="{{ option.id }}" />
+          {% if drafts_visible and not option.reviewed %}
+            <p class="badge badge--draft">{{ t("review.draft") }}</p>
+          {% endif %}
+          {% set kind = kind_label(locale, option) %}
+          {% if kind %}<p class="finish-card__kind">{{ kind }}</p>{% endif %}
+          <p class="finish-card__prompt">{{ option.prompt.get(locale) }}</p>
+          <button class="button" type="submit">{{ t("run.choose") }}</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -6,7 +6,17 @@
   <h1>{{ t("result.heading") }}</h1>
 
   <p class="score">{{ t("result.score", correct=result.correct, total=result.total) }}</p>
-  <p class="verdict">{{ t("result.passed") if result.passed else t("result.not_passed") }}</p>
+  {% if result.complete %}
+    <p class="verdict">{{ t("result.passed") if result.passed else t("result.not_passed") }}</p>
+  {% else %}
+    {# Stopped at a break card. A verdict on part of a run would be a verdict
+       on questions nobody asked, so there is none -- only what was done, and
+       the way back to the rest. #}
+    <p class="note run-partial">{{ t("run.partial_note", answered=session.answered, total=session.total) }}</p>
+    <form method="post" action="/{{ locale }}/quiz/{{ session.id }}/carry-on">
+      <button class="button" type="submit">{{ t("run.resume") }}</button>
+    </form>
+  {% endif %}
 
   {# Pensum cannot decide whether a pupil has met a competence goal. Saying so
      on the result page, not only in the footer, is the honest placement. #}

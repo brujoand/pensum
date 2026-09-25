@@ -34,6 +34,7 @@ __all__ = [
     "ENGLISH",
     "AuthoredText",
     "Choice",
+    "Hints",
     "QuizItem",
 ]
 
@@ -52,6 +53,35 @@ class Choice(BaseModel):
     id: str = Field(min_length=1)
     text: AuthoredText
     correct: bool = False
+
+
+class Hints(BaseModel):
+    """What the hint ladder says for one item, where the author wrote it.
+
+    The ladder itself is fixed (`pensum.quiz.hints`, activities.md "Hint
+    ladder"): restate, show, step down, partial, worked example, always in that
+    order, so the wording of help is the same in every subject. Three of those
+    steps need words only an author can write, and each is optional -- a step
+    with nothing to say is skipped rather than filled with something generic.
+
+    Every field is shown to a pupil, so adding one is a change a reviewer has to
+    read, exactly as a new figure is.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    # The task in fewer words. Without it the ladder repeats the prompt.
+    restate: AuthoredText | None = None
+    # The first step done for them: "Legg først 3 tiere."
+    partial: AuthoredText | None = None
+    # A parallel task with different numbers, solved, then back to this one.
+    worked: AuthoredText | None = None
+
+    @model_validator(mode="after")
+    def _says_something(self) -> Hints:
+        if self.restate is None and self.partial is None and self.worked is None:
+            raise ValueError("a hints block needs at least one of restate, partial or worked")
+        return self
 
 
 class QuizItem(BaseModel):
@@ -80,8 +110,8 @@ class QuizItem(BaseModel):
     activity: Activity | None = None
 
     # Which representation the item asks for: concrete objects, a drawing of
-    # them, or symbols (principle 1). Optional and not yet read by anything but
-    # authors; the run engine will step down a stage after a wrong answer.
+    # them, or symbols (principle 1). Optional. The run engine reads it to step
+    # down a stage after a wrong answer (`pensum.quiz.shape.lower_stage`).
     stage: Stage | None = None
 
     # The skill this item is evidence for, by id (`data/skills/`). Optional:
@@ -91,6 +121,10 @@ class QuizItem(BaseModel):
     # the pupil's map precise. The items validator checks the skill exists, is
     # assessable, and cites this item's goal.
     skill: str | None = None
+
+    # Author-written help for the hint ladder. Optional: a ladder with no
+    # authored steps still restates the prompt, and shows the board.
+    hints: Hints | None = None
 
     choices: tuple[Choice, ...] = ()
     answer: float | None = None

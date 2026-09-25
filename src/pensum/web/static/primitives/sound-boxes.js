@@ -79,7 +79,14 @@
   }
 
   function soundBoxesBind(root, api) {
-    var say = window.PensumActivity.speech.setup(root, api.limits.language);
+    /* The word is written only when there is no voice to say it; the server
+     * renders its place empty. */
+    var say = window.PensumActivity.speech.setup(root, api.limits.language, function (voice) {
+      var written = root.querySelector("[data-written]");
+      if (!voice && written) {
+        written.textContent = window.PensumActivity.fill(api.say.written, { word: api.limits.word });
+      }
+    });
     var hear = root.querySelectorAll('[data-speak="word"]');
     for (var i = 0; i < hear.length; i++) {
       hear[i].addEventListener("click", function () {

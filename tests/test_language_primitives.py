@@ -11,6 +11,7 @@ number, and the dialogue's graph, which is validated when the item loads.
 
 from __future__ import annotations
 
+import html as html_text
 import json
 import re
 from pathlib import Path
@@ -23,7 +24,7 @@ from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.items.primitives import PRIMITIVES, primitive_for, scripts
-from pensum.items.primitives.dialogue import MAX_PICKS
+from pensum.items.primitives.dialogue import MAX_PICKS, outcome_token
 from pensum.items.schema import QuizItem
 from pensum.web.app import create_app
 from pensum.web.rendering import templates
@@ -477,6 +478,76 @@ def test_without_a_script_the_dialogue_is_its_first_turn() -> None:
     # not crash on the way to saying so.
     assert not question.is_correct("²")
     render_feedback(question, "²", correct=False)
+
+
+def _committed(kind: str) -> list[QuizItem]:
+    bank = ItemBank.load(include_unreviewed=True)
+    return [i for s in bank.item_sets for i in s.items if i.type == kind]
+
+
+def _attribute(page: str, name: str) -> object:
+    raw = re.search(rf"{name}='([^']*)'", page)
+    assert raw, name
+    return json.loads(html_text.unescape(raw.group(1)))
+
+
+@pytest.mark.parametrize("locale", ["nb", "en"])
+def test_the_dialogue_page_does_not_say_which_line_is_right(locale: str) -> None:
+    """Every option's outcome is one opaque token, and a right option's token
+    has the same shape as a wrong one's: same length, same alphabet, no null
+    and no reply text anywhere on the page until the line is picked."""
+    questions = _committed("dialogue")
+    assert questions
+    for question in questions:
+        activity = question.activity
+        page = render_question(question, locale)
+        limits = _attribute(page, "data-limits")
+        tokens = [t for options in limits["nodes"].values() for t in options]
+        assert all(isinstance(t, str) and re.fullmatch(r"[0-9a-f]+", t) for t in tokens), (
+            question.id
+        )
+        assert len({len(t) for t in tokens}) == 1, question.id
+        start = limits["nodes"][activity.start]
+        right = [o.next is not None for o in activity.nodes[activity.start].options]
+        assert True in right and False in right, (
+            "the start offers both, so the check means something"
+        )
+        assert "null" not in json.dumps(limits["nodes"])
+        script = _attribute(page, "data-script")
+        for node in script["nodes"].values():
+            assert set(node) == {"says", "options"}, question.id
+        for node in activity.nodes.values():
+            for option in node.options:
+                if option.reply is not None:
+                    for text in (option.reply.nb, option.reply.en):
+                        assert text not in html_text.unescape(page), (question.id, text)
+        assert len(start) == len(right)
+
+
+def test_an_outcome_token_is_the_outcome_encoded_and_nothing_else() -> None:
+    """It decodes (the same XOR again) to where the option leads and the reply."""
+    activity = item("dialogue", **CAFE).activity
+    tokens = activity.limits()["nodes"]["order"]
+    width = len(tokens[0]) // 2
+    for index, option in enumerate(activity.nodes["order"].options):
+        plain = bytes.fromhex(outcome_token("order", index, " " * width, width))
+        spaces = bytes(b ^ 0x20 for b in plain)  # the keystream, recovered
+        decoded = bytes(a ^ b for a, b in zip(bytes.fromhex(tokens[index]), spaces, strict=True))
+        outcome = json.loads(decoded.decode("ascii"))
+        assert outcome["n"] == (option.next or "")
+        assert bool(outcome["r"]) == (option.reply is not None)
+
+
+def test_a_sound_box_never_writes_its_word_on_the_page() -> None:
+    """The written word is for a browser with no voice, and the script fills it
+    in only after finding none; the server renders the place empty."""
+    questions = _committed("sound_boxes")
+    assert questions
+    for question in questions:
+        page = render_question(question)
+        written = re.search(r"<p class=\"activity-written\"[^>]*>(.*?)</p>", page, re.S)
+        assert written and written.group(1).strip() == "", question.id
+        assert "hidden" in written.group(0)
 
 
 def test_every_option_is_a_button_and_only_the_opening_ones_are_shown() -> None:

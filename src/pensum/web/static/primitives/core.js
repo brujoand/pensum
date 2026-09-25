@@ -585,8 +585,9 @@
 
   /* Find a voice for the board, show its speak buttons if there is one and its
    * no-voice notice if not, and return a function that says a text. The
-   * function does nothing, and says so by returning false, without a voice. */
-  function speechSetup(root, language) {
+   * function does nothing, and says so by returning false, without a voice.
+   * `then`, if given, hears the voice found, or null, once the looking is done. */
+  function speechSetup(root, language, then) {
     var voice = null;
     function show(selector) {
       var found = root.querySelectorAll(selector);
@@ -596,6 +597,7 @@
     }
     speechVoices(function (voices) {
       voice = speechPick(voices, language);
+      if (then) then(voice);
       show(voice ? "[data-speak], [data-speak-group]" : "[data-no-voice]");
     });
     return function say(text) {

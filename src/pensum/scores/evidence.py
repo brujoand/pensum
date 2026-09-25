@@ -17,9 +17,9 @@ signed-in pupil finishes a quiz on an instance with a database -- at the moment
 the attempt summary is written, never before -- so an abandoned quiz leaves no
 evidence either, and an anonymous one never has anybody to file it under.
 
-Hints are always 0 until the hint ladder exists (the run engine, a later
-change). The column is there now so that mastery's rule "a hinted answer is
-evidence of practising, not of secure" has something to read the day it does.
+Hints are the number of hint-ladder steps the pupil revealed before answering,
+taken from the session's answer records. Mastery reads them for its rule "a
+hinted answer is evidence of practising, not of secure"; the score never does.
 """
 
 from __future__ import annotations

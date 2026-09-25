@@ -192,7 +192,7 @@ The rows are exactly these, in the `evidence` table of the same SQLite file:
 | `skill`, `item` | which skill, from which question |
 | `stage` | concrete, pictorial or abstract, when the question says |
 | `correct` | right or not |
-| `hints` | hints used (always 0 until hints exist) |
+| `hints` | hint steps revealed before answering (never lowers the score) |
 | `recorded_at` | when the quiz was finished |
 
 From those, each skill is in one of five states — not started, exploring,

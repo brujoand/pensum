@@ -50,7 +50,7 @@ def skills_for(item: QuizItem, checkpoint: int, skill_file: SkillFile) -> tuple[
 
 
 def evidence_for(
-    answered: Iterable[tuple[QuizItem, bool]],
+    answered: Iterable[tuple[QuizItem, bool, int]],
     *,
     attempt: str,
     user_sub: str,
@@ -59,6 +59,9 @@ def evidence_for(
     at: datetime,
 ) -> list[Evidence]:
     """One row per (answer, skill) for a finished quiz.
+
+    `answered` is (item, correct, hints used) per answer. Hints are carried onto
+    the row as they are; what they mean for mastery is `rules`' business.
 
     Every row carries the same timestamp -- when the quiz was finished -- because
     that is when anything is written. Mastery counts sessions as calendar days,
@@ -72,10 +75,9 @@ def evidence_for(
             item=item.id,
             stage=item.stage,
             correct=correct,
-            # No hint ladder yet: every answer is unaided.
-            hints=0,
+            hints=hints,
             recorded_at=at,
         )
-        for item, correct in answered
+        for item, correct, hints in answered
         for skill in skills_for(item, checkpoint, skill_file)
     ]

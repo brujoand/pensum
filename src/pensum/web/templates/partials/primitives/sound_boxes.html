@@ -6,7 +6,8 @@
 {% block hint %}{{ t("activity.sound_boxes.hint") }}{% if item.activity.letters %} {{ t("activity.sound_boxes.hint_letters") }}{% endif %}{% endblock %}
 {% block live_extra %}
   {% include "partials/primitives/_speech.html" %}
-  <p class="activity-written" data-no-voice hidden>{{ t("activity.sound_boxes.written", word=item.activity.word) }}</p>
+  {# Empty on purpose: the script writes the word here only if it finds no voice. #}
+  <p class="activity-written" data-no-voice data-written hidden></p>
 {% endblock %}
 {% block controls %}
   <button class="activity-button activity-button--speak" type="button" data-speak="word" hidden>{{ t("activity.sound_boxes.hear") }}</button>

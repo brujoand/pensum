@@ -15,7 +15,14 @@ should split it, one entry per sound, and a letter tile is right in a box when
 its text is that box's sound. The word itself is never shown on the board while
 there is a voice to say it; if the browser has none for the item's language,
 the page says so and shows the word written, because counting the sounds of a
-written word is still the exercise and guessing at a silent one is not.
+written word is still the exercise and guessing at a silent one is not. The
+written word's element is rendered empty and the page's script fills it in only
+once it has looked for a voice and found none.
+
+The word is still in the page source, in `limits()["word"]` (and in the no-script
+question, which the script hides): the browser voice speaks it from text, so the
+page has to have it. That is a trade-off, not an oversight. What the rule above
+guarantees is that nothing *shows* the word while there is a voice to say it.
 
 Without a script the pupil sees the word written and types how many sounds it
 has.
@@ -154,7 +161,12 @@ class SoundBoxesActivity(ActivityConfig):
         }
 
     def say(self, locale: str) -> dict[str, str]:
-        return say_keys(locale, "activity.sound_boxes.made", "activity.sound_boxes.made_one")
+        return say_keys(
+            locale,
+            "activity.sound_boxes.made",
+            "activity.sound_boxes.made_one",
+            "activity.sound_boxes.written",
+        )
 
     # --- drawing -----------------------------------------------------------------
 

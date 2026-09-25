@@ -79,7 +79,7 @@ const sentenceBuild = grab("primitives/sentence-build.js", [
   "sentenceBuildDescribe",
 ])(window);
 const dialogue = grab("primitives/dialogue.js", [
-  "dialogueAt", "dialogueParse", "dialogueApply", "dialogueShown", "dialogueDescribe",
+  "dialogueCrypt", "dialogueOutcome", "dialogueAt", "dialogueParse", "dialogueApply", "dialogueShown", "dialogueDescribe",
   "dialogueLines",
 ])(window);
 
@@ -300,7 +300,26 @@ function press(apply, state, actions, limits) {
 /* --- dialogue ---------------------------------------------------------------------- */
 
 {
-  const L = { start: "order", language: "en", max: 40, nodes: { order: ["pay", null], pay: ["bye", null, "bye"], bye: [] } };
+  /* Tokens built the way the server builds them: the outcome's JSON, padded
+   * to one width, through the same XOR. */
+  const WIDTH = 60;
+  function token(node, index, next, reply) {
+    const text = JSON.stringify({ n: next, r: reply ? { nb: reply, en: reply } : {} }).padEnd(WIDTH);
+    const bytes = Array.from(text, (c) => c.charCodeAt(0));
+    return dialogue.dialogueCrypt(bytes, node, index).map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  const L = {
+    start: "order", language: "en", max: 40,
+    nodes: {
+      order: [token("order", 0, "pay"), token("order", 1, "", "Nicely?")],
+      pay: [token("pay", 0, "bye"), token("pay", 1, "", "?"), token("pay", 2, "bye")],
+      bye: [],
+    },
+  };
+  check("right and wrong tokens look alike", L.nodes.order.map((t) => t.length), [WIDTH * 2, WIDTH * 2]);
+  check("a token decodes", dialogue.dialogueOutcome(L, "order", 1), { n: "", r: { nb: "Nicely?", en: "Nicely?" } });
+  check("a token read at the wrong node does not", dialogue.dialogueOutcome(L, "pay", 1) === null || dialogue.dialogueOutcome(L, "pay", 1).r.nb !== "Nicely?", true);
+  check("a bad token", dialogue.dialogueOutcome({ nodes: { a: ["zz"] } }, "a", 0), null);
   const A = dialogue.dialogueApply;
   const P = dialogue.dialogueParse;
   check("parse", P('{"picks":[1,0]}', L), { picks: [1, 0] });
@@ -319,11 +338,11 @@ function press(apply, state, actions, limits) {
   check("describe finished", dialogue.dialogueDescribe(s, say, L), "3 picks, finished");
   check("describe open", dialogue.dialogueDescribe({ picks: [1] }, say, L), "1 pick, open");
   const script = {
-    partner: "Waiter", you: "You",
+    partner: "Waiter", you: "You", locale: "en",
     nodes: {
-      order: { says: "Hi", options: ["Juice, please", "Juice."], replies: [null, "Nicely?"] },
-      pay: { says: "Here", options: ["Thanks", "Hm", "Ta"], replies: [null, "?", null] },
-      bye: { says: "Bye", options: [], replies: [] },
+      order: { says: "Hi", options: ["Juice, please", "Juice."] },
+      pay: { says: "Here", options: ["Thanks", "Hm", "Ta"] },
+      bye: { says: "Bye", options: [] },
     },
   };
   check("the log", dialogue.dialogueLines({ picks: [1, 0] }, L, script), [

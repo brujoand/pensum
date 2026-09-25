@@ -22,6 +22,21 @@ ones included, because that is what the pupil did and it is what the feedback
 replays; it is re-walked through the graph, and a pick the graph could not have
 offered is a state no page produced, so it is refused.
 
+**The page does not say which line is right before it is picked.** The page
+has to advance the conversation on its own, with no request to the server, so
+it needs every option's outcome. If that were plain -- a `next` for a right
+line, null for a wrong one, a reply only where a line is wrong -- the answer
+would be readable from the page source at every step. So each option's outcome
+(where it leads, and what the partner answers) is shipped as one opaque token:
+the JSON of that outcome, padded to the length of the longest in the item and
+XORed with a keystream seeded from the node's name and the option's place
+(`outcome_token`; `dialogue.js` has the same function). Every token of an item
+has the same length and the same alphabet, right or wrong, and no reply text
+is on the page until it is said. This is encoding, not secrecy: anyone who runs
+the page's own code can decode a token without picking. What it prevents is the
+answer being read off the source, which is the bar here; nothing is graded on
+the page, and the server grades the final state by walking its own graph.
+
 Without a script there is no conversation to walk. The pupil reads the opening
 line and picks their first reply as a radio button; an acceptable one is right.
 That is less than the whole dialogue, and said so in the README.
@@ -29,6 +44,7 @@ That is less than the whole dialogue, and said so in the README.
 
 from __future__ import annotations
 
+import json
 from collections import deque
 from typing import Literal
 
@@ -159,10 +175,21 @@ class DialogueActivity(ActivityConfig):
             "start": self.start,
             "language": self.language,
             "max": MAX_PICKS,
-            # The graph as the page needs it: where each option leads, or null
-            # for one that is answered in place.
-            "nodes": {name: [o.next for o in node.options] for name, node in self.nodes.items()},
+            # The graph as the page needs it, one opaque token per option. See
+            # the module docstring: right and wrong options look the same.
+            "nodes": {
+                name: [
+                    outcome_token(name, i, _outcome(o), self._outcome_width())
+                    for i, o in enumerate(node.options)
+                ]
+                for name, node in self.nodes.items()
+            },
         }
+
+    def _outcome_width(self) -> int:
+        return max(
+            (len(_outcome(o)) for node in self.nodes.values() for o in node.options), default=0
+        )
 
     def say(self, locale: str) -> dict[str, str]:
         return {
@@ -177,11 +204,13 @@ class DialogueActivity(ActivityConfig):
         return {
             "partner": self.partner.get(locale),
             "you": translate(locale, "activity.dialogue.you"),
+            # Which of a reply's two texts to show; the replies themselves are
+            # in the option tokens, so they are not on the page until said.
+            "locale": "en" if locale == "en" else "nb",
             "nodes": {
                 name: {
                     "says": node.says.get(locale),
                     "options": [o.text.get(locale) for o in node.options],
-                    "replies": [o.reply.get(locale) if o.reply else None for o in node.options],
                 }
                 for name, node in self.nodes.items()
             },
@@ -262,6 +291,41 @@ class DialogueActivity(ActivityConfig):
             self.alt.get(locale),
             (Layer("base", labels=tuple(labels)),),
         )
+
+
+# Salt for the keystream, so a token does not decode with a textbook key.
+_SALT = "pensum-dialogue"
+
+
+def _outcome(option: DialogueOption) -> str:
+    """What picking an option does, as the page reads it: the node it leads to
+    ("" to stay) and the partner's reply in both locales (empty to go on)."""
+    reply = {"nb": option.reply.nb, "en": option.reply.en} if option.reply else {}
+    return json.dumps(
+        {"n": option.next or "", "r": reply}, ensure_ascii=True, separators=(",", ":")
+    )
+
+
+def _keystream(node: str, index: int, length: int) -> list[int]:
+    """FNV-1a of the seed, then xorshift32, one byte per step."""
+    x = 0x811C9DC5
+    for byte in f"{_SALT}\x1f{node}\x1f{index}".encode():
+        x = ((x ^ byte) * 0x01000193) & 0xFFFFFFFF
+    x = x or 0x9E3779B9
+    out = []
+    for _ in range(length):
+        x ^= (x << 13) & 0xFFFFFFFF
+        x ^= x >> 17
+        x ^= (x << 5) & 0xFFFFFFFF
+        out.append(x & 0xFF)
+    return out
+
+
+def outcome_token(node: str, index: int, outcome: str, width: int) -> str:
+    """An option's outcome, padded to `width` and encoded, as hex."""
+    data = outcome.ljust(width).encode("ascii")
+    key = _keystream(node, index, len(data))
+    return bytes(b ^ k for b, k in zip(data, key, strict=True)).hex()
 
 
 def validate_graph(start: str, nodes: dict[str, DialogueNode]) -> list[str]:

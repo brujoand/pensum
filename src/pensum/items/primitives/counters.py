@@ -38,10 +38,6 @@ from pensum.items.primitives.base import (
 
 MAX_ON_MAT = 30
 MAX_GROUPS = 4
-# How much room a ring leaves beyond the biggest group asked for. Enough that
-# overfilling one is possible -- it is a real mistake to make and see -- without
-# every ring being as big as the whole mat.
-RING_SPARE = 4
 
 SLOT = 22.0
 RADIUS = 8.0
@@ -94,7 +90,17 @@ class CountersActivity(ActivityConfig):
 
     @property
     def ring_capacity(self) -> int:
-        return min(self.capacity, max(self.groups, default=0) + RING_SPARE)
+        """How many counters one ring holds: all of them, the same for every ring.
+
+        The page shows this before the pupil answers -- in `limits()` and as the
+        empty slots drawn in each ring -- so it may come only from what the
+        prompt already says. The total is stated ("share 8 counters"); a group
+        size is the answer. Sizing a ring as the biggest group plus a spare of
+        four gave "share 8 into two equal groups" away: 8 slots, less the spare,
+        is 4. Holding the whole total still lets a pupil overfill one ring and
+        see that it is wrong.
+        """
+        return min(self.capacity, self.target)
 
     def _equal_groups(self) -> bool:
         return bool(self.groups) and len(set(self.groups)) == 1

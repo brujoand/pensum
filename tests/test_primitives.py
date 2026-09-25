@@ -189,6 +189,49 @@ def test_an_equal_share_asks_for_one_group_without_a_script() -> None:
     assert not question.is_correct("15")
 
 
+def ring_slots(html: str) -> dict[str, int]:
+    """How many counter places each ring draws, shown or not."""
+    counts: dict[str, int] = {}
+    for zone in re.findall(r'data-zone="(g\d+)"\s+data-index=', html):
+        counts[zone] = counts.get(zone, 0) + 1
+    return counts
+
+
+def page_limits(html: str) -> str:
+    found = re.search(r"data-limits='([^']*)'", html)
+    assert found
+    return found.group(1)
+
+
+@pytest.mark.parametrize(
+    ("groups", "other"),
+    [([4, 4], [7, 1]), ([4, 4, 4], [6, 4, 2]), ([2, 3, 4], [1, 1, 7])],
+)
+def test_a_ring_is_as_big_as_the_total_whatever_the_groups(
+    groups: list[int], other: list[int]
+) -> None:
+    # What the page shows before an answer may not depend on the answer: two
+    # sharings of the same total into the same number of rings get the same
+    # limits and the same number of places in every ring.
+    total = sum(groups)
+    first, second = (
+        render_question(item("counters", target=total, start=total, groups=sizes))
+        for sizes in (groups, other)
+    )
+    assert page_limits(first) == page_limits(second)
+    assert json.loads(page_limits(first))["ring"] == total
+    assert ring_slots(first) == ring_slots(second)
+    assert ring_slots(first) == {f"g{ring}": total for ring in range(len(groups))}
+
+
+def test_the_question_page_is_the_same_for_any_unequal_split() -> None:
+    first, second = (
+        render_question(item("counters", target=12, start=12, groups=sizes))
+        for sizes in ([5, 4, 3], [6, 4, 2])
+    )
+    assert first == second
+
+
 # --- ten_frame --------------------------------------------------------------
 
 

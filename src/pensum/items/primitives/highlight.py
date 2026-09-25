@@ -177,5 +177,10 @@ class HighlightActivity(ChoiceActivity):
             self.alt.get(locale),
             (Place("mark", "", marks, "text"),),
             kind="highlight",
-            extra=(("tokens", tuple(tokens)), ("unit", self.unit)),
+            # Which tokens are the answer stays out of the board: it is drawn
+            # before an answer too (hint step 2), from the pupil's state alone.
+            extra=(
+                ("tokens", tuple(t.model_copy(update={"mark": False}) for t in tokens)),
+                ("unit", self.unit),
+            ),
         )

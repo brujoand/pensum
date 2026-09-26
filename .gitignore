@@ -14,3 +14,7 @@ data/curriculum/raw/
 # Speech models for the reading exercise. Hundreds of megabytes of binary, not
 # ours to redistribute, and fetched by bin/fetch_speech_models.
 data/speech/
+
+# The instance's own database when PENSUM_DATABASE_PATH is unset: review
+# decisions, and attempts once sign-in is configured. Live data, never content.
+data/instance/

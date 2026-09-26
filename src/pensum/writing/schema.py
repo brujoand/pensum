@@ -17,6 +17,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from pensum.review.content import reject_review_keys
 from pensum.writing.paths import PathError, flatten
 
 # Same three-band scale quiz items and reading passages use, and the same
@@ -138,8 +139,12 @@ class WritingPrompt(BaseModel):
     # "pensum" means we wrote it. Letter sets are ours by construction, but the
     # field stays so a word list taken from somewhere nameable has to name it.
     source: str = Field(min_length=1)
-    reviewed: bool = False
-    reviewed_by: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
     @property
     def characters(self) -> tuple[str, ...]:

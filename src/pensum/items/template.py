@@ -13,7 +13,7 @@ here is random at request time: the domain is a finite cross product, every
 instance in it is built and validated when the file loads, and picking one is
 picking from a list.
 
-That last part is the whole reason this is safe to ship. `reviewed: true` on a
+That last part is the whole reason this is safe to ship. Approving a
 hand-written item means somebody read the sentence a child sees. A template
 cannot make that promise instance by instance, so it makes a stronger one
 instead: the domain is small enough to enumerate, and `instances()` builds every
@@ -26,12 +26,11 @@ What a template is not for: any question whose answer is not a function of its
 numbers. Naturfag, norsk and RLE items are facts, and a fact does not
 parameterise. This is a matematikk feature wearing a general name.
 
-**A template cannot yet be approved from the review page.** `review.queue` walks
-`ItemSet.items` and knows nothing about templates, so a template authored with
-`reviewed: false` is withheld with no way to change its mind short of editing the
-file. `ItemBank` already consults the ledger by template id, so the missing half
-is the queue, not the decision. Until then a template is reviewed the way every
-item was before the review page existed: in the pull request that adds it.
+**A template is approved as one piece of content.** The review page shows it
+as a pupil would meet it -- one instance, live -- with a sample of the others
+and their answers, and a decision is recorded against the template id with the
+template's own fingerprint. Every instance is served or withheld with it, and
+editing a range, a rule or a sentence returns the whole family to pending.
 """
 
 from __future__ import annotations
@@ -45,6 +44,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pensum.items.expr import ExpressionError, evaluate, names, parse
 from pensum.items.schema import QuizItem
 from pensum.items.text import AuthoredText
+from pensum.review.content import reject_review_keys
 
 __all__ = ["ItemTemplate", "Parameter"]
 
@@ -118,8 +118,11 @@ class ItemTemplate(BaseModel):
     prompt: AuthoredText
     explanation: AuthoredText
 
-    reviewed: bool = False
-    reviewed_by: str | None = None
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
     @model_validator(mode="after")
     def _check(self) -> ItemTemplate:
@@ -218,8 +221,6 @@ class ItemTemplate(BaseModel):
             prompt=_fill(self.prompt, binding),
             explanation=_fill(self.explanation, binding),
             answer=answer,
-            reviewed=self.reviewed,
-            reviewed_by=self.reviewed_by,
         )
 
 

@@ -41,12 +41,16 @@
 
       {# Absent entirely when sign-in is not configured. A visitor to an
          unconfigured Pensum should see no trace of accounts, because there
-         are none. #}
-      {% if auth_enabled %}
+         are none. The one exception is a local administrator on the
+         maintainer's own machine (`pensum.auth.local`), offered only to a
+         request that could actually use it. #}
+      {% if auth_enabled or local_admin %}
         <nav class="account" aria-label="{{ t('auth.account') }}">
           {% if user %}
             {% if is_admin and history_enabled %}
               <a href="/{{ locale }}/admin">{{ t("admin.link") }}</a>
+            {% endif %}
+            {% if is_admin %}
               <a href="/{{ locale }}/admin/gjennomgang">{{ t("review.link") }}</a>
             {% endif %}
             <span class="signed-in">{{ t("auth.signed_in_as", name=user.name) }}</span>
@@ -54,8 +58,12 @@
             <form method="post" action="/auth/logout?next={{ request.url.path | urlencode }}">
               <button type="submit" class="linklike">{{ t("auth.sign_out") }}</button>
             </form>
-          {% else %}
+          {% elif auth_enabled %}
             <a href="/auth/login?next={{ request.url.path | urlencode }}">{{ t("auth.sign_in") }}</a>
+          {% else %}
+            <form method="post" action="/auth/local?next={{ request.url.path | urlencode }}">
+              <button type="submit" class="linklike">{{ t("auth.local_sign_in") }}</button>
+            </form>
           {% endif %}
         </nav>
       {% endif %}

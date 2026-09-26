@@ -3,7 +3,8 @@
 # goal in the curriculum is in some skill's refs; goals the design lists as
 # missions get skills with assessable: false. The Norwegian-transfer errors the
 # design names (verb second, do-support, false friends, missing sounds) are
-# misconception slugs on the skills where they show. Authored, not reviewed.
+# misconception slugs on the skills where they show.
+# Live only where an administrator approves it, on that instance's review page.
 subject: ENG01-06
 strands:
   - id: sounds
@@ -38,7 +39,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [th-sound-replaced, w-said-as-v, z-said-as-s]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.clap-syllables
     strand: sounds
@@ -54,7 +54,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.link-sounds-letters
     strand: sounds
@@ -70,7 +69,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [reads-letters-the-norwegian-way, th-sound-replaced]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.blend-words
     strand: sounds
@@ -86,7 +84,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [guesses-from-first-letter]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.alphabet
     strand: sounds
@@ -102,7 +99,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [norwegian-letter-names]
     assessable: true
-    reviewed: false
 
   - id: eng.words.high-frequency-words
     strand: words
@@ -118,7 +114,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.shared-words
     strand: words
@@ -134,7 +129,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.hear-real-speakers
     strand: words
@@ -150,7 +144,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.reading.picture-book
     strand: reading
@@ -166,7 +159,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.simple-questions
     strand: conversation
@@ -182,7 +174,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.follow-instructions
     strand: conversation
@@ -198,7 +189,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.polite-phrases
     strand: conversation
@@ -214,7 +204,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [omits-please]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.rehearsed-dialogue
     strand: conversation
@@ -230,7 +219,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.writing.familiar-words
     strand: writing
@@ -246,7 +234,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [spells-the-norwegian-way]
     assessable: true
-    reviewed: false
 
   - id: eng.writing.simple-sentences
     strand: writing
@@ -262,7 +249,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.culture.childrens-books
     strand: culture
@@ -278,7 +264,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   # ---- etter 4. trinn -------------------------------------------------------
 
@@ -296,7 +281,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [reads-letters-the-norwegian-way]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.tricky-words
     strand: sounds
@@ -312,7 +296,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [sounds-out-irregular-words]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.pronunciation-play
     strand: sounds
@@ -328,7 +311,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [th-sound-replaced, w-said-as-v, z-said-as-s]
     assessable: true
-    reviewed: false
 
   - id: eng.sounds.spell-aloud
     strand: sounds
@@ -344,7 +326,6 @@ skills:
     stages: [concrete, abstract]
     misconceptions: [norwegian-letter-names]
     assessable: true
-    reviewed: false
 
   - id: eng.words.small-words
     strand: words
@@ -360,7 +341,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.ask-for-help
     strand: words
@@ -376,7 +356,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.use-a-dictionary
     strand: words
@@ -392,7 +371,6 @@ skills:
     stages: [concrete, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.false-friends
     strand: words
@@ -408,7 +386,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [false-friend-eventually, false-friend-become, false-friend-actually]
     assessable: true
-    reviewed: false
 
   - id: eng.words.digital-resources
     strand: words
@@ -424,7 +401,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.reading.adapted-texts
     strand: reading
@@ -440,7 +416,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.reading.guess-from-context
     strand: reading
@@ -456,7 +431,6 @@ skills:
     stages: [abstract]
     misconceptions: [guesses-from-word-shape]
     assessable: true
-    reviewed: false
 
   - id: eng.reading.talk-about-texts
     strand: reading
@@ -472,7 +446,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.word-classes
     strand: grammar
@@ -488,7 +461,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [class-from-meaning-alone]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.word-order
     strand: grammar
@@ -504,7 +476,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [verb-second-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.do-questions
     strand: grammar
@@ -520,7 +491,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [do-support-missing]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.simple-spelling-rules
     strand: grammar
@@ -536,7 +506,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [lowercase-pronoun-i, norwegian-plural-ending]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.needs-and-feelings
     strand: conversation
@@ -552,7 +521,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [omits-please]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.partner-dialogue
     strand: conversation
@@ -568,7 +536,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.writing.thoughts-and-opinions
     strand: writing
@@ -584,7 +551,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.ways-of-living
     strand: culture
@@ -600,7 +566,6 @@ skills:
     stages: [pictorial]
     misconceptions: [english-world-as-one-country]
     assessable: true
-    reviewed: false
 
   - id: eng.culture.literature-words
     strand: culture
@@ -616,7 +581,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   # ---- etter 7. trinn -------------------------------------------------------
 
@@ -634,7 +598,6 @@ skills:
     stages: [concrete]
     misconceptions: [th-sound-replaced, w-said-as-v]
     assessable: false
-    reviewed: false
 
   - id: eng.words.varied-vocabulary
     strand: words
@@ -650,7 +613,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.words.polite-register
     strand: words
@@ -666,7 +628,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [omits-please, direct-request-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.words.learning-strategies
     strand: words
@@ -682,7 +643,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.words.compare-with-norwegian
     strand: words
@@ -698,7 +658,6 @@ skills:
     stages: [abstract]
     misconceptions: [false-friend-eventually, false-friend-become, false-friend-actually]
     assessable: true
-    reviewed: false
 
   - id: eng.words.dictionaries-and-digital
     strand: words
@@ -714,7 +673,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.reading.authentic-texts
     strand: reading
@@ -730,7 +688,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.reading.retell-factual-text
     strand: reading
@@ -746,7 +703,6 @@ skills:
     stages: [abstract]
     misconceptions: [summary-as-retelling]
     assessable: true
-    reviewed: false
 
   - id: eng.reading.present-content
     strand: reading
@@ -762,7 +718,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.grammar.sentence-elements
     strand: grammar
@@ -778,7 +733,6 @@ skills:
     stages: [abstract]
     misconceptions: [verb-second-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.verb-tenses
     strand: grammar
@@ -794,7 +748,6 @@ skills:
     stages: [abstract]
     misconceptions: [overregularises-past, third-person-s-dropped]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.nouns-and-adjectives
     strand: grammar
@@ -810,7 +763,6 @@ skills:
     stages: [abstract]
     misconceptions: [adjective-agreement-transfer, norwegian-plural-ending]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.spelling-and-syntax
     strand: grammar
@@ -826,7 +778,6 @@ skills:
     stages: [abstract]
     misconceptions: [do-support-missing, verb-second-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.start-keep-end
     strand: conversation
@@ -842,7 +793,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.live-conversation
     strand: conversation
@@ -858,7 +808,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.writing.cohesive-texts
     strand: writing
@@ -874,7 +823,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.writing.revise-from-feedback
     strand: writing
@@ -890,7 +838,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.judge-sources
     strand: culture
@@ -906,7 +853,6 @@ skills:
     stages: [abstract]
     misconceptions: [trusts-looks-over-author]
     assessable: true
-    reviewed: false
 
   - id: eng.culture.english-in-my-life
     strand: culture
@@ -922,7 +868,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.traditions-and-identity
     strand: culture
@@ -938,7 +883,6 @@ skills:
     stages: [concrete]
     misconceptions: [english-world-as-one-country]
     assessable: false
-    reviewed: false
 
   # ---- etter 10. trinn ------------------------------------------------------
 
@@ -956,7 +900,6 @@ skills:
     stages: [abstract]
     misconceptions: [th-sound-replaced, w-said-as-v, z-said-as-s]
     assessable: true
-    reviewed: false
 
   - id: eng.words.idioms
     strand: words
@@ -972,7 +915,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [takes-idiom-literally, translates-idiom-word-for-word]
     assessable: true
-    reviewed: false
 
   - id: eng.words.fluent-expression
     strand: words
@@ -988,7 +930,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.words.choose-strategies
     strand: words
@@ -1004,7 +945,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.words.digital-aids
     strand: words
@@ -1020,7 +960,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.words.languages-compared
     strand: words
@@ -1036,7 +975,6 @@ skills:
     stages: [abstract]
     misconceptions: [verb-second-transfer, do-support-missing]
     assessable: true
-    reviewed: false
 
   - id: eng.reading.variants-of-english
     strand: reading
@@ -1052,7 +990,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.reading.interpret-fiction
     strand: reading
@@ -1068,7 +1005,6 @@ skills:
     stages: [abstract]
     misconceptions: [takes-idiom-literally]
     assessable: true
-    reviewed: false
 
   - id: eng.reading.discuss-and-present
     strand: reading
@@ -1084,7 +1020,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.grammar.syntax-in-own-texts
     strand: grammar
@@ -1100,7 +1035,6 @@ skills:
     stages: [abstract]
     misconceptions: [verb-second-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.grammar.rules-and-structure
     strand: grammar
@@ -1116,7 +1050,6 @@ skills:
     stages: [abstract]
     misconceptions: [do-support-missing, third-person-s-dropped]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.follow-up-and-adapt
     strand: conversation
@@ -1132,7 +1065,6 @@ skills:
     stages: [abstract]
     misconceptions: [direct-request-transfer]
     assessable: true
-    reviewed: false
 
   - id: eng.conversation.discussion
     strand: conversation
@@ -1148,7 +1080,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.writing.formal-and-informal
     strand: writing
@@ -1164,7 +1095,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: eng.writing.structured-texts
     strand: writing
@@ -1180,7 +1110,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.writing.revise-with-language
     strand: writing
@@ -1196,7 +1125,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.assess-reliability
     strand: culture
@@ -1212,7 +1140,6 @@ skills:
     stages: [abstract]
     misconceptions: [trusts-looks-over-author]
     assessable: true
-    reviewed: false
 
   - id: eng.culture.use-sources-responsibly
     strand: culture
@@ -1228,7 +1155,6 @@ skills:
     stages: [abstract]
     misconceptions: [copies-without-quoting]
     assessable: true
-    reviewed: false
 
   - id: eng.culture.english-worldwide
     strand: culture
@@ -1244,7 +1170,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.indigenous-peoples
     strand: culture
@@ -1260,7 +1185,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: eng.culture.diversity
     strand: culture
@@ -1276,7 +1200,6 @@ skills:
     stages: [concrete]
     misconceptions: [english-world-as-one-country]
     assessable: false
-    reviewed: false
 
   - id: eng.culture.cultural-expressions
     strand: culture
@@ -1292,4 +1215,3 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false

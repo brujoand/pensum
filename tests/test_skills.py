@@ -68,7 +68,6 @@ def _skill(skill_id: str, checkpoint: int, refs: list[str], needs: list[str]) ->
         "stages": ["concrete", "pictorial", "abstract"],
         "misconceptions": ["counts-object-twice"],
         "assessable": True,
-        "reviewed": False,
     }
 
 

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{# The step between "approve everything shown" and it happening. The number is
+   said before anything is written, and the second post carries a digest of the
+   exact selection counted here, so an edit or another reviewer's decision in
+   between means nothing is written and this page is shown again. #}
+
+{% block title %}{{ t("review.bulk_confirm_heading") }} · {{ t("site.name") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("review.bulk_confirm_heading") }}</h1>
+
+  {% if changed %}
+    <p class="notice notice-error">{{ t("review.bulk_changed") }}</p>
+  {% endif %}
+
+  {% if count %}
+    <p class="review-bulk__question">
+      {{ t("review.bulk_confirm_approve" if verdict == "approved" else "review.bulk_confirm_reject", count=count) }}
+    </p>
+    <form class="review-bulk" method="post" action="/{{ locale }}/admin/gjennomgang/samlet">
+      <input type="hidden" name="verdict" value="{{ verdict }}">
+      <input type="hidden" name="subject" value="{{ filters.subject }}">
+      <input type="hidden" name="goal_set" value="{{ filters.goal_set }}">
+      <input type="hidden" name="kind" value="{{ filters.kind }}">
+      <input type="hidden" name="state" value="{{ filters.state }}">
+      <input type="hidden" name="note" value="{{ note }}">
+      <input type="hidden" name="expected" value="{{ expected }}">
+      <button class="button" type="submit" name="confirm" value="yes">{{ t("review.bulk_confirm_yes") }}</button>
+      <a href="/{{ locale }}/admin/gjennomgang?{{ filters.query() }}">{{ t("review.bulk_cancel") }}</a>
+    </form>
+  {% else %}
+    <p>{{ t("review.bulk_empty") }}</p>
+    <p><a href="/{{ locale }}/admin/gjennomgang?{{ filters.query() }}">{{ t("review.try_back") }}</a></p>
+  {% endif %}
+{% endblock %}

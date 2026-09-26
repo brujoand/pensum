@@ -8,16 +8,19 @@ assert something is *rejected*: a call, an attribute, an import dressed as
 arithmetic. A permissive evaluator would pass every test about sheep and still
 be the worst change in the repository.
 
-The template itself replaces a human's eyes. `reviewed: true` on a hand-written
-item means somebody read the sentence; on a template it means somebody read a
+The template itself replaces a human's eyes. Approving a hand-written item
+means somebody read the sentence; approving a template means somebody read a
 rule, and the enumeration is what turns that back into a promise. So the domain
 tests care about the whole domain, not a sample of it.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
+from review_helpers import approved_bank
 
 from pensum.items.expr import ExpressionError, evaluate, names, parse
 from pensum.items.loader import ItemBank
@@ -44,7 +47,6 @@ def farm(**overrides) -> ItemTemplate:
         "answer": "sheep",
         "prompt": text("På en gård er det {animals} dyr og {legs} bein."),
         "explanation": text("{sheep} sauer og {hens} høner."),
-        "reviewed": True,
     }
     fields.update(overrides)
     return ItemTemplate.model_validate(fields)
@@ -253,30 +255,37 @@ def test_a_template_may_not_share_an_id_with_an_item() -> None:
 # Serving -------------------------------------------------------------------
 
 
-def bank_with_template(**overrides) -> ItemBank:
-    return ItemBank(
+def bank_with_template(tmp_path: Path | None, **overrides) -> ItemBank:
+    """A bank holding the farm template, approved through a ledger at `tmp_path`.
+
+    None leaves it unapproved, as it is on an instance nobody has reviewed.
+    """
+    bank = ItemBank(
         [ItemSet(subject="MAT01-06", goal_set="KV1029", templates=(farm(**overrides),))]
     )
+    return approved_bank(tmp_path / "db.sqlite", bank) if tmp_path is not None else bank
 
 
-def test_a_template_contributes_one_question_not_its_domain() -> None:
+def test_a_template_contributes_one_question_not_its_domain(tmp_path: Path) -> None:
     """Otherwise a quiz of ten is one template ten times over."""
-    served = bank_with_template().for_goal_set("KV1029")
+    served = bank_with_template(tmp_path).for_goal_set("KV1029")
     assert len(served) == 1
 
 
-def test_a_seed_asks_the_same_question_twice() -> None:
-    bank = bank_with_template()
+def test_a_seed_asks_the_same_question_twice(tmp_path: Path) -> None:
+    bank = bank_with_template(tmp_path)
     assert bank.for_goal_set("KV1029", seed=7)[0].id == bank.for_goal_set("KV1029", seed=7)[0].id
 
 
-def test_excluding_a_question_picks_another_rather_than_dropping_the_template() -> None:
+def test_excluding_a_question_picks_another_rather_than_dropping_the_template(
+    tmp_path: Path,
+) -> None:
     """The nivåtest draws twice for one rung when it deepens, carrying the ids
     it already served. Filtering after the draw would discard the whole template
     whenever its one instance was already spent, and the rung would silently go
     short of the evidence the search asked for.
     """
-    bank = bank_with_template()
+    bank = bank_with_template(tmp_path)
     first = bank.for_goal_set("KV1029", seed=3)[0]
 
     again = bank.for_goal_set("KV1029", seed=3, exclude={first.id})
@@ -284,13 +293,13 @@ def test_excluding_a_question_picks_another_rather_than_dropping_the_template() 
     assert again[0].id != first.id
 
 
-def test_a_template_falls_silent_only_when_its_domain_is_spent() -> None:
-    bank = bank_with_template()
+def test_a_template_falls_silent_only_when_its_domain_is_spent(tmp_path: Path) -> None:
+    bank = bank_with_template(tmp_path)
     every = {item.id for item in farm().instances()}
     assert bank.for_goal_set("KV1029", exclude=every) == []
 
 
-def test_exclude_still_withholds_an_authored_item() -> None:
+def test_exclude_still_withholds_an_authored_item(tmp_path: Path) -> None:
     """The argument moved into the bank, so the behaviour it replaced has to
     survive the move."""
     item = QuizItem(
@@ -301,16 +310,18 @@ def test_exclude_still_withholds_an_authored_item() -> None:
         prompt=text("x"),
         explanation=text("x"),
         answer=1,
-        reviewed=True,
     )
-    bank = ItemBank([ItemSet(subject="MAT01-06", goal_set="KV1029", items=(item,))])
+    bank = approved_bank(
+        tmp_path / "db.sqlite",
+        ItemBank([ItemSet(subject="MAT01-06", goal_set="KV1029", items=(item,))]),
+    )
     assert [i.id for i in bank.for_goal_set("KV1029")] == ["KM1-01"]
     assert bank.for_goal_set("KV1029", exclude={"KM1-01"}) == []
 
 
-def test_an_unreviewed_template_is_withheld() -> None:
+def test_a_template_nobody_approved_is_withheld() -> None:
     """Same default as an item: a caller that forgets the argument gets the
     safe answer."""
-    bank = bank_with_template(reviewed=False)
+    bank = bank_with_template(None)
     assert bank.for_goal_set("KV1029") == []
     assert len(bank.for_goal_set("KV1029", unreviewed=True)) == 1

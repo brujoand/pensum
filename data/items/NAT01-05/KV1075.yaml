@@ -36,8 +36,6 @@ items:
     explanation:
       nb: En stein er hard når du klemmer på den. Ullsokken og svampen er myke.
       en: A stone is hard when you squeeze it. The sock and the sponge are soft.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13809-02
     goal: KM13809
@@ -65,8 +63,6 @@ items:
         smelter isen og blir vann.
       en: Water becomes hard ice when it gets cold enough. Warm it up again and
         the ice melts back into water.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13810-01
     goal: KM13810
@@ -94,8 +90,6 @@ items:
         for rev og ørn å finne den.
       en: White fur lets the hare hide well in the snow, so foxes and eagles have
         a harder time finding it.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13810-02
     goal: KM13810
@@ -123,8 +117,6 @@ items:
         bein eller vinger.
       en: The earthworm digs tunnels in the soil and eats old leaves. It has
         neither legs nor wings.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13811-01
     goal: KM13811
@@ -150,8 +142,6 @@ items:
     explanation:
       nb: Om høsten blir det kaldere og mørkere, og mange trær mister bladene sine.
       en: In autumn it gets colder and darker, and many trees lose their leaves.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13811-02
     goal: KM13811
@@ -182,8 +172,6 @@ items:
       en: We usually speak of spring, summer, autumn and winter. Sami tradition
         divides the year into eight seasons, following the reindeer and the work
         of the year.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13812-01
     goal: KM13812
@@ -211,8 +199,6 @@ items:
         måler tid.
       en: A thermometer shows the temperature. Scales measure weight, and a clock
         measures time.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13812-02
     goal: KM13812
@@ -240,8 +226,6 @@ items:
         gir bare skygge og regn.
       en: The Sun is a star that gives light and warmth. The Moon does not shine
         by itself, and clouds only give shade and rain.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13813-01
     goal: KM13813
@@ -267,8 +251,6 @@ items:
     explanation:
       nb: Vi smaker med tunga. Med ørene hører vi, og med øynene ser vi.
       en: We taste with the tongue. We hear with our ears and see with our eyes.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13813-02
     goal: KM13813
@@ -297,8 +279,6 @@ items:
         kalles følesansen.
       en: With our skin we feel whether something is soft, hard, warm or cold.
         That is the sense of touch.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13814-01
     goal: KM13814
@@ -326,8 +306,6 @@ items:
         sjanse for at de kommer inn i munnen med maten.
       en: Soap and water remove bacteria and viruses from your hands, so they are
         less likely to reach your mouth with the food.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13814-02
     goal: KM13814
@@ -355,8 +333,6 @@ items:
         på dørhåndtak og leker etterpå og sprer den videre.
       en: Coughing into your elbow keeps the germs there. If you cough into your
         hands, you then touch door handles and toys and spread them further.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13815-01
     goal: KM13815
@@ -385,8 +361,6 @@ items:
         hører hjemme i en søppelbøtte.
       en: Paper and plastic stay in nature for a long time and can harm animals.
         Litter belongs in a bin.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13809-03
     goal: KM13809
@@ -517,7 +491,6 @@ items:
         The things are the same size, but the stone and the nail are heavy for
         their size. They sink. The cork and the wood are light for their size.
         They float.
-    reviewed: false
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

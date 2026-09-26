@@ -1,0 +1,7 @@
+{# The answer to "try it" on the review page: right or not, and the right
+   answer when not. Nothing was recorded. #}
+{% if correct %}
+  <p class="review-try__verdict review-try__verdict--right">{{ t("review.try_right") }}</p>
+{% else %}
+  <p class="review-try__verdict">{{ t("review.try_wrong", answer=item.correct_text(locale)) }}</p>
+{% endif %}

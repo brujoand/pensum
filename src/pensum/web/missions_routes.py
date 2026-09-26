@@ -10,9 +10,11 @@ Confirmation by a teacher is evidence, and evidence belongs to the mastery
 layer. These pages say who confirms a mission; they do not record that anyone
 did.
 
-Unreviewed missions are shown, and labelled, as unreviewed skills are on the
-progression guide: they are teacher-handed paper, and a teacher judging a draft
-needs to be able to read and print it.
+The list is a teacher's page and shows every mission, each one that is not
+approved on this instance labelled with its state, as skills are on the
+progression guide. The mission page itself is what a pupil is handed, so it
+opens for approved missions only -- and for an administrator, labelled, since a
+mission has to be read as a pupil would meet it before anyone can approve it.
 """
 
 from __future__ import annotations
@@ -23,23 +25,15 @@ from fastapi.responses import HTMLResponse
 from pensum.missions.cards import CARDS
 from pensum.missions.loader import MissionLibrary
 from pensum.missions.schema import Mission
+from pensum.web.deps import get_missions, sees_unreviewed
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter()
 
 
 def library(request: Request) -> MissionLibrary:
-    """The missions, loaded on first use and kept on the app.
-
-    Loaded here rather than in the app's lifespan so that this router is the
-    only place that knows missions exist; a test puts its own library on
-    `app.state.missions` before the first request.
-    """
-    missions = getattr(request.app.state, "missions", None)
-    if missions is None:
-        missions = MissionLibrary.load()
-        request.app.state.missions = missions
-    return missions
+    """The missions, as `pensum.web.deps.get_missions` loads and gates them."""
+    return get_missions(request)
 
 
 def missions_by_skill(request: Request, subject_code: str) -> dict[str, tuple[Mission, ...]]:
@@ -78,7 +72,7 @@ async def mission_list(request: Request, locale: str, subject_code: str) -> HTML
             rows=rows,
             cards=used,
             mission_count=len(mission_file.missions),
-            draft_count=sum(1 for m in mission_file.missions if not m.reviewed),
+            draft_count=sum(1 for m in mission_file.missions if not library(request).publishes(m)),
         ),
     )
 
@@ -102,6 +96,11 @@ async def mission_page(request: Request, locale: str, mission_id: str) -> HTMLRe
     if found is None:
         raise HTTPException(status_code=404, detail="unknown mission")
     subject_code, mission = found
+    if not (library(request).publishes(mission) or sees_unreviewed(request)):
+        # Not approved on this instance. Indistinguishable from a mission that
+        # does not exist, as an unapproved passage is: a pupil handed a link to
+        # one learns nothing from the difference.
+        raise HTTPException(status_code=404, detail="unknown mission")
     subject = request.app.state.catalogue.subject(subject_code)
     skill_file = request.app.state.skills.for_subject(subject_code)
     skill = skill_file.skill(mission.skill) if skill_file is not None else None

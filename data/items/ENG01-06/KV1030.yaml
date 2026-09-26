@@ -46,8 +46,6 @@ items:
       en: >-
         “sun” and “sock” both begin with the letter s and the sound /s/. “moon”
         begins with /m/ and “tree” with /t/.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13330-02
     goal: KM13330
@@ -77,8 +75,6 @@ items:
       en: >-
         The sounds come in the order d - o - g. Blended together they make the
         word dog.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13334 - noticing high-frequency words and phrases in texts.
   - id: KM13334-01
@@ -109,8 +105,6 @@ items:
       en: >-
         After I we always say am. “I am seven years old” is a phrase you meet
         often in English texts.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13334-02
     goal: KM13334
@@ -140,8 +134,6 @@ items:
       en: >-
         I means «jeg», and in English it is always written with a capital
         letter. you means «du» and he means «han».
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13332 - asking and answering simple questions, following simple
   # instructions, using some polite expressions.
@@ -173,8 +165,6 @@ items:
       en: >-
         Thank you is what you say when someone gives you something. Good night
         is for bedtime, and sit down is an instruction to take a seat.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13332-02
     goal: KM13332
@@ -204,8 +194,6 @@ items:
       en: >-
         The question asks what you are called, so the answer starts “My name
         is …”. “I am fine” answers “How are you?” instead.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13335 - noticing words shared between English and other languages the
   # pupil knows.
@@ -237,8 +225,6 @@ items:
       en: >-
         house and the Norwegian «hus» sound almost the same and mean the same
         thing. Many English and Norwegian words are related like this.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13335-02
     goal: KM13335
@@ -270,8 +256,6 @@ items:
         summer and «sommer» differ by a single letter. When an English word
         resembles one you already know, that resemblance often gives away the
         meaning.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13336 - listening to, reading and talking about the content of simple
   # texts. Only the reading half can be checked here.
@@ -299,8 +283,6 @@ items:
     explanation:
       nb: Ordet red står rett foran ball, og red betyr rød.
       en: The word red comes right before ball, and red is the colour rød.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13336-02
     goal: KM13336
@@ -330,8 +312,6 @@ items:
       en: >-
         under tells you the cat is beneath the table. If the sentence said on
         the table, the cat would be up on top of it.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13339 - reading and experimenting with writing known words, phrases and
   # simple sentences. The writing half is not checkable here; recognising
@@ -364,8 +344,6 @@ items:
       en: >-
         house is written with o, u, s and a final e. English words often have
         more letters than sounds.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13339-02
     goal: KM13339
@@ -395,8 +373,6 @@ items:
       en: >-
         In English the one doing something comes first, then what they do, then
         the rest. That gives I like apples.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM13337 - words and cultural knowledge through English-language children's
   # literature and children's culture. Kept to songs and rhymes that are part of
@@ -430,8 +406,6 @@ items:
       en: >-
         The song is about a star. star also rhymes with car, but it is the star
         that twinkles.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13337-02
     goal: KM13337
@@ -463,8 +437,6 @@ items:
       en: >-
         cow is the animal that says moo in the song. The duck says quack and the
         pig says oink.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- answered with the hands: the sound slide and dialogue
   # (`pensum.items.primitives`). Drafts, not yet reviewed. The choices on a
@@ -512,7 +484,6 @@ items:
       en: >-
         Sh – i – p makes "ship", a big boat. "Sh" is two letters but only one
         sound.
-    reviewed: false
 
   - id: KM13330-04
     goal: KM13330
@@ -557,7 +528,6 @@ items:
       en: >-
         Ch – i – p – s makes "chips", thin fried slices of potato. "Ch" is one
         sound.
-    reviewed: false
 
   - id: KM13330-05
     goal: KM13330
@@ -600,7 +570,6 @@ items:
       en: >-
         B – a – th makes "bath". "Th" is a sound Norwegian does not have: the
         tongue rests between the teeth.
-    reviewed: false
 
   - id: KM13332-03
     goal: KM13332
@@ -661,7 +630,6 @@ items:
       en: >-
         "Can I …, please?" is a polite way to ask for something, and "Thank you!"
         is what you say when you get it.
-    reviewed: false
 
   - id: KM13332-04
     goal: KM13332
@@ -732,7 +700,6 @@ items:
       en: >-
         "How are you?" asks how you feel. A usual answer is "I'm fine, thank
         you". "Yes, please" and "No, thank you" are both polite answers.
-    reviewed: false
 
 # Goals that no written question can honestly test. At this checkpoint most of
 # the subject lives in the ear and the mouth, so this list is long by design.

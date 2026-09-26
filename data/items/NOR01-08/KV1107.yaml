@@ -39,8 +39,6 @@ items:
       nb: Hus og mus slutter likt, på -us. Da rimer de.
       en: >-
         "Hus" and "mus" end with the same sound, -us, so they rhyme.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14145-02
     goal: KM14145
@@ -66,8 +64,6 @@ items:
     explanation:
       nb: Vi klapper ordet syk-kel. Det blir to klapp, altså to stavelser.
       en: Clap the word syk-kel. That is two claps, so two syllables.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14145-03
     goal: KM14145
@@ -94,8 +90,6 @@ items:
       nb: Måne starter med m. Sol starter med s, og katt starter med k.
       en: >-
         "Måne" starts with m. "Sol" starts with s and "katt" starts with k.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14146-01
     goal: KM14146
@@ -121,8 +115,6 @@ items:
     explanation:
       nb: Lydene kommer i rekkefølgen s, o, l. Da blir ordet sol.
       en: The sounds come in the order s, o, l, which makes the word "sol".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14146-02
     goal: KM14146
@@ -148,8 +140,6 @@ items:
     explanation:
       nb: Vi tar lydene i tur og orden, m, a, t. Da blir ordet mat.
       en: Take the sounds in order, m, a, t, and the word is "mat".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14140-01
     goal: KM14140
@@ -175,8 +165,6 @@ items:
     explanation:
       nb: Det står rød ball i setningen. Svaret står rett i teksten.
       en: The sentence says "rød ball". The answer is right there in the text.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14140-02
     goal: KM14140
@@ -205,8 +193,6 @@ items:
         lesetriks.
       en: The title tells you what the book is about. Reading the title first is
         a good reading trick.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14144-01
     goal: KM14144
@@ -234,8 +220,6 @@ items:
         setning.
       en: A question mark shows that someone is asking something. A full stop
         ends an ordinary sentence.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14144-02
     goal: KM14144
@@ -264,8 +248,6 @@ items:
       en: >-
         "Ola" is a name, and names take a capital letter. It is also the first
         word in the sentence.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14148-01
     goal: KM14148
@@ -293,8 +275,6 @@ items:
         små ord.
       en: The word splits into "snø" and "mann". Many Norwegian words are two
         small words joined together.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14148-02
     goal: KM14148
@@ -321,8 +301,6 @@ items:
       nb: Kald er det motsatte av varm. Snø og is er kalde.
       en: >-
         "Kald" is the opposite of warm. Snow and ice are cold.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- answered with the hands: sound boxes, the sound slide, word and
   # sentence frames (`pensum.items.primitives`). Drafts, not yet reviewed.
@@ -346,7 +324,6 @@ items:
       nb: Sol har tre lyder, s – o – l. Én brikke for hver lyd.
       en: >-
         "Sol" (sun) has three sounds, s – o – l. One counter for each sound.
-    reviewed: false
 
   - id: KM14145-05
     goal: KM14145
@@ -370,7 +347,6 @@ items:
       en: >-
         "Kjole" (dress) has four sounds, kj – o – l – e. "Kj" is two letters but
         only one sound.
-    reviewed: false
 
   - id: KM14145-06
     goal: KM14145
@@ -393,7 +369,6 @@ items:
       nb: Hus har tre lyder, h – u – s, og én bokstav for hver lyd.
       en: >-
         "Hus" (house) has three sounds, h – u – s, and one letter for each.
-    reviewed: false
 
   - id: KM14145-07
     goal: KM14145
@@ -419,7 +394,6 @@ items:
       en: >-
         "Skje" (spoon) has only two sounds, skj – e. "Skj" is three letters that
         make one sound together, so they belong in one box.
-    reviewed: false
 
   - id: KM14146-03
     goal: KM14146
@@ -459,7 +433,6 @@ items:
       nb: S – o – l blir sol. Sola skinner på himmelen.
       en: >-
         S – o – l makes "sol", the sun. The sun shines in the sky.
-    reviewed: false
 
   - id: KM14146-04
     goal: KM14146
@@ -497,7 +470,6 @@ items:
       nb: Skj – e blir skje. Med en skje kan du spise suppe.
       en: >-
         Skj – e makes "skje", a spoon. You can eat soup with a spoon.
-    reviewed: false
 
   - id: KM14148-03
     goal: KM14148
@@ -517,7 +489,6 @@ items:
       nb: Fot og ball blir fotball, en ball du sparker med foten.
       en: >-
         "Fot" (foot) and "ball" make "fotball", a ball you kick with your foot.
-    reviewed: false
 
   - id: KM14148-04
     goal: KM14148
@@ -538,7 +509,6 @@ items:
       en: >-
         "Snø" (snow) and "mann" (man) make "snømann", a snowman. The first word
         says what he is made of.
-    reviewed: false
 
   - id: KM14144-03
     goal: KM14144
@@ -561,7 +531,6 @@ items:
       en: >-
         A question ends with a question mark, and the sentence starts with a
         capital letter: "Hvor bor du?" (Where do you live?)
-    reviewed: false
 
   - id: KM14144-04
     goal: KM14144
@@ -584,7 +553,6 @@ items:
       en: >-
         The sentence starts with a capital letter and ends with a full stop.
         "Pus" is a name, so it has a capital too.
-    reviewed: false
 
   - id: KM14140-03
     goal: KM14140
@@ -622,7 +590,6 @@ items:
         The text tells it in this order: first the walk, then the cat, then the
         milk, and last the cat sleeps. Words like "there" and "then" show what
         comes after what.
-    reviewed: false
 
 # Goals that no written question can honestly test. Most of this goal set is
 # about doing: talking, listening, drawing, writing by hand, visiting the

@@ -19,6 +19,7 @@ import re
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
@@ -28,8 +29,20 @@ from pensum.items.primitives.cards import FEWEST_CHOICES, CardBoard, shuffled
 from pensum.items.primitives.highlight import split_words
 from pensum.items.primitives.label import DIAGRAMS
 from pensum.items.schema import AuthoredText, QuizItem
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.rendering import templates
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 ALT = {"nb": "Et brett", "en": "A board"}
 KINDS = ("sort", "sequence", "match", "label", "highlight")
@@ -342,7 +355,7 @@ def test_highlight_takes_one_kind_of_text() -> None:
 
 
 def test_committed_card_items_answer_their_own_solution() -> None:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     found: dict[str, list[QuizItem]] = {}
     for s in bank.item_sets:
         for i in s.items:
@@ -353,7 +366,6 @@ def test_committed_card_items_answer_their_own_solution() -> None:
         assert len(questions) >= 3, kind
         for question in questions:
             activity = question.activity
-            assert not question.reviewed, question.id
             assert question.is_correct(activity.serialise(activity.solution()))
             assert not question.is_correct(activity.serialise(activity.initial()))
 

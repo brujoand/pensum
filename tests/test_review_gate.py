@@ -1,19 +1,18 @@
-"""Who is allowed to see content no human has read yet.
+"""Who is allowed to see content that is not approved on this instance.
 
-Pensum withholds unreviewed quiz items and unreviewed reading passages, because
-generation writes them unreviewed and a merge alone must never put an unread
-question in front of a child. An administrator is the exception: a draft has to
-be readable in place before anyone can judge whether it is fit.
+Pensum serves pupils approved content only, and approval is data on the
+instance, never a flag in a file (`pensum.review`). An administrator is the
+exception: a draft has to be readable in place, labelled, before anyone can
+judge whether it is fit.
 
 The assertions that matter here are the negative ones. Every other test in this
 suite fails loudly when something stops working; these fail loudly when
 something starts working for the wrong person.
 
-The draft is a fixture, deliberately, and not a passage from `data/reading/`.
-Reviewing content is the normal end of its life, so a gate test anchored to
-committed drafts breaks on the day someone does the reviewing -- which is the
-one day you least want a red suite and the least useful thing for it to be
-telling you.
+The draft is a fixture, deliberately, and not a passage from `data/reading/`,
+so the negative assertions do not depend on what happens to be committed. The
+committed content gets its own tests at the end: a fresh instance serves none of
+it, and approving it serves it.
 """
 
 from __future__ import annotations
@@ -21,6 +20,7 @@ from __future__ import annotations
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from review_helpers import approve_app
 
 from pensum.auth.cookies import LOGIN_COOKIE, CookieCodec
 from pensum.auth.models import User
@@ -55,7 +55,7 @@ WRITING_DRAFT_TITLE = "Bokstaver ingen har sett på ennå"
 
 
 def draft() -> ReadingSet:
-    """One checkpoint whose only passage is unreviewed.
+    """One checkpoint whose only passage is not approved.
 
     Only, because the sharpest form of the negative assertion is that the
     listing 404s outright: a pupil is not shown a thinned-out page, they are
@@ -77,14 +77,13 @@ def draft() -> ReadingSet:
                 ),
                 difficulty=1,
                 source="pensum",
-                reviewed=False,
             )
         ],
     )
 
 
 def writing_draft() -> WritingSet:
-    """The same shape again for handwriting: one checkpoint, one unreviewed
+    """The same shape again for handwriting: one checkpoint, one unapproved
     prompt, so the listing 404s outright rather than thinning out."""
     return WritingSet(
         subject=SUBJECT,
@@ -99,7 +98,6 @@ def writing_draft() -> WritingSet:
                 text="il",
                 difficulty=1,
                 source="pensum",
-                reviewed=False,
             )
         ],
     )
@@ -143,7 +141,7 @@ def sign_in(client: TestClient, user: User) -> None:
 # --- the negative cases ----------------------------------------------------
 
 
-def test_an_anonymous_pupil_sees_no_unreviewed_reading() -> None:
+def test_an_anonymous_pupil_sees_no_unapproved_reading() -> None:
     _, client = build()
 
     assert client.get(READING_PATH).status_code == 404
@@ -178,7 +176,7 @@ def test_a_draft_is_never_reachable_by_guessing_its_url() -> None:
     assert client.post(f"{READING_PATH}/{DRAFT_ID}/tid", data={"seconds": "30"}).status_code == 404
 
 
-def test_an_anonymous_pupil_sees_no_unreviewed_writing() -> None:
+def test_an_anonymous_pupil_sees_no_unapproved_writing() -> None:
     _, client = build()
 
     assert client.get(WRITING_PATH).status_code == 404
@@ -211,7 +209,7 @@ def test_an_administrator_sees_the_drafts_and_that_they_are_drafts() -> None:
     assert DRAFT_TITLE in listing.text
     # Marked, not silently mixed in: an unmarked draft would be judged as if it
     # had already passed review.
-    assert "Utkast" in listing.text
+    assert "Venter på godkjenning" in listing.text
 
 
 def test_an_administrator_can_read_a_draft_passage_through() -> None:
@@ -233,7 +231,7 @@ def test_an_administrator_sees_the_writing_drafts_and_that_they_are_drafts() -> 
 
     assert listing.status_code == 200
     assert WRITING_DRAFT_TITLE in listing.text
-    assert "Utkast" in listing.text
+    assert "Venter på godkjenning" in listing.text
 
 
 def test_the_subject_page_tells_an_administrator_why_it_looks_different() -> None:
@@ -246,42 +244,65 @@ def test_the_subject_page_tells_an_administrator_why_it_looks_different() -> Non
     assert "logget inn som administrator" in page.text
 
 
-# --- the deployment-wide switch still works --------------------------------
+# --- there is no deployment-wide switch -----------------------------------
 
 
-def test_the_env_switch_shows_drafts_to_everyone() -> None:
-    """What a maintainer reviewing locally uses. Deliberately not the same
-    mechanism as being an administrator, and emphatically not for the instance
-    children use."""
-    _, client = build(settings_with(include_unreviewed_items=True))
+def test_the_old_environment_switch_shows_nobody_anything(monkeypatch: pytest.MonkeyPatch) -> None:
+    """`PENSUM_INCLUDE_UNREVIEWED` is gone. Setting it must change nothing: an
+    instance shows pupils what its administrators approved, and nothing else."""
+    monkeypatch.setenv("PENSUM_INCLUDE_UNREVIEWED", "1")
+    _, client = build(Settings.from_env())
 
-    assert client.get(READING_PATH).status_code == 200
+    assert client.get(READING_PATH).status_code == 404
+
+
+# --- approved content, and the committed content ---------------------------
 
 
 @pytest.mark.parametrize("user", [None, PUPIL, ADMIN])
-def test_reviewed_content_is_visible_to_everyone(user: User | None) -> None:
-    """The gate only ever withholds drafts. Matematikk has reviewed items
-    committed, so every reader sees its quiz."""
-    _, client = build()
+def test_approved_content_is_visible_to_everyone(user: User | None) -> None:
+    """The gate only ever withholds what is not approved."""
+    app, client = build()
+    approve_app(app)
     if user is not None:
         sign_in(client, user)
 
     assert "Ta quizen" in client.get("/nb/klasse/2/MAT01-06").text
+    assert client.get(READING_PATH).status_code == 200
+    assert "Venter på godkjenning" not in client.get(READING_PATH).text
 
 
-def test_the_committed_passages_reach_a_pupil() -> None:
-    """The other half, against the real `data/reading/`.
-
-    Every test above runs on a fixture, which would keep passing if the whole
-    committed library were withheld. This one fails if it were: an anonymous
-    child asks for norsk after 2. trinn and gets a passage to read.
-    """
+def committed_app() -> tuple[FastAPI, TestClient]:
     app = create_app(
         Catalogue.load(), ItemBank.load(), settings=settings_with(), reading=ReadingLibrary.load()
     )
-    client = TestClient(app, base_url=ORIGIN)
+    return app, TestClient(app, base_url=ORIGIN)
+
+
+def test_a_fresh_instance_serves_a_pupil_none_of_the_committed_content() -> None:
+    """Start all pending: every question, passage and prompt in `data/` is
+    written, and none of it is approved on a new instance."""
+    _, client = committed_app()
+
+    subject = client.get("/nb/klasse/2/MAT01-06")
+    assert subject.status_code == 200
+    assert "Ta quizen" not in subject.text
+    assert "ingen av dem er godkjent" in subject.text
+    assert client.post("/nb/klasse/2/MAT01-06/quiz").status_code == 404
+    assert client.get("/nb/nivatest/MAT01-06").status_code == 404
+    assert client.get(READING_PATH).status_code == 404
+    assert "/nivatest/" not in client.get("/nb/").text
+
+
+def test_the_committed_passages_reach_a_pupil_once_approved() -> None:
+    """The other half, against the real `data/reading/`: approving through the
+    instance's own ledger is enough, and nothing else is needed."""
+    app, client = committed_app()
+    assert client.get(READING_PATH).status_code == 404
+
+    approve_app(app)
 
     listing = client.get(READING_PATH)
-
     assert listing.status_code == 200
-    assert "Utkast" not in listing.text
+    assert "Venter på godkjenning" not in listing.text
+    assert client.post("/nb/klasse/2/MAT01-06/quiz", follow_redirects=False).status_code == 303

@@ -37,12 +37,20 @@
               {% if missions %}
                 <ul class="missions-of-skill">
                   {% for mission in missions %}
+                    {% set mission_state = review_state("mission", mission.id) %}
                     <li>
-                      <a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ mission.title.get(locale) }}</a>
+                      {# Linked only where the page will open for whoever is
+                         reading: a pupil's mission page serves approved
+                         missions only. #}
+                      {% if mission_state == "approved" or drafts_visible %}
+                        <a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ mission.title.get(locale) }}</a>
+                      {% else %}
+                        {{ mission.title.get(locale) }}
+                      {% endif %}
                       <span class="missions-meta">
                         {{ t("missions.confirm_teacher_short") if mission.confirm == "teacher" else t("missions.confirm_self_short") }}
                         {% if mission.card %}· {{ t("missions.card_short", card=t("missions.card." ~ mission.card ~ ".title")) }}{% endif %}
-                        {% if not mission.reviewed %}· {{ t("progression.draft") }}{% endif %}
+                        {% with state = mission_state %}{% include "partials/review_badge.html" %}{% endwith %}
                       </span>
                     </li>
                   {% endfor %}

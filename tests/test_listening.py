@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app, approved
 
 from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
@@ -45,7 +46,18 @@ from pensum.listening.library import MIN_ROUND, ListeningLibrary
 from pensum.listening.marking import MAX_ANSWER, Answers, mark
 from pensum.reading.library import ReadingLibrary
 from pensum.reading.schema import ReadingText
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
 
 
 def lexicon(*words: str) -> Lexicon:
@@ -67,9 +79,7 @@ def pool_of(*words: str) -> Lexicon:
 @pytest.fixture(scope="module")
 def real() -> dict[str, Lexicon]:
     """Pensum's own vocabulary, as the app builds it."""
-    return build(
-        ItemBank.load(include_unreviewed=True), ReadingLibrary.load(include_unreviewed=True)
-    )
+    return build(ItemBank.load(), ReadingLibrary.load())
 
 
 # --- the confusion tables --------------------------------------------------
@@ -295,7 +305,6 @@ def text(body: str, language: str = "nb") -> ReadingText:
         body=body,
         difficulty=1,
         source="pensum",
-        reviewed=True,
     )
 
 
@@ -470,7 +479,7 @@ def test_more_answers_than_any_round_has_are_refused() -> None:
 
 @pytest.fixture(scope="module")
 def library() -> ListeningLibrary:
-    return ListeningLibrary.of(ItemBank.load(), ReadingLibrary.load())
+    return ListeningLibrary.of(ItemBank.load(), approved(ReadingLibrary.load()))
 
 
 def test_a_checkpoint_with_passages_has_an_exercise(library: ListeningLibrary) -> None:

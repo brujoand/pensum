@@ -22,8 +22,6 @@ prompts:
     text: iltj
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-runde
     goal: KM14147
@@ -33,8 +31,6 @@ prompts:
     text: oacd
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-buer
     goal: KM14147
@@ -44,8 +40,6 @@ prompts:
     text: nmrh
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-ned-og-opp
     goal: KM14147
@@ -55,8 +49,6 @@ prompts:
     text: uvwy
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-hale
     goal: KM14147
@@ -66,8 +58,6 @@ prompts:
     text: gpqb
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-skra
     goal: KM14147
@@ -77,8 +67,6 @@ prompts:
     text: kxzs
     difficulty: 3
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-sma-resten
     goal: KM14147
@@ -88,8 +76,6 @@ prompts:
     text: efæøå
     difficulty: 3
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   # --- store bokstaver ---
   - id: nor-kv1107-store-streker
@@ -100,8 +86,6 @@ prompts:
     text: ILTE
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-streker-og-skra
     goal: KM14144
@@ -111,8 +95,6 @@ prompts:
     text: FHKN
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-runde
     goal: KM14144
@@ -122,8 +104,6 @@ prompts:
     text: OCGQ
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-buer
     goal: KM14144
@@ -133,8 +113,6 @@ prompts:
     text: BDPR
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-skra
     goal: KM14144
@@ -144,8 +122,6 @@ prompts:
     text: AVWX
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-blandet
     goal: KM14144
@@ -155,8 +131,6 @@ prompts:
     text: MSUY
     difficulty: 3
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: nor-kv1107-store-resten
     goal: KM14144
@@ -166,5 +140,3 @@ prompts:
     text: ZJÆØÅ
     difficulty: 3
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'

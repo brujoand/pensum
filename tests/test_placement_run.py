@@ -41,7 +41,6 @@ def item(id_: str, goal: str, *, right: str = "a") -> QuizItem:
             Choice(id="b", text=text("b"), correct=right == "b"),
             Choice(id="c", text=text("c"), correct=right == "c"),
         ),
-        reviewed=True,
     )
 
 

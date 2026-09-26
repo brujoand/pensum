@@ -38,6 +38,9 @@ subject:
   source_link: Se målet hos Udir
   quiz_cta: Ta quizen
   quiz_unavailable: Quiz kommer snart for dette faget.
+  quiz_awaiting_review: >-
+    Det finnes spørsmål til dette trinnet, men ingen av dem er godkjent på
+    denne siden ennå. En administrator her må godkjenne dem før quizen vises.
   reading_cta: Les høyt
   writing_cta: Skriv bokstavene
   listening_cta: Hør og skriv
@@ -273,51 +276,106 @@ rights:
     finnes derfor ingen opptak å be om innsyn i eller sletting av.
 
 review:
-  # Vises bare for den som har lov til å se utkast. En elev får aldri servert et
-  # uleste spørsmål i det hele tatt.
-  draft: Utkast — ikke gjennomgått
+  # Vises bare for en administrator. En elev får aldri servert noe som ikke er
+  # godkjent her.
   draft_note: >-
-    Du ser også innhold ingen har lest gjennom ennå, fordi du er logget inn som
-    administrator. Elever ser bare det som er merket som gjennomgått.
+    Du ser også innhold som ikke er godkjent på denne siden, fordi du er logget
+    inn som administrator. Alt som er merket, ser elevene ikke. Elever ser bare
+    det en administrator har godkjent her.
 
   # Gjennomgangssiden. Her avgjøres det hva elever faktisk får se, så ordlyden
   # skal si hva knappen gjør, ikke hva den heter.
   link: Gjennomgang
   heading: Gjennomgang av innhold
   intro: >-
-    Spørsmål, lesetekster og skriveoppgaver, slik en elev ville møtt dem. Godkjenn
-    det denne skolen skal bruke, og avvis resten — både det som ikke holder mål,
-    og det som holder mål andre steder enn her.
+    Spørsmål, maler, lesetekster, skriveoppgaver, ferdigheter og oppdrag, slik en
+    elev ville møtt dem. Ingenting vises for elever før det er godkjent her.
+    Godkjenn det denne skolen skal bruke, og avvis resten — både det som ikke
+    holder mål, og det som holder mål andre steder enn her.
   database_note: >-
-    Valgene her gjelder denne installasjonen, og lagres i databasen her — ikke i
-    filene. De virker med en gang, uten ny utgivelse, og de følger ikke med til
-    andre skoler som kjører Pensum. Hva denne skolen viser, står altså her og
-    ikke i kodelageret.
-  counts: '{pending} venter · {published} publisert · {rejected} avvist'
+    Valgene her gjelder denne installasjonen og lagres i databasen her — ikke i
+    filene. De virker med en gang, og de følger ikke med til andre skoler som
+    kjører Pensum. Blir noe endret i filene etter at det ble godkjent, går det
+    tilbake til å vente, fordi det som ble godkjent ikke lenger er det som står
+    der.
+  counts: >-
+    {pending} venter · {changed} endret siden avgjørelsen · {approved} godkjent ·
+    {rejected} avvist
   filter_label: Filtrer
-  filter:
-    pending: Venter
-    published: Publisert
-    rejected: Avvist
-    all: Alt
+  filter_subject: Fag
+  filter_goal_set: Kompetansemålsett
+  filter_kind: Type
+  filter_state: Status
+  filter_apply: Vis
+  all: Alle
   kind:
-    all: Alle typer
     item: Spørsmål
+    template: Spørsmålsmal
     reading: Lesetekst
     writing: Skriveoppgave
+    skill: Ferdighet
+    mission: Oppdrag
   state:
-    pending: Venter på gjennomgang
-    published: Publisert
+    pending: Venter på godkjenning
+    approved: Godkjent
     rejected: Avvist
-  overridden: Overstyrer fila
+    changed: Endret siden avgjørelsen
   after_year: 'etter {year}. trinn'
   meta: '{id} · vanskegrad {difficulty}'
-  decided_by: 'avgjort av {name}'
+  meta_plain: '{id}'
+  decided: 'Avgjort av {name}, {day}'
+  note_label: Merknad (valgfritt)
+  note_shown: 'Merknad: {note}'
   answer: 'Riktig svar: {answer}'
+  accepted: 'Godtas også: {answers}'
+  explanation: 'Forklaring: {text}'
+  solution_heading: Løsning (vises bare her)
+  try_heading: Prøv selv
+  try_check: Sjekk svaret
+  try_right: Riktig.
+  try_wrong: 'Ikke riktig. Riktig svar er {answer}.'
+  try_back: Tilbake til gjennomgangen
+  template_note: >-
+    En mal lager {count} varianter av samme spørsmål. Den godkjennes eller
+    avvises som én, og en elev får én variant om gangen. Her er den første,
+    slik en elev møter den, og noen av de andre med svar.
+  template_examples: Flere varianter
+  skill_teacher: 'For læreren: {text}'
+  skill_stages: 'Trinn i framstillingen: {stages}'
+  skill_refs: 'Kompetansemål: {refs}'
+  skill_off_screen: Øves utenfor skjermen, aldri i en quiz.
+  skill_sensitive: Følsomt tema — aldri en belønning, aldri i klasseoversikten.
+  mission_confirm_teacher: Læreren bekrefter at det er gjort.
+  mission_confirm_self: Eleven krysser av selv.
   approve: Godkjenn
   reject: Avvis
   clear: Fjern avgjørelsen
   nothing_here: Ingenting her.
+  page: 'Side {page} av {pages}'
+  previous: Forrige side
+  next: Neste side
+  changed_since: >-
+    Dette er endret siden du åpnet siden, så ingenting ble lagret. Se på det
+    igjen før du avgjør.
+
+  # Samlet godkjenning. Hver installasjon starter med flere hundre ting som
+  # venter, så dette må gå an -- men bare etter at tallet er sagt høyt.
+  bulk_heading: Alt som vises nå
+  bulk_intro: >-
+    Avgjør alle {count} i utvalget over på én gang. Du får se tallet og
+    bekrefte før noe lagres.
+  bulk_approve: Godkjenn alle i utvalget
+  bulk_reject: Avvis alle i utvalget
+  bulk_confirm_heading: Bekreft
+  bulk_confirm_approve: 'Godkjenne {count} ting? De blir synlige for elever med en gang.'
+  bulk_confirm_reject: 'Avvise {count} ting? Elever får ikke se dem.'
+  bulk_confirm_yes: Ja, gjør det
+  bulk_cancel: Avbryt
+  bulk_changed: >-
+    Utvalget er endret siden du åpnet det, så ingenting ble lagret. Her er det
+    slik det er nå.
+  bulk_done: '{count} avgjørelser lagret.'
+  bulk_empty: Utvalget er tomt, så det er ingenting å avgjøre.
 
 auth:
   # Innlogging er valgfritt. Teksten skal aldri antyde at man må logge inn for
@@ -325,6 +383,7 @@ auth:
   account: Konto
   sign_in: Logg inn
   sign_out: Logg ut
+  local_sign_in: Logg inn som lokal administrator
   signed_in_as: "Logget inn som {name}"
   failed: >-
     Innloggingen gikk ikke gjennom. Du kan fortsatt ta alle quizene uten å
@@ -518,14 +577,14 @@ progression:
     Ferdighetene er Pensums egen lesing av læreplanen, ikke Utdanningsdirektoratets
     tekst. Det er kompetansemålene, sitert ordrett under hver ferdighet, som gjelder.
   drafts_note: >-
-    {count} av {total} ferdigheter er utkast som ingen har lest gjennom ennå. De
-    vises likevel, fordi ingenting elever ser bygger på dem foreløpig.
+    {count} av {total} ferdigheter er ikke godkjent på denne siden ennå. De
+    vises her likevel, merket, fordi dette er lærerens oversikt. Elevenes kart
+    viser bare de godkjente.
   grid_label: Ferdigheter per tråd og sjekkpunkt
   strand: Tråd
   checkpoint: "Etter {year}. trinn"
   pupil_label: For eleven
   teacher_label: Slik ser læreren det
-  draft: Utkast — ikke gjennomgått
   off_screen: Øves utenfor skjermen
   cta: Se progresjonen i faget
   cta_note: Alle trinn på én side, for lærere. Kan skrives ut.
@@ -961,7 +1020,8 @@ missions:
     Oppdragene er Pensums egne forslag, ikke Utdanningsdirektoratets tekst.
     Hvert av dem hører til en ferdighet i progresjonsoversikten.
   drafts_note: >-
-    {count} av {total} oppdrag er utkast som ingen har lest gjennom ennå.
+    {count} av {total} oppdrag er ikke godkjent på denne siden ennå. De vises her,
+    merket, men oppdragssiden en elev får åpner bare for godkjente oppdrag.
   nothing_kept: >-
     Ingenting lastes opp eller lagres: ingen bilder, ingen opptak, ingen notat
     om hva en elev sa. Et avkrysset steg blir bare i elevens egen nettleser.
@@ -1107,6 +1167,9 @@ mastery:
     not_stored: >-
       Denne Pensum-siden lagrer ingenting om deg, så det er ikke noe kart som kan
       vokse her. Du kan fortsatt ta alle quizene.
+    nothing_approved: >-
+      Ingen ferdigheter i dette faget er godkjent på denne siden ennå, så det er
+      ikke noe kart å vise. Du kan fortsatt ta quizene som finnes.
     sign_in_note: >-
       Kartet ditt vokser bare når du er logget inn, fordi det må lagres et sted.
       Du trenger ikke logge inn for å ta en quiz.
@@ -1121,8 +1184,8 @@ mastery:
       finnes data fra klasserom. Les cellene som et hint om hvem du bør se på,
       ikke som en vurdering.
     not_stored: >-
-      Denne Pensum-siden har ingen database, så ingen svar blir lagret og det er
-      ingen oversikt å vise.
+      Denne Pensum-siden har ingen innlogging, så ingen elevsvar blir lagret og det
+      er ingen oversikt å vise.
     strands_label: Velg tråd
     grid_label: Elever og ferdigheter
     concrete_only: Bare med ting ennå

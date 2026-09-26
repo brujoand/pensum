@@ -30,7 +30,6 @@ def skill(stages: tuple[str, ...] = ("concrete", "pictorial", "abstract")) -> Sk
             "teacher": {"nob": "Bytter.", "eng": "Swaps."},
             "stages": list(stages),
             "assessable": True,
-            "reviewed": False,
         }
     )
 

@@ -82,10 +82,10 @@ def test_i_can_is_short_and_bilingual(code: str) -> None:
 
 
 @pytest.mark.parametrize("code", SUBJECTS)
-def test_stages_ordered_and_unreviewed(code: str) -> None:
+def test_stages_ordered_and_no_review_flag(code: str) -> None:
     order = ["concrete", "pictorial", "abstract"]
     doc, _ = _load(code)
     for skill in doc["skills"]:
         stages = skill["stages"]
         assert stages and stages == sorted(set(stages), key=order.index), skill["id"]
-        assert skill["reviewed"] is False, skill["id"]
+        assert "reviewed" not in skill, skill["id"]

@@ -34,7 +34,6 @@ def _skill(skill_id: str, *, assessable: bool) -> dict[str, Any]:
         "teacher": {"nob": "Teller.", "eng": "Counts."},
         "stages": ["concrete"],
         "assessable": assessable,
-        "reviewed": False,
     }
 
 
@@ -66,7 +65,6 @@ def _mission(mission_id: str = "mat.count-shoes", **overrides: Any) -> dict[str,
             {"nob": "Skriv tallet.", "eng": "Write the number."},
         ],
         "confirm": "self",
-        "reviewed": False,
     }
     mission.update(overrides)
     return mission

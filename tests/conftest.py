@@ -7,8 +7,12 @@ build -- while also being slow and non-deterministic for everyone.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import httpx
 import pytest
+
+import pensum.config
 
 
 @pytest.fixture(autouse=True)
@@ -26,3 +30,29 @@ def no_outbound_http(monkeypatch: pytest.MonkeyPatch) -> None:
 
     monkeypatch.setattr(httpx.HTTPTransport, "handle_request", refuse)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", refuse)
+
+
+@pytest.fixture(scope="module", autouse=True)
+def module_default_database(tmp_path_factory: pytest.TempPathFactory):
+    """The same redirect for a module-scoped app, which is built before any
+    function-scoped fixture runs. Per module, so one module's approvals are
+    never served in the next."""
+    path = tmp_path_factory.mktemp("module-default") / "pensum.db"
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(pensum.config, "DEFAULT_DATABASE_PATH", path)
+        yield path
+
+
+@pytest.fixture(autouse=True)
+def default_database_in_tmp(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
+    """Point the default database at this test's own directory.
+
+    There is always a database (`pensum.config`), and an app built without a
+    `database_path` uses the default one -- which in a checkout is a file under
+    `data/instance/`. Without this every such test would share that file, and a
+    decision one test recorded would be served in the next -- and the suite
+    would write into the checkout.
+    """
+    path = tmp_path / "default" / "pensum.db"
+    monkeypatch.setattr(pensum.config, "DEFAULT_DATABASE_PATH", path)
+    return path

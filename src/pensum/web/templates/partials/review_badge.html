@@ -1,0 +1,7 @@
+{# Where one piece of content stands on this instance, when that is anything but
+   approved. Include with `state` set (from `review_state(kind, id)`). Nothing
+   is rendered for approved content: the label marks what a pupil would NOT be
+   shown, which is the thing a reader must not mistake for live. #}
+{% if state and state != "approved" %}
+  <span class="badge badge--draft badge--{{ state }}">{{ t("review.state." ~ state) }}</span>
+{% endif %}

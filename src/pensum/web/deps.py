@@ -8,11 +8,13 @@ from __future__ import annotations
 
 from fastapi import HTTPException, Request
 
-from pensum.auth.cookies import CookieCodec, read_user
+from pensum.auth import local
+from pensum.auth.cookies import CookieCodec, read_local, read_user
 from pensum.auth.models import User
 from pensum.auth.oidc import OidcClient
 from pensum.config import Settings
-from pensum.review.store import ReviewLedger, ReviewStore
+from pensum.missions.loader import MissionLibrary
+from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
 
@@ -38,12 +40,12 @@ def get_evidence(request: Request) -> EvidenceStore | None:
     return request.app.state.evidence
 
 
-def get_review_store(request: Request) -> ReviewStore | None:
-    """Where review decisions are written. None when there is no database."""
+def get_review_store(request: Request) -> ReviewStore:
+    """Where review decisions are written. There is always a database."""
     return request.app.state.review_store
 
 
-def get_reviews(request: Request) -> ReviewLedger | None:
+def get_reviews(request: Request) -> ReviewLedger:
     """The decisions the content libraries are already consulting.
 
     The same object they hold, not a copy: reloading it after a write is what
@@ -53,11 +55,62 @@ def get_reviews(request: Request) -> ReviewLedger | None:
     return request.app.state.reviews
 
 
+def get_missions(request: Request) -> MissionLibrary:
+    """The missions, loaded on first use and kept on the app.
+
+    Loaded here rather than in the app's lifespan so that a test can put its
+    own library on `app.state.missions` before the first request. Whichever it
+    is, it answers to this instance's review decisions.
+    """
+    missions = getattr(request.app.state, "missions", None)
+    if missions is None:
+        missions = MissionLibrary.load()
+        request.app.state.missions = missions
+    if not missions.has_ledger:
+        missions.with_ledger(get_reviews(request))
+    return missions
+
+
+def review_state(request: Request, kind: Kind, content_id: str) -> State:
+    """Where one piece of content stands on this instance, whatever its kind.
+
+    For the templates, which label everything an administrator is shown that a
+    pupil would not be. Each library answers for its own kind; this only picks
+    the library.
+    """
+    state = request.app.state
+    if kind == "item":
+        return state.items.review_state(content_id)
+    if kind == "reading":
+        return state.reading.review_state(content_id)
+    if kind == "writing":
+        return state.writing.review_state(content_id)
+    if kind == "skill":
+        return state.skills.review_state(content_id)
+    return get_missions(request).review_state(content_id)
+
+
 def current_user(request: Request) -> User | None:
-    """The signed-in user, or None -- which is an ordinary state, not an error."""
-    if not get_settings(request).auth_enabled:
-        return None
-    return read_user(request, get_codec(request))
+    """The signed-in user, or None -- which is an ordinary state, not an error.
+
+    Two ways to be signed in, never both on one instance: a provider login when
+    OIDC is configured, or a local administrator session when it is not and
+    `pensum.auth.local` lets this request have one. The local check runs on
+    every request, not only at sign-in, so a session cookie outlives none of
+    the conditions it was granted under.
+    """
+    settings = get_settings(request)
+    if settings.auth_enabled:
+        return read_user(request, get_codec(request))
+    if read_local(request, get_codec(request)) and local.allowed(settings, request):
+        return local.local_user(settings)
+    return None
+
+
+def admin_possible(request: Request) -> bool:
+    """Whether this instance has any way for anybody to be an administrator."""
+    settings = get_settings(request)
+    return settings.auth_enabled or settings.local_admin_enabled
 
 
 def require_admin(request: Request) -> User:
@@ -68,9 +121,13 @@ def require_admin(request: Request) -> User:
     in pocket-id takes effect when their session expires, not instantly -- which
     is the cost of not calling the provider on every page load, and is stated
     here rather than discovered later.
+
+    With no provider, the only administrator there can be is a local one, and
+    only where `pensum.auth.local` allows it. Anywhere else these pages do not
+    exist.
     """
     settings = get_settings(request)
-    if not settings.auth_enabled:
+    if not admin_possible(request):
         raise HTTPException(status_code=404, detail="sign-in is not configured")
 
     user = current_user(request)
@@ -89,24 +146,18 @@ def is_admin(request: Request) -> bool:
 
 
 def sees_unreviewed(request: Request) -> bool:
-    """Whether this request may be shown content no human has read yet.
+    """Whether this request may be shown content that is not approved here.
 
-    Two ways to qualify, and they are different in kind. The deployment-wide
-    `PENSUM_INCLUDE_UNREVIEWED` says "this instance is for reviewing drafts" --
-    it is for a maintainer running the app locally, and the manifest comments
-    are emphatic that it must never be set on the instance children use.
+    Only an administrator, and only per request: content has to be met in
+    place -- in its own quiz, reading page or tracing page -- before anyone can
+    decide whether it is fit, and signing in is the only way to establish who
+    is asking. Everything such a reader sees that a pupil would not is labelled
+    with its state.
 
-    Being an administrator is the per-request one: a draft has to be readable in
-    place before anyone can decide whether it is fit to mark reviewed, and
-    signing in is the only way to establish who is asking.
-
-    Note what this depends on. `current_user` is None whenever sign-in is not
-    configured, so an instance that authenticates at a proxy and forwards no
-    identity has no administrators as far as Pensum is concerned, and this
-    returns False for everyone. That is the correct failure direction, but it
-    does mean the feature is inert until Pensum has its own OIDC client.
+    There is no deployment-wide switch. An instance shows pupils what its
+    administrators approved, and nothing else, whatever its environment says.
     """
-    return get_settings(request).include_unreviewed_items or is_admin(request)
+    return is_admin(request)
 
 
 def base_url(request: Request) -> str:

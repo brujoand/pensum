@@ -26,6 +26,7 @@ from pensum.items.figures import Figure
 from pensum.items.primitives import PRIMITIVES, Activity, primitive_for
 from pensum.items.primitives.base import Stage
 from pensum.items.text import BOKMAAL, ENGLISH, AuthoredText
+from pensum.review.content import reject_review_keys
 
 # Re-exported: `AuthoredText` reads as part of the item schema even though it
 # lives next door so that figures can use it without an import cycle.
@@ -131,10 +132,11 @@ class QuizItem(BaseModel):
     tolerance: float = 0.0
     accept: dict[str, tuple[str, ...]] = Field(default_factory=dict)
 
-    # The released build serves only reviewed items. Generation sets this false;
-    # a human sets it true.
-    reviewed: bool = False
-    reviewed_by: str | None = None
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
     @model_validator(mode="before")
     @classmethod

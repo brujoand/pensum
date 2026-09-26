@@ -195,8 +195,9 @@ Four things to get right:
 - **Norwegian inflection is yours to handle.** `{sheep} sauer` reads wrong when
   `sheep` is 1, and nothing detects it. Exclude 1 in `require`.
 
-Numeric only, for now. A template also cannot be approved from the review page
-yet, so a template is reviewed in the pull request that adds it.
+Numeric only, for now. A template is approved on an instance's review page as
+one piece of content: the reviewer sees one variant live and a sample of the
+others with their answers.
 
 Every `explanation` should teach. A pupil who got it wrong should understand
 why, not just be told they were.
@@ -237,7 +238,6 @@ items:
     explanation:
       nb: 10 kan deles i to like grupper på 5. Da er det et partall.
       en: 10 splits into two equal groups of 5, which makes it even.
-    reviewed: false
 
 not_assessable:
   - goal: KM13229
@@ -247,14 +247,15 @@ not_assessable:
       up, not knowledge a question can check.
 ```
 
-### `reviewed: false`, always
+### No review flag, ever
 
-You are generating, not publishing. The released build serves only reviewed
-items, and a human flips that flag after reading. **Never write
-`reviewed: true`** — that flag is the only thing standing between a draft
-question and a child, and setting it yourself would defeat the safeguard rather
-than satisfy it. The hand-written reference set is the sole exception, and it
-was written by a person.
+You are generating, not publishing. **There is no `reviewed:` key** — the
+validator rejects one. Whether a question is shown to pupils is live data on
+each running instance: an administrator approves it on that instance's review
+page (`/<locale>/admin/gjennomgang`), and the decision is stored in the
+instance's database with a fingerprint of the question. Nothing you write in a
+file can publish anything, and editing an approved question sends it back for
+review on every instance.
 
 ### YAML traps
 
@@ -290,11 +291,16 @@ The validator checks the schema, that every `goal` code exists in that goal set,
 that ids are unique, and that no goal is unaccounted for. Fix what it reports;
 do not work around it.
 
-To see your items in the running app before they are reviewed:
+To see your items in the running app, sign in as the local administrator (the
+header offers it) and open the review page, or the quiz itself, where anything
+not yet approved is labelled:
 
 ```bash
-PENSUM_INCLUDE_UNREVIEWED=1 bin/run_local --native
+PENSUM_LOCAL_ADMIN=1 bin/run_local --native
 ```
+
+Loopback only, never with an OIDC provider configured; see the README's
+"Administering without an identity provider".
 
 ## Report back
 

@@ -19,7 +19,16 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
+
+from pensum.review.content import reject_review_keys
 
 KEBAB = r"^[a-z0-9]+(-[a-z0-9]+)*$"
 # `<subject prefix>.<strand id>.<slug>`. That the middle part really is this
@@ -86,14 +95,18 @@ class Skill(BaseModel):
     misconceptions: tuple[Kebab, ...] = ()
     # False: practised off screen, as a mission, and never quizzed.
     assessable: bool
-    # Always false when authored. A human who has read it sets it true.
-    reviewed: bool
     # Taught, and therefore in the progression guide, but never a reward and
     # never a cell on the class grid: puberty, abuse, genocide. A teacher does
     # not need to see which pupil got the puberty question wrong, and a pupil
     # should not earn a plant for it. No evidence is recorded against it either;
     # see `pensum.mastery.attribution`. The subject design files say which.
     sensitive: bool = False
+
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
     @field_validator("stages")
     @classmethod

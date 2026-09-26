@@ -33,8 +33,6 @@ items:
         0,5 har 5 tideler, 0,45 har 4 og 0,289 har 2. Derfor er 0,5 størst.
       en: The number of decimals says nothing about size. Look at the tenths
         first. 0.5 has 5 tenths, 0.45 has 4 and 0.289 has 2, so 0.5 is largest.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13275-02
     goal: KM13275
@@ -51,8 +49,6 @@ items:
         hundredeler, så tallet i midten er 3,45.
       en: There is one tenth between 3.4 and 3.5. Half a tenth is five
         hundredths, so the number in the middle is 3.45.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13276-01
     goal: KM13276
@@ -67,8 +63,6 @@ items:
         pluss 75 hundredeler blir 125 hundredeler, altså 1,25. Til sammen 4,25.
       en: Write 2.5 as 2.50 so the decimals line up. 50 hundredths plus 75
         hundredths is 125 hundredths, or 1.25. Altogether that is 4.25.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13276-02
     goal: KM13276
@@ -96,8 +90,6 @@ items:
         enn 48, altså 4,8. Regnestykket er det samme som for hele tall.
       en: 1.2 is ten times smaller than 12, so the answer is ten times smaller
         than 48, which is 4.8. The calculation works just like whole numbers.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13277-01
     goal: KM13277
@@ -114,8 +106,6 @@ items:
         5, altså 5 elever.
       en: 20 percent is the same as one fifth. One fifth of 25 is 25 divided by
         5, which is 5 pupils.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13277-02
     goal: KM13277
@@ -132,8 +122,6 @@ items:
         altså 1 liter. Du kan også tenke at to tredeler er igjen.
       en: One third of 1.5 litres is 0.5 litres, so 1.5 minus 0.5 is left, which
         is 1 litre. You can also think of it as two thirds remaining.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13278-01
     goal: KM13278
@@ -161,8 +149,6 @@ items:
         kvadratet i tillegg har fire like lange sider.
       en: Both shapes have four right angles. What sets them apart is that the
         square also has four sides of equal length.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13278-02
     goal: KM13278
@@ -192,8 +178,6 @@ items:
         sylinder har buede flater, og en pyramide har trekanter på sidene.
       en: The cube is the only one of these with six square faces. A cylinder
         has curved surfaces, and a pyramid has triangles on its sides.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13283-01
     goal: KM13283
@@ -208,8 +192,6 @@ items:
         diagonalene. Det blir fire symmetrilinjer.
       en: You can fold a square in half vertically and horizontally, and along
         both diagonals. That makes four lines of symmetry.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13283-02
     goal: KM13283
@@ -237,8 +219,6 @@ items:
         oppå hverandre. Det gjør de ikke for F og R.
       en: Fold an A along a vertical line down the middle and the two halves
         match. That does not happen with F or R.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13284-01
     goal: KM13284
@@ -268,8 +248,6 @@ items:
         Andrekoordinaten viser hvor langt opp, så 3 pluss 1 blir 4.
       en: The first coordinate tells you how far right, so 2 plus 4 is 6. The
         second tells you how far up, so 3 plus 1 is 4.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13279-01
     goal: KM13279
@@ -284,8 +262,6 @@ items:
         ut. Radien er alltid halvparten av diameteren, altså 5 cm.
       en: The diameter crosses the whole circle, while the radius goes from the
         centre to the edge. The radius is always half the diameter, so 5 cm.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13279-02
     goal: KM13279
@@ -303,8 +279,6 @@ items:
         merke til at omkretsen er litt mer enn tre ganger diameteren.
       en: The circumference is always pi times the diameter. 3.14 × 4 is
         12.56 cm. Notice it is a little more than three times the diameter.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13280-01
     goal: KM13280
@@ -332,8 +306,6 @@ items:
         kvadratmeter måler areal, ikke volum.
       en: A bathtub holds a few hundred litres. Millilitres are far too small,
         and square metres measure area, not volume.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13280-02
     goal: KM13280
@@ -350,8 +322,6 @@ items:
         er 30 kubikkcentimeter.
       en: Volume is length times width times height. 5 × 3 is 15, and 15 × 2 is
         30 cubic centimetres.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13285-01
     goal: KM13285
@@ -370,8 +340,6 @@ items:
         84. Det er det samme som 12 · 7, for oppdelingen endrer ikke arealet.
       en: One part is 10 × 7 = 70, the other is 2 × 7 = 14, giving 84 in total.
         That equals 12 × 7, because splitting it up does not change the area.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13281-01
     goal: KM13281
@@ -388,8 +356,6 @@ items:
         to på 3 m, altså 16 pluss 6, som blir 22 m.
       en: The perimeter is all four sides added together. Two sides are 8 m and
         two are 3 m, so 16 plus 6 makes 22 m.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13281-02
     goal: KM13281
@@ -405,8 +371,6 @@ items:
         5 cm. Arealet er 5 · 5, som blir 25 kvadratcentimeter.
       en: A square has four equal sides, so each side is 20 divided by 4, which
         is 5 cm. The area is 5 × 5, or 25 square centimetres.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

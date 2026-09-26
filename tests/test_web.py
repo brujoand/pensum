@@ -11,10 +11,23 @@ import re
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import UI_LOCALES, catalog
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 QUIZZABLE = ["MAT01-06", "NOR01-08", "ENG01-06", "NAT01-05", "SAF01-05", "RLE01-04"]
 

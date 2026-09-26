@@ -1,7 +1,8 @@
 ---
 # Missions for naturfag: the goals a screen does not check, practised off
 # screen. One skill each, and only skills marked `assessable: false` in
-# data/skills/NAT01-05.yaml. Drafts until a human sets `reviewed: true`.
+# data/skills/NAT01-05.yaml.
+# Live only where an administrator approves it, on that instance's review page.
 subject: NAT01-05
 missions:
   # --- etter 2. trinn --------------------------------------------------------
@@ -13,7 +14,6 @@ missions:
       - {nob: "Let etter levende ting inne i ruta.", eng: "Look for living things inside the square."}
       - {nob: "Tegn tre ulike ting du fant, slik de ser ut.", eng: "Draw three different things you found, the way they look."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.weather-week
     skill: nat.earth-space.weather-log
@@ -23,7 +23,6 @@ missions:
       - {nob: "Tegn været i værtabellen samme dag.", eng: "Draw the weather in the weather table on the same day."}
       - {nob: "Si hvilken dag som var annerledes, og hvorfor du tror det.", eng: "Say which day was different, and why you think so."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.senses-test
     skill: nat.body-health.senses-test
@@ -34,7 +33,6 @@ missions:
       - {nob: "Kryss av på sjekklista om du gjettet riktig.", eng: "Tick on the checklist whether you guessed right."}
       - {nob: "Bytt roller.", eng: "Swap roles."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.sort-class-rubbish
     skill: nat.sustainability.sort-rubbish
@@ -44,7 +42,6 @@ missions:
       - {nob: "Sorter alt søppel i klassen i én dag.", eng: "Sort all the class rubbish for one day."}
       - {nob: "Tell hvor mye som havnet i hver dunk.", eng: "Count how much ended up in each bin."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 4. trinn --------------------------------------------------------
   - id: nat.build-two-rules
@@ -55,7 +52,6 @@ missions:
       - {nob: "Bygg med det som er i byggesettet.", eng: "Build with what is in the kit."}
       - {nob: "Test om det du bygde, følger begge reglene.", eng: "Test whether what you built follows both rules."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.leave-it-as-you-found-it
     skill: nat.sustainability.explore-nature-area
@@ -65,7 +61,6 @@ missions:
       - {nob: "Se under steiner og blader, og legg dem tilbake.", eng: "Look under stones and leaves, and put them back."}
       - {nob: "Ta ingen planter eller dyr med deg.", eng: "Take no plants or animals with you."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.harvest-what-you-need
     skill: nat.sustainability.harvest-resources
@@ -75,7 +70,6 @@ missions:
       - {nob: "Bestem på forhånd hvor mye dere trenger.", eng: "Decide beforehand how much you need."}
       - {nob: "Si hva som blir igjen til dyr og til neste år.", eng: "Say what is left for animals and for next year."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 7. trinn --------------------------------------------------------
   - id: nat.sensor-controls-a-part
@@ -86,7 +80,6 @@ missions:
       - {nob: "Programmer det slik at en sensor styrer en annen del.", eng: "Program it so that a sensor controls another part."}
       - {nob: "Forklar hva hver del i systemet gjør.", eng: "Explain what each part of the system does."}
     confirm: teacher
-    reviewed: false
 
   - id: nat.design-for-a-user
     skill: nat.technology.design-for-a-user
@@ -97,7 +90,6 @@ missions:
       - {nob: "Bygg produktet.", eng: "Build the product."}
       - {nob: "La brukeren teste det, og si om det dekker behovet.", eng: "Let the user test it, and say whether it meets the need."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 10. trinn -------------------------------------------------------
   - id: nat.risk-card-first
@@ -109,7 +101,6 @@ missions:
       - {nob: "Gjør forsøket med tiltakene du skrev.", eng: "Do the experiment with the measures you wrote."}
     confirm: teacher
     card: risk
-    reviewed: false
 
   - id: nat.send-and-receive
     skill: nat.technology.build-transmitter-receiver
@@ -119,4 +110,3 @@ missions:
       - {nob: "Programmer en annen enhet til å ta imot og vise den.", eng: "Program another device to receive it and show it."}
       - {nob: "Test at beskjeden kommer fram, og forklar hvordan.", eng: "Test that the message arrives, and explain how."}
     confirm: teacher
-    reviewed: false

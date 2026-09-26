@@ -19,6 +19,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
@@ -26,8 +27,20 @@ from pensum.items.loader import ItemBank
 from pensum.items.primitives import PRIMITIVES, primitive_for, scripts
 from pensum.items.primitives.dialogue import MAX_PICKS, outcome_token
 from pensum.items.schema import QuizItem
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.rendering import templates
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 ALT = {"nb": "Et brett", "en": "A board"}
 STATIC = Path(__file__).parents[1] / "src" / "pensum" / "web" / "static"
@@ -481,7 +494,7 @@ def test_without_a_script_the_dialogue_is_its_first_turn() -> None:
 
 
 def _committed(kind: str) -> list[QuizItem]:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     return [i for s in bank.item_sets for i in s.items if i.type == kind]
 
 
@@ -676,8 +689,8 @@ def test_a_typed_word_is_drawn_in_the_frame_when_the_tiles_can_build_it() -> Non
 # --- committed items -------------------------------------------------------------
 
 
-def test_committed_language_items_are_drafts_that_answer_their_own_solution() -> None:
-    bank = ItemBank.load(include_unreviewed=True)
+def test_committed_language_items_answer_their_own_solution() -> None:
+    bank = ItemBank.load()
     found: dict[str, list[QuizItem]] = {}
     for item_set in bank.item_sets:
         for question in item_set.items:
@@ -687,7 +700,6 @@ def test_committed_language_items_are_drafts_that_answer_their_own_solution() ->
     for kind, questions in found.items():
         assert len(questions) >= 3, kind
         for question in questions:
-            assert not question.reviewed, question.id
             activity = question.activity
             assert question.is_correct(activity.serialise(activity.solution())), question.id
             assert not question.is_correct(activity.serialise(activity.initial())), question.id

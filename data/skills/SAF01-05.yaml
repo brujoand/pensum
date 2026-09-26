@@ -33,7 +33,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sources.find-out-from-picture-map
     strand: sources
@@ -49,7 +48,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.geography.read-local-map
     strand: geography
@@ -65,7 +63,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [north-is-uphill]
     assessable: true
-    reviewed: false
 
   - id: saf.history.local-heritage
     strand: history
@@ -81,7 +78,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.history.local-landscape
     strand: history
@@ -97,7 +93,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.history.grandparents-time
     strand: history
@@ -113,7 +108,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [old-is-one-period]
     assessable: true
-    reviewed: false
 
   - id: saf.history.interview-older-adult
     strand: history
@@ -129,7 +123,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.identity.different-opinions
     strand: identity
@@ -145,7 +138,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.friendship
     strand: identity
@@ -161,7 +153,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.families-and-communities
     strand: identity
@@ -177,7 +168,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.sami-indigenous
     strand: identity
@@ -193,7 +183,6 @@ skills:
     stages: [pictorial]
     misconceptions: [all-sami-herd-reindeer]
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.local-human-impact
     strand: sustainability
@@ -209,7 +198,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.document-impact
     strand: sustainability
@@ -225,7 +213,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.sustainability.connected-world
     strand: sustainability
@@ -241,7 +228,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.childrens-rights
     strand: rights
@@ -257,7 +243,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [rights-are-wishes]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.when-rights-broken
     strand: rights
@@ -273,7 +258,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.how-children-influence
     strand: rights
@@ -289,7 +273,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.class-decision
     strand: rights
@@ -305,7 +288,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.digital.digital-contact
     strand: digital
@@ -321,7 +303,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.digital.name-feelings
     strand: digital
@@ -337,7 +318,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   - id: saf.digital.body-and-boundaries
@@ -354,7 +334,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # ---------------------------------------------------------------- etter 4.
@@ -372,7 +351,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [source-judged-by-agreement]
     assessable: true
-    reviewed: false
 
   - id: saf.history.heritage-then-and-now
     strand: history
@@ -388,7 +366,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [old-is-one-period]
     assessable: true
-    reviewed: false
 
   - id: saf.history.visit-heritage
     strand: history
@@ -404,7 +381,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.geography.norwegian-landscapes
     strand: geography
@@ -420,7 +396,6 @@ skills:
     stages: [pictorial]
     misconceptions: [north-is-uphill]
     assessable: true
-    reviewed: false
 
   - id: saf.identity.why-conflicts
     strand: identity
@@ -436,7 +411,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.solve-conflict
     strand: identity
@@ -452,7 +426,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.identity.outside-community
     strand: identity
@@ -468,7 +441,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.sami-indigenous-status
     strand: identity
@@ -484,7 +456,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.sami-life
     strand: identity
@@ -500,7 +471,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [all-sami-herd-reindeer]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.human-rights
     strand: rights
@@ -516,7 +486,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [rights-are-earned]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.what-democracy-is
     strand: rights
@@ -532,7 +501,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [democracy-is-only-voting]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.propose-change
     strand: rights
@@ -548,7 +516,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.rights.public-institutions
     strand: rights
@@ -564,7 +531,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.sustainability-examples
     strand: sustainability
@@ -580,7 +546,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.money-and-spending
     strand: sustainability
@@ -596,7 +561,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [card-money-is-unlimited]
     assessable: true
-    reviewed: false
 
   - id: saf.digital.privacy-rules
     strand: digital
@@ -612,7 +576,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.digital.abuse-and-help
     strand: digital
@@ -628,7 +591,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # ---------------------------------------------------------------- etter 7.
@@ -646,7 +608,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.sources.fact-opinion-advert
     strand: sources
@@ -662,7 +623,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [printed-means-true]
     assessable: true
-    reviewed: false
 
   - id: saf.sources.compare-two-sources
     strand: sources
@@ -678,7 +638,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [source-judged-by-agreement]
     assessable: true
-    reviewed: false
 
   - id: saf.history.livelihoods-and-settlement
     strand: history
@@ -694,7 +653,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.history.encounters-change-thinking
     strand: history
@@ -710,7 +668,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.geography.world-regions
     strand: geography
@@ -726,7 +683,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.dealing-with-conflict
     strand: identity
@@ -742,7 +698,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.mediate-conflict
     strand: identity
@@ -758,7 +713,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.identity.diversity-in-norway
     strand: identity
@@ -774,7 +728,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.counter-prejudice
     strand: identity
@@ -790,7 +743,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.sami-minority-history
     strand: identity
@@ -806,7 +758,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.minority-rights-today
     strand: identity
@@ -822,7 +773,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.compare-rights
     strand: rights
@@ -838,7 +788,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.road-to-democracy
     strand: rights
@@ -854,7 +803,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [old-is-one-period]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.forms-of-government
     strand: rights
@@ -870,7 +818,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [democracy-is-only-voting]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.laws-and-norms
     strand: rights
@@ -886,7 +833,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.advertising-and-self-image
     strand: sustainability
@@ -902,7 +848,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.global-challenge
     strand: sustainability
@@ -918,7 +863,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.digital.online-judgement
     strand: digital
@@ -934,7 +878,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.digital.respect-boundaries
     strand: digital
@@ -950,7 +893,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   # --------------------------------------------------------------- etter 10.
@@ -968,7 +910,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: saf.sources.judge-validity
     strand: sources
@@ -984,7 +925,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sources.algorithms-and-bias
     strand: sources
@@ -1000,7 +940,6 @@ skills:
     stages: [abstract]
     misconceptions: [source-judged-by-agreement]
     assessable: true
-    reviewed: false
 
   - id: saf.history.causes-of-conflicts
     strand: history
@@ -1016,7 +955,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.history.terrorism-and-genocide
     strand: history
@@ -1032,7 +970,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   - id: saf.history.views-of-the-past
@@ -1049,7 +986,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.history.struggles-for-change
     strand: history
@@ -1065,7 +1001,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.geography.events-and-living-conditions
     strand: geography
@@ -1081,7 +1016,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.treaties-and-indigenous-rights
     strand: rights
@@ -1097,7 +1031,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.political-system
     strand: rights
@@ -1113,7 +1046,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [parliament-is-government]
     assessable: true
-    reviewed: false
 
   - id: saf.rights.who-holds-power
     strand: rights
@@ -1129,7 +1061,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.rights.breaking-laws
     strand: rights
@@ -1145,7 +1076,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.norwegianisation
     strand: identity
@@ -1161,7 +1091,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.identity.equality-and-diversity
     strand: identity
@@ -1177,7 +1106,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.dimensions
     strand: sustainability
@@ -1193,7 +1121,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.work-income-life
     strand: sustainability
@@ -1209,7 +1136,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.sustainability.technology-and-change
     strand: sustainability
@@ -1225,7 +1151,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: saf.digital.digital-footprint
     strand: digital
@@ -1241,7 +1166,6 @@ skills:
     stages: [abstract]
     misconceptions: [deleted-is-gone]
     assessable: true
-    reviewed: false
 
   - id: saf.digital.identity-under-influence
     strand: digital
@@ -1257,7 +1181,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/samfunnsfag.md
 
   - id: saf.digital.digital-debate
@@ -1274,4 +1197,3 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false

@@ -13,13 +13,26 @@ from datetime import UTC, datetime
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app, approved
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.quiz.placement import MAX_ITEMS
 from pensum.quiz.run import PlacementRun
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 SUBJECT = "MAT01-06"
 
@@ -284,7 +297,7 @@ def test_a_thin_checkpoint_is_disclosed_on_the_result_page(client: TestClient) -
     if outcome.ceiling is None:
         pytest.skip("no ceiling to qualify")
 
-    bank = ItemBank.load()
+    bank = approved(ItemBank.load())
     coverage = bank.coverage(outcome.ceiling.goal_set)
     assert not coverage.complete, "norsk was expected to be partially covered"
     body = text_of(client.get(f"/nb/nivatest/run/{run_id}/result").text)

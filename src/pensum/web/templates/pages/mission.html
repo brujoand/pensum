@@ -13,8 +13,9 @@
   {# `data-mission` is what missions.js files the ticks under. #}
   <article class="mission-page" data-mission="{{ mission.id }}">
     <h1>{{ title }}</h1>
-    {% if not mission.reviewed %}
-      <p class="skill-badges"><span class="badge badge--draft">{{ t("progression.draft") }}</span></p>
+    {% set mission_state = review_state("mission", mission.id) %}
+    {% if mission_state != "approved" %}
+      <p class="skill-badges">{% with state = mission_state %}{% include "partials/review_badge.html" %}{% endwith %}</p>
     {% endif %}
 
     <p class="mission-goal">

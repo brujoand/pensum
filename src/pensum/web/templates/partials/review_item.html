@@ -1,0 +1,75 @@
+{# One question on the review page, as a pupil meets it, and then its solution.
+
+   Include with `item` (a QuizItem) and `anchor` set. The top half is the
+   pupil's view -- the same prompt, figure and answer area the quiz renders,
+   including a hands-on primitive's live board with its script -- inside a form
+   the reviewer can actually answer: it posts to the "try" route, which grades
+   the answer and records nothing. The bottom half is what a pupil never sees
+   before answering: the right answer and the explanation.
+
+   Its own form per question, so radio groups and the primitives' `response`
+   fields never collide across the page. #}
+{% set primitive = primitive_for(item) %}
+<form class="review-try question"
+      method="post"
+      action="/{{ locale }}/admin/gjennomgang/proev"
+      hx-post="/{{ locale }}/admin/gjennomgang/proev"
+      hx-target="#try-{{ anchor }}"
+      hx-swap="innerHTML">
+  <input type="hidden" name="item_id" value="{{ item.id }}" />
+  <input type="hidden" name="back" value="{{ request.url.path }}?{{ request.url.query }}#{{ anchor }}" />
+  <p class="review-try__label">{{ t("review.try_heading") }}</p>
+
+  <p class="prompt">{{ item.prompt.get(locale) }}</p>
+
+  {% if not (primitive and primitive.owns_figure) %}
+    {% with figure = item.figure %}
+      {% if figure %}{% include "partials/figure.html" with context %}{% endif %}
+    {% endwith %}
+  {% endif %}
+
+  {% if primitive %}
+    {% include primitive.template with context %}
+  {% elif item.type == "multiple_choice" %}
+    <ul class="choices">
+      {% for choice in item.display_choices() %}
+        <li>
+          <label>
+            <input type="radio" name="response" value="{{ choice.id }}" required />
+            <span>{{ choice.text.get(locale) }}</span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif item.type == "numeric" %}
+    <input class="answer-input" type="text" inputmode="decimal" name="response"
+           placeholder="{{ t('quiz.numeric_placeholder') }}" autocomplete="off" required />
+  {% else %}
+    <input class="answer-input" type="text" name="response"
+           placeholder="{{ t('quiz.text_placeholder') }}" autocomplete="off" required />
+  {% endif %}
+
+  <button class="button button--secondary" type="submit">{{ t("review.try_check") }}</button>
+  <div class="review-try__result" id="try-{{ anchor }}" aria-live="polite"></div>
+</form>
+
+<div class="review-solution">
+  <p class="review-solution__heading">{{ t("review.solution_heading") }}</p>
+  {% if item.type == "multiple_choice" and not primitive %}
+    <ul class="review-choices">
+      {% for choice in item.choices %}
+        <li class="{{ 'is-correct' if choice.correct else '' }}">
+          {{ choice.text.get(locale) }}
+          {% if choice.correct %}<span class="tick" aria-hidden="true">✓</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="review-answer">{{ t("review.answer", answer=item.correct_text(locale)) }}</p>
+    {% set alternatives = item.accept.values() | map("join", " · ") | select | list %}
+    {% if item.type == "short_text" and alternatives %}
+      <p class="review-answer">{{ t("review.accepted", answers=alternatives | join(" · ")) }}</p>
+    {% endif %}
+  {% endif %}
+  <p class="review-explanation">{{ t("review.explanation", text=item.explanation.get(locale)) }}</p>
+</div>

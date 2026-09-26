@@ -21,6 +21,9 @@ from pensum.auth.models import User
 
 LOGIN_COOKIE = "pensum_session"
 FLOW_COOKIE = "pensum_login_flow"
+# A local administrator session (`pensum.auth.local`). Its own name and its own
+# salt, so it can never be mistaken for a provider login or the reverse.
+LOCAL_COOKIE = "pensum_local_admin"
 
 # A school day, so a pupil is not asked to sign in again between homework and
 # bedtime. Short enough that a shared family tablet does not stay signed in as
@@ -44,12 +47,21 @@ class CookieCodec:
     """Signs and reads Pensum's two cookies with one secret, two salts.
 
     Distinct salts matter: a login-flow cookie must not be replayable as a login
-    cookie even though both are signed by the same key.
+    cookie even though both are signed by the same key, and neither may be
+    replayable as a local administrator session.
     """
 
     def __init__(self, secret: str) -> None:
         self._login = URLSafeTimedSerializer(secret, salt="pensum-login")
         self._flow = URLSafeTimedSerializer(secret, salt="pensum-login-flow")
+        self._local = URLSafeTimedSerializer(secret, salt="pensum-local-admin")
+
+    def dump_local(self) -> str:
+        return self._local.dumps({"local": True})
+
+    def load_local(self, raw: str) -> bool:
+        payload = _load(self._local, raw, LOGIN_MAX_AGE)
+        return isinstance(payload, dict) and payload.get("local") is True
 
     def dump_login(self, user: User) -> str:
         return self._login.dumps(user.as_claims())
@@ -93,6 +105,12 @@ def read_user(request: Request, codec: CookieCodec) -> User | None:
     return codec.load_login(raw) if raw else None
 
 
+def read_local(request: Request, codec: CookieCodec) -> bool:
+    """Whether this browser holds a local administrator session. Not whether it may use it."""
+    raw = request.cookies.get(LOCAL_COOKIE)
+    return codec.load_local(raw) if raw else False
+
+
 def read_flow(request: Request, codec: CookieCodec) -> LoginFlow | None:
     raw = request.cookies.get(FLOW_COOKIE)
     return codec.load_flow(raw) if raw else None
@@ -106,8 +124,13 @@ def set_flow(response: Response, codec: CookieCodec, flow: LoginFlow, *, secure:
     _set(response, FLOW_COOKIE, codec.dump_flow(flow), FLOW_MAX_AGE, secure=secure)
 
 
+def set_local(response: Response, codec: CookieCodec, *, secure: bool) -> None:
+    _set(response, LOCAL_COOKIE, codec.dump_local(), LOGIN_MAX_AGE, secure=secure)
+
+
 def clear_login(response: Response) -> None:
     response.delete_cookie(LOGIN_COOKIE, path="/")
+    response.delete_cookie(LOCAL_COOKIE, path="/")
 
 
 def clear_flow(response: Response) -> None:

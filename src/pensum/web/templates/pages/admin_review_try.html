@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{# "Try it" without a script: the same verdict the fragment gives, on a page of
+   its own, with the way back to where the reviewer was. #}
+
+{% block title %}{{ t("review.heading") }} · {{ t("site.name") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("review.heading") }}</h1>
+  <p class="prompt">{{ item.prompt.get(locale) }}</p>
+  {% include "partials/review_try.html" %}
+  <p><a href="{{ back or '/' ~ locale ~ '/admin/gjennomgang' }}">{{ t("review.try_back") }}</a></p>
+{% endblock %}

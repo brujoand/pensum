@@ -2,8 +2,8 @@
 
 Same shape as `pensum.items.loader`, deliberately: one YAML file per checkpoint,
 loaded once at startup, immutable afterwards. A passage that has not been read
-by a human is withheld under the same switch that withholds an unreviewed quiz
-item.
+by an administrator of this instance is withheld from pupils, exactly as an
+unapproved quiz item is.
 """
 
 from __future__ import annotations
@@ -13,7 +13,8 @@ from pathlib import Path
 import yaml
 
 from pensum.reading.schema import NormTable, ReadingNorm, ReadingSet, ReadingText
-from pensum.review.store import ReviewLedger
+from pensum.review.gate import ReviewGate
+from pensum.review.store import ReviewLedger, State
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_READING_DIR = REPO_ROOT / "data" / "reading"
@@ -30,32 +31,38 @@ class ReadingLibrary:
         self,
         reading_sets: list[ReadingSet],
         norms: NormTable,
-        *,
-        include_unreviewed: bool = False,
     ) -> None:
         self._sets = {reading_set.goal_set: reading_set for reading_set in reading_sets}
         self._norms = norms
-        self._include_unreviewed = include_unreviewed
-        self._ledger: ReviewLedger | None = None
+        self._texts = {text.id: text for rs in reading_sets for text in rs.texts}
+        self._gate = ReviewGate(KIND)
 
     def with_ledger(self, ledger: ReviewLedger | None) -> ReadingLibrary:
         """Consult recorded review decisions from now on.
 
-        Same contract as `ItemBank.with_ledger`, including that None leaves the
-        file's own flag deciding.
+        Same contract as `ItemBank.with_ledger`, including that None approves
+        nothing.
         """
-        self._ledger = ledger
+        self._gate.ledger = ledger
         return self
 
     def _publishes(self, text: ReadingText) -> bool:
-        if self._ledger is None:
-            return text.reviewed
-        return self._ledger.publishes(KIND, text.id, text.reviewed)
+        return self._gate.publishes(text.id, text)
+
+    def review_state(self, content_id: str) -> State:
+        text = self._texts.get(content_id)
+        return self._gate.state(content_id, text) if text is not None else "pending"
+
+    def fingerprint(self, content_id: str) -> str | None:
+        text = self._texts.get(content_id)
+        return self._gate.fingerprint(content_id, text) if text is not None else None
+
+    def has_authored(self, code: str) -> bool:
+        reading_set = self._sets.get(code)
+        return reading_set is not None and bool(reading_set.texts)
 
     @classmethod
-    def load(
-        cls, reading_dir: Path | None = None, *, include_unreviewed: bool = False
-    ) -> ReadingLibrary:
+    def load(cls, reading_dir: Path | None = None) -> ReadingLibrary:
         directory = reading_dir or DEFAULT_READING_DIR
         reading_sets = [
             ReadingSet.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
@@ -67,7 +74,7 @@ class ReadingLibrary:
             if norms_path.exists()
             else NormTable()
         )
-        return cls(reading_sets, norms, include_unreviewed=include_unreviewed)
+        return cls(reading_sets, norms)
 
     @property
     def norms(self) -> NormTable:
@@ -80,19 +87,14 @@ class ReadingLibrary:
     def for_goal_set(self, code: str, *, unreviewed: bool = False) -> list[ReadingText]:
         """Servable passages for a goal set.
 
-        Same contract as `ItemBank.for_goal_set`: withheld by default, widened
-        by the deployment-wide switch or by a request that has established it
-        may see drafts. False at every layer, so a forgotten argument fails
-        closed.
-
-        A recorded review decision overrides the file's flag -- see
-        `ReviewLedger.publishes`.
+        Same contract as `ItemBank.for_goal_set`: approved passages only,
+        widened only by a request that has established it may see everything.
+        False at every layer, so a forgotten argument fails closed.
         """
         reading_set = self._sets.get(code)
         if reading_set is None:
             return []
-        widened = self._include_unreviewed or unreviewed
-        return [t for t in reading_set.texts if widened or self._publishes(t)]
+        return [t for t in reading_set.texts if unreviewed or self._publishes(t)]
 
     def has_reading(self, code: str, *, unreviewed: bool = False) -> bool:
         return bool(self.for_goal_set(code, unreviewed=unreviewed))

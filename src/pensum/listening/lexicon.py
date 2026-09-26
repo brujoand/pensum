@@ -143,10 +143,10 @@ class Lexicon:
 def build(items: ItemBank, reading: ReadingLibrary) -> dict[str, Lexicon]:
     """The lexicon, per language.
 
-    Unreviewed content counts, and this is the one place in Pensum where that is
-    right: none of it is shown to anybody. A draft passage's words are still
+    Unapproved content counts, and this is the one place in Pensum where that is
+    right: none of it is shown to anybody. A pending passage's words are still
     Norwegian words, and excluding them would make the lexicon depend on review
-    state -- so a distractor could change on the day somebody ticked a box.
+    state -- so a distractor could change on the day somebody approved one.
     """
     pools: dict[str, set[str]] = {"nb": set(), "nn": set(), "en": set()}
 

@@ -14,6 +14,7 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_all, approve_app, ledger_at
 
 from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
@@ -40,7 +41,7 @@ from pensum.reading.schema import ReadingText, words
 from pensum.reading.streams import MAX_STREAMS, STREAM_TTL, StreamLimit, StreamStore
 from pensum.reading.transcribe import WHISPER_LANGUAGE, Transcription, load_transcriber
 from pensum.reading.validate import validate
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 
 PASSAGE = (
     "Det sitter en katt på trappa vår. Den er svart, med hvite poter, "
@@ -57,7 +58,6 @@ def text(body: str = PASSAGE) -> ReadingText:
         body=body,
         difficulty=1,
         source="pensum",
-        reviewed=True,
     )
 
 
@@ -218,9 +218,22 @@ def test_an_oversized_upload_is_refused_before_it_is_parsed() -> None:
 # --- Committed passages and bands ------------------------------------------
 
 
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Reading aloud is what is under test here, not review, so every app these
+    tests build serves the committed passages the way an approved instance does.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
+
 @pytest.fixture(scope="module")
-def library() -> ReadingLibrary:
-    return ReadingLibrary.load(include_unreviewed=True)
+def library(tmp_path_factory: pytest.TempPathFactory) -> ReadingLibrary:
+    committed = ReadingLibrary.load()
+    approve_all(ledger_at(tmp_path_factory.mktemp("reading") / "db.sqlite"), reading=committed)
+    return committed
 
 
 def test_committed_reading_data_validates_against_the_catalogue() -> None:
@@ -271,15 +284,15 @@ def test_passages_are_long_enough_to_time(library: ReadingLibrary) -> None:
             assert passage.word_count >= 20, passage.id
 
 
-def test_the_default_build_serves_only_reviewed_passages() -> None:
+def test_a_library_no_instance_has_approved_serves_no_passage() -> None:
     """Same gate as quiz items: a merge alone never puts unread text in front of
-    a child."""
-    reviewed_only = ReadingLibrary.load()
-    everything = ReadingLibrary.load(include_unreviewed=True)
+    a child. Approval is the instance's, so a library with none serves nothing."""
+    committed = ReadingLibrary.load()
 
-    served = sum(len(reviewed_only.for_goal_set(s.goal_set)) for s in everything.reading_sets)
-    authored = sum(len(s.texts) for s in everything.reading_sets)
-    assert served <= authored
+    served = sum(len(committed.for_goal_set(s.goal_set)) for s in committed.reading_sets)
+    authored = sum(len(s.texts) for s in committed.reading_sets)
+    assert served == 0
+    assert authored > 0
 
 
 # --- Routes ----------------------------------------------------------------
@@ -295,7 +308,7 @@ def app_for(catalogue: Catalogue, transcriber: object | None = None) -> TestClie
         create_app(
             catalogue,
             ItemBank.load(),
-            reading=ReadingLibrary.load(include_unreviewed=True),
+            reading=ReadingLibrary.load(),
             transcriber=transcriber,
         )
     )
@@ -745,7 +758,7 @@ def test_live_highlighting_is_off_when_the_deployment_turns_it_off(
             catalogue,
             ItemBank.load(),
             settings=Settings(session_secret="test", speech_live=False),
-            reading=ReadingLibrary.load(include_unreviewed=True),
+            reading=ReadingLibrary.load(),
             transcriber=FakeTranscriber(passage.body),
         )
     )
@@ -956,7 +969,7 @@ def test_a_deployment_can_turn_the_device_recogniser_off(catalogue: Catalogue, l
             catalogue,
             ItemBank.load(),
             settings=Settings(session_secret="test", device_speech=False),
-            reading=ReadingLibrary.load(include_unreviewed=True),
+            reading=ReadingLibrary.load(),
         )
     )
 

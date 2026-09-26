@@ -5,7 +5,7 @@ of defect that are mechanically detectable, so a reviewer's attention goes to
 the ones that are not: whether the question is fair, age-appropriate, and
 actually tests the goal rather than the reading.
 
-    uv run python tools/review_items.py                # everything unreviewed
+    uv run python tools/review_items.py                # everything
     uv run python tools/review_items.py MAT01-06       # one subject
 """
 
@@ -73,9 +73,8 @@ def report(item_set: ItemSet, catalogue: Catalogue) -> None:
     goal_set = subject.goal_set(item_set.goal_set)
     goals = {g.code: g for g in goal_set.goals}
 
-    unreviewed = [i for i in item_set.items if not i.reviewed]
     print(f"\n{item_set.subject} / {item_set.goal_set}  (etter {goal_set.after_year}. trinn)")
-    print(f"  {len(item_set.items)} items, {len(unreviewed)} awaiting review")
+    print(f"  {len(item_set.items)} items")
     print(
         f"  {len(item_set.goals_covered)}/{len(goals)} goals tested, "
         f"{len(item_set.goals_excused)} marked not assessable"
@@ -105,7 +104,7 @@ def report(item_set: ItemSet, catalogue: Catalogue) -> None:
 def main() -> int:
     wanted = sys.argv[1] if len(sys.argv) > 1 else None
     catalogue = Catalogue.load()
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
 
     sets = [s for s in bank.item_sets if not wanted or s.subject == wanted]
     if not sets:
@@ -116,9 +115,8 @@ def main() -> int:
         report(item_set, catalogue)
 
     total = sum(len(s.items) for s in sets)
-    unreviewed = sum(1 for s in sets for i in s.items if not i.reviewed)
-    print(f"\n{total} items across {len(sets)} goal sets; {unreviewed} awaiting review.")
-    print("Nothing unreviewed is served until a human sets reviewed: true.")
+    print(f"\n{total} items across {len(sets)} goal sets.")
+    print("Nothing is served until an administrator approves it on the instance's review page.")
     return 0
 
 

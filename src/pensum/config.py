@@ -1,21 +1,28 @@
 """Runtime configuration.
 
 Everything has a working default. The container must start with no environment
-set at all -- and when it does, Pensum behaves exactly as it always has: no
-sign-in, nothing written to disk, nothing recorded about anyone.
+set at all, and when it does it has no sign-in and records nothing about anyone.
 
-Two optional subsystems change that, and both are off unless explicitly
-configured:
+**There is always a database.** Whether a piece of content is live is data on
+the instance (`pensum.review`), so the instance needs somewhere to keep it even
+when nobody signs in. `PENSUM_DATABASE_PATH` names the file; unset, it is
+`DEFAULT_DATABASE_PATH`, inside the app's own data directory. In a container
+that path is inside the container, so without a volume mounted there the
+review decisions -- and with them everything pupils can see -- are lost when the
+container is replaced. The README says so where it shows the `docker run` line.
+
+Two optional subsystems change what is recorded, and both are off unless
+explicitly configured:
 
 * **Sign-in** turns on when an OIDC issuer, client id and client secret are all
   present. Signing in is never required -- an anonymous pupil gets the same quiz
   and is still not recorded.
-* **Score history** turns on when a database path is set. Only attempts by a
-  signed-in pupil are ever written, so the two switches are independent but only
-  useful together.
+* **Score history** follows sign-in: only attempts by a signed-in pupil are ever
+  written, into the same database.
 
-Keeping both off by default is what keeps "the public image needs no
-configuration and stores nothing" structurally true rather than documented.
+And one that exists only for a maintainer's own machine: `PENSUM_LOCAL_ADMIN=1`
+(see `pensum.auth.local`), which lets a browser on the same machine act as an
+administrator when no identity provider is configured at all.
 """
 
 from __future__ import annotations
@@ -24,6 +31,14 @@ import os
 import secrets
 from dataclasses import dataclass
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+# Where the database lives when nothing says otherwise: `data/instance/` in a
+# checkout, `/app/data/instance/` in the image. Its own directory, so that a
+# volume can be mounted on it without hiding the curriculum and content that
+# sit beside it in `data/`, and so that `.gitignore` can name it.
+DEFAULT_DATABASE_PATH = REPO_ROOT / "data" / "instance" / "pensum.db"
 
 
 def _flag(name: str, default: bool = False) -> bool:
@@ -41,12 +56,6 @@ def _text(name: str) -> str | None:
 @dataclass(frozen=True)
 class Settings:
     """Settings read once at startup."""
-
-    # Generated items are written unreviewed and withheld until a human has read
-    # them. Enabling this is for reviewing drafts locally; a released build
-    # leaves it off, so a merge alone never puts an unread question in front of
-    # a child.
-    include_unreviewed_items: bool = False
 
     # --- Reading fluency ----------------------------------------------------
     # Where the CTranslate2 Whisper models live -- either one model per
@@ -104,11 +113,18 @@ class Settings:
     # predictable signing key is not.
     session_secret: str = ""
 
-    # --- Score history ------------------------------------------------------
-    # Unset means attempts are scored, shown and then forgotten, exactly as
-    # before. Set it to record them -- and mount it on a volume, or a restart
-    # takes the history with it.
+    # --- The database -------------------------------------------------------
+    # Review decisions always; attempts and evidence too once sign-in is on.
+    # None means `DEFAULT_DATABASE_PATH` -- read through `database_file`, never
+    # directly, so there is one place that knows the default.
     database_path: Path | None = None
+
+    # --- Local administration, for a machine with no identity provider -------
+    # Off unless PENSUM_LOCAL_ADMIN is exactly "1". Even then it is honoured
+    # only with no OIDC client configured, and only for a request from a
+    # loopback address carrying no forwarding header -- see
+    # `pensum.auth.local` for why each of those is required.
+    local_admin: bool = False
 
     @property
     def speech_enabled(self) -> bool:
@@ -126,9 +142,30 @@ class Settings:
         return bool(self.oidc_issuer and self.oidc_client_id and self.oidc_client_secret)
 
     @property
+    def oidc_configured(self) -> bool:
+        """Whether any part of an OIDC client is set, even an incomplete one.
+
+        Distinct from `auth_enabled` on purpose: local administration must stay
+        off on an instance where someone *tried* to configure a provider and
+        got one value wrong, because that instance is meant to have real
+        accounts and is merely broken.
+        """
+        return bool(self.oidc_issuer or self.oidc_client_id or self.oidc_client_secret)
+
+    @property
+    def local_admin_enabled(self) -> bool:
+        """The flag is set and no provider is configured. Per-request checks still apply."""
+        return self.local_admin and not self.oidc_configured
+
+    @property
+    def database_file(self) -> Path:
+        """The SQLite file this instance keeps its data in. Always one."""
+        return self.database_path if self.database_path is not None else DEFAULT_DATABASE_PATH
+
+    @property
     def history_enabled(self) -> bool:
-        """Recording a score needs both somewhere to put it and a name to put on it."""
-        return self.database_path is not None and self.auth_enabled
+        """Recording a score needs a name to put on it; the database always exists."""
+        return self.auth_enabled
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -137,7 +174,6 @@ class Settings:
         issuer = _text("PENSUM_OIDC_ISSUER")
         base_url = _text("PENSUM_BASE_URL")
         return cls(
-            include_unreviewed_items=_flag("PENSUM_INCLUDE_UNREVIEWED"),
             speech_model_dir=Path(speech_models) if speech_models else None,
             speech_live=_flag("PENSUM_SPEECH_LIVE", default=True),
             device_speech=_flag("PENSUM_DEVICE_SPEECH", default=True),
@@ -151,6 +187,9 @@ class Settings:
             base_url=base_url.rstrip("/") if base_url else None,
             session_secret=_text("PENSUM_SESSION_SECRET") or secrets.token_urlsafe(32),
             database_path=Path(database) if database else None,
+            # Exactly "1", not any truthy spelling: this one is a security
+            # switch, and it should take a deliberate act to turn on.
+            local_admin=os.environ.get("PENSUM_LOCAL_ADMIN") == "1",
         )
 
 

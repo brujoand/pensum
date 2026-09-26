@@ -53,8 +53,6 @@ items:
       en: >-
         The answer is stated in the text. When you read to find something, look
         for the words from the question inside the text.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14164-02
     goal: KM14164
@@ -90,8 +88,6 @@ items:
         The text never says it is raining, but boots and a raincoat tell you.
         Working out something the text does not say outright is called reading
         between the lines.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14164-03
     goal: KM14164
@@ -125,8 +121,6 @@ items:
       en: >-
         The table of contents shows which page each chapter starts on, so you can
         find the wolves without reading everything else.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- Fakta og meninger i tekster ----------------------------------------
   - id: KM14163-01
@@ -158,8 +152,6 @@ items:
         An opinion is what one person thinks, and someone else may think
         differently. That cats have four legs can be checked by anyone, so it is
         a fact.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14163-02
     goal: KM14163
@@ -192,8 +184,6 @@ items:
       en: >-
         The word "synes" (think) shows that someone is stating what they believe.
         Words like "think", "believe" and "best" often signal an opinion.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- Komma og andre skilletegn ------------------------------------------
   - id: KM14157-01
@@ -224,8 +214,6 @@ items:
       en: >-
         When we list several things, we put a comma between them. No comma is
         needed before the final "and".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14157-02
     goal: KM14157
@@ -255,8 +243,6 @@ items:
       en: >-
         The sentence asks something, so it takes a question mark. A full stop is
         for a sentence that simply tells you something.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- Fagspråk om setninger og bøying ------------------------------------
   - id: KM14159-01
@@ -287,8 +273,6 @@ items:
       en: >-
         The verb says what someone does. "Gutten" is a noun, and "fort" says how
         he runs.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14159-02
     goal: KM14159
@@ -318,8 +302,6 @@ items:
       en: >-
         An adjective says what something is like. The dog is big, so "stor" is
         the adjective. "Hund" is a noun and "så" is a verb.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14159-03
     goal: KM14159
@@ -350,8 +332,6 @@ items:
       en: >-
         "I går" (yesterday) tells you it already happened, so the verb goes into
         the past tense: "spille" becomes "spilte".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- Ord og uttrykk i norsk og andre språk ------------------------------
   - id: KM14168-01
@@ -382,8 +362,6 @@ items:
       en: >-
         "Hus" and "house" mean the same and look alike. Many Norwegian and
         English words are related because the languages share an origin.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14168-02
     goal: KM14168
@@ -413,8 +391,6 @@ items:
       en: >-
         "Vinter" and "winter" are spelled almost the same and mean the same.
         "Vind" and "vinne" start alike but mean something quite different.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- Hovedmål og sidemål: kjenne igjen formene --------------------------
   - id: KM14161-01
@@ -445,8 +421,6 @@ items:
       en: >-
         Nynorsk uses "eg" where bokmål uses "jeg". The two written forms are very
         similar, but some small words differ.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14161-02
     goal: KM14161
@@ -476,8 +450,6 @@ items:
       en: >-
         Bokmål "ikke" becomes "ikkje" in nynorsk. "Inte" is Swedish, and "ingen"
         means something else in both written forms.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # --- answered with the hands: word and sentence frames
   # (`pensum.items.primitives`). Drafts, not yet reviewed.
@@ -504,7 +476,6 @@ items:
         "I går" (yesterday) means it already happened, so the verb is in the past
         tense: hopp + et makes "hoppet". "Hopper" is present tense and "hoppe" is
         the infinitive.
-    reviewed: false
 
   - id: KM14159-05
     goal: KM14159
@@ -527,7 +498,6 @@ items:
       en: >-
         There are several cars, and we know which ones: ours. So the noun is
         definite plural, bil + ene makes "bilene".
-    reviewed: false
 
   - id: KM14157-03
     goal: KM14157
@@ -556,7 +526,6 @@ items:
       en: >-
         In a list there is a comma between the items, but not before "og" (and):
         epler, pærer og bananer.
-    reviewed: false
 
   - id: KM14159-06
     goal: KM14159
@@ -580,7 +549,6 @@ items:
         A verb says what someone does. The dog runs (løper), digs (graver) and
         lies down (legger seg). "Hunden", "hagen" and "hull" are nouns: they name
         things.
-    reviewed: false
 
   - id: KM14159-07
     goal: KM14159
@@ -643,7 +611,6 @@ items:
         Nouns name things, animals and people: hund (dog), bok (book), stol
         (chair). Verbs say what someone does: sover (sleeps), spiser (eats), går
         (walks). Adjectives say what something is like: rød (red), glad (happy).
-    reviewed: false
 
   - id: KM14164-04
     goal: KM14164
@@ -679,7 +646,6 @@ items:
       en: >-
         The answer is in the text: it was raining. The last sentence says she
         took her umbrella, but it is the sentence before that tells you why.
-    reviewed: false
 
   - id: KM14168-03
     goal: KM14168
@@ -728,7 +694,6 @@ items:
         "rolig" means fun (morsom), "glass" means ice cream (is), and "semester"
         means holiday (ferie). "Sjukhus" is almost the same as the Norwegian
         "sykehus", hospital.
-    reviewed: false
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

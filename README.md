@@ -63,20 +63,36 @@ curriculum: each goal cited by some skill, each ref at the skill's own
 checkpoint, no cycle in `needs`. The progression guide at
 `/<locale>/progresjon/<SUBJECT_CODE>` shows a subject's skills strand by
 checkpoint, with the goals quoted verbatim beside them, and prints. Skills are
-drafts until a human sets `reviewed: true`, and the guide says so. The design,
+reviewed on each instance like all content ([Reviewing
+drafts](#reviewing-drafts)), and the guide labels any that are not approved
+there. The design,
 and the layers still to come on top of it, are in [docs/design](docs/design/).
 
 ## Running it
 
 ```bash
-docker run -p 8000:8000 ghcr.io/brujoand/pensum:1.0.0
+docker run -p 8000:8000 -v pensum-data:/app/data/instance ghcr.io/brujoand/pensum:1.0.0
 ```
 
 No credentials needed — the image is public, like the repo. It carries the
-curriculum baked in and needs no network access, no API key and no
-configuration. Optional sign-in and score history are the one exception, and
-they stay off until configured: see [Accounts and score
-history](#accounts-and-score-history).
+curriculum baked in and needs no network access and no API key.
+
+**It always keeps one small SQLite database**, because whether a question is
+shown to pupils is decided on the instance and stored there (see [Reviewing
+drafts](#reviewing-drafts)). With `PENSUM_DATABASE_PATH` unset it is
+`/app/data/instance/pensum.db` inside the container. **Without the `-v` line
+above, that file lives and dies with the container:** replace the container and
+every review decision goes with it, and the new one serves pupils nothing until
+an administrator approves content again. Mount a volume there, or point
+`PENSUM_DATABASE_PATH` at one. The directory is owned by the container's user
+(uid 65532), so a named volume starts out writable.
+
+**A fresh instance serves pupils nothing.** Every question, passage, prompt,
+skill and mission starts pending, and becomes visible when an administrator
+approves it on the review page. That needs an administrator, which needs
+sign-in: see [Accounts and score history](#accounts-and-score-history), or, on
+your own machine, [Administering without an identity
+provider](#administering-without-an-identity-provider).
 
 There is deliberately **no `latest` tag**. A deployment should name the version
 it wants; a moving tag makes that impossible to do honestly. Published tags are
@@ -91,9 +107,11 @@ built outside the release pipeline.
 ## Accounts and score history
 
 **Off unless you turn it on.** Run the image as above and Pensum has no accounts,
-writes nothing to disk, and forgets every quiz the moment the tab closes. Point
-it at an OIDC provider and two things become possible: a pupil can sign in, and
-an adult in a nominated group can see how the signed-in pupils have done.
+records nothing about anyone — its database holds review decisions and nothing
+else — and forgets every quiz the moment the tab closes. Point it at an OIDC
+provider and three things become possible: a pupil can sign in, an adult in a
+nominated group can see how the signed-in pupils have done, and that adult can
+approve content on the review page.
 
 Four properties hold whenever it *is* configured, and they are enforced in code
 rather than documented as intent:
@@ -112,8 +130,10 @@ rather than documented as intent:
 - **The pupil is told.** A signed-in pupil's result page says their score was
   saved and that an adult with access can see it.
 
-Nothing is recorded until **both** switches are on: an OIDC client *and* a
-database path. Sign-in without a database is still a site that forgets.
+Nothing about a pupil is recorded until sign-in is configured, and then only
+for a pupil who has signed in. The database itself always exists (see [Running
+it](#running-it)), so configuring sign-in is the one switch; set
+`PENSUM_DATABASE_PATH` to put the file on a volume of your choosing.
 
 ### Configuring it
 
@@ -124,7 +144,7 @@ database path. Sign-in without a database is still a site that forgets.
 | `PENSUM_OIDC_CLIENT_SECRET` | Its secret. |
 | `PENSUM_BASE_URL` | Pensum's own public origin, e.g. `https://pensum.example.com`. Required behind a TLS-terminating proxy — the redirect URI is built from it. |
 | `PENSUM_ADMIN_GROUP` | Group whose members may read other people's scores. Default `pensum-admins`. |
-| `PENSUM_DATABASE_PATH` | SQLite file for finished attempts, e.g. `/data/pensum.db`. Unset means nothing is recorded. |
+| `PENSUM_DATABASE_PATH` | The SQLite file: review decisions always, finished attempts once sign-in is on, e.g. `/data/pensum.db`. Unset means `data/instance/pensum.db` inside the app (`/app/data/instance/pensum.db` in the image). |
 | `PENSUM_SESSION_SECRET` | Signs the login cookie. Generated per process when unset, so a restart signs everyone out. |
 
 Sign-in needs all three OIDC values; any fewer and the feature stays off rather
@@ -144,7 +164,8 @@ docker run -p 8000:8000 \
 ```
 
 The container runs as uid 65532, so the mounted volume has to be writable by it.
-Without the volume the history is real but lasts until the container is replaced.
+Without the volume the history and the review decisions are real but last until
+the container is replaced.
 
 ### On the provider side
 
@@ -219,82 +240,148 @@ that nothing is stored rather than showing an empty map.
 
 ## Reviewing drafts
 
-Quiz items, reading passages and writing prompts are committed unreviewed and
-withheld until a human marks them `reviewed: true`. Two things can lift that, and they are
-different in kind:
+**Nothing reaches a pupil until an administrator of that instance has approved
+it.** Whether a question, a question template, a reading passage, a writing
+prompt, a skill or a mission is live is not written in any file. There is no
+`reviewed:` key in `data/`, and every validator refuses one with a message
+saying where review state lives. It is live data in the running application:
+each instance keeps its own decisions in its own database, set on its own review
+page. A new instance — and every instance upgraded from a version that had the
+flag — starts with everything pending and serves pupils nothing until someone
+approves it. Nothing was imported from the old flags, on purpose.
 
-- **`PENSUM_INCLUDE_UNREVIEWED=1`** shows drafts to *everyone*. It is for a
-  maintainer running the app locally, and must never be set on an instance
-  children use.
-- **Being signed in as an administrator** shows drafts to that person only,
-  wherever they are. A draft has to be readable in its own quiz, its own
-  reading page or its own tracing page before anyone can judge whether it is fit
-  — reading YAML is not the same as seeing the question a child would get, and a
-  path string is not the same as seeing the letter.
+Who sees what:
 
-Drafts an administrator sees are labelled as drafts, on the question and in the
-reading and writing lists, and the subject page says why it looks different from the one a
-pupil sees. An unmarked draft would be judged as if it had already passed.
+- **A pupil** — anyone not signed in as an administrator — is served approved
+  content only: the trinntest, the nivåtest (a checkpoint counts as a rung only
+  if it has approved questions), reading aloud, writing, listening (built only
+  from approved passages), the pupil's map (approved skills only) and the
+  mission pages. A checkpoint whose questions are written but not approved says
+  exactly that, rather than claiming there are none.
+- **An administrator** sees everything, wherever they are, and every piece that
+  is not approved is labelled with its state: pending, rejected, or changed since
+  the decision. A draft has to be met in its own quiz, reading page or tracing
+  page before anyone can judge it — reading YAML is not the same as seeing the
+  question a child would get — and an unlabelled draft would be judged as if it
+  had already passed. The subject page says why it looks different from the one
+  a pupil sees.
+- **The teacher pages** — the progression guide and the mission list — show
+  everything, labelled, because a teacher judging a draft has to be able to read
+  it. A mission that is not approved is named there but not linked, since the
+  mission page is what a pupil is handed.
 
-The gate fails closed at every layer: the loaders default to reviewed-only, so a
-caller that forgets to ask gets the safe answer. **Note the prerequisite** —
-administrator status comes from Pensum's own sign-in, so an instance that
-authenticates at a proxy and forwards no identity has no administrators as far
-as Pensum is concerned, and nobody sees drafts. See [Accounts and score
+The gate fails closed at every layer: the loaders serve approved content unless a
+caller asks otherwise, and a library that was never given the instance's
+decisions approves nothing. **Note the prerequisite** — administrator status
+comes from Pensum's own sign-in, so an instance that authenticates at a proxy and
+forwards no identity has no administrators as far as Pensum is concerned, and
+nothing can be approved on it. See [Accounts and score
 history](#accounts-and-score-history).
 
 ### Deciding, on the instance
 
-`/{locale}/admin/gjennomgang` lists every authored question, passage and prompt
-in one queue — rendered the way a pupil would meet them, because judging a
-summary is judging the summary — with **Godkjenn** and **Avvis** on each. It is
-behind the same administrator gate as the score pages, and it 404s on an
-instance with no database, since a page that cannot record a decision would be a
-button that lies.
+`/{locale}/admin/gjennomgang` is how content becomes live. It lists every
+authored question, question template, passage, prompt, skill and mission in one
+place, filterable by subject, goal set, kind and state. Each is rendered the way
+a pupil would meet it — a hands-on question with its live board and script,
+which you can answer and be told whether you were right — with the solution
+shown beneath it, and only there. A template is one piece of content: its first
+variant is shown live and a sample of the others with their answers, and
+approving it approves every variant. It is behind the same administrator gate as
+the score pages, and works without JavaScript: every action is a plain form.
 
-**A decision is stored in that instance's own database, not in the file it
-concerns**, and it overrides `reviewed:` in both directions:
+- **Godkjenn** and **Avvis** on each piece, with an optional note. The page shows
+  who decided and when.
+- **Bulk**, for the several hundred pieces a new instance starts with: approve or
+  reject everything the filters select, on every page, not only the one in view.
+  The first click only counts the selection and asks you to confirm that number.
+  The second applies it, and only if the selection is still exactly what was
+  counted — if something was edited or decided by someone else in between,
+  nothing is written and the new count is shown.
 
-| file says | decision | what a pupil sees |
-| --- | --- | --- |
-| `reviewed: false` | none | withheld |
-| `reviewed: false` | approved | served |
-| `reviewed: true` | none | served |
-| `reviewed: true` | rejected | withheld |
+**A decision is about the content as it was when it was read.** Each one stores a
+fingerprint — a SHA-256 of the content as Pensum loads and serves it, both
+languages, so a comment or a re-indent in the file does not change it and a
+changed word does. A decision applies only while the fingerprint still matches:
+
+| decision | content since | what a pupil sees | what the review page says |
+| --- | --- | --- | --- |
+| none | — | withheld | pending |
+| approved | unchanged | served | approved |
+| approved | edited | withheld | changed since the decision |
+| rejected | unchanged | withheld | rejected |
+| rejected | edited | withheld | changed since the decision |
+
+So editing an approved question sends it back to the queue on the next start,
+with no step anyone has to remember. Adding a figure to a question changes what
+it tests, and is an edit like any other. The same check guards the button: a
+decision posted from a page rendered before the file changed is refused, and the
+page says so. Rows written by earlier versions carry no fingerprint and count as
+pending.
 
 ### Two different questions
 
-The flag and the decision look alike and are not the same judgement. Keeping them
-apart is the whole point of putting one in the repository and the other in the
-deployment.
+Two things are easily mistaken for one, and Pensum answers them in different
+places.
 
-- **`reviewed:` in a file asks: has a human read this at all?** It is the floor,
-  and it is the same everywhere, because "nobody has checked this yet" is a fact
-  about the question rather than about a school.
-- **A decision asks: does *this* school want this?** That has no
-  repository-wide answer, because it is not a property of the question. It is a
-  property of the deployment.
+- **Is this question sound?** Is the answer right, the wording fair, the goal
+  the one it tests. That is asked of the file, in the pull request that adds or
+  changes it, and by the validators, which run on every commit.
+- **Does *this* school show it to its pupils?** That has no repository-wide
+  answer, because it is not a property of the question. A Pensum serving a Sámi
+  school and a Pensum serving a congregation school in southern Norway are both
+  running correctly while serving different subsets of the same repository, and
+  neither is wrong about its own classroom. A flag in a shared YAML file cannot
+  express that: it would force whichever school edited it last onto everyone who
+  pulls the image. And a flag is set by whoever writes the pull request, where a
+  decision on the instance is made by someone answerable for that instance,
+  looking at the question as a pupil would meet it.
 
-A Pensum serving a Sámi school and a Pensum serving a congregation school in
-southern Norway are both running correctly while serving different subsets of the
-same repository. Each will want questions the other would rather not put in front
-of its pupils, and neither is wrong about its own classroom. A flag in a shared
-YAML file cannot express that: it would force whichever school edited it last
-onto everyone who pulls the image.
+So only the first lives in the repository. **The repository does not tell you
+what a given instance serves** — that instance's `content_reviews` table does,
+and there is deliberately no exporter that writes decisions back into YAML and no
+importer that reads them from it. To audit a deployment, look at the deployment;
+the review page says so on the page itself.
 
-So the difference between the files and a running instance is **not drift to be
-reconciled, and there is deliberately no exporter that writes decisions back into
-YAML.** Doing that would take one school's local decision and publish it as
-everybody's.
+### Administering without an identity provider
 
-The consequence is worth stating plainly: **the repository does not tell you what
-a given instance serves.** The files say what Pensum contains and what has been
-read; that instance's `content_reviews` says what that school chose from it. To
-audit a deployment, look at the deployment — the review page says so on the page
-itself.
+On your own machine, with no OIDC provider, there would otherwise be no
+administrator and so no way to approve anything. For that case only:
 
-An instance with no database is unaffected in every respect: no page, no table,
-and the file's own flag decides, exactly as before.
+```bash
+PENSUM_LOCAL_ADMIN=1 bin/run_local --native
+```
+
+The page header then offers **Logg inn som lokal administrator**, which gives
+that browser an administrator session. It is guarded, because it is a sign-in
+without a password, and **every one of these must hold on every request** or it
+is refused:
+
+1. `PENSUM_LOCAL_ADMIN` is exactly `1`. It is never on by default, and the app
+   logs a warning at startup whenever it is set.
+2. No OIDC client is configured — not even one of its three values. An instance
+   meant to have real accounts never gets a second way in.
+3. The request comes from a loopback address (`127.0.0.0/8` or `::1`).
+4. The request carries no `X-Forwarded-For`, `Forwarded` or `X-Real-IP` header.
+5. The request is addressed to `localhost`, `127.0.0.1` or `[::1]` in its `Host`
+   header.
+
+None of the last three is redundant. A reverse proxy on the same host connects to
+Pensum from 127.0.0.1, so every request it relays — from anywhere — looks like
+loopback. The forwarding headers are how a proxy says whose request it really is,
+and a request that carries one came through something. The `Host` check stops
+DNS rebinding: a page on another site that points its own name at 127.0.0.1 can
+make your browser send requests that arrive from loopback with no forwarding
+header, but they still name that site. The explicit flag covers the rest: a proxy
+configured not to send those headers would pass 3 and 4, so it takes a deliberate
+act on a machine you control to turn this on at all. The session is re-checked
+against all five on every request, so turning the flag off
+or putting a proxy in front ends it. **Never set it on an instance anyone else
+can reach.**
+
+It is for running from source. In a container, a request from your browser
+arrives from Docker's bridge network rather than from loopback, so it is refused
+there — which is the right answer for anything that looks like a deployment.
 
 ## Reading aloud
 
@@ -574,8 +661,9 @@ spoken is a coin toss dressed up as a lesson.
 ### Nothing is authored twice
 
 There is no `data/listening/`. The words come from the reading passages already
-written for that checkpoint — so they are already at its level and already
-reviewed — and the wrong spellings are generated.
+written for that checkpoint — so they are already at its level, and only the
+passages approved on the instance are used — and the wrong spellings are
+generated.
 
 That is the interesting half. A distractor has to be the word the child might
 actually have written:
@@ -710,8 +798,9 @@ appears only when JavaScript does is not a prompt.
 
 **A figure inherits its item's review state**, because it is part of the
 question rather than an illustration beside it. Adding one to a question that
-was already reviewed changes what that question tests, so it wants the reviewer
-back — `tools/render_figures.py` is what to hand them.
+was already approved changes what that question tests, and changes its
+fingerprint, so the question is back in every instance's review queue on its
+own — `tools/render_figures.py` is what to hand whoever reviews it.
 
 ## Answering with your hands
 
@@ -869,9 +958,9 @@ who finds the unwritten rules hard take part.
 boxes to tick, the card, and a line for the teacher on what to look for. The
 teacher's list is `/<locale>/progresjon/<SUBJECT_CODE>/oppdrag`, and the
 progression guide links each off-screen skill to its missions. The missions are
-in `data/missions/<SUBJECT_CODE>.yaml`, drafts until a human sets
-`reviewed: true`, and `python -m pensum.missions.validate` (a pre-commit hook)
-holds them to the skills they serve.
+in `data/missions/<SUBJECT_CODE>.yaml`, live on an instance once an
+administrator approves them there, and `python -m pensum.missions.validate` (a
+pre-commit hook) holds them to the skills they serve.
 
 **Nothing about a mission is uploaded or recorded.** No photo, no recording, no
 note of what a pupil said. The steps are plain checkboxes, which tick with no
@@ -963,11 +1052,13 @@ and re-verified against the official source.
   can check. Pensum marks those as not assessable and shows them without
   quizzing them, rather than inventing a question that misrepresents the goal.
   Coverage is therefore uneven by design.
-- **Quiz questions are drafted with an LLM and reviewed by hand.** Questions are
-  committed as readable YAML so every one of them is reviewable, and nothing is
-  served until a human has signed it off — either in the file, or on the review
-  page, which records the decision in the database rather than the file. The
-  curriculum text itself is never generated — it is quoted verbatim from Udir.
+- **Quiz questions are drafted with an LLM and reviewed by hand, per instance.**
+  Questions are committed as readable YAML so every one of them is reviewable in
+  the pull request that adds it, and nothing is served to a pupil until an
+  administrator of that instance has approved it on its review page, where the
+  decision is stored in the instance's database with a fingerprint of what was
+  read. An edit sends it back for review. The curriculum text itself is never
+  generated — it is quoted verbatim from Udir.
 - **A reading speed is a guideline, and a rough one.** No words-per-minute
   figure appears anywhere in LK20, and Udir publishes no national norm for
   reading speed, so the bands in `data/reading/norms.yaml` are Pensum's own and
@@ -1003,7 +1094,8 @@ and re-verified against the official source.
   Norwegian exercise, and Pensum says so rather than reading the word in
   whatever voice it has.
 - **No accounts and no analytics unless a deployment adds them.** Out of the
-  box Pensum stores nothing about who is using it: quiz progress lives in memory
+  box Pensum stores nothing about who is using it — its database holds which
+  content an administrator approved, and nothing about a pupil: quiz progress lives in memory
   for the length of a session and is gone afterwards, and there is no third-party
   script on any page in any configuration. A deployment can enable sign-in and
   keep a score history — see [Accounts and score

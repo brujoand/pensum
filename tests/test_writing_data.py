@@ -160,22 +160,18 @@ def test_the_committed_prompts_exercise_every_character(library: WritingLibrary)
     assert missing == []
 
 
-def test_every_committed_prompt_has_been_reviewed(library: WritingLibrary) -> None:
-    """A released build serves only reviewed content. This is the check that a
-    merge alone never puts an unread exercise in front of a child."""
-    unreviewed = [
-        prompt.id
-        for writing_set in library.writing_sets
-        for prompt in writing_set.prompts
-        if not prompt.reviewed
-    ]
-    assert unreviewed == []
+def test_no_committed_prompt_is_served_without_an_instance(library: WritingLibrary) -> None:
+    """A merge alone never puts an unread exercise in front of a child: with no
+    instance's approval behind it, nothing is served."""
+    assert all(library.for_goal_set(ws.goal_set) == [] for ws in library.writing_sets)
 
 
 def test_every_committed_prompt_is_servable(library: WritingLibrary) -> None:
     """`for_goal_set` drops a prompt the alphabet cannot draw. Silently, and
     correctly -- so the loudness has to live here."""
     for writing_set in library.writing_sets:
-        served = {prompt.id for prompt in library.for_goal_set(writing_set.goal_set)}
+        served = {
+            prompt.id for prompt in library.for_goal_set(writing_set.goal_set, unreviewed=True)
+        }
         authored = {prompt.id for prompt in writing_set.prompts}
         assert served == authored, sorted(authored - served)

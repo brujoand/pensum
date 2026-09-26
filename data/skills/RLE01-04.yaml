@@ -30,7 +30,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.religions.religion-in-local-area
     strand: religions
@@ -46,7 +45,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.christian-stories
     strand: religions
@@ -62,7 +60,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.other-traditions-stories
     strand: religions
@@ -78,7 +75,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [festivals-confused]
     assessable: true
-    reviewed: false
 
   - id: krle.religions.festivals
     strand: religions
@@ -94,7 +90,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [festivals-confused]
     assessable: true
-    reviewed: false
 
   - id: krle.religions.aesthetic-expressions
     strand: religions
@@ -110,7 +105,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.look-at-religious-art
     strand: religions
@@ -126,7 +120,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.terms-sources.simple-terms
     strand: terms-sources
@@ -142,7 +135,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.terms-sources.kinds-of-sources
     strand: terms-sources
@@ -158,7 +150,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.spot-ethical-question
     strand: ethics
@@ -174,7 +165,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [ethics-is-rules]
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.resources
     strand: ethics
@@ -190,7 +180,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.dignity-tolerance
     strand: ethics
@@ -206,7 +195,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [tolerance-means-agreeing]
     assessable: true
-    reviewed: false
 
   - id: krle.philosophy.philosophical-conversation
     strand: philosophy
@@ -222,7 +210,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.perspectives.others-thoughts
     strand: perspectives
@@ -238,7 +225,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.perspectives.living-together
     strand: perspectives
@@ -254,7 +240,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # ---------------------------------------------------------------- etter 7.
   - id: krle.religions.history-in-norway
@@ -271,7 +256,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.christian-rituals-ethics
     strand: religions
@@ -287,7 +271,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.other-rituals-ethics
     strand: religions
@@ -303,7 +286,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.diversity-within
     strand: religions
@@ -319,7 +301,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [tradition-as-uniform]
     assessable: true
-    reviewed: false
 
   - id: krle.terms-sources.subject-terms
     strand: terms-sources
@@ -335,7 +316,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.terms-sources.texts-and-objects
     strand: terms-sources
@@ -351,7 +331,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.religious-figures-ethics
     strand: ethics
@@ -367,7 +346,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.philosophers-ethics
     strand: ethics
@@ -383,7 +361,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.dilemma-perspectives
     strand: ethics
@@ -399,7 +376,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [ethics-is-rules]
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.freedom-of-religion
     strand: ethics
@@ -415,7 +391,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.philosophy.philosophical-thinking
     strand: philosophy
@@ -431,7 +406,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.philosophy.existential-questions
     strand: philosophy
@@ -447,7 +421,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.perspectives.childhood-family-views
     strand: perspectives
@@ -463,7 +436,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [tradition-as-uniform]
     assessable: true
-    reviewed: false
 
   # --------------------------------------------------------------- etter 10.
   - id: krle.religions.main-features-today
@@ -480,7 +452,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [tradition-as-uniform]
     assessable: true
-    reviewed: false
 
   - id: krle.religions.religion-in-history
     strand: religions
@@ -496,7 +467,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.secular-humanism
     strand: religions
@@ -512,7 +482,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.religion-outside-institutions
     strand: religions
@@ -528,7 +497,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.sami-indigenous-traditions
     strand: religions
@@ -544,7 +512,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.religions.religion-in-media
     strand: religions
@@ -560,7 +527,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.terms-sources.discuss-terms
     strand: terms-sources
@@ -576,7 +542,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.terms-sources.assess-sources
     strand: terms-sources
@@ -592,7 +557,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.compare-religious-ethics
     strand: ethics
@@ -608,7 +572,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.apply-philosophers-ethics
     strand: ethics
@@ -624,7 +587,6 @@ skills:
     stages: [abstract]
     misconceptions: [ethics-is-rules]
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.communication-ethics
     strand: ethics
@@ -640,7 +602,6 @@ skills:
     stages: [abstract]
     misconceptions: [ethics-is-rules]
     assessable: true
-    reviewed: false
 
   - id: krle.ethics.rights-sustainability-poverty
     strand: ethics
@@ -656,7 +617,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: krle.philosophy.existential-diverse-society
     strand: philosophy
@@ -672,7 +632,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.perspectives.whose-view
     strand: perspectives
@@ -688,7 +647,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [tradition-as-uniform]
     assessable: true
-    reviewed: false
 
   - id: krle.perspectives.handle-disagreement
     strand: perspectives
@@ -704,7 +662,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: krle.perspectives.gender-sexuality-views
     strand: perspectives
@@ -720,4 +677,3 @@ skills:
     stages: [abstract]
     misconceptions: [tradition-as-uniform]
     assessable: true
-    reviewed: false

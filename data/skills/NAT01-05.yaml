@@ -35,7 +35,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.tell-how-found-out
     strand: inquiry
@@ -51,7 +50,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.materials.sort-by-property
     strand: materials
@@ -67,7 +65,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.materials.floats-or-sinks
     strand: materials
@@ -83,7 +80,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [big-things-always-sink]
     assessable: true
-    reviewed: false
 
   - id: nat.technology.suggest-invention
     strand: technology
@@ -99,7 +95,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.explore-local-area
     strand: living-things
@@ -115,7 +110,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.living-things.local-adaptation
     strand: living-things
@@ -131,7 +125,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.seasons-change
     strand: earth-space
@@ -147,7 +140,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.ways-to-divide-year
     strand: earth-space
@@ -163,7 +155,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.weather-log
     strand: earth-space
@@ -179,7 +170,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.earth-space.compare-weather
     strand: earth-space
@@ -195,7 +185,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.senses
     strand: body-health
@@ -211,7 +200,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.senses-test
     strand: body-health
@@ -227,7 +215,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.body-health.avoid-infection
     strand: body-health
@@ -243,7 +230,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.green-choices
     strand: sustainability
@@ -259,7 +245,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.sort-rubbish
     strand: sustainability
@@ -275,7 +260,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   # ---------------------------------------------------------------- etter 5.
   - id: nat.inquiry.make-hypothesis
@@ -292,7 +276,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.table-of-results
     strand: inquiry
@@ -308,7 +291,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.model-vs-observation
     strand: inquiry
@@ -324,7 +306,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [model-is-a-copy]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.mixing-substances
     strand: materials
@@ -340,7 +321,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [melting-is-dissolving]
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.energy-in-motion-heat
     strand: energy-forces
@@ -356,7 +336,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [energy-is-only-electricity]
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.energy-chain
     strand: energy-forces
@@ -372,7 +351,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.compare-adaptations
     strand: living-things
@@ -388,7 +366,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.why-species-die-out
     strand: living-things
@@ -404,7 +381,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.animal-welfare
     strand: living-things
@@ -420,7 +396,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.water-cycle
     strand: earth-space
@@ -436,7 +411,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [rain-is-new-water]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.water-for-life
     strand: earth-space
@@ -452,7 +426,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.muscles-skeleton
     strand: body-health
@@ -468,7 +441,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [muscles-push]
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.outer-defences
     strand: body-health
@@ -484,7 +456,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.lifestyle-and-health
     strand: body-health
@@ -500,7 +471,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.body-differences
     strand: body-health
@@ -516,7 +486,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.body-health.human-reproduction
@@ -533,7 +502,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.parts-of-a-system
@@ -550,7 +518,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.technology.build-to-spec
     strand: technology
@@ -566,7 +533,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.sustainability.explore-nature-area
     strand: sustainability
@@ -582,7 +548,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.sustainability.harvest-resources
     strand: sustainability
@@ -598,7 +563,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.sustainability.sustainable-use
     strand: sustainability
@@ -614,7 +578,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # ---------------------------------------------------------------- etter 7.
   - id: nat.inquiry.name-variables
@@ -631,7 +594,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.observation-vs-conclusion
     strand: inquiry
@@ -647,7 +609,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [true-means-shown]
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.sources-of-error
     strand: inquiry
@@ -663,7 +624,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.why-models
     strand: inquiry
@@ -679,7 +639,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [model-is-a-copy]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.particle-model
     strand: materials
@@ -695,7 +654,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [particles-change-size]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.phase-changes
     strand: materials
@@ -711,7 +669,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [melting-is-dissolving]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.chemical-reactions
     strand: materials
@@ -727,7 +684,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.materials.hazard-symbols
     strand: materials
@@ -743,7 +699,6 @@ skills:
     stages: [pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.electric-magnetic-forces
     strand: energy-forces
@@ -759,7 +714,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [magnets-attract-all-metals]
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.electricity-everyday
     strand: energy-forces
@@ -775,7 +729,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.group-organisms
     strand: living-things
@@ -791,7 +744,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [fungi-are-plants]
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.food-webs
     strand: living-things
@@ -807,7 +759,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [arrows-point-to-food, plants-eat-soil]
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.biodiversity
     strand: living-things
@@ -823,7 +774,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.day-and-night
     strand: earth-space
@@ -839,7 +789,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [sun-circles-earth]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.moon-phases
     strand: earth-space
@@ -855,7 +804,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [phases-are-earth-shadow]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.why-seasons
     strand: earth-space
@@ -871,7 +819,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [seasons-from-distance-to-sun]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.conditions-for-life
     strand: earth-space
@@ -887,7 +834,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.rock-cycle
     strand: earth-space
@@ -903,7 +849,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [landscape-never-changes]
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.organ-systems
     strand: body-health
@@ -919,7 +864,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.puberty
     strand: body-health
@@ -935,7 +879,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.program-a-system
@@ -952,7 +895,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.technology.design-for-a-user
     strand: technology
@@ -968,7 +910,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.technology.technology-dilemmas
     strand: technology
@@ -984,7 +925,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.science-develops
     strand: sustainability
@@ -1000,7 +940,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [science-is-finished]
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.traditional-knowledge
     strand: sustainability
@@ -1016,7 +955,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.protect-biodiversity
     strand: sustainability
@@ -1032,7 +970,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.northern-nature-management
     strand: sustainability
@@ -1048,7 +985,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # --------------------------------------------------------------- etter 10.
   - id: nat.inquiry.dependent-independent
@@ -1065,7 +1001,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.explain-with-theory
     strand: inquiry
@@ -1081,7 +1016,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.judge-investigation
     strand: inquiry
@@ -1097,7 +1031,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.inquiry.model-limits
     strand: inquiry
@@ -1113,7 +1046,6 @@ skills:
     stages: [abstract]
     misconceptions: [model-is-a-copy]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.risk-assessment
     strand: materials
@@ -1129,7 +1061,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.materials.mass-conservation
     strand: materials
@@ -1145,7 +1076,6 @@ skills:
     stages: [concrete, abstract]
     misconceptions: [burning-destroys-matter]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.combustion
     strand: materials
@@ -1161,7 +1091,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [burning-destroys-matter]
     assessable: true
-    reviewed: false
 
   - id: nat.materials.atoms-periodic-table
     strand: materials
@@ -1177,7 +1106,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.energy-conservation
     strand: energy-forces
@@ -1193,7 +1121,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [energy-gets-used-up]
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.energy-quality
     strand: energy-forces
@@ -1209,7 +1136,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.store-transport-energy
     strand: energy-forces
@@ -1225,7 +1151,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.energy-forces.energy-and-environment
     strand: energy-forces
@@ -1241,7 +1166,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.evolution
     strand: living-things
@@ -1257,7 +1181,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [change-by-need]
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.cells
     strand: living-things
@@ -1273,7 +1196,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.photosynthesis-respiration
     strand: living-things
@@ -1289,7 +1211,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [plants-eat-soil]
     assessable: true
-    reviewed: false
 
   - id: nat.living-things.ecosystem-cycles
     strand: living-things
@@ -1305,7 +1226,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [energy-cycles]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.greenhouse-effect
     strand: earth-space
@@ -1321,7 +1241,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [greenhouse-is-ozone-hole]
     assessable: true
-    reviewed: false
 
   - id: nat.earth-space.plate-tectonics
     strand: earth-space
@@ -1337,7 +1256,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.nerves-and-hormones
     strand: body-health
@@ -1353,7 +1271,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.substances-and-signals
     strand: body-health
@@ -1369,7 +1286,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.immune-system-vaccines
     strand: body-health
@@ -1385,7 +1301,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [vaccine-is-a-cure]
     assessable: true
-    reviewed: false
 
   - id: nat.body-health.sexual-health
     strand: body-health
@@ -1401,7 +1316,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
     sensitive: true  # see docs/design/subjects/naturfag.md
 
   - id: nat.technology.explain-transmitter-receiver
@@ -1418,7 +1332,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.technology.build-transmitter-receiver
     strand: technology
@@ -1434,7 +1347,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: nat.technology.program-to-explore
     strand: technology
@@ -1450,7 +1362,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.resource-dilemmas
     strand: sustainability
@@ -1466,7 +1377,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.sami-nature-knowledge
     strand: sustainability
@@ -1482,7 +1392,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: nat.sustainability.how-research-works
     strand: sustainability
@@ -1498,4 +1407,3 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false

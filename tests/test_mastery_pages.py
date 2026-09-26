@@ -14,19 +14,27 @@ from pathlib import Path
 
 import pytest
 from fastapi import FastAPI
-from test_admin import ADMIN, PUPIL, build, settings_with, sign_in, take_quiz
+from fastapi.testclient import TestClient
+from test_admin import ADMIN, ORIGIN, PUPIL, SECRET, build, settings_with, sign_in, take_quiz
 
+from pensum.auth.cookies import LOCAL_COOKIE, CookieCodec
 from pensum.auth.models import User
+from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
 from pensum.scores.evidence import Evidence
 from pensum.scores.store import Attempt
+from pensum.web.app import create_app
 
 OTHER = User(sub="u-2", name="Kari", groups=("pupils",))
 START = datetime(2026, 9, 1, 12, 0, tzinfo=UTC)
 
 NOT_STORED = {"nb": "lagrer ingenting om deg", "en": "stores nothing about you"}
 SIGN_IN = {"nb": "Kartet ditt vokser bare", "en": "Your map only grows"}
-GRID_NOT_STORED = {"nb": "ingen database", "en": "no database"}
+GRID_NOT_STORED = {"nb": "ingen innlogging", "en": "no sign-in"}
+NOTHING_APPROVED = {
+    "nb": "Ingen ferdigheter i dette faget er godkjent",
+    "en": "No skill in this subject has been approved",
+}
 
 
 def spots(html: str) -> str:
@@ -90,10 +98,26 @@ def test_the_default_instance_says_nothing_is_stored(locale: str) -> None:
 
 
 @pytest.mark.parametrize("locale", ["nb", "en"])
-def test_sign_in_without_a_database_says_nothing_is_stored(locale: str, tmp_path: Path) -> None:
+def test_sign_in_with_no_database_path_still_grows_a_map(locale: str, tmp_path: Path) -> None:
+    """There is always a database, so sign-in alone is enough for the map."""
     _, client = build(settings_with(tmp_path, database_path=None))
     sign_in(client, PUPIL)
-    assert NOT_STORED[locale] in client.get(f"/{locale}/kart/MAT01-06").text
+    page = client.get(f"/{locale}/kart/MAT01-06").text
+    assert NOT_STORED[locale] not in page
+    assert SIGN_IN[locale] not in page
+
+
+@pytest.mark.parametrize("locale", ["nb", "en"])
+def test_a_map_with_no_approved_skill_says_so(locale: str, tmp_path: Path) -> None:
+    """The pupil's map shows approved skills only; with none, it says so rather
+    than showing an empty map, which would read as "you have done nothing"."""
+    app = create_app(Catalogue.load(), settings=settings_with(tmp_path))
+    client = TestClient(app, base_url=ORIGIN)
+    sign_in(client, PUPIL)
+    page = client.get(f"/{locale}/kart/MAT01-06")
+    assert page.status_code == 200
+    assert NOTHING_APPROVED[locale] in page.text
+    assert '<svg class="growth' not in page.text
 
 
 @pytest.mark.parametrize("locale", ["nb", "en"])
@@ -230,9 +254,12 @@ def test_without_sign_in_there_is_no_grid() -> None:
 
 
 @pytest.mark.parametrize("locale", ["nb", "en"])
-def test_without_a_database_the_grid_says_nothing_is_stored(locale: str, tmp_path: Path) -> None:
-    _, client = build(settings_with(tmp_path, database_path=None))
-    sign_in(client, ADMIN)
+def test_without_sign_in_the_grid_says_nothing_is_stored(locale: str) -> None:
+    """Reachable only by a local administrator: an instance with no provider
+    records nobody, so the grid has nothing to show and says why."""
+    app = create_app(Catalogue.load(), settings=Settings(local_admin=True, session_secret=SECRET))
+    client = TestClient(app, base_url="http://localhost:8000", client=("127.0.0.1", 50000))
+    client.cookies.set(LOCAL_COOKIE, CookieCodec(SECRET).dump_local())
     page = client.get(f"/{locale}/admin/klasse/MAT01-06")
     assert page.status_code == 200
     assert GRID_NOT_STORED[locale] in page.text

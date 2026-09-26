@@ -1,7 +1,8 @@
 ---
 # Missions for KRLE: the goals a screen does not check, practised off screen.
 # One skill each, and only skills marked `assessable: false` in
-# data/skills/RLE01-04.yaml. Drafts until a human sets `reviewed: true`.
+# data/skills/RLE01-04.yaml.
+# Live only where an administrator approves it, on that instance's review page.
 #
 # The philosophy goals are conversations, and a screen does not stand in for
 # one (docs/design/subjects/krle.md). Their missions hand the teacher the three
@@ -19,7 +20,6 @@ missions:
       - {nob: "Finn ut hvilken tradisjon stedet hører til.", eng: "Find out which tradition the place belongs to."}
       - {nob: "Skriv navnet på stedet og tradisjonen.", eng: "Write down the name of the place and the tradition."}
     confirm: teacher
-    reviewed: false
 
   - id: krle.one-thing-in-the-art
     skill: krle.religions.look-at-religious-art
@@ -29,7 +29,6 @@ missions:
       - {nob: "Se eller lytt i ett minutt uten å si noe.", eng: "Look or listen for one minute without saying anything."}
       - {nob: "Si én ting du la merke til: en farge, en figur, en lyd.", eng: "Say one thing you noticed: a colour, a figure, a sound."}
     confirm: teacher
-    reviewed: false
 
   - id: krle.class-conversation-turns
     skill: krle.philosophy.philosophical-conversation
@@ -41,7 +40,6 @@ missions:
       - {nob: "Si én gang hva en annen sa før du svarer.", eng: "Once, say what someone else said before you answer."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: krle.question-what-is-a-friend
     skill: krle.philosophy.philosophical-conversation
@@ -53,7 +51,6 @@ missions:
     confirm: teacher
     card: question
     question: {nob: "Kan en venn være noen du aldri har møtt?", eng: "Can a friend be someone you have never met?"}
-    reviewed: false
 
   # --- etter 7. trinn --------------------------------------------------------
   - id: krle.thinking-ladder
@@ -66,7 +63,6 @@ missions:
       - {nob: "Gi et moteksempel.", eng: "Give a counterexample."}
     confirm: teacher
     card: ladder
-    reviewed: false
 
   - id: krle.question-is-it-fair
     skill: krle.philosophy.philosophical-thinking
@@ -78,7 +74,6 @@ missions:
     confirm: teacher
     card: question
     question: {nob: "Er det rettferdig at alle får like mye?", eng: "Is it fair that everyone gets the same?"}
-    reviewed: false
 
   # --- etter 10. trinn -------------------------------------------------------
   - id: krle.question-growing-up
@@ -91,7 +86,6 @@ missions:
     confirm: teacher
     card: question
     question: {nob: "Kan man høre hjemme flere steder samtidig?", eng: "Can you belong in more than one place at once?"}
-    reviewed: false
 
   - id: krle.big-questions-turns
     skill: krle.philosophy.existential-diverse-society
@@ -102,7 +96,6 @@ missions:
       - {nob: "Si én gang: «Jeg ser det annerledes fordi …»", eng: "Once, say: «I see it differently because …»"}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: krle.say-it-back
     skill: krle.perspectives.handle-disagreement
@@ -115,4 +108,3 @@ missions:
       - {nob: "Bytt roller.", eng: "Swap roles."}
     confirm: teacher
     card: turn
-    reviewed: false

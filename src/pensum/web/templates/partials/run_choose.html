@@ -10,8 +10,8 @@
         <form method="post" action="{{ choose_url }}"
               hx-post="{{ choose_url }}" hx-target="#quiz-slot" hx-swap="innerHTML">
           <input type="hidden" name="item_id" value="{{ option.id }}" />
-          {% if drafts_visible and not option.reviewed %}
-            <p class="badge badge--draft">{{ t("review.draft") }}</p>
+          {% if drafts_visible %}
+            {% with state = review_state("item", option.id) %}{% include "partials/review_badge.html" %}{% endwith %}
           {% endif %}
           {% set kind = kind_label(locale, option) %}
           {% if kind %}<p class="finish-card__kind">{{ kind }}</p>{% endif %}

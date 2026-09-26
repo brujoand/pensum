@@ -13,6 +13,7 @@ import math
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_all, approve_app, ledger_at
 
 from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
@@ -61,7 +62,6 @@ def prompt(**overrides) -> WritingPrompt:
         "text": "+",
         "difficulty": 1,
         "source": "pensum",
-        "reviewed": True,
     }
     fields.update(overrides)
     return WritingPrompt(**fields)
@@ -361,25 +361,29 @@ def library(*prompts: WritingPrompt, **kwargs) -> WritingLibrary:
     )
 
 
-def test_an_unreviewed_prompt_is_withheld_by_default() -> None:
-    held = library(prompt(reviewed=False))
+def test_an_unapproved_prompt_is_withheld_by_default() -> None:
+    held = library(prompt())
     assert held.for_goal_set("KV1107") == []
     assert not held.has_writing("KV1107")
 
 
-def test_an_unreviewed_prompt_is_served_to_someone_allowed_to_see_drafts() -> None:
-    held = library(prompt(reviewed=False))
+def test_an_unapproved_prompt_is_served_to_someone_allowed_to_see_drafts() -> None:
+    held = library(prompt())
     assert len(held.for_goal_set("KV1107", unreviewed=True)) == 1
 
 
-def test_the_deployment_wide_switch_widens_it_too() -> None:
-    held = library(prompt(reviewed=False), include_unreviewed=True)
-    assert len(held.for_goal_set("KV1107")) == 1
+def test_an_approved_prompt_is_served(tmp_path) -> None:
+    served = library(prompt())
+    approve_all(ledger_at(tmp_path / "db.sqlite"), writing=served)
+    assert len(served.for_goal_set("KV1107")) == 1
 
 
-def test_a_prompt_the_alphabet_cannot_draw_is_withheld_rather_than_shown_blank() -> None:
+def test_a_prompt_the_alphabet_cannot_draw_is_withheld_rather_than_shown_blank(tmp_path) -> None:
+    """Even approved: a letter Pensum cannot draw stays undrawable."""
     held = library(prompt(text="ø"))
+    approve_all(ledger_at(tmp_path / "db.sqlite"), writing=held)
     assert held.for_goal_set("KV1107") == []
+    assert held.for_goal_set("KV1107", unreviewed=True) == []
 
 
 def test_an_unknown_goal_set_is_empty_rather_than_an_error() -> None:
@@ -480,7 +484,10 @@ def test_points_far_outside_the_box_are_clamped_rather_than_refused() -> None:
 
 @pytest.fixture(scope="module")
 def client() -> TestClient:
-    return TestClient(create_app(Catalogue.load(), settings=Settings()))
+    """An instance where an administrator has approved everything."""
+    app = create_app(Catalogue.load(), settings=Settings())
+    approve_app(app)
+    return TestClient(app)
 
 
 def real_attempt(client: TestClient, url: str, characters: str, **kwargs) -> dict:

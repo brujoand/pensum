@@ -34,6 +34,9 @@ subject:
   source_link: View this goal at Udir
   quiz_cta: Take the quiz
   quiz_unavailable: A quiz for this subject is coming soon.
+  quiz_awaiting_review: >-
+    Questions exist for this year, but none of them has been approved on this
+    site yet. An administrator here has to approve them before the quiz appears.
   reading_cta: Read aloud
   writing_cta: Write the letters
   listening_cta: Listen and spell
@@ -264,52 +267,107 @@ rights:
     deletion of.
 
 review:
-  # Only ever shown to someone allowed to see drafts. A pupil is never served an
-  # unreviewed question at all.
-  draft: Draft — not reviewed
+  # Only ever shown to an administrator. A pupil is never served anything that
+  # is not approved here.
   draft_note: >-
-    You are also seeing content nobody has read through yet, because you are
-    signed in as an administrator. Pupils only see what has been marked as
-    reviewed.
+    You are also seeing content that is not approved on this site, because you
+    are signed in as an administrator. Everything that is labelled, pupils do
+    not see. Pupils only see what an administrator has approved here.
 
   # The review page. What a pupil sees is decided here, so the wording says what
   # the button does rather than what it is called.
   link: Review
   heading: Content review
   intro: >-
-    Questions, reading passages and writing prompts, as a pupil would meet them.
-    Approve what this school will use, and reject the rest — both what is not
-    good enough, and what is good enough somewhere other than here.
+    Questions, templates, reading passages, writing prompts, skills and
+    missions, as a pupil would meet them. Nothing is shown to pupils until it is
+    approved here. Approve what this school will use, and reject the rest — both
+    what is not good enough, and what is good enough somewhere other than here.
   database_note: >-
-    Choices here apply to this installation, and are stored in its database
-    rather than in the files. They take effect immediately, without a release,
-    and they do not follow along to other schools running Pensum. What this
-    school shows is recorded here, not in the repository.
-  counts: '{pending} waiting · {published} published · {rejected} rejected'
+    Choices here apply to this installation and are stored in its database, not
+    in the files. They take effect immediately, and they do not follow along to
+    other schools running Pensum. If something is edited in the files after it
+    was approved, it goes back to waiting, because what was approved is no
+    longer what is there.
+  counts: >-
+    {pending} waiting · {changed} changed since the decision · {approved}
+    approved · {rejected} rejected
   filter_label: Filter
-  filter:
-    pending: Waiting
-    published: Published
-    rejected: Rejected
-    all: Everything
+  filter_subject: Subject
+  filter_goal_set: Goal set
+  filter_kind: Type
+  filter_state: State
+  filter_apply: Show
+  all: All
   kind:
-    all: All types
     item: Question
+    template: Question template
     reading: Reading passage
     writing: Writing prompt
+    skill: Skill
+    mission: Mission
   state:
-    pending: Waiting for review
-    published: Published
+    pending: Waiting for approval
+    approved: Approved
     rejected: Rejected
-  overridden: Overrides the file
+    changed: Changed since the decision
   after_year: 'after year {year}'
   meta: '{id} · difficulty {difficulty}'
-  decided_by: 'decided by {name}'
+  meta_plain: '{id}'
+  decided: 'Decided by {name}, {day}'
+  note_label: Note (optional)
+  note_shown: 'Note: {note}'
   answer: 'Correct answer: {answer}'
+  accepted: 'Also accepted: {answers}'
+  explanation: 'Explanation: {text}'
+  solution_heading: Solution (shown only here)
+  try_heading: Try it
+  try_check: Check the answer
+  try_right: Right.
+  try_wrong: 'Not right. The right answer is {answer}.'
+  try_back: Back to the review
+  template_note: >-
+    A template makes {count} variants of the same question. It is approved or
+    rejected as one, and a pupil gets one variant at a time. Here is the first,
+    as a pupil meets it, and some of the others with their answers.
+  template_examples: More variants
+  skill_teacher: 'For the teacher: {text}'
+  skill_stages: 'Representation stages: {stages}'
+  skill_refs: 'Competence goals: {refs}'
+  skill_off_screen: Practised off screen, never in a quiz.
+  skill_sensitive: Sensitive — never a reward, never on the class grid.
+  mission_confirm_teacher: The teacher confirms it is done.
+  mission_confirm_self: The pupil ticks it off themselves.
   approve: Approve
   reject: Reject
   clear: Clear the decision
   nothing_here: Nothing here.
+  page: 'Page {page} of {pages}'
+  previous: Previous page
+  next: Next page
+  changed_since: >-
+    This has changed since you opened the page, so nothing was saved. Look at it
+    again before deciding.
+
+  # Deciding many at once. Every installation starts with several hundred
+  # pieces waiting, so this has to be possible -- but only once the number has
+  # been said out loud.
+  bulk_heading: Everything shown now
+  bulk_intro: >-
+    Decide all {count} in the selection above at once. You will see the number
+    and confirm it before anything is saved.
+  bulk_approve: Approve all in the selection
+  bulk_reject: Reject all in the selection
+  bulk_confirm_heading: Confirm
+  bulk_confirm_approve: 'Approve {count} pieces? Pupils will see them straight away.'
+  bulk_confirm_reject: 'Reject {count} pieces? Pupils will not see them.'
+  bulk_confirm_yes: Yes, do it
+  bulk_cancel: Cancel
+  bulk_changed: >-
+    The selection has changed since you opened it, so nothing was saved. Here it
+    is as it is now.
+  bulk_done: '{count} decisions saved.'
+  bulk_empty: The selection is empty, so there is nothing to decide.
 
 auth:
   # Signing in is optional. No string here may imply a quiz needs an account,
@@ -317,6 +375,7 @@ auth:
   account: Account
   sign_in: Sign in
   sign_out: Sign out
+  local_sign_in: Sign in as local administrator
   signed_in_as: "Signed in as {name}"
   failed: >-
     Signing in did not go through. You can still take every quiz without
@@ -503,14 +562,14 @@ progression:
     Directorate for Education and Training's text. The competence goals, quoted
     verbatim under each skill, are what applies.
   drafts_note: >-
-    {count} of {total} skills are drafts nobody has read through yet. They are
-    shown anyway, because nothing a pupil sees depends on them so far.
+    {count} of {total} skills are not approved on this site yet. They are shown
+    here anyway, labelled, because this is the teacher's overview. Pupils' maps
+    show only the approved ones.
   grid_label: Skills by strand and checkpoint
   strand: Strand
   checkpoint: "After year {year}"
   pupil_label: For the pupil
   teacher_label: What the teacher sees
-  draft: Draft — not reviewed
   off_screen: Practised off screen
   cta: See how the subject progresses
   cta_note: Every year on one page, for teachers. Printable.
@@ -944,7 +1003,9 @@ missions:
     for Education and Training's text. Each one serves a skill from the
     progression guide.
   drafts_note: >-
-    {count} of {total} missions are drafts nobody has read through yet.
+    {count} of {total} missions are not approved on this site yet. They are shown
+    here, labelled, but the mission page a pupil is given opens only for approved
+    missions.
   nothing_kept: >-
     Nothing is uploaded or recorded: no photo, no recording, no note of what a
     pupil said. A ticked step stays in the pupil's own browser.
@@ -1088,6 +1149,9 @@ mastery:
     not_stored: >-
       This Pensum site stores nothing about you, so there is no map to grow
       here. You can still take every quiz.
+    nothing_approved: >-
+      No skill in this subject has been approved on this site yet, so there is
+      no map to show. You can still take the quizzes there are.
     sign_in_note: >-
       Your map only grows when you are signed in, because it has to be stored
       somewhere. You do not need to sign in to take a quiz.
@@ -1103,8 +1167,8 @@ mastery:
       once there is classroom data. Read the cells as a hint about whom to look
       at, not as an assessment.
     not_stored: >-
-      This Pensum site has no database, so no answers are stored and there is no
-      overview to show.
+      This Pensum site has no sign-in, so no pupil's answers are stored and there
+      is no overview to show.
     strands_label: Choose a strand
     grid_label: Pupils and skills
     concrete_only: Only with objects so far

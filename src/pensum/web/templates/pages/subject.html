@@ -59,9 +59,15 @@
         </p>
       {% endif %}
     {% else %}
-      {# No items authored for this checkpoint yet. Saying so beats a button
-         that leads nowhere. #}
-      <p>{{ t("subject.quiz_unavailable") }}</p>
+      {# Either nothing is written for this checkpoint, or it is written and
+         nobody has approved it on this site. Two different facts, and the
+         second is not the pupil's to fix, so neither is dressed up as the
+         other. #}
+      {% if quiz_awaiting_review %}
+        <p>{{ t("subject.quiz_awaiting_review") }}</p>
+      {% else %}
+        <p>{{ t("subject.quiz_unavailable") }}</p>
+      {% endif %}
     {% endif %}
   </section>
 

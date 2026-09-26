@@ -8,6 +8,8 @@ naturfag has an outright hole where no checkpoint covers 3. trinn.
 
 from __future__ import annotations
 
+from review_helpers import approved
+
 from pensum.catalogue.loader import Catalogue
 from pensum.domain.ladder import Ladder
 from pensum.domain.models import GoalSet, LocalisedText, Subject
@@ -126,7 +128,7 @@ def test_every_real_subject_builds_a_usable_ladder() -> None:
     shorter and a ceiling starts meaning something different. Better a red build.
     """
     catalogue = Catalogue.load()
-    bank = ItemBank.load()
+    bank = approved(ItemBank.load())
     for code in ("MAT01-06", "NOR01-08", "ENG01-06", "NAT01-05", "SAF01-05", "RLE01-04"):
         subject = catalogue.subject(code)
         assert subject is not None

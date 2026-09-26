@@ -97,7 +97,7 @@ def test_ids_strands_stages_and_text_are_well_formed(code: str) -> None:
         assert skill["strand"] in strands, skill["id"]
         stages = skill["stages"]
         assert stages and stages == [s for s in STAGES if s in stages], skill["id"]
-        assert skill["reviewed"] is False, skill["id"]
+        assert "reviewed" not in skill, skill["id"]
         texts += [skill["i_can"], skill["teacher"]]
     for text in texts:
         assert set(text) == {"nob", "eng"} and all(v.strip() for v in text.values()), text

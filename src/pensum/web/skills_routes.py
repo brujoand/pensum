@@ -9,8 +9,10 @@ reading of the curriculum; the goals they cite are Udir's wording, quoted
 verbatim beside them under the same `.curriculum` treatment the subject page
 uses. The page says which is which before it shows either.
 
-Unreviewed skills are shown, and labelled. Nothing a pupil sees depends on them
-yet, and a teacher judging a draft needs to be able to read it.
+Every skill is shown, and each one that is not approved on this instance is
+labelled with its state. This is a teacher's page, and a teacher judging a
+draft needs to be able to read it; the pupil's map is where only approved
+skills appear.
 """
 
 from __future__ import annotations
@@ -92,7 +94,9 @@ async def progression_page(request: Request, locale: str, subject_code: str) -> 
             checkpoints=checkpoints,
             rows=rows,
             skill_count=len(skill_file.skills),
-            draft_count=sum(1 for skill in skill_file.skills if not skill.reviewed),
+            draft_count=sum(
+                1 for skill in skill_file.skills if not _skills(request).publishes(skill)
+            ),
             missions=missions_by_skill(request, subject.code),
         ),
     )

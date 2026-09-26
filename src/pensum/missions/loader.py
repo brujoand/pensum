@@ -3,6 +3,10 @@
 As with skills, a subject with no file is an ordinary state: missions are
 authored subject by subject, and the pages that show them appear where a file
 exists.
+
+A mission is reviewed on the instance like every other piece of content. The
+teacher's list shows every mission with its state; the mission page itself is
+what a pupil is handed, and serves approved missions only.
 """
 
 from __future__ import annotations
@@ -12,9 +16,14 @@ from pathlib import Path
 import yaml
 
 from pensum.missions.schema import Mission, MissionFile
+from pensum.review.gate import ReviewGate
+from pensum.review.store import ReviewLedger, State
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_MISSIONS_DIR = REPO_ROOT / "data" / "missions"
+
+# What a decision about a mission is filed under.
+KIND = "mission"
 
 
 def read(path: Path) -> MissionFile:
@@ -33,11 +42,36 @@ class MissionLibrary:
             for mission in f.missions:
                 by_skill.setdefault(mission.skill, []).append(mission)
         self._by_skill = {skill: tuple(missions) for skill, missions in by_skill.items()}
+        self._gate = ReviewGate(KIND)
+
+    def with_ledger(self, ledger: ReviewLedger | None) -> MissionLibrary:
+        """Same contract as `ItemBank.with_ledger`: None approves nothing."""
+        self._gate.ledger = ledger
+        return self
+
+    @property
+    def has_ledger(self) -> bool:
+        return self._gate.ledger is not None
+
+    def publishes(self, mission: Mission) -> bool:
+        return self._gate.publishes(mission.id, mission)
+
+    def review_state(self, content_id: str) -> State:
+        found = self._by_id.get(content_id)
+        return self._gate.state(content_id, found[1]) if found is not None else "pending"
+
+    def fingerprint(self, content_id: str) -> str | None:
+        found = self._by_id.get(content_id)
+        return self._gate.fingerprint(content_id, found[1]) if found is not None else None
 
     @classmethod
     def load(cls, missions_dir: Path | None = None) -> MissionLibrary:
         directory = missions_dir or DEFAULT_MISSIONS_DIR
         return cls([read(path) for path in sorted(directory.glob("*.yaml"))])
+
+    @property
+    def subjects(self) -> list[str]:
+        return sorted(self._by_subject)
 
     def for_subject(self, subject_code: str) -> MissionFile | None:
         return self._by_subject.get(subject_code)

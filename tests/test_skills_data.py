@@ -67,10 +67,10 @@ def test_matematikk_keeps_the_design_s_off_screen_goals_off_screen(
     assert {"KM13229", "KM13262", "KM13325", "KM13259", "KM13295"} <= off_screen
 
 
-def test_no_committed_skill_claims_to_be_reviewed_by_default(skills: SkillLibrary) -> None:
-    """`reviewed` is set by a human, never by the author of the file."""
+def test_no_committed_skill_is_approved_without_an_instance(skills: SkillLibrary) -> None:
+    """Approval is made on an instance, never by the author of the file."""
     skill_file = skills.for_subject("MAT01-06")
-    assert not any(skill.reviewed for skill in skill_file.skills)
+    assert all(skills.review_state(skill.id) == "pending" for skill in skill_file.skills)
 
 
 # The progression guide -------------------------------------------------------
@@ -119,8 +119,8 @@ def test_the_guide_says_whose_words_are_whose(client: TestClient) -> None:
 
 def test_the_guide_labels_drafts_and_off_screen_skills(client: TestClient) -> None:
     text = text_of(client.get("/en/progresjon/MAT01-06").text)
-    assert "skills are drafts nobody has read through yet" in text
-    assert "Draft — not reviewed" in text
+    assert "skills are not approved on this site yet" in text
+    assert "Waiting for approval" in text
     assert "Practised off screen" in text
 
 

@@ -54,7 +54,7 @@ def _writing(request: Request) -> WritingLibrary:
 # The entry point is offered per subject rather than assumed for all of them --
 # derived from the data, like `has_quiz`, never declared.
 #
-# Reviewed items only, with no `unreviewed` pass-through, because the nivåtest
+# Approved items only, with no `unreviewed` pass-through, because the nivåtest
 # itself builds its ladder that way (`placement_routes._ladder`). An offer made
 # on drafts would start a test that cannot climb the rungs it was offered for.
 def _placeable(request: Request, subject) -> bool:
@@ -129,7 +129,7 @@ async def grade_page(request: Request, locale: str, grade: int) -> HTMLResponse:
                 "checkpoint": checkpoint,
                 "goal_count": len(checkpoint.goal_set.goals),
                 # Derived, never declared: a subject offers a quiz exactly when
-                # reviewed items exist for that checkpoint.
+                # approved items exist for that checkpoint.
                 "has_quiz": _items(request).has_quiz(checkpoint.goal_set.code, unreviewed=drafts),
             }
         )
@@ -174,9 +174,13 @@ async def subject_page(
             checkpoint=checkpoint,
             shows_nynorsk=shows_nynorsk,
             has_quiz=_items(request).has_quiz(checkpoint.goal_set.code, unreviewed=drafts),
+            # Questions exist but none is approved on this instance yet. Said
+            # on the page, because "there is no quiz" would be untrue and would
+            # send someone to write questions that are already written.
+            quiz_awaiting_review=_items(request).has_authored(checkpoint.goal_set.code),
             has_placement=_placeable(request, subject),
             # Derived the same way the quiz is: a subject offers reading aloud
-            # exactly when reviewed passages exist for that checkpoint. Norsk and
+            # exactly when approved passages exist for that checkpoint. Norsk and
             # engelsk have them; the other subjects simply have none, which needs
             # no list of which subjects are "reading subjects".
             has_reading=_reading(request).has_reading(checkpoint.goal_set.code, unreviewed=drafts),

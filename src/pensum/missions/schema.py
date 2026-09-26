@@ -17,8 +17,9 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
 
+from pensum.review.content import reject_review_keys
 from pensum.skills.schema import Filled, SkillText
 
 # `<subject prefix>.<slug>`: flat, because a mission is filed under its skill
@@ -61,8 +62,12 @@ class Mission(BaseModel):
     # The open question a question card prints large. Required exactly when the
     # card is a question card, which `validate.py` checks.
     question: SkillText | None = None
-    # Always false when authored. A human who has read it sets it true.
-    reviewed: bool
+
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
 
 class MissionFile(BaseModel):

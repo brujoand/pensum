@@ -1,7 +1,7 @@
 # Matematikk, read as skills. Pensum's own plain reading of LK20, derived from
 # the progression tables in docs/design/subjects/matematikk.md. Udir's goal text,
-# cited by `refs`, stays the authority. Every skill is a draft until a human has
-# read it and set `reviewed: true`.
+# cited by `refs`, stays the authority.
+# Live only where an administrator approves it, on that instance's review page.
 subject: MAT01-06
 
 strands:
@@ -45,7 +45,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [counts-object-twice]
     assessable: true
-    reviewed: false
 
   - id: mat.counting.count-to-100
     strand: counting
@@ -61,7 +60,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [recounts-from-one]
     assessable: true
-    reviewed: false
 
   - id: mat.counting.skip-count
     strand: counting
@@ -77,7 +75,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.counting.represent-numbers
     strand: counting
@@ -93,7 +90,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [reads-digits-reversed]
     assessable: true
-    reviewed: false
 
   - id: mat.counting.sort-sets
     strand: counting
@@ -109,7 +105,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.counting.odd-even
     strand: counting
@@ -125,7 +120,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.counting.explore-numbers
     strand: counting
@@ -141,7 +135,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   # 2. Place value and the number line ----------------------------------------
 
@@ -159,7 +152,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [reads-digits-as-units, zero-as-nothing]
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.exchange-tens
     strand: place-value
@@ -175,7 +167,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [reads-digits-as-units]
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.number-line-100
     strand: place-value
@@ -191,7 +182,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.decimals-on-line
     strand: place-value
@@ -207,7 +197,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [longer-decimal-is-bigger]
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.negative-numbers
     strand: place-value
@@ -223,7 +212,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [bigger-digit-bigger-negative]
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.negative-arithmetic
     strand: place-value
@@ -239,7 +227,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [bigger-digit-bigger-negative]
     assessable: true
-    reviewed: false
 
   - id: mat.place-value.powers-and-roots
     strand: place-value
@@ -255,7 +242,6 @@ skills:
     stages: [abstract]
     misconceptions: [power-as-multiplication]
     assessable: true
-    reviewed: false
 
   # 3. Addition and subtraction ------------------------------------------------
 
@@ -273,7 +259,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [more-always-means-add, recounts-from-one]
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.order-of-addends
     strand: add-subtract
@@ -289,7 +274,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [recounts-from-one]
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.strategies
     strand: add-subtract
@@ -305,7 +289,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [smaller-from-larger-digit]
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.fact-families
     strand: add-subtract
@@ -321,7 +304,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.four-operations
     strand: add-subtract
@@ -337,7 +319,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.estimate-and-check
     strand: add-subtract
@@ -353,7 +334,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.add-subtract.judge-solutions
     strand: add-subtract
@@ -369,7 +349,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   # 4. Multiplication and division --------------------------------------------
 
@@ -387,7 +366,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [multiplying-makes-bigger]
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.double-halve
     strand: multiply-divide
@@ -403,7 +381,6 @@ skills:
     stages: [concrete, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.turn-array
     strand: multiply-divide
@@ -419,7 +396,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.split-array
     strand: multiply-divide
@@ -435,7 +411,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.everyday-problems
     strand: multiply-divide
@@ -451,7 +426,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [multiplying-makes-bigger]
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.sharing-and-grouping
     strand: multiply-divide
@@ -467,7 +441,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [sharing-grouping-confused]
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.division-strategies
     strand: multiply-divide
@@ -483,7 +456,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.prime-factors
     strand: multiply-divide
@@ -499,7 +471,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.multiply-divide.laws
     strand: multiply-divide
@@ -515,7 +486,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 5. Fractions, decimals, percent -------------------------------------------
 
@@ -533,7 +503,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [unequal-parts-as-fractions]
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.represent
     strand: fractions
@@ -549,7 +518,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [unequal-parts-as-fractions]
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.compare
     strand: fractions
@@ -565,7 +533,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [bigger-denominator-bigger-fraction, adds-tops-and-bottoms]
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.same-amount
     strand: fractions
@@ -581,7 +548,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.story-problems
     strand: fractions
@@ -597,7 +563,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [adds-tops-and-bottoms]
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.decimal-arithmetic
     strand: fractions
@@ -613,7 +578,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [longer-decimal-is-bigger]
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.mixed-problems
     strand: fractions
@@ -629,7 +593,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.fractions.convert
     strand: fractions
@@ -645,7 +608,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 6. Equality, equations, algebra, functions ---------------------------------
 
@@ -663,7 +625,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [equals-means-answer-next]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.compare-signs
     strand: algebra
@@ -679,7 +640,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [equals-means-answer-next]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.expressions
     strand: algebra
@@ -695,7 +655,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [more-always-means-add]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.simple-equations
     strand: algebra
@@ -711,7 +670,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.equations
     strand: algebra
@@ -727,7 +685,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [letter-as-object]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.inequalities
     strand: algebra
@@ -743,7 +700,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.order-of-operations
     strand: algebra
@@ -759,7 +715,6 @@ skills:
     stages: [abstract]
     misconceptions: [left-to-right-always]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.pattern-rule
     strand: algebra
@@ -775,7 +730,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [letter-as-object]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.equations-from-situations
     strand: algebra
@@ -791,7 +745,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: [letter-as-object]
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.inequalities-from-situations
     strand: algebra
@@ -807,7 +760,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.function-representations
     strand: algebra
@@ -823,7 +775,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.systems
     strand: algebra
@@ -839,7 +790,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.slope
     strand: algebra
@@ -855,7 +805,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.growth-types
     strand: algebra
@@ -871,7 +820,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.square-theorems
     strand: algebra
@@ -887,7 +835,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.algebra.general-rules
     strand: algebra
@@ -903,7 +850,6 @@ skills:
     stages: [abstract]
     misconceptions: [letter-as-object]
     assessable: true
-    reviewed: false
 
   # 7. Shape and space ---------------------------------------------------------
 
@@ -921,7 +867,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [turned-square-not-square]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.repeating-patterns
     strand: shape-space
@@ -937,7 +882,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.patterns-in-games
     strand: shape-space
@@ -953,7 +897,6 @@ skills:
     stages: [concrete]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: mat.shape-space.coordinates
     strand: shape-space
@@ -969,7 +912,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [swaps-x-and-y]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.describe-shapes
     strand: shape-space
@@ -985,7 +927,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [turned-square-not-square]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.alike-and-different
     strand: shape-space
@@ -1001,7 +942,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [turned-square-not-square]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.symmetry
     strand: shape-space
@@ -1017,7 +957,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [only-straight-mirror-lines]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.transformations
     strand: shape-space
@@ -1033,7 +972,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [swaps-x-and-y]
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.similar-congruent
     strand: shape-space
@@ -1049,7 +987,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.similarity-lengths
     strand: shape-space
@@ -1065,7 +1002,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.pythagoras
     strand: shape-space
@@ -1081,7 +1017,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.shape-space.changing-assumptions
     strand: shape-space
@@ -1097,7 +1032,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 8. Measurement -------------------------------------------------------------
 
@@ -1115,7 +1049,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [measures-from-one]
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.calendar
     strand: measurement
@@ -1131,7 +1064,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.clock
     strand: measurement
@@ -1147,7 +1079,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [minute-hand-as-hours]
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.area-by-covering
     strand: measurement
@@ -1163,7 +1094,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [area-perimeter-swapped]
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.volume
     strand: measurement
@@ -1179,7 +1109,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.time-problems
     strand: measurement
@@ -1195,7 +1124,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.circle
     strand: measurement
@@ -1211,7 +1139,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.area-perimeter
     strand: measurement
@@ -1227,7 +1154,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [area-perimeter-swapped]
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.area-by-splitting
     strand: measurement
@@ -1243,7 +1169,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.surface-volume-formulas
     strand: measurement
@@ -1259,7 +1184,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.measurement.compound-units
     strand: measurement
@@ -1275,7 +1199,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 9. Data, statistics, chance ------------------------------------------------
 
@@ -1293,7 +1216,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [gamblers-fallacy]
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.present-data
     strand: data-chance
@@ -1309,7 +1231,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.averages
     strand: data-chance
@@ -1325,7 +1246,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.misleading-charts
     strand: data-chance
@@ -1341,7 +1261,6 @@ skills:
     stages: [pictorial]
     misconceptions: [axis-not-from-zero]
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.spread
     strand: data-chance
@@ -1357,7 +1276,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.probability
     strand: data-chance
@@ -1373,7 +1291,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: [gamblers-fallacy]
     assessable: true
-    reviewed: false
 
   - id: mat.data-chance.simulation
     strand: data-chance
@@ -1389,7 +1306,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 10. Algorithms and programming ---------------------------------------------
 
@@ -1407,7 +1323,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.grid-instructions
     strand: programming
@@ -1423,7 +1338,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: [swaps-x-and-y]
     assessable: true
-    reviewed: false
 
   - id: mat.programming.repeat-and-condition
     strand: programming
@@ -1439,7 +1353,6 @@ skills:
     stages: [concrete, pictorial]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.variables-loops
     strand: programming
@@ -1455,7 +1368,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.draw-shapes
     strand: programming
@@ -1471,7 +1383,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.explore-tables
     strand: programming
@@ -1487,7 +1398,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.test-and-improve
     strand: programming
@@ -1503,7 +1413,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.explore-properties
     strand: programming
@@ -1519,7 +1428,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.programming.read-python
     strand: programming
@@ -1535,7 +1443,6 @@ skills:
     stages: [abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   # 11. Money and modelling ----------------------------------------------------
 
@@ -1553,7 +1460,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.money-modelling.check-money-solution
     strand: money-modelling
@@ -1569,7 +1475,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.money-modelling.judge-solutions
     strand: money-modelling
@@ -1585,7 +1490,6 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: false
-    reviewed: false
 
   - id: mat.money-modelling.interest-and-credit
     strand: money-modelling
@@ -1601,7 +1505,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.money-modelling.model-limits
     strand: money-modelling
@@ -1617,7 +1520,6 @@ skills:
     stages: [pictorial, abstract]
     misconceptions: []
     assessable: true
-    reviewed: false
 
   - id: mat.money-modelling.exploratory-assignment
     strand: money-modelling
@@ -1633,4 +1535,3 @@ skills:
     stages: [concrete, pictorial, abstract]
     misconceptions: []
     assessable: false
-    reviewed: false

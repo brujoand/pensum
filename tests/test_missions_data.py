@@ -13,13 +13,26 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from markupsafe import escape
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.missions.cards import CARDS
 from pensum.missions.loader import MissionLibrary
 from pensum.missions.validate import validate
 from pensum.skills.loader import SkillLibrary
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 CSS = Path(__file__).resolve().parents[1] / "src" / "pensum" / "web" / "static" / "pensum.css"
 
@@ -88,10 +101,13 @@ def test_the_exempt_skills_are_still_off_screen(skills: SkillLibrary) -> None:
         assert skill_id in by_id and not by_id[skill_id].assessable
 
 
-def test_every_mission_is_a_draft(missions: MissionLibrary) -> None:
-    """Authored text is unreviewed until a human says otherwise."""
+def test_no_mission_is_approved_without_an_instance(missions: MissionLibrary) -> None:
+    """Whether a mission is live is decided on an instance, never in its file:
+    a library with no instance behind it approves nothing."""
     assert all(
-        not m.reviewed for subject in SUBJECTS for m in missions.for_subject(subject).missions
+        missions.review_state(m.id) == "pending"
+        for subject in SUBJECTS
+        for m in missions.for_subject(subject).missions
     )
 
 

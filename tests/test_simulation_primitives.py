@@ -19,6 +19,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
@@ -29,8 +30,20 @@ from pensum.items.primitives.trials import MAX_TRIALS, TrialsState, simulate
 from pensum.items.schema import QuizItem
 from pensum.mastery.attribution import skills_for
 from pensum.skills.loader import SkillLibrary
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.rendering import templates
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 ALT = {"nb": "Et brett", "en": "A board"}
 STATIC = Path(__file__).parents[1] / "src" / "pensum" / "web" / "static"
@@ -613,7 +626,7 @@ def test_a_typed_wrong_answer_is_said_literally(kind: str) -> None:
 
 
 def _committed(kind: str) -> list[QuizItem]:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     return [i for s in bank.item_sets for i in s.items if i.type == kind]
 
 
@@ -682,8 +695,8 @@ def test_an_explore_sim_page_does_not_say_which_explanation_fits(locale: str) ->
             assert said not in stills and said not in observed, (question.id, said)
 
 
-def test_committed_simulation_items_are_drafts_that_answer_their_own_solution() -> None:
-    bank = ItemBank.load(include_unreviewed=True)
+def test_committed_simulation_items_answer_their_own_solution() -> None:
+    bank = ItemBank.load()
     found: dict[str, list[QuizItem]] = {}
     for item_set in bank.item_sets:
         for question in item_set.items:
@@ -693,7 +706,6 @@ def test_committed_simulation_items_are_drafts_that_answer_their_own_solution() 
     for kind, questions in found.items():
         assert 3 <= len(questions) <= 4, kind
         for question in questions:
-            assert not question.reviewed, question.id
             assert question.skill, question.id
             activity = question.activity
             assert question.is_correct(activity.serialise(activity.solution())), question.id
@@ -706,7 +718,7 @@ def test_no_step_code_item_feeds_a_variables_skill() -> None:
     may count as evidence for the skill that is about variables -- neither by
     its `skill:` tag nor by the fallback that credits every skill citing its
     goal, which is why the check is run with the tag removed as well."""
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     catalogue = Catalogue.load()
     skills = SkillLibrary.load()
     checked = 0

@@ -16,6 +16,7 @@ import re
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import translate
@@ -23,8 +24,20 @@ from pensum.items.loader import ItemBank
 from pensum.items.primitives import PRIMITIVES, primitive_for, scripts
 from pensum.items.primitives.counters import MAX_ON_MAT, RING_HOLDS
 from pensum.items.schema import AuthoredText, QuizItem
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.rendering import templates
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 ALT = {"nb": "Et brett", "en": "A board"}
 
@@ -244,7 +257,7 @@ def test_a_ring_does_not_give_away_the_total(groups: list[int], other: list[int]
 
 
 def test_every_committed_sharing_draws_the_same_rings() -> None:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     sharings = [
         i for s in bank.item_sets for i in s.items if i.type == "counters" and i.activity.groups
     ]
@@ -462,7 +475,7 @@ def test_stage_is_optional_and_named() -> None:
 
 
 def test_committed_hands_on_items_answer_their_own_solution() -> None:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     found = {i.type: i for s in bank.item_sets for i in s.items if i.type in CASES}
     assert set(found) == set(CASES), "every primitive has at least one committed item"
     for question in found.values():

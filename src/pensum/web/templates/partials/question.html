@@ -18,11 +18,11 @@
     {% include "partials/run_stones.html" %}
     <input type="hidden" name="item_id" value="{{ item.id }}" />
 
-    {# Only ever rendered for someone allowed to see drafts; a pupil is never
-       served an unreviewed item at all. Marked rather than silently mixed in,
-       so a reviewer knows which question they are being asked to judge. #}
-    {% if drafts_visible and not item.reviewed %}
-      <p class="badge badge--draft">{{ t("review.draft") }}</p>
+    {# Only ever rendered for an administrator; a pupil is never served an
+       unapproved item at all. Marked rather than silently mixed in, so a
+       reviewer knows which question they are being asked to judge. #}
+    {% if drafts_visible %}
+      {% with state = review_state("item", item.id) %}{% include "partials/review_badge.html" %}{% endwith %}
     {% endif %}
 
     {# Authored by us, never quoted from the curriculum -- said plainly, and

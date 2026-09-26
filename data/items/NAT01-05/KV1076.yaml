@@ -44,8 +44,6 @@ items:
       en: >-
         Compare the numbers in the table. 7 mm is the largest, and it was
         measured on Wednesday.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13817-02
     goal: KM13817
@@ -80,8 +78,6 @@ items:
       en: >-
         Both plants got the same water, so water cannot explain the difference.
         Light was the only thing that differed.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13818-01
     goal: KM13818
@@ -113,8 +109,6 @@ items:
       en: >-
         A model is a simplification that makes something easier to understand,
         such as the solar system or a cell.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13818-02
     goal: KM13818
@@ -148,8 +142,6 @@ items:
       en: >-
         The model gets the order right but not size or distance. A model is
         always simplified, so we need to know what it leaves out.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13820-01
     goal: KM13820
@@ -179,8 +171,6 @@ items:
       en: >-
         When you pedal, the pedals turn a sprocket. The chain pulls a sprocket
         on the rear wheel, and the bicycle rolls.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13820-02
     goal: KM13820
@@ -215,8 +205,6 @@ items:
       en: >-
         The parts of a technological system work together. The battery supplies
         the energy, and without it no current can flow through the circuit.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13822-01
     goal: KM13822
@@ -246,8 +234,6 @@ items:
       en: >-
         The salt spreads out into pieces too small to see. The water still
         tastes salty, and if the water evaporates the salt is left behind.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13822-02
     goal: KM13822
@@ -281,8 +267,6 @@ items:
       en: >-
         When vinegar and baking soda mix, new substances form. One of them is a
         gas, and that is what we see as bubbles.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13823-01
     goal: KM13823
@@ -317,8 +301,6 @@ items:
         Temperature is something we can measure with a thermometer, and it tells
         us how much heat energy the water holds. Higher temperature means more
         energy.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13823-02
     goal: KM13823
@@ -352,8 +334,6 @@ items:
       en: >-
         Speed is a quantity we can measure. The greater the speed, the more
         movement energy the object has.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13824-01
     goal: KM13824
@@ -387,8 +367,6 @@ items:
       en: >-
         Plants capture energy from sunlight and make their own food. Animals
         that eat plants get that energy passed on.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13824-02
     goal: KM13824
@@ -419,8 +397,6 @@ items:
         The energy starts as chemical energy in the battery. It travels as
         electrical energy through the wires, and the bulb turns it into light
         and a little heat.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13825-01
     goal: KM13825
@@ -451,8 +427,6 @@ items:
       en: >-
         A white coat is camouflage against snow, making it harder for foxes and
         eagles to spot the hare.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13825-02
     goal: KM13825
@@ -482,8 +456,6 @@ items:
       en: >-
         Each species is adapted to a particular habitat. If the forest, bog or
         coral reef goes, the species finds neither food nor shelter.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13826-01
     goal: KM13826
@@ -513,8 +485,6 @@ items:
       en: >-
         Good animal welfare means the animal's needs are met: food, water,
         space, care and the chance to behave naturally.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13828-01
     goal: KM13828
@@ -546,8 +516,6 @@ items:
       en: >-
         Evaporation is water going from liquid to gas. It is the first step in
         the water cycle.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13828-02
     goal: KM13828
@@ -578,8 +546,6 @@ items:
       en: >-
         People, animals and plants are mostly water, and all life needs water to
         function. The cycle keeps that water in use over and over.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13832-01
     goal: KM13832
@@ -612,8 +578,6 @@ items:
         Everyone feels sad or angry sometimes, and that is normal. Good mental
         health is about being all right day to day and coping with your
         feelings.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13829-01
     goal: KM13829
@@ -644,8 +608,6 @@ items:
       en: >-
         When a sperm cell and an egg cell join, it is called fertilisation. The
         fertilised egg grows into a foetus in the womb.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13831-01
     goal: KM13831
@@ -677,8 +639,6 @@ items:
         The skeleton holds the body up and gives the muscles something to pull
         on. The skull protects the brain, and the ribs protect the heart and
         lungs.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13831-02
     goal: KM13831
@@ -708,8 +668,6 @@ items:
       en: >-
         Muscles can only pull, never push. That is why they work in pairs: one
         muscle bends the arm and another straightens it again.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13830-01
     goal: KM13830
@@ -739,8 +697,6 @@ items:
       en: >-
         Unbroken skin is a tight wall that bacteria cannot get through. That is
         why it is wise to clean and cover a cut.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13830-02
     goal: KM13830
@@ -770,8 +726,6 @@ items:
       en: >-
         Mucus and nose hairs are part of the outer defence. They stop much of
         what would otherwise reach the lungs.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM13828-03
     goal: KM13828
@@ -804,7 +758,6 @@ items:
         The sun warms the sea and water evaporates. High up the vapour cools and
         becomes clouds. Rain and snow fall from the clouds, and the water runs
         back to the sea. Then it starts again, which is why it is called a cycle.
-    reviewed: false
 
   - id: KM13828-04
     goal: KM13828
@@ -849,7 +802,6 @@ items:
         Water evaporates from the sea and rises. High up the vapour condenses into
         clouds. Precipitation is the rain and snow that falls. Runoff is the water
         running back to the sea in streams and rivers.
-    reviewed: false
 
   - id: KM13831-03
     goal: KM13831
@@ -894,7 +846,6 @@ items:
         The skull protects the brain, and the ribs protect the heart and lungs.
         The spine holds the body upright. The thigh bone is our longest bone, and
         the muscles round it let us walk and run.
-    reviewed: false
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

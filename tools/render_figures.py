@@ -19,8 +19,8 @@ parameters. That is the sheet to look at when changing the geometry itself: it
 covers the shapes and options no item happens to use yet, which is exactly where
 a regression hides.
 
-Unreviewed items are included and labelled. A draft figure is the main thing
-anyone would want to look at here.
+Every item is included, whatever any instance has decided about it: review
+state lives in each instance's database, not in the files this reads.
 """
 
 from __future__ import annotations
@@ -189,13 +189,12 @@ def boards() -> list[tuple[str, object]]:
 
 
 def committed(subjects: list[str]) -> list[tuple[str, object]]:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     out = []
     for item_set in sorted(bank.item_sets, key=lambda s: (s.subject, s.goal_set)):
         if subjects and item_set.subject not in subjects:
             continue
         for item in item_set.items:
-            draft = "" if item.reviewed else "  [DRAFT]"
             if item.activity is not None:
                 activity = item.activity
                 # What the feedback draws as "what was asked".
@@ -205,7 +204,7 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
                 if isinstance(board, Board):
                     out.append(
                         (
-                            f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
+                            f"{item_set.subject} / {item_set.goal_set} / {item.id}\n"
                             f"{item.prompt.nb}",
                             board,
                         )
@@ -215,8 +214,7 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
                 continue
             out.append(
                 (
-                    f"{item_set.subject} / {item_set.goal_set} / {item.id}{draft}\n"
-                    f"{item.prompt.nb}",
+                    f"{item_set.subject} / {item_set.goal_set} / {item.id}\n{item.prompt.nb}",
                     item.figure,
                 )
             )

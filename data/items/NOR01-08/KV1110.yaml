@@ -39,8 +39,6 @@ items:
       en: Non-fiction deals with the real world and has a factual purpose. The
         letter argues about something that actually exists. The story and the
         poem are fiction, that is, invented.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14193-02
     goal: KM14193
@@ -71,8 +69,6 @@ items:
       en: A short story is brief, with few characters, a short span of time and
         often an open ending. The second option describes a novel and the third
         describes a poem.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14197 - tolke tekster ut fra historisk kontekst og egen samtid
   - id: KM14197-01
@@ -105,8 +101,6 @@ items:
         Historical context is everything surrounding the text when it was
         written, such as living conditions, laws and values. The year alone
         explains nothing, and interpreting a text does not change it.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14197-02
     goal: KM14197
@@ -138,8 +132,6 @@ items:
       en: Married women in Norway were long legally dependent and could not
         control their own property. Knowing that background shows the novel is
         depicting a real injustice, not just a personal quarrel.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14200 - svensk og dansk
   - id: KM14200-01
@@ -173,8 +165,6 @@ items:
         Swedish "rolig" means funny, not calm as the same word does in
         Norwegian. Words like this are called false friends, because they look
         familiar but mean something else.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14200-02
     goal: KM14200
@@ -202,8 +192,6 @@ items:
         her må du lese ordet slik det brukes på dansk.
       en: Danish "dreng" means boy. In Norwegian the same word means a farmhand,
         so you have to read it the way Danish uses it.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14200-03
     goal: KM14200
@@ -232,8 +220,6 @@ items:
         er norsk nynorsk.
       en: Swedish writes "jag" and "inte". The second sentence is Danish, marked
         by "ved", and the third is Norwegian nynorsk.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14192 - språklige virkemidler og retoriske appellformer
   - id: KM14192-01
@@ -264,8 +250,6 @@ items:
         og fornuftsgrunner, og etos ville handlet om talerens egen troverdighet.
       en: Pathos appeals to the listener's feelings. Logos would be figures and
         reasoning, and ethos would be about the speaker's own credibility.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14192-02
     goal: KM14192
@@ -295,8 +279,6 @@ items:
         Det er etos. Hun har ennå ikke lagt fram verken følelser eller tall.
       en: She points to her profession and experience to appear trustworthy,
         which is ethos. She has not yet offered either feelings or figures.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14192-03
     goal: KM14192
@@ -328,8 +310,6 @@ items:
       en: Personification gives human qualities to something lifeless.
         Repetition says the same thing several times, and alliteration is
         several words starting with the same sound.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14190 - kildekritikk og kildehenvisning
   - id: KM14190-01
@@ -362,8 +342,6 @@ items:
       en: A word-for-word quotation is marked with quotation marks and followed
         by a reference. Swapping a few words without crediting the source is
         still taking someone else's work without saying so.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14190-02
     goal: KM14190
@@ -395,8 +373,6 @@ items:
       en: Source criticism asks who the sender is and what they want to achieve.
         A manufacturer has a stake in the conclusion, so the claim should be
         checked against an independent source.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14199 - digitale medier og språk
   - id: KM14199-01
@@ -429,8 +405,6 @@ items:
       en: Digital writing happens fast and therefore resembles speech, with
         abbreviations, short sentences and looser punctuation. School texts have
         stricter demands on form and sources.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14199-02
     goal: KM14199
@@ -461,8 +435,6 @@ items:
       en: When we speak, voice and face show how something is meant. Writing
         loses that, and emoji have become a way of signalling tone and intent in
         digital communication.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14191 - tekstbinding, tegnsetting, rettskriving
   - id: KM14191-01
@@ -493,8 +465,6 @@ items:
       en: When two full clauses are joined by "men" (but), the comma goes before
         the conjunction. It never follows it, and it should not sit inside a
         clause for no reason.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14191-02
     goal: KM14191
@@ -524,8 +494,6 @@ items:
         virkning. "Likevel" ville betydd at kampen ble spilt på tross av regnet.
       en: The rain caused the cancellation, and "therefore" marks cause and
         effect. "Nevertheless" would mean the match went ahead despite the rain.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14191-03
     goal: KM14191
@@ -555,8 +523,6 @@ items:
       en: >-
         The infinitive marker "å" belongs with the verb, while "og" (and) joins
         two elements. Here both verbs are infinitives, joined by "og".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14194 - fagspråk om grammatikk, tekststruktur og sjanger
   - id: KM14194-01
@@ -587,8 +553,6 @@ items:
         hunden. Substantivene her er "hunden" og "sola", og verbet er "sov".
       en: Adjectives describe qualities of a noun. "Gamle" (old) describes the
         dog. The nouns here are "hunden" and "sola", and the verb is "sov".
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14194-02
     goal: KM14194
@@ -617,8 +581,6 @@ items:
         verbet. "Elevene" er subjekt og "oppgaven" er objekt.
       en: The verb phrase is the element saying what happens. "Elevene" is the
         subject and "oppgaven" is the object.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14194-03
     goal: KM14194
@@ -650,8 +612,6 @@ items:
       en: The standfirst sits between the headline and the body text and gives
         the reader the key point immediately. The body text is the article
         itself, and a caption explains a picture.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14195 - historisk bakgrunn for bokmål og nynorsk
   - id: KM14195-01
@@ -684,8 +644,6 @@ items:
       en: Ivar Aasen built landsmål from Norwegian dialects, especially western
         and inland ones. Knud Knudsen took a different route, and Wergeland was
         a poet and language debater rather than a language builder.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14195-02
     goal: KM14195
@@ -719,8 +677,6 @@ items:
       en: Knudsen's approach led to riksmål and later bokmål. Aasen's led to
         landsmål, later renamed nynorsk. The two written languages have quite
         different origins.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14195-03
     goal: KM14195
@@ -753,8 +709,6 @@ items:
         taught in their own main form. Riksmål and landsmål are older names for
         their predecessors. Sami languages are also official languages in
         Norway, alongside Norwegian.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   # KM14196 - språklig variasjon og mangfold
   - id: KM14196-01
@@ -786,8 +740,6 @@ items:
       en: A dialect is not a sloppy version of the written language. Each has its
         own system of pronunciation, inflection and vocabulary, and everyone
         speaks one, city dwellers included.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
   - id: KM14196-02
     goal: KM14196
@@ -820,8 +772,6 @@ items:
         Kven, Romani and Romanes have recognised status in Norway, Norwegian
         Sign Language is a full language, and many people have other mother
         tongues alongside Norwegian.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22'
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

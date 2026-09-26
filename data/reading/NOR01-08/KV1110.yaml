@@ -15,8 +15,6 @@ texts:
     title: Klagebrev fra en drage
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-08-31'
     body: |
       Til kommunen. Jeg viser til vedtak av 14. mars om reguleringen av
       fjellsiden ovenfor bygda, og ønsker med dette å påklage det i sin helhet.
@@ -42,8 +40,6 @@ texts:
     title: Bruksanvisning for å være usynlig
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-08-31'
     body: |
       Les hele bruksanvisningen før du tar produktet i bruk. Produsenten
       fraskriver seg ethvert ansvar for skader som oppstår fordi brukeren ble
@@ -70,7 +66,6 @@ texts:
     title: Referat fra generalforsamlingen
     difficulty: 1
     source: pensum
-    reviewed: false
     body: |
       Sak 1. Konstituering. Leder ønsket velkommen. Det ble bemerket fra salen
       at møtet var innkalt med tre dagers varsel, hvilket er én dag for kort.
@@ -95,7 +90,6 @@ texts:
     title: Høringssvar om en åttende ukedag
     difficulty: 2
     source: pensum
-    reviewed: false
     body: |
       Vi viser til høringsnotatet om innføring av en åttende ukedag, og takker
       for anledningen til å uttale oss.
@@ -123,7 +117,6 @@ texts:
     title: Personalhåndbok for spøkelser
     difficulty: 3
     source: pensum
-    reviewed: false
     body: |
       Velkommen som ansatt. Denne håndboken gjelder for samtlige medarbeidere
       ved eiendommen, uavhengig av når arbeidsforholdet oppstod, og den gjelder

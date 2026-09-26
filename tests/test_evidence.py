@@ -298,13 +298,18 @@ def test_an_abandoned_quiz_leaves_no_evidence(tmp_path: Path) -> None:
     assert app.state.evidence.for_pupil(PUPIL.sub) == {}
 
 
-def test_without_a_database_there_is_no_evidence_store(tmp_path: Path) -> None:
-    """Accounts on, database off: signed in, and still nothing is written."""
+def test_with_no_database_path_evidence_goes_to_the_default_database(
+    tmp_path: Path, default_database_in_tmp: Path
+) -> None:
+    """There is always a database: accounts on and no path configured means the
+    default file, and nothing is written anywhere else."""
     app, client = build(settings_with(tmp_path, database_path=None))
     sign_in(client, PUPIL)
     take_quiz(app, client)
-    assert app.state.evidence is None
-    assert list(tmp_path.iterdir()) == []
+    assert app.state.evidence is not None
+    assert app.state.evidence.for_pupil(PUPIL.sub)
+    assert default_database_in_tmp.exists()
+    assert [p.name for p in tmp_path.iterdir()] == [default_database_in_tmp.parent.name]
 
 
 def test_the_default_instance_has_no_evidence_store() -> None:

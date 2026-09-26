@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import UI_LOCALES, translate
@@ -25,9 +26,22 @@ from pensum.quiz.scoring import score
 from pensum.quiz.session import BREAK_EVERY, DEFAULT_LENGTH, SessionStore, Stones
 from pensum.quiz.shape import block, plan, warm_up
 from pensum.quiz.stages import lower_stage
-from pensum.web.app import create_app
+from pensum.review.content import fingerprint
+from pensum.web.app import create_app as _create_app
 from pensum.web.comfort import COMFORT_COOKIE, ComfortProfile
 from pensum.web.rendering import templates
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 # Real goals of MAT01-06 KV1021, so the result page can quote them.
 GOALS = ("KM13241", "KM13234", "KM13231", "KM13232")
@@ -332,12 +346,16 @@ def test_the_validator_catches_a_restatement_that_is_the_prompt() -> None:
     assert _hint_problems(mc("M1", hints=HINTS)) == []
 
 
-def test_committed_hints_are_on_unreviewed_items_only() -> None:
-    """Hints change what a pupil sees, so an item carrying them needs review."""
-    bank = ItemBank.load(include_unreviewed=True)
+def test_committed_hints_are_part_of_what_is_approved() -> None:
+    """Hints change what a pupil sees, so they are part of the item's
+    fingerprint: editing a hint sends an approved item back for review."""
+    bank = ItemBank.load()
     hinted = [i for s in bank.item_sets for i in s.items if i.hints is not None]
     assert 6 <= len(hinted) <= 10
-    assert all(not i.reviewed for i in hinted)
+    for item in hinted:
+        before = fingerprint(item)
+        edited = item.model_copy(update={"hints": None})
+        assert fingerprint(edited) != before, item.id
 
 
 # --- the finish --------------------------------------------------------------
@@ -592,7 +610,7 @@ def _visible(html: str) -> str:
 
 
 def _hands_on() -> list[QuizItem]:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     return [i for s in bank.item_sets for i in s.items if i.activity is not None]
 
 

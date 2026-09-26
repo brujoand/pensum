@@ -27,8 +27,8 @@
            A six-year-old picking an exercise reads the letters, not the title. #}
         <span class="writing-preview" lang="{{ prompt.language }}" aria-hidden="true">{{ prompt.text }}</span>
         <span class="count">{{ t("writing.character_count", count=prompt.characters | length) }}</span>
-        {% if drafts_visible and not prompt.reviewed %}
-          <span class="badge badge--draft">{{ t("review.draft") }}</span>
+        {% if drafts_visible %}
+          {% with state = review_state("writing", prompt.id) %}{% include "partials/review_badge.html" %}{% endwith %}
         {% endif %}
       </li>
     {% endfor %}

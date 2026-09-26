@@ -14,7 +14,7 @@ everybody else working towards it. That is the same rule the rest of Pensum
 follows, and the same reason -- the goal set is the thing being practised.
 
 The words come from the passages authored for that checkpoint, so they are
-already at its level and already reviewed. Nothing here is authored twice: a
+already at its level and already approved on this instance. Nothing here is authored twice: a
 listening exercise is a view of text that exists rather than a new pile of
 content to keep in step with the curriculum.
 """

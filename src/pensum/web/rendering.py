@@ -14,13 +14,14 @@ from fastapi import HTTPException, Request
 from fastapi.templating import Jinja2Templates
 
 from pensum import __version__
+from pensum.auth import local
 from pensum.i18n import SUPPORTED_LOCALES, curriculum_language, translate
 from pensum.items.figures import draw as draw_figure
 from pensum.items.figures import line_geometry
 from pensum.items.primitives import primitive_for
 from pensum.items.primitives import scripts as primitive_scripts
 from pensum.web.comfort import comfort_of
-from pensum.web.deps import current_user, get_settings, sees_unreviewed
+from pensum.web.deps import current_user, get_settings, review_state, sees_unreviewed
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
@@ -81,18 +82,25 @@ def context(request: Request, locale: str, **extra: object) -> dict[str, object]
         "t": lambda key, **kwargs: translate(locale, key, **kwargs),
         "locales": SUPPORTED_LOCALES,
         "auth_enabled": settings.auth_enabled,
+        # Whether this very request could sign in as the local administrator
+        # (`pensum.auth.local`). False everywhere a provider is configured, and
+        # for every request that did not come straight from this machine.
+        "local_admin": local.allowed(settings, request),
         # The footer carries the takedown contact on every page, so it is part
         # of the base context rather than something one page remembers to pass.
         "dmca_email": settings.dmca_email,
         "history_enabled": settings.history_enabled,
         "user": user,
         "is_admin": user is not None and user.in_group(settings.admin_group),
-        # Whether this reader is being shown content no human has signed off.
+        # Whether this reader is being shown content that is not approved here.
         # In the context rather than passed per page, because every template
-        # that can render a draft has to be able to label it -- an unmarked
-        # draft is worse than a hidden one, since the reader cannot tell that
-        # what they are judging is the thing awaiting judgement.
+        # that can render such content has to be able to label it -- an
+        # unmarked draft is worse than a hidden one, since the reader cannot
+        # tell that what they are judging is the thing awaiting judgement.
         "drafts_visible": sees_unreviewed(request),
+        # Where one piece of content stands on this instance: pending,
+        # approved, rejected or changed since approval. See `pensum.review`.
+        "review_state": lambda kind, content_id: review_state(request, kind, content_id),
         # Which build this is, on every page. /healthz reports it too, but that
         # is behind whatever fronts the deployment and is JSON besides -- so in
         # practice there was no way to tell a running instance from a stale one

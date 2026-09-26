@@ -18,6 +18,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from pensum.review.content import reject_review_keys
+
 # The language a passage is written in, which is not the UI locale: a norsk
 # passage stays Norwegian on the English site.
 TextLanguage = Literal["nb", "nn", "en"]
@@ -71,9 +73,12 @@ class ReadingText(BaseModel):
     # Where the passage came from. "pensum" means we wrote it; anything else
     # must name a source that may lawfully be reproduced.
     source: str = Field(min_length=1)
-    # The released build serves only reviewed passages, as with quiz items.
-    reviewed: bool = False
-    reviewed_by: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _no_review_keys(cls, data: object) -> object:
+        # Review state is not a content field. See `pensum.review.content`.
+        return reject_review_keys(data)
 
     @property
     def word_list(self) -> list[str]:

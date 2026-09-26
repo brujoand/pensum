@@ -47,7 +47,7 @@ class Coverage:
 def coverage(goal_set: GoalSet, tested_codes: set[str]) -> Coverage:
     """Tag each goal in `goal_set` by whether a served item tests it.
 
-    Computed against served (reviewed) items, not authored ones: a goal whose
-    only questions are still unreviewed is not, from a pupil's seat, in the quiz.
+    Computed against served (approved) items, not authored ones: a goal whose
+    only questions are still pending is not, from a pupil's seat, in the quiz.
     """
     return Coverage(tuple(GoalCoverage(goal, goal.code in tested_codes) for goal in goal_set.goals))

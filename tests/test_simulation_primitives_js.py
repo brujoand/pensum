@@ -55,7 +55,7 @@ def test_the_simulation_primitives_harness() -> None:
 
 
 def _items() -> list:
-    bank = ItemBank.load(include_unreviewed=True)
+    bank = ItemBank.load()
     return [i for s in bank.item_sets for i in s.items if i.type in KINDS]
 
 

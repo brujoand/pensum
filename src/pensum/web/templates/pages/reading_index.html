@@ -27,8 +27,8 @@
           {{ text.title }}
         </a>
         <span class="count">{{ t("reading.word_count", count=text.word_count) }}</span>
-        {% if drafts_visible and not text.reviewed %}
-          <span class="badge badge--draft">{{ t("review.draft") }}</span>
+        {% if drafts_visible %}
+          {% with state = review_state("reading", text.id) %}{% include "partials/review_badge.html" %}{% endwith %}
         {% endif %}
       </li>
     {% endfor %}

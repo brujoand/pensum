@@ -6,9 +6,9 @@ that no longer exists, which is exactly what a curriculum revision produces.
 That failure is silent at runtime -- the item simply never gets selected -- so it
 is made loud here instead.
 
-A template is checked harder than an item, and it has to be. `reviewed: true`
-on a hand-written item says a human read the sentence a child will see; on a
-template it says a human read a *rule* that produces sentences nobody has read.
+A template is checked harder than an item, and it has to be. Approving a
+hand-written item says a human read the sentence a child will see; approving a
+template says a human read a *rule* that produces sentences nobody has read.
 What closes that gap is enumeration: every question in the domain is built here,
 and every one of them has to be a question worth asking. A domain that can
 produce a fraction of a sheep, or an answer of nought, fails the build rather

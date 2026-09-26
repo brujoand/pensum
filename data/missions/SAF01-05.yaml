@@ -1,7 +1,8 @@
 ---
 # Missions for samfunnsfag: the goals a screen does not check, practised off
 # screen. One skill each, and only skills marked `assessable: false` in
-# data/skills/SAF01-05.yaml. Drafts until a human sets `reviewed: true`.
+# data/skills/SAF01-05.yaml.
+# Live only where an administrator approves it, on that instance's review page.
 subject: SAF01-05
 missions:
   # --- etter 2. trinn --------------------------------------------------------
@@ -13,7 +14,6 @@ missions:
       - {nob: "Tegn huset slik det ser ut.", eng: "Draw the building the way it looks."}
       - {nob: "Skriv navnet på huset eller stedet under.", eng: "Write the name of the building or the place underneath."}
     confirm: teacher
-    reviewed: false
 
   - id: saf.interview-an-older-adult
     skill: saf.history.interview-older-adult
@@ -25,7 +25,6 @@ missions:
       - {nob: "Fortell klassen ett av svarene.", eng: "Tell the class one of the answers."}
     confirm: teacher
     card: interview
-    reviewed: false
 
   - id: saf.human-impact-near-school
     skill: saf.sustainability.document-impact
@@ -36,7 +35,6 @@ missions:
       - {nob: "Tegn det.", eng: "Draw it."}
       - {nob: "Si hva det gjør med naturen rundt.", eng: "Say what it does to the nature around it."}
     confirm: teacher
-    reviewed: false
 
   - id: saf.class-vote
     skill: saf.rights.class-decision
@@ -47,7 +45,6 @@ missions:
       - {nob: "Stem på det forslaget du synes er best.", eng: "Vote for the suggestion you think is best."}
       - {nob: "Godta resultatet, også om ditt forslag ikke vant.", eng: "Accept the result, even if your suggestion did not win."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 4. trinn --------------------------------------------------------
   - id: saf.heritage-site
@@ -59,7 +56,6 @@ missions:
       - {nob: "Finn ut når det ble laget.", eng: "Find out when it was made."}
       - {nob: "Skriv én ting om hvordan folk levde da.", eng: "Write one thing about how people lived then."}
     confirm: teacher
-    reviewed: false
 
   - id: saf.solve-it-pair
     skill: saf.identity.solve-conflict
@@ -70,7 +66,6 @@ missions:
       - {nob: "Kom med én idé hver til en løsning.", eng: "Each of you gives one idea for a solution."}
     confirm: teacher
     card: solve_it
-    reviewed: false
 
   - id: saf.propose-a-change
     skill: saf.rights.propose-change
@@ -81,7 +76,6 @@ missions:
       - {nob: "Legg det fram i klassemøtet.", eng: "Put it forward at the class meeting."}
       - {nob: "Følg det helt til klassen har stemt.", eng: "Follow it until the class has voted."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 7. trinn --------------------------------------------------------
   - id: saf.six-step-study
@@ -93,7 +87,6 @@ missions:
       - {nob: "Presenter det dere fant med et digitalt verktøy.", eng: "Present what you found with a digital tool."}
     confirm: teacher
     card: method
-    reviewed: false
 
   - id: saf.solve-it-agreement
     skill: saf.identity.mediate-conflict
@@ -105,7 +98,6 @@ missions:
       - {nob: "Skriv ned løsningen dere begge godtar.", eng: "Write down the solution you both accept."}
     confirm: teacher
     card: solve_it
-    reviewed: false
 
   # --- etter 10. trinn -------------------------------------------------------
   - id: saf.choose-a-method
@@ -118,4 +110,3 @@ missions:
       - {nob: "Gjennomfør, og presenter funnene digitalt.", eng: "Carry it out, and present the findings digitally."}
     confirm: teacher
     card: method
-    reviewed: false

@@ -20,8 +20,6 @@ prompts:
     text: '01234'
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'
 
   - id: mat-kv1021-tall-5-9
     goal: KM13241
@@ -31,5 +29,3 @@ prompts:
     text: '56789'
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-02'

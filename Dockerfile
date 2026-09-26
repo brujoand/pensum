@@ -43,7 +43,12 @@ RUN if [ "${WITH_SPEECH}" = "1" ]; then \
 
 # Non-root, and a fixed uid so a read-only root filesystem or a restrictive
 # PodSecurityContext has something predictable to point at.
+#
+# data/instance is where the database goes when PENSUM_DATABASE_PATH is unset.
+# Created here, owned by that uid, so a named volume mounted on it starts out
+# writable; without a volume it lives and dies with the container.
 RUN useradd --uid 65532 --create-home --shell /usr/sbin/nologin pensum \
+    && mkdir -p /app/data/instance \
     && chown -R pensum:pensum /app
 USER 65532
 
@@ -55,9 +60,11 @@ ENV APP_VERSION=${VERSION}
 EXPOSE 8000
 
 # No secrets and no network egress with an empty environment, which is how this
-# image is meant to be run. Sign-in, score history and speech checking are all
-# opt-in: they add an OIDC client secret, a writable volume and a read-only
-# model mount respectively -- see the README. Speech checking runs against a
+# image is meant to be run. It always keeps a small SQLite database -- review
+# decisions are what make content visible to pupils -- at
+# /app/data/instance/pensum.db unless PENSUM_DATABASE_PATH says otherwise; mount
+# a volume there to keep it. Sign-in and speech checking are opt-in: they add an
+# OIDC client secret and a read-only model mount respectively -- see the README. Speech checking runs against a
 # local model and makes no outbound request either. If this container ever needs
 # an API key to serve a quiz, something has gone wrong upstream of here.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

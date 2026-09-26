@@ -2,7 +2,7 @@
 # Missions for matematikk: the goals kept off screen (docs/design/subjects/
 # matematikk.md, "Goals kept off screen"), practised away from it. One skill
 # each, and only skills marked `assessable: false` in data/skills/MAT01-06.yaml.
-# Drafts until a human sets `reviewed: true`.
+# Live only where an administrator approves it, on that instance's review page.
 subject: MAT01-06
 missions:
   - id: mat.count-in-twos-and-fives
@@ -13,7 +13,6 @@ missions:
       - {nob: "Tell fingrene til alle hjemme fem og fem.", eng: "Count everyone's fingers at home five at a time."}
       - {nob: "Skriv ned de to tallene du kom til.", eng: "Write down the two numbers you reached."}
     confirm: self
-    reviewed: false
 
   - id: mat.numbers-on-a-walk
     skill: mat.counting.explore-numbers
@@ -24,7 +23,6 @@ missions:
       - {nob: "Klapp en rytme og tell klappene.", eng: "Clap a rhythm and count the claps."}
       - {nob: "Vis en voksen hva du talte.", eng: "Show an adult what you counted."}
     confirm: teacher
-    reviewed: false
 
   - id: mat.what-works-in-a-solution
     skill: mat.add-subtract.judge-solutions
@@ -35,7 +33,6 @@ missions:
       - {nob: "Si én ting som kunne vært gjort annerledes, og hvorfor.", eng: "Say one thing that could be done differently, and why."}
     confirm: teacher
     card: feedback
-    reviewed: false
 
   - id: mat.board-game-patterns
     skill: mat.shape-space.patterns-in-games
@@ -45,7 +42,6 @@ missions:
       - {nob: "Se etter en regel eller et mønster i spillet.", eng: "Look for a rule or a pattern in the game."}
       - {nob: "Forklar mønsteret, for eksempel om det lønner seg å starte.", eng: "Explain the pattern, for example whether it helps to go first."}
     confirm: teacher
-    reviewed: false
 
   - id: mat.compare-trip-plans
     skill: mat.money-modelling.judge-solutions
@@ -57,7 +53,6 @@ missions:
       - {nob: "Si hvilken plan som holder best, og gi grunner.", eng: "Say which plan holds up better, and give reasons."}
     confirm: teacher
     card: feedback
-    reviewed: false
 
   - id: mat.compare-phone-plans
     skill: mat.money-modelling.judge-solutions
@@ -67,7 +62,6 @@ missions:
       - {nob: "Regn ut hva hvert koster for ett år.", eng: "Work out what each costs for a year."}
       - {nob: "Si hvilket du ville valgt og hvorfor.", eng: "Say which you would choose and why."}
     confirm: teacher
-    reviewed: false
 
   - id: mat.money-project
     skill: mat.money-modelling.exploratory-assignment
@@ -79,4 +73,3 @@ missions:
       - {nob: "Presenter planen og si hvor modellen slutter å stemme.", eng: "Present the plan and say where the model stops being right."}
     confirm: teacher
     card: method
-    reviewed: false

@@ -1,7 +1,8 @@
 ---
 # Missions for engelsk: the goals a screen does not check, practised off
 # screen. One skill each, and only skills marked `assessable: false` in
-# data/skills/ENG01-06.yaml. Drafts until a human sets `reviewed: true`.
+# data/skills/ENG01-06.yaml.
+# Live only where an administrator approves it, on that instance's review page.
 subject: ENG01-06
 missions:
   # --- etter 2. trinn --------------------------------------------------------
@@ -13,7 +14,6 @@ missions:
       - {nob: "Hør det helt ferdig, selv om du ikke forstår alt.", eng: "Listen to the end, even if you do not understand everything."}
       - {nob: "Si ett ord du forsto.", eng: "Say one word you understood."}
     confirm: self
-    reviewed: false
 
   - id: eng.book-words
     skill: eng.culture.childrens-books
@@ -24,7 +24,6 @@ missions:
       - {nob: "Lær ett nytt engelsk ord fra boka.", eng: "Learn one new English word from the book."}
       - {nob: "Fortell en voksen om tingen og ordet.", eng: "Tell an adult about the thing and the word."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 4. trinn --------------------------------------------------------
   - id: eng.three-words-online
@@ -36,7 +35,6 @@ missions:
       - {nob: "Skriv ned de tre ordene.", eng: "Write down the three words."}
       - {nob: "Skriv hvilket ord som overrasket deg.", eng: "Write which word surprised you."}
     confirm: self
-    reviewed: false
 
   - id: eng.cafe-dialogue
     skill: eng.conversation.partner-dialogue
@@ -46,7 +44,6 @@ missions:
       - {nob: "Ha kafésamtalen med kortene.", eng: "Have the café talk using the cards."}
       - {nob: "Bytt roller og gjør den én gang til.", eng: "Swap roles and do it once more."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.five-sentences
     skill: eng.writing.thoughts-and-opinions
@@ -57,7 +54,6 @@ missions:
       - {nob: "Bruk I think, I like eller because i minst én setning.", eng: "Use I think, I like or because in at least one sentence."}
       - {nob: "Les setningene høyt for noen.", eng: "Read the sentences aloud to someone."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.book-culture
     skill: eng.culture.literature-words
@@ -67,7 +63,6 @@ missions:
       - {nob: "Skriv ned tre ord eller uttrykk du lærte.", eng: "Write down three words or phrases you learned."}
       - {nob: "Fortell om én ting i boka som viser hvordan folk lever der.", eng: "Tell about one thing in the book that shows how people live there."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 7. trinn --------------------------------------------------------
   - id: eng.role-play-sounds
@@ -78,7 +73,6 @@ missions:
       - {nob: "Finn to ord der trykket ligger et annet sted enn på norsk.", eng: "Find two words where the stress is in a different place than in Norwegian."}
       - {nob: "Framfør rollespillet uten å lese fra arket.", eng: "Perform the role play without reading from the sheet."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.word-strategies
     skill: eng.words.learning-strategies
@@ -88,7 +82,6 @@ missions:
       - {nob: "Skriv en egen setning med hvert ord.", eng: "Write a sentence of your own with each word."}
       - {nob: "Forklar ett ord uten å si det, så en partner gjetter det.", eng: "Explain one word without saying it, so a partner guesses it."}
     confirm: self
-    reviewed: false
 
   - id: eng.dictionary-in-context
     skill: eng.words.dictionaries-and-digital
@@ -99,7 +92,6 @@ missions:
       - {nob: "Velg den betydningen som passer i din setning.", eng: "Choose the meaning that fits your sentence."}
       - {nob: "Skriv hvilket ord som overrasket deg.", eng: "Write which word surprised you."}
     confirm: self
-    reviewed: false
 
   - id: eng.present-a-text
     skill: eng.reading.present-content
@@ -109,7 +101,6 @@ missions:
       - {nob: "Skriv tre stikkord, ikke hele setninger.", eng: "Write three key words, not whole sentences."}
       - {nob: "Fortell klassen hva teksten handler om, med dine egne ord.", eng: "Tell the class what the text is about, in your own words."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.cafe-without-cards
     skill: eng.conversation.live-conversation
@@ -119,7 +110,6 @@ missions:
       - {nob: "Bytt roller og legg bort kortene.", eng: "Swap roles and put the cards away."}
       - {nob: "Snakk videre om noe dere begge liker.", eng: "Keep talking about something you both like."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.linked-text
     skill: eng.writing.cohesive-texts
@@ -129,7 +119,6 @@ missions:
       - {nob: "Skriv et avsnitt med first, then, because og but.", eng: "Write a paragraph using first, then, because and but."}
       - {nob: "Les den for noen og spør om den passer for leseren.", eng: "Read it to someone and ask whether it suits the reader."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.revise-checklist
     skill: eng.writing.revise-from-feedback
@@ -140,7 +129,6 @@ missions:
       - {nob: "Endre det tilbakemeldingen pekte på.", eng: "Change what the feedback pointed to."}
     confirm: teacher
     card: checklist
-    reviewed: false
 
   - id: eng.english-map
     skill: eng.culture.english-in-my-life
@@ -150,7 +138,6 @@ missions:
       - {nob: "Finn minst tre steder utenom skolen.", eng: "Find at least three places outside school."}
       - {nob: "Fortell en partner hva engelsk betyr for deg.", eng: "Tell a partner what English means to you."}
     confirm: self
-    reviewed: false
 
   - id: eng.school-day-compare
     skill: eng.culture.traditions-and-identity
@@ -160,7 +147,6 @@ missions:
       - {nob: "Skriv to ting som er likt og to som er ulikt Norge.", eng: "Write two things that are the same as Norway and two that differ."}
       - {nob: "Si hva én av forskjellene kan bety for hvem man er.", eng: "Say what one of the differences might mean for who people are."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 10. trinn -------------------------------------------------------
   - id: eng.same-message-two-readers
@@ -171,7 +157,6 @@ missions:
       - {nob: "Skriv den samme beskjeden til en rektor.", eng: "Write the same message to a headteacher."}
       - {nob: "Marker tre ord du byttet, og si hvorfor.", eng: "Mark three words you changed, and say why."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.my-strategies
     skill: eng.words.choose-strategies
@@ -181,7 +166,6 @@ missions:
       - {nob: "Bruk hver av dem i en uke.", eng: "Use each of them for a week."}
       - {nob: "Si til læreren hvilken som virket best, og hvorfor.", eng: "Tell your teacher which worked best, and why."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.check-the-spellchecker
     skill: eng.words.digital-aids
@@ -191,7 +175,6 @@ missions:
       - {nob: "For hvert forslag, slå opp ordet før du godtar det.", eng: "For each suggestion, look the word up before you accept it."}
       - {nob: "Finn ett forslag du sa nei til, og forklar hvorfor.", eng: "Find one suggestion you said no to, and explain why."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.text-discussion
     skill: eng.reading.discuss-and-present
@@ -202,7 +185,6 @@ missions:
       - {nob: "Si hva du mener om dem, med en grunn for hver.", eng: "Say what you think of them, with a reason for each."}
       - {nob: "Svar på ett spørsmål fra klassen.", eng: "Answer one question from the class."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.follow-up-talk
     skill: eng.conversation.discussion
@@ -213,7 +195,6 @@ missions:
       - {nob: "Still minst to oppfølgingsspørsmål til det partneren sa.", eng: "Ask at least two follow-up questions about what your partner said."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: eng.formal-and-informal
     skill: eng.writing.structured-texts
@@ -223,7 +204,6 @@ missions:
       - {nob: "Skriv en formell tekst om det samme, til en avis.", eng: "Write a formal text about the same thing, to a newspaper."}
       - {nob: "Gi hver tekst innledning, hoveddel og avslutning.", eng: "Give each text an introduction, a body and an ending."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.revise-with-grammar
     skill: eng.writing.revise-with-language
@@ -234,7 +214,6 @@ missions:
       - {nob: "Skriv hvilken regel du brukte for hver.", eng: "Write which rule you used for each."}
     confirm: teacher
     card: checklist
-    reviewed: false
 
   - id: eng.english-worldwide
     skill: eng.culture.english-worldwide
@@ -245,7 +224,6 @@ missions:
       - {nob: "Diskuter med en partner hva engelsk gjør med andre språk.", eng: "Discuss with a partner what English does to other languages."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: eng.indigenous-compare
     skill: eng.culture.indigenous-peoples
@@ -255,7 +233,6 @@ missions:
       - {nob: "Finn ut hvordan de lever i dag.", eng: "Find out how they live today."}
       - {nob: "Sammenlign med samenes situasjon i Norge i dag.", eng: "Compare with the situation of the Sami in Norway today."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.three-countries
     skill: eng.culture.diversity
@@ -265,7 +242,6 @@ missions:
       - {nob: "Finn én ting om hvordan folk lever eller snakker i hvert land.", eng: "Find one thing about how people live or speak in each."}
       - {nob: "Presenter forskjellene for en partner.", eng: "Present the differences to a partner."}
     confirm: teacher
-    reviewed: false
 
   - id: eng.song-game-show
     skill: eng.culture.cultural-expressions
@@ -275,4 +251,3 @@ missions:
       - {nob: "Fortell noen hva det handler om.", eng: "Tell someone what it is about."}
       - {nob: "Si hvorfor du liker det.", eng: "Say why you like it."}
     confirm: self
-    reviewed: false

@@ -16,11 +16,24 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app
 
 from pensum.catalogue.loader import Catalogue
 from pensum.i18n import UI_LOCALES, catalog
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.comfort import COMFORT_COOKIE, ComfortProfile
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
+
 
 ROOT = Path(__file__).parents[1]
 WEB = ROOT / "src" / "pensum" / "web"

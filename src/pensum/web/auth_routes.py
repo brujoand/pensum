@@ -1,7 +1,8 @@
-"""Sign in, come back, sign out.
+"""Sign in, come back, sign out -- and, on a maintainer's own machine, sign in locally.
 
-Three routes, no pages. Every one of them ends in a redirect, so there is no
+Four routes, no pages. Every one of them ends in a redirect, so there is no
 sign-in screen of ours to phish and no password Pensum could leak by having.
+The local one is `pensum.auth.local`, and is refused everywhere it should be.
 """
 
 from __future__ import annotations
@@ -13,7 +14,16 @@ from dataclasses import replace
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
-from pensum.auth.cookies import LoginFlow, clear_flow, clear_login, read_flow, set_flow, set_login
+from pensum.auth import local
+from pensum.auth.cookies import (
+    LoginFlow,
+    clear_flow,
+    clear_login,
+    read_flow,
+    set_flow,
+    set_local,
+    set_login,
+)
 from pensum.auth.oidc import (
     OidcError,
     decode_claims,
@@ -22,7 +32,7 @@ from pensum.auth.oidc import (
     verify_claims,
 )
 from pensum.i18n import DEFAULT_LOCALE
-from pensum.web.deps import base_url, get_codec, get_oidc, is_secure, safe_next
+from pensum.web.deps import base_url, get_codec, get_oidc, get_settings, is_secure, safe_next
 
 logger = logging.getLogger(__name__)
 
@@ -126,6 +136,28 @@ async def callback(
     response = RedirectResponse(destination, status_code=303)
     set_login(response, get_codec(request), user, secure=is_secure(request))
     clear_flow(response)
+    return response
+
+
+@router.post("/local")
+async def local_sign_in(request: Request, next: str = HOME) -> RedirectResponse:
+    """Become the local administrator, if `pensum.auth.local` allows this request.
+
+    POST only, like sign-out: a GET would let any page this browser opens start
+    a session with an <img> tag. Refused as 404 where the feature is off -- it
+    does not exist there -- and as 403 where it is on but this request does not
+    qualify, which is the case worth seeing in a log.
+    """
+    settings = get_settings(request)
+    reason = local.refusal(settings, request)
+    if reason in ("flag-off", "oidc-configured"):
+        raise HTTPException(status_code=404, detail="local administration is not enabled")
+    if reason is not None:
+        logger.warning("local administrator sign-in refused: %s", reason)
+        raise HTTPException(status_code=403, detail="local administration is loopback-only")
+
+    response = RedirectResponse(safe_next(next, HOME), status_code=303)
+    set_local(response, get_codec(request), secure=is_secure(request))
     return response
 
 

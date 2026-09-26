@@ -38,8 +38,6 @@ items:
       nb: Gruppa er ting som er runde. En mynt er rund, mens en bok og en blyant
         ikke er det.
       en: The group is round things. A coin is round; a book and a pencil are not.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13241-01
     goal: KM13241
@@ -58,8 +56,6 @@ items:
     explanation:
       nb: Det er sju prikker. Tell én om gangen.
       en: There are seven dots. Count them one at a time.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13230-01
     goal: KM13230
@@ -92,8 +88,6 @@ items:
     explanation:
       nb: Vi teller to av gangen nedover, så etter 14 kommer 12.
       en: The count goes down by two each time, so after 14 comes 12.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13231-01
     goal: KM13231
@@ -119,8 +113,6 @@ items:
     explanation:
       nb: 10 kan deles i to like grupper på 5. Da er det et partall.
       en: 10 splits into two equal groups of 5, which makes it even.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13232-01
     goal: KM13232
@@ -133,8 +125,6 @@ items:
     explanation:
       nb: 4 tiere er 40. Legg til 3 enere, så blir det 43.
       en: 4 tens is 40. Add 3 ones and you get 43.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13233-01
     goal: KM13233
@@ -161,8 +151,6 @@ items:
     explanation:
       nb: Det er 10 fra 30 til 40. Halvveis er 5 videre, altså 35.
       en: It is 10 from 30 to 40. Halfway is 5 further on, which is 35.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13234-01
     goal: KM13234
@@ -175,8 +163,6 @@ items:
     explanation:
       nb: 8 minus 3 er 5.
       en: 8 minus 3 is 5.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13235-01
     goal: KM13235
@@ -202,8 +188,6 @@ items:
     explanation:
       nb: Rekkefølgen betyr ingenting når vi plusser. 9 + 4 er også 13.
       en: Order does not matter when adding. 9 + 4 is 13 as well.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13242-01
     goal: KM13242
@@ -218,8 +202,6 @@ items:
         betyr at det er like mye på begge sider.
       en: 5 + 3 is 8, so 6 + ▢ must also be 8, making the box 2. The equals
         sign means both sides are worth the same.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13236-01
     goal: KM13236
@@ -246,8 +228,6 @@ items:
     explanation:
       nb: Mønsteret gjentar seg med rød, blå, blå. Etter to blå kommer rød igjen.
       en: The pattern repeats red, blue, blue. After two blues, red comes again.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13237-01
     goal: KM13237
@@ -279,8 +259,6 @@ items:
     explanation:
       nb: En trekant har tre sider og tre hjørner.
       en: A triangle has three sides and three corners.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13238-01
     goal: KM13238
@@ -309,8 +287,6 @@ items:
         akkurat 3.
       en: The hour hand shows the hour. When the minute hand is on 12, it is
         exactly three o'clock.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
   - id: KM13240-01
     goal: KM13240
@@ -338,8 +314,6 @@ items:
         kilometer altfor stort.
       en: A classroom is a few metres long. Millimetres are far too small and
         kilometres far too big.
-    reviewed: true
-    reviewed_by: hand-written reference set
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
@@ -367,7 +341,6 @@ items:
     explanation:
       nb: 7 er 5 og 2 til. En halv rad på fem og to brikker til er 7.
       en: 7 is 5 and 2 more. Half a row of five and two more counters is 7.
-    reviewed: false
 
   - id: KM13231-02
     goal: KM13231
@@ -397,7 +370,6 @@ items:
     explanation:
       nb: 8 blir 4 og 4. Når et tall kan deles i to like store grupper, er det et partall.
       en: 8 becomes 4 and 4. When a number splits into two equal groups, it is an even number.
-    reviewed: false
 
   - id: KM13234-02
     goal: KM13234
@@ -417,7 +389,6 @@ items:
     explanation:
       nb: 6 + 3 = 9. Du kan telle videre fra 6 – 7, 8, 9.
       en: 6 + 3 = 9. You can count on from 6 – 7, 8, 9.
-    reviewed: false
 
   - id: KM13241-03
     goal: KM13241
@@ -446,7 +417,6 @@ items:
     explanation:
       nb: 8 er en full rad på 5 og 3 til. Da er det 2 tomme ruter, og 8 + 2 = 10.
       en: 8 is a full row of 5 and 3 more. That leaves 2 empty squares, and 8 + 2 = 10.
-    reviewed: false
 
   - id: KM13234-03
     goal: KM13234
@@ -476,7 +446,6 @@ items:
     explanation:
       nb: Det var 3 tomme ruter. 7 + 3 = 10.
       en: There were 3 empty squares. 7 + 3 = 10.
-    reviewed: false
 
   - id: KM13241-04
     goal: KM13241
@@ -506,7 +475,6 @@ items:
     explanation:
       nb: 13 er en full tier og 3 til. Den første rammen blir full, og den andre får 3 prikker.
       en: 13 is a full ten and 3 more. The first frame is full, and the second gets 3 dots.
-    reviewed: false
 
   - id: KM13234-04
     goal: KM13234
@@ -535,7 +503,6 @@ items:
     explanation:
       nb: 6 + 6 = 12. Du kan fylle 10 i den første rammen og legge 2 i den andre.
       en: 6 + 6 = 12. You can fill 10 in the first frame and put 2 in the second.
-    reviewed: false
 
   - id: KM13232-02
     goal: KM13232
@@ -554,7 +521,6 @@ items:
     explanation:
       nb: 34 er 3 tiere og 4 enere. 3 tiere er 30, og 30 + 4 = 34.
       en: 34 is 3 tens and 4 ones. 3 tens is 30, and 30 + 4 = 34.
-    reviewed: false
 
   - id: KM13232-03
     goal: KM13232
@@ -587,7 +553,6 @@ items:
       en: >-
         Ten ones can be swapped for one ten, so the fewest blocks is 4 tens and 7
         ones.
-    reviewed: false
 
   - id: KM13232-04
     goal: KM13232
@@ -624,7 +589,6 @@ items:
       en: >-
         10 of the 14 ones become one ten. That makes 3 tens and 4 ones, which is
         still 34.
-    reviewed: false
 
   - id: KM13242-02
     goal: KM13242
@@ -661,7 +625,6 @@ items:
       en: >-
         The left side is 3 + 4 = 7. The right side has 5, so the box needs 2. The
         equals sign means both sides are the same amount.
-    reviewed: false
 
   - id: KM13242-03
     goal: KM13242
@@ -684,7 +647,6 @@ items:
     explanation:
       nb: Venstre side er 8. Høyre side har 4, og 4 + 4 = 8. Boksen må ha 4.
       en: The left side is 8. The right side has 4, and 4 + 4 = 8. The box needs 4.
-    reviewed: false
 
   # --- Simulations ---------------------------------------------------------
   # A program of command tiles moves a robot on a grid (`step_code`); it is
@@ -723,7 +685,6 @@ items:
       en: >-
         The robot walks three squares to the right. Then it turns left, so it
         faces up. Two more steps, and it is on the ring.
-    reviewed: false
 
 not_assessable:
   - goal: KM13229

@@ -37,8 +37,6 @@ items:
         trekker du fra 2a, og 6a − 2a = 4a. Svaret blir 4a + 12.
       en: First multiply 3 into the bracket, 3 · 2a = 6a and 3 · 4 = 12. Then
         subtract 2a, and 6a − 2a = 4a, giving 4a + 12.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13328-02
     goal: KM13328
@@ -72,8 +70,6 @@ items:
         −1 og +1 opphever hverandre. Prøv med 6 + 7 + 8 = 21, som er 3 · 7.
       en: The numbers are n − 1, n and n + 1. The sum is n − 1 + n + n + 1 = 3n,
         because −1 and +1 cancel. Check it with 6 + 7 + 8 = 21, which is 3 · 7.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13318-01
     goal: KM13318
@@ -107,8 +103,6 @@ items:
       en: The first binomial rule says (a + b)² = a² + 2ab + b². Here a = x and
         b = 5, giving x² + 2 · x · 5 + 5² = x² + 10x + 25. The middle term never
         disappears.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13318-02
     goal: KM13318
@@ -123,8 +117,6 @@ items:
         = 10000 − 400 + 4 = 9604.
       en: Write 98 as 100 − 2. Then 98² = (100 − 2)² = 100² − 2 · 100 · 2 + 2²
         = 10000 − 400 + 4 = 9604.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13324-01
     goal: KM13324
@@ -141,8 +133,6 @@ items:
         ligningene sammen, får du 2x = 38, altså x = 19. Det andre tallet er 11.
       en: Call the numbers x and y. Then x + y = 30 and x − y = 8. Adding the two
         equations gives 2x = 38, so x = 19. The other number is 11.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13324-02
     goal: KM13324
@@ -167,8 +157,6 @@ items:
         second and you get 2(24 − s) + 4s = 68, so 48 − 2s + 4s = 68 and
         2s = 20. That gives s = 10. Check it. 10 sheep have 40 legs and 14 hens
         have 28 legs, which is 68.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-09-19; two constraints split, arithmetic verified'
 
   - id: KM13320-01
     goal: KM13320
@@ -187,8 +175,6 @@ items:
       en: The slope is the change in y divided by the change in x. From 5 to 13
         is 8 up, and from 2 to 6 is 4 across. 8 divided by 4 is 2, so the line
         rises by 2 per unit.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13320-02
     goal: KM13320
@@ -222,8 +208,6 @@ items:
         som går. Tallet 200 er det som allerede var der ved starten.
       en: The number in front of t is the change per unit. Here V grows by 25 for
         every minute that passes. The 200 is what was already there at the start.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13322-01
     goal: KM13322
@@ -241,8 +225,6 @@ items:
       en: After a 12 per cent fall, 88 per cent is left. The growth factor is 88
         per cent as a decimal, that is 0.88. You multiply by 0.88 for each 12 per
         cent decrease.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13322-02
     goal: KM13322
@@ -261,8 +243,6 @@ items:
       en: The growth factor is 1.10. After two years the number is
         400 · 1.10² = 400 · 1.21 = 484. Note that it is not 480, because in the
         second year the 40 animals added in the first year grow too.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13321-01
     goal: KM13321
@@ -283,8 +263,6 @@ items:
       en: 12 instalments of 750 kroner come to 12 · 750 = 9000 kroner. That is
         9000 − 8000 = 1000 kroner more than the cash price. The difference is what
         interest and fees cost you.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13321-02
     goal: KM13321
@@ -320,8 +298,6 @@ items:
       en: The nominal rate is only the interest itself. The effective rate is the
         total cost of the loan, counting set-up fees, instalment fees and how many
         instalments there are per year. That is why you compare effective rates.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13323-01
     goal: KM13323
@@ -360,8 +336,6 @@ items:
       en: The arithmetic works, 10 + 3 · 200 = 610 cm, but a sunflower is not over
         six metres. A model only holds in a range where it describes reality, and
         here the linear growth is valid only for the early weeks.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13327-01
     goal: KM13327
@@ -388,8 +362,6 @@ items:
         Løkka legger dem sammen, og 1 + 2 + 3 + 4 = 10.
       en: range(1, 5) gives the numbers 1, 2, 3 and 4. The last number, 5, is not
         included. The loop adds them up, and 1 + 2 + 3 + 4 = 10.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
   - id: KM13327-02
     goal: KM13327
@@ -439,8 +411,6 @@ items:
       en: n remembers the largest value seen so far. For each number it checks
         whether that number is bigger than n, and swaps if it is. After 4, 9, 2
         and 7, n is left at 9.
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-07-22; arithmetic verified'
 
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.

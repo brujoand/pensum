@@ -97,8 +97,11 @@ teach from and duplicated across goals. The skill is the smallest thing a
 teacher would write on a sticky note about a pupil.
 
 **Why skills are authored, not generated.** Same policy as items: drafted with
-an LLM if useful, reviewed by a human before served, and the `reviewed` flag
-means someone read it.
+an LLM if useful, and read by a human before anything is served. Whether a
+skill, an activity or a mission is live is not a flag in its file: it is
+decided per instance, by an administrator on that instance's review page, and
+stored in its database with a fingerprint of what was approved, so an edit
+returns it to pending (`pensum.review`; README, "Reviewing drafts").
 
 ## Activity
 

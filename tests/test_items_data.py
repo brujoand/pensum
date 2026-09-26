@@ -11,13 +11,26 @@ import re
 
 import pytest
 from fastapi.testclient import TestClient
+from review_helpers import approve_app, approved
+from test_admin import correct_response
 
 from pensum.catalogue.loader import Catalogue
 from pensum.items.figures import draw as draw_figure
 from pensum.items.loader import ItemBank
 from pensum.items.validate import validate
-from pensum.web.app import create_app
+from pensum.web.app import create_app as _create_app
 from pensum.web.routes import CORE_SUBJECTS
+
+
+def create_app(*args, **kwargs):
+    """An app on an instance where an administrator has approved everything.
+
+    Review is not what this module tests, so its pages serve the committed
+    content the way an instance does once somebody has done the reviewing.
+    """
+    app = _create_app(*args, **kwargs)
+    approve_app(app)
+    return app
 
 
 @pytest.fixture(scope="module")
@@ -67,15 +80,14 @@ def test_not_assessable_entries_give_a_reason(bank: ItemBank) -> None:
             assert len(excused.reason.strip()) > 30, excused.goal
 
 
-def test_unreviewed_items_are_withheld_by_default() -> None:
-    """A merge alone must never put an unread question in front of a child."""
-    strict = ItemBank.load()
-    permissive = ItemBank.load(include_unreviewed=True)
+def test_unapproved_items_are_withheld_by_default() -> None:
+    """A merge alone must never put an unread question in front of a child:
+    with no instance's approval behind it, the committed bank serves nothing."""
+    committed = ItemBank.load()
 
-    for item_set in strict.item_sets:
-        served = strict.for_goal_set(item_set.goal_set)
-        assert all(item.reviewed for item in served)
-        assert len(served) <= len(permissive.for_goal_set(item_set.goal_set))
+    for item_set in committed.item_sets:
+        assert committed.for_goal_set(item_set.goal_set) == []
+        assert committed.for_goal_set(item_set.goal_set, unreviewed=True)
 
 
 def test_quiz_runs_end_to_end(client: TestClient) -> None:
@@ -87,11 +99,9 @@ def test_quiz_runs_end_to_end(client: TestClient) -> None:
 
     session = client.app.state.sessions._sessions[session_id]
     for item in list(session.items):
-        response = (
-            next(c.id for c in item.choices if c.correct)
-            if item.type == "multiple_choice"
-            else str(item.answer)
-        )
+        # Every item on an instance that approved everything, hands-on ones
+        # included, so the right answer is whatever each kind expects.
+        response = correct_response(item)
         feedback = client.post(
             f"/nb/quiz/{session_id}/answer", data={"item_id": item.id, "response": response}
         )
@@ -154,9 +164,10 @@ def test_unknown_session_is_404(client: TestClient) -> None:
 def test_subject_without_items_offers_no_quiz() -> None:
     """Better to say a quiz is coming than to show a button that 404s.
 
-    Uses an empty item bank rather than a real route: every checkpoint now has
-    reviewed items, so the "coming soon" path can only be exercised against a
-    catalogue with no items for the set.
+    Uses an empty item bank rather than a real route: every checkpoint has
+    questions written, so the "coming soon" path can only be exercised against a
+    bank with no items for the set. (A checkpoint whose questions are written
+    but not approved says something else; see `test_review_gate`.)
     """
     empty = TestClient(create_app(Catalogue.load(), ItemBank([])))
     body = text_of(empty.get("/nb/klasse/2/MAT01-06").text)
@@ -264,7 +275,7 @@ def test_every_committed_figure_draws() -> None:
     drawn cannot be reviewed either.
     """
     drawn = 0
-    for item_set in ItemBank.load(include_unreviewed=True).item_sets:
+    for item_set in ItemBank.load().item_sets:
         for item in item_set.items:
             if item.figure is None:
                 continue
@@ -298,7 +309,7 @@ def test_a_figure_is_drawn_into_the_question_and_kept_for_the_explanation(
     """
     item = next(
         i
-        for i in ItemBank.load().for_goal_set("KV1021")
+        for i in approved(ItemBank.load()).for_goal_set("KV1021")
         if i.figure is not None and i.type == "numeric"
     )
     alt = item.figure.alt.get("nb")
@@ -321,7 +332,9 @@ def test_a_number_line_item_is_answered_over_http(client: TestClient) -> None:
     is the seam between them: the answer endpoint reads one form field for every
     kind, and a dragged answer has to arrive through the same one.
     """
-    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.type == "number_line")
+    item = next(
+        i for i in approved(ItemBank.load()).for_goal_set("KV1021") if i.type == "number_line"
+    )
     session_id = _quiz_showing(client, item)
 
     question = client.get(f"/nb/quiz/{session_id}/question").text
@@ -339,7 +352,9 @@ def test_a_number_line_item_is_answered_over_http(client: TestClient) -> None:
 def test_a_number_line_refuses_an_answer_between_two_ticks(client: TestClient) -> None:
     """A snapping marker cannot produce one, so a value off the ticks did not
     come from the line. It is graded wrong rather than rounded to a neighbour."""
-    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.type == "number_line")
+    item = next(
+        i for i in approved(ItemBank.load()).for_goal_set("KV1021") if i.type == "number_line"
+    )
     session_id = _quiz_showing(client, item)
 
     feedback = client.post(
@@ -354,7 +369,7 @@ def test_a_figure_carries_no_colour_of_its_own(client: TestClient) -> None:
     setting reach a figure without it knowing they exist. A `fill` or `stroke`
     attribute in the markup would opt one question out of that, quietly.
     """
-    item = next(i for i in ItemBank.load().for_goal_set("KV1021") if i.figure is not None)
+    item = next(i for i in approved(ItemBank.load()).for_goal_set("KV1021") if i.figure is not None)
     session_id = _quiz_showing(client, item)
 
     page = client.get(f"/nb/quiz/{session_id}/question").text

@@ -57,11 +57,10 @@
                             <span class="skill-label">{{ t("progression.pupil_label") }}</span>
                             {{ skill.i_can.get(locale) }}
                           </p>
-                          {% if not skill.reviewed or not skill.assessable %}
+                          {% set skill_state = review_state("skill", skill.id) %}
+                          {% if skill_state != "approved" or not skill.assessable %}
                             <p class="skill-badges">
-                              {% if not skill.reviewed %}
-                                <span class="badge badge--draft">{{ t("progression.draft") }}</span>
-                              {% endif %}
+                              {% with state = skill_state %}{% include "partials/review_badge.html" %}{% endwith %}
                               {% if not skill.assessable %}
                                 <span class="badge">{{ t("progression.off_screen") }}</span>
                               {% endif %}
@@ -70,7 +69,18 @@
                           {% if missions.get(skill.id) %}
                             <ul class="skill-missions">
                               {% for mission in missions[skill.id] %}
-                                <li><a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ t("missions.link", title=mission.title.get(locale)) }}</a></li>
+                                {% set mission_state = review_state("mission", mission.id) %}
+                                <li>
+                                  {# The mission page is what a pupil is handed, so it
+                                     exists for approved missions only; anything else
+                                     is named here, labelled, and not linked. #}
+                                  {% if mission_state == "approved" or drafts_visible %}
+                                    <a href="/{{ locale }}/oppdrag/{{ mission.id }}">{{ t("missions.link", title=mission.title.get(locale)) }}</a>
+                                  {% else %}
+                                    {{ t("missions.link", title=mission.title.get(locale)) }}
+                                  {% endif %}
+                                  {% with state = mission_state %}{% include "partials/review_badge.html" %}{% endwith %}
+                                </li>
                               {% endfor %}
                             </ul>
                           {% endif %}

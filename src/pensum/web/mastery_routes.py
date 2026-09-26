@@ -12,6 +12,10 @@ supports now (`Mastery.current`), the furthest representation stage reached,
 and whether the skill has slipped since it was secure. The cell a teacher wants
 most -- practising, concrete only -- is marked.
 
+The map shows only skills approved on this instance, because it is a pupil's
+page; the grid is an administrator's, and shows every skill. A map with nothing
+approved says so rather than showing an empty page.
+
 Sensitive skills are on the map without a glyph and absent from the grid. So
 are skills practised off screen (`assessable: false`): no quiz can grow them,
 and an empty spot that can never fill is a promise the page cannot keep.
@@ -129,12 +133,20 @@ async def map_page(
     request: Request, locale: str, subject_code: str, trinn: int | None = None
 ) -> HTMLResponse:
     validate_locale(locale)
-    subject, skill_file = _skill_file(request, subject_code)
+    subject, _ = _skill_file(request, subject_code)
+    # Approved skills only: this is the pupil's page. The 404 above is still
+    # decided on the whole file, so a subject whose skills are all pending gets
+    # a page that says so rather than a broken link.
+    skill_file = request.app.state.skills.approved_file(subject.code)
     store = get_evidence(request)
     user = current_user(request)
 
-    extra: dict[str, object] = {"subject": subject, "recording": store is not None}
-    if store is not None and user is not None:
+    extra: dict[str, object] = {
+        "subject": subject,
+        "recording": store is not None,
+        "nothing_approved": not skill_file.skills,
+    }
+    if store is not None and user is not None and skill_file.skills:
         evidence = {
             skill_id: rows
             for skill_id, rows in store.for_pupil(user.sub).items()

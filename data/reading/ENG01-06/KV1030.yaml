@@ -17,8 +17,6 @@ texts:
     title: My Cat Is a Dog
     difficulty: 1
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-08-31'
     body: |
       My cat thinks she is a dog.
       She runs to the door. She wants a walk.
@@ -33,8 +31,6 @@ texts:
     title: The Banana Phone
     difficulty: 2
     source: pensum
-    reviewed: true
-    reviewed_by: 'maintainer-reviewed 2026-08-31'
     body: |
       My little brother has a phone. It is a banana.
       He calls me on it. I have to answer.

@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from review_helpers import approve_app
 
 from pensum.auth.cookies import LOGIN_COOKIE, CookieCodec
 from pensum.auth.models import User
@@ -26,8 +27,8 @@ SECRET = "test-secret"
 ADMIN = User(sub="u-admin", name="Voksen", groups=("pensum-admins",))
 PUPIL = User(sub="u-1", name="Ola", groups=("pupils",))
 
-# One checkpoint with reviewed items committed, so the walk-through below is
-# exercising the real item bank rather than a fixture.
+# A real checkpoint and the real item bank, approved through the instance's own
+# ledger, so the walk-through below exercises what a pupil would actually get.
 QUIZ_PATH = "/nb/klasse/2/MAT01-06"
 
 
@@ -45,7 +46,13 @@ def settings_with(tmp_path: Path, **overrides: object) -> Settings:
 
 
 def build(settings: Settings) -> tuple[FastAPI, TestClient]:
+    """An instance where an administrator has approved all the content.
+
+    These tests are about accounts and scores, not about review, so the pages
+    behave as they do once somebody has done the reviewing.
+    """
     app = create_app(Catalogue.load(), settings=settings)
+    approve_app(app)
     return app, TestClient(app, base_url=ORIGIN)
 
 
@@ -136,13 +143,27 @@ def test_reloading_the_result_does_not_record_a_second_attempt(tmp_path: Path) -
     assert len(app.state.attempts.attempts_for("u-1")) == 1
 
 
-def test_nothing_is_recorded_when_no_database_is_configured(tmp_path: Path) -> None:
-    """The default. Sign-in without a database is still a site that forgets."""
+def test_with_no_database_path_the_attempt_goes_to_the_default_database(
+    tmp_path: Path, default_database_in_tmp: Path
+) -> None:
+    """There is always a database. Sign-in is the one switch for recording, and
+    with no path configured the attempt lands in the default file."""
     app, client = build(settings_with(tmp_path, database_path=None))
     sign_in(client, PUPIL)
     take_quiz(app, client)
 
+    assert app.state.attempts is not None
+    assert len(app.state.attempts.attempts_for("u-1")) == 1
+    assert default_database_in_tmp.exists()
+
+
+def test_nothing_is_recorded_without_sign_in(tmp_path: Path) -> None:
+    """The default image. It keeps review decisions, and nothing about anyone."""
+    app, client = build(Settings())
+    take_quiz(app, client)
+
     assert app.state.attempts is None
+    assert app.state.evidence is None
 
 
 def test_a_signed_in_pupil_is_told_their_score_was_kept(tmp_path: Path) -> None:

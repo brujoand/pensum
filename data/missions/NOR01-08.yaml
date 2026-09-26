@@ -1,7 +1,8 @@
 ---
 # Missions for norsk: the goals a screen does not check, practised off screen.
 # One skill each, and only skills marked `assessable: false` in
-# data/skills/NOR01-08.yaml. Drafts until a human sets `reviewed: true`.
+# data/skills/NOR01-08.yaml.
+# Live only where an administrator approves it, on that instance's review page.
 #
 # Two such skills have no mission on purpose: nor.sources.self-in-digital-media
 # and nor.language.digital-media-language are a classroom discussion the design
@@ -18,7 +19,6 @@ missions:
       - {nob: "Lån den.", eng: "Borrow it."}
       - {nob: "Skriv tittelen i leseloggen din.", eng: "Write its title in your reading log."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.type-my-name
     skill: nor.handwriting.type-words
@@ -28,7 +28,6 @@ missions:
       - {nob: "Trykk på mellomrom.", eng: "Press the space bar."}
       - {nob: "Skriv tre korte ord med mellomrom mellom.", eng: "Type three short words with spaces between them."}
     confirm: self
-    reviewed: false
 
   - id: nor.what-happened
     skill: nor.writing.write-short-account
@@ -39,7 +38,6 @@ missions:
       - {nob: "Skriv én setning om hva som skjedde.", eng: "Write one sentence about what happened."}
       - {nob: "Skriv én setning om slutten.", eng: "Write one sentence about the end."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.picture-and-sentence
     skill: nor.writing.text-and-pictures
@@ -49,7 +47,6 @@ missions:
       - {nob: "Skriv én setning under som forteller om tegningen.", eng: "Write one sentence underneath about the drawing."}
       - {nob: "Vis det til noen og les setningen.", eng: "Show it to someone and read the sentence."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.make-something-from-the-story
     skill: nor.literature.creative-response
@@ -59,7 +56,6 @@ missions:
       - {nob: "Tegn, spill eller bygg noe fra den.", eng: "Draw, act or build something from it."}
       - {nob: "Vis det til noen og si hvilken del av fortellingen det er.", eng: "Show it to someone and say which part of the story it is."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.kind-and-unkind
     skill: nor.language.words-affect-others
@@ -70,7 +66,6 @@ missions:
       - {nob: "Finn en uvennlig måte å si det samme på.", eng: "Find an unkind way to say the same thing."}
       - {nob: "Si hvordan vennen ville følt seg etter hver av dem.", eng: "Say how the friend would feel after each one."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.turn-card-talk
     skill: nor.talking.take-turns
@@ -82,7 +77,6 @@ missions:
       - {nob: "Legg til én ting.", eng: "Add one thing."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: nor.because
     skill: nor.talking.give-a-reason
@@ -93,7 +87,6 @@ missions:
       - {nob: "Gjør det samme med en ting til.", eng: "Do the same with one more thing."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   # --- etter 4. trinn --------------------------------------------------------
   - id: nor.choose-a-book-that-fits
@@ -105,7 +98,6 @@ missions:
       - {nob: "Er det mer enn fem, velg en annen bok.", eng: "If there are more than five, choose another book."}
       - {nob: "Skriv boka i leseloggen din.", eng: "Write the book in your reading log."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.type-three-sentences
     skill: nor.handwriting.type-short-texts
@@ -115,7 +107,6 @@ missions:
       - {nob: "Bruk skift for stor bokstav først i hver setning.", eng: "Use shift for a capital letter at the start of each sentence."}
       - {nob: "Sett punktum til slutt i hver setning.", eng: "Put a full stop at the end of each sentence."}
     confirm: self
-    reviewed: false
 
   - id: nor.describe-and-say-why
     skill: nor.writing.describe-and-give-reasons
@@ -125,7 +116,6 @@ missions:
       - {nob: "Skriv tre setninger som beskriver det.", eng: "Write three sentences that describe it."}
       - {nob: "Skriv hva du mener om det, med minst én grunn.", eng: "Write what you think of it, with at least one reason."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.poster
     skill: nor.writing.multimedia-poster
@@ -135,7 +125,6 @@ missions:
       - {nob: "Tegn eller finn et bilde som viser temaet.", eng: "Draw or find a picture that shows the topic."}
       - {nob: "Skriv to setninger som passer til bildet.", eng: "Write two sentences that go with the picture."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.what-the-text-made-me-think
     skill: nor.literature.what-text-means
@@ -145,7 +134,6 @@ missions:
       - {nob: "Skriv hva den fikk deg til å tenke på.", eng: "Write what it made you think of."}
       - {nob: "Pek på stedet i teksten som gjorde det.", eng: "Point to the place in the text that did it."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.show-the-text
     skill: nor.literature.present-a-text
@@ -155,7 +143,6 @@ missions:
       - {nob: "Lag et lite skuespill eller en tegning av den delen.", eng: "Make a short play or a drawing of that part."}
       - {nob: "Vis det, og si hvilken del av teksten det er fra.", eng: "Show it, and say which part of the text it comes from."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.three-words-from-an-adult
     skill: nor.language.local-dialects
@@ -166,7 +153,6 @@ missions:
       - {nob: "Vis dem til klassen.", eng: "Show them to the class."}
     confirm: teacher
     card: interview
-    reviewed: false
 
   - id: nor.friend-and-headteacher
     skill: nor.language.adapt-to-situation
@@ -177,7 +163,6 @@ missions:
       - {nob: "Skriv hvordan du sier det til rektor.", eng: "Write how you say it to the headteacher."}
       - {nob: "Si hvorfor de er forskjellige.", eng: "Say why they are different."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.ask-a-follow-up
     skill: nor.talking.follow-up-questions
@@ -188,7 +173,6 @@ missions:
       - {nob: "Bytt roller.", eng: "Swap roles."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: nor.one-minute-three-pictures
     skill: nor.talking.present-with-pictures
@@ -198,7 +182,6 @@ missions:
       - {nob: "Øv på å si én ting om hvert bilde.", eng: "Practise saying one thing about each picture."}
       - {nob: "Presenter i ett minutt, ett bilde om gangen.", eng: "Present for one minute, one picture at a time."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 7. trinn --------------------------------------------------------
   - id: nor.one-handwritten-page
@@ -209,7 +192,6 @@ missions:
       - {nob: "Hold jevn fart fra første til siste linje.", eng: "Keep an even pace from the first line to the last."}
       - {nob: "La en annen lese siden og si om alt er lett å lese.", eng: "Let someone else read it and say whether it is all easy to read."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.eyes-on-the-screen
     skill: nor.handwriting.fluent-typing
@@ -219,7 +201,6 @@ missions:
       - {nob: "Skriv av et avsnitt mens du ser på skjermen.", eng: "Copy a paragraph while looking at the screen."}
       - {nob: "Gjør det en gang i uka i en måned.", eng: "Do it once a week for a month."}
     confirm: self
-    reviewed: false
 
   - id: nor.three-genres
     skill: nor.writing.write-in-genres
@@ -230,7 +211,6 @@ missions:
       - {nob: "Skriv den som en kort fagtekst.", eng: "Write it as a short factual text."}
       - {nob: "Skriv hva du mener om den, som et kort meningsinnlegg.", eng: "Write what you think of it as a short opinion piece."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.feedback-card
     skill: nor.writing.peer-feedback
@@ -242,7 +222,6 @@ missions:
       - {nob: "Endre én ting i teksten din ut fra den.", eng: "Change one thing in your text because of it."}
     confirm: teacher
     card: feedback
-    reviewed: false
 
   - id: nor.picture-does-more
     skill: nor.writing.multimedia-texts
@@ -252,7 +231,6 @@ missions:
       - {nob: "Sjekk at bildet ikke bare gjentar teksten.", eng: "Check that the picture does not only repeat the text."}
       - {nob: "Skriv én setning om hva bildet viser som ordene ikke gjør.", eng: "Write one sentence on what the picture shows that the words do not."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.dialect-interview
     skill: nor.language.dialect-interview
@@ -264,7 +242,6 @@ missions:
       - {nob: "Si hva som er likt og hva som er ulikt.", eng: "Say what is the same and what differs."}
     confirm: teacher
     card: interview
-    reviewed: false
 
   - id: nor.sami-text-values
     skill: nor.language.sami-texts
@@ -274,7 +251,6 @@ missions:
       - {nob: "Finn ett sted i teksten som viser noe som er viktig for folkene i den.", eng: "Find one place in the text that shows something important to the people in it."}
       - {nob: "Snakk med en partner om hva det er.", eng: "Talk with a partner about what it is."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.my-language-and-me
     skill: nor.language.language-and-identity
@@ -284,7 +260,6 @@ missions:
       - {nob: "Skriv hvor du har dem fra.", eng: "Write where you got them from."}
       - {nob: "Si hva de betyr for deg.", eng: "Say what they mean to you."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.agree-and-add
     skill: nor.talking.build-on-others
@@ -295,7 +270,6 @@ missions:
       - {nob: "Legg til et nytt poeng hver gang du snakker.", eng: "Add a new point each time you speak."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: nor.school-topic-talk
     skill: nor.talking.present-a-topic
@@ -306,7 +280,6 @@ missions:
       - {nob: "Skriv bare stikkord på lysbildene eller arket.", eng: "Write only key words on the slides or the sheet."}
       - {nob: "Hold foredraget for klassen.", eng: "Give the talk to the class."}
     confirm: teacher
-    reviewed: false
 
   # --- etter 10. trinn -------------------------------------------------------
   - id: nor.how-i-read
@@ -317,7 +290,6 @@ missions:
       - {nob: "Noter hvor du leste raskt og hvor du gikk tilbake.", eng: "Note where you read quickly and where you went back."}
       - {nob: "Forklar for en partner hvorfor du leste dem forskjellig.", eng: "Explain to a partner why you read them differently."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.fairy-tale-news
     skill: nor.writing.experiment-with-genre
@@ -327,7 +299,6 @@ missions:
       - {nob: "Skriv det som en nyhetsartikkel med tittel, ingress og kilder.", eng: "Write it as a news article with a headline, a lead and sources."}
       - {nob: "Marker to trekk fra eventyret og to fra nyheten.", eng: "Mark two features from the fairy tale and two from the news."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.justify-the-form
     skill: nor.writing.justify-multimedia
@@ -337,7 +308,6 @@ missions:
       - {nob: "Skriv én setning om hvorfor du valgte hvert element.", eng: "Write one sentence on why you chose each element."}
       - {nob: "Presenter valgene for en partner.", eng: "Present the choices to a partner."}
     confirm: teacher
-    reviewed: false
 
   - id: nor.young-lives-in-two-texts
     skill: nor.literature.young-lives
@@ -348,7 +318,6 @@ missions:
       - {nob: "Diskuter i en gruppe om det stemmer med det dere kjenner til.", eng: "Discuss in a group whether it matches what you know."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: nor.where-prejudice-comes-from
     skill: nor.language.language-attitudes
@@ -359,7 +328,6 @@ missions:
       - {nob: "Diskuter eksemplene i gruppa.", eng: "Discuss the examples in your group."}
     confirm: teacher
     card: turn
-    reviewed: false
 
   - id: nor.argue-with-terms
     skill: nor.talking.argue-with-terms
@@ -371,4 +339,3 @@ missions:
       - {nob: "Legg fram argumentene i en debatt i klassen.", eng: "Put the arguments forward in a class debate."}
     confirm: teacher
     card: turn
-    reviewed: false

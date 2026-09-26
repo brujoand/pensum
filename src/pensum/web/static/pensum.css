@@ -1283,13 +1283,81 @@ body.reading-focus .reading-text {
   margin: 0.8rem 0 1.4rem;
 }
 
-.review-filters .is-current {
-  font-weight: 600;
-  text-decoration: none;
+.review-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
 }
 
-.review-filters__sep {
+/* Deciding the whole selection. Set apart, because it acts on every page of
+   the selection and not only on the cards below it. */
+.review-bulk {
+  border: 1px solid var(--line);
+  border-left: 3px solid #c9962e;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.review-bulk h2 {
+  font-size: 1rem;
+  margin: 0 0 0.4rem;
+}
+
+.review-bulk form,
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: end;
+}
+
+.review-note {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
   color: var(--ink-soft);
+  flex: 1 1 14rem;
+}
+
+/* The question as a pupil meets it, answerable, and then what only the
+   reviewer sees: the solution, marked off so it cannot be mistaken for part of
+   the question. */
+.review-try__label,
+.review-solution__heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin: 0 0 0.4rem;
+}
+
+.review-try__result:empty {
+  display: none;
+}
+
+.review-try__verdict {
+  font-weight: 600;
+}
+
+.review-solution {
+  border-top: 1px dashed var(--line);
+  margin-top: 0.9rem;
+  padding-top: 0.6rem;
+}
+
+.review-examples {
+  margin-top: 0.8rem;
+}
+
+.review-pages {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
 }
 
 .review-list {
@@ -1353,14 +1421,7 @@ body.reading-focus .reading-text {
   letter-spacing: 0.04em;
 }
 
-.review-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-}
-
-.badge--published {
+.badge--approved {
   background: #e2f0e4;
   color: #24601f;
 }
@@ -1370,8 +1431,20 @@ body.reading-focus .reading-text {
   color: #7d2020;
 }
 
+/* Decided, and then edited: the decision was about other words. Marked as
+   loudly as a rejection, because it was live and is not any more. */
+.badge--changed {
+  background: #f5e0e0;
+  color: #7d2020;
+}
+
 @media (prefers-color-scheme: dark) {
-  .badge--published {
+  .badge--changed {
+    background: #3a1f1f;
+    color: #e0a3a3;
+  }
+
+  .badge--approved {
     background: #1d3320;
     color: #a8d6a4;
   }

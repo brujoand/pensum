@@ -18,6 +18,10 @@
          which would read as "you have done nothing". #}
       <p class="note">{{ t("mastery.map.not_stored") }}</p>
       <p><a href="/{{ locale }}/progresjon/{{ subject.code }}">{{ t("mastery.map.progression_link") }}</a></p>
+    {% elif nothing_approved %}
+      {# Every skill of this subject is still waiting for an administrator of
+         this site. Not the pupil's doing, and not an empty map. #}
+      <p class="note">{{ t("mastery.map.nothing_approved") }}</p>
     {% elif not user %}
       <p class="note">{{ t("mastery.map.sign_in_note") }}</p>
       <p><a href="/auth/login?next={{ request.url.path | urlencode }}">{{ t("auth.sign_in") }}</a></p>

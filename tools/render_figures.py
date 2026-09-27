@@ -34,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from pensum.items.figures import (  # noqa: E402
     ArrayFigure,
+    BoxFigure,
     CountersFigure,
     Drawing,
     FractionFigure,
@@ -144,6 +145,30 @@ def gallery() -> list[tuple[str, object]]:
                     {"start": 20, "end": 18, "label": "-2"},
                     {"start": 18, "end": 16, "label": "-2"},
                 ),
+            ),
+        ),
+        (
+            "box: cube",
+            BoxFigure(
+                alt=ALT,
+                length=5,
+                width=5,
+                height=5,
+                length_label="5 cm",
+                width_label="5 cm",
+                height_label="5 cm",
+            ),
+        ),
+        (
+            "box: long and flat, longest labels",
+            BoxFigure(
+                alt=ALT,
+                length=12,
+                width=4,
+                height=2,
+                length_label="100 cm",
+                width_label="12,5 m",
+                height_label="100 cm",
             ),
         ),
     ]

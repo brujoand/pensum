@@ -9,7 +9,7 @@ start. Drawing the thing removes a step that was never the point of the
 question.
 
 **A figure is declared, not drawn.** An item names a *kind* -- a shape, a row of
-counters, an array, a fraction, a number line -- and the parameters that make
+counters, an array, a fraction, a number line, a box -- and the parameters that make
 this one different from the next. Nothing here accepts an SVG path or a markup
 fragment from the data. That is deliberate and it is the same argument the
 alphabet makes in reverse: a letterform is authored as a path because a path is
@@ -474,8 +474,53 @@ class NumberLineFigure(BaseModel):
         return self
 
 
+# A box whose longest edge is more than this many times its shortest is drawn
+# as a plank or a sheet, which no longer reads as a box.
+MAX_BOX_SPREAD = 6.0
+# Long enough for "100 cm" and "12,5 m". The height and width labels both sit
+# beside the box, and at this length they still leave over 60 of the view's 200
+# units across for the box itself.
+MAX_BOX_LABEL = 7
+# How far the depth recedes per unit of width, along each axis: half scale at
+# 45 degrees, the cabinet projection textbooks use.
+BOX_DEPTH = 0.5 * math.cos(math.pi / 4)
+
+
+class BoxFigure(BaseModel):
+    """A rectangular box -- a cuboid, or a cube -- labelled on three edges.
+
+    Drawn in cabinet projection, the way a textbook draws one: the front face at
+    true size, the depth receding up and to the right at half scale, and the
+    three edges hidden behind the box dashed. Drawn to its own proportions, so
+    a cube looks like a cube and a long box looks long.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: Literal["box"] = "box"
+    alt: AuthoredText
+    # Left to right along the front, front to back, and bottom to top. In any
+    # unit: only their proportions are drawn.
+    length: float = Field(gt=0)
+    width: float = Field(gt=0)
+    height: float = Field(gt=0)
+    length_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+    width_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+    height_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+
+    @model_validator(mode="after")
+    def _check(self) -> BoxFigure:
+        edges = (self.length, self.width, self.height)
+        if max(edges) / min(edges) > MAX_BOX_SPREAD:
+            raise ValueError(
+                f"a {self.length} by {self.width} by {self.height} box is drawn as a "
+                f"plank; keep the longest edge within {MAX_BOX_SPREAD:g} times the shortest"
+            )
+        return self
+
+
 Figure = Annotated[
-    ShapeFigure | CountersFigure | ArrayFigure | FractionFigure | NumberLineFigure,
+    ShapeFigure | CountersFigure | ArrayFigure | FractionFigure | NumberLineFigure | BoxFigure,
     Field(discriminator="kind"),
 ]
 
@@ -496,6 +541,8 @@ def draw(figure: Figure, locale: str) -> Drawing:
         return _draw_counters(figure, alt)
     if isinstance(figure, ArrayFigure):
         return _draw_array(figure, alt)
+    if isinstance(figure, BoxFigure):
+        return _draw_box(figure, alt)
     if isinstance(figure, FractionFigure):
         return _draw_fraction(figure, alt)
     return _draw_number_line(figure, alt)
@@ -554,6 +601,57 @@ def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
                 apex[0] + LABEL_SIZE * 0.6,
                 (apex[1] + foot[1]) / 2,
                 figure.height,
+                anchor="start",
+            )
+        )
+
+    return Drawing(VIEW, VIEW, alt, tuple(paths), (), tuple(labels))
+
+
+def _draw_box(figure: BoxFigure, alt: str) -> Drawing:
+    # The height label runs left of the front face and the width label right of
+    # the receding edge, so the sides make room for them as `_draw_shape` does.
+    left = max(PAD, SIDE_GAP + _label_width(figure.height_label or ""))
+    right = max(PAD, SIDE_GAP + _label_width(figure.width_label or ""))
+    room_x, room_y = VIEW - left - right, VIEW - 2 * PAD
+
+    # The drawing's extent in the figure's own units, then one scale for both
+    # axes so the proportions survive.
+    depth = figure.width * BOX_DEPTH
+    scale = min(room_x / (figure.length + depth), room_y / (figure.height + depth))
+    length, height, depth = figure.length * scale, figure.height * scale, depth * scale
+
+    x0 = left + (room_x - length - depth) / 2
+    y0 = PAD + (room_y - height - depth) / 2 + depth
+    ftl, ftr = (x0, y0), (x0 + length, y0)
+    fbl, fbr = (x0, y0 + height), (x0 + length, y0 + height)
+
+    def back(point: tuple[float, float]) -> tuple[float, float]:
+        return point[0] + depth, point[1] - depth
+
+    paths = [
+        Path(_polygon_d([ftl, ftr, fbr, fbl]), "outline"),
+        Path(_polygon_d([ftl, back(ftl), back(ftr), ftr]), "outline"),
+        Path(_polygon_d([ftr, back(ftr), back(fbr), fbr]), "outline"),
+    ]
+    # The three edges meeting at the corner nobody can see.
+    hidden = back(fbl)
+    for end in (fbl, back(ftl), back(fbr)):
+        paths.append(Path(f"M{hidden[0]:.2f},{hidden[1]:.2f}L{end[0]:.2f},{end[1]:.2f}", "guide"))
+
+    labels: list[Label] = []
+    if figure.length_label:
+        labels.append(Label(x0 + length / 2, fbl[1] + SIDE_GAP, figure.length_label))
+    if figure.height_label:
+        labels.append(
+            Label(x0 - SIDE_GAP * 0.6, y0 + height / 2, figure.height_label, anchor="end")
+        )
+    if figure.width_label:
+        labels.append(
+            Label(
+                fbr[0] + depth / 2 + SIDE_GAP * 0.6,
+                fbr[1] - depth / 2 + SIDE_GAP * 0.4,
+                figure.width_label,
                 anchor="start",
             )
         )

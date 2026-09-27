@@ -445,6 +445,71 @@ templates:
         nb: Et rektangel. Den ene siden er merket {x} cm, den andre {y} cm.
         en: A rectangle. One side is labelled {x} cm, the other {y} cm.
 
+  # Volume, first of a cube and then of any box. Edges stay at 2 to 12 cm, so
+  # the product is one a pupil can work out on paper.
+  - id: KM13280-T03
+    goal: KM13280
+    difficulty: 1
+    params:
+      s: {min: 2, max: 12}
+    derive:
+      volume: s * s * s
+    answer: volume
+    prompt:
+      nb: Kuben har sider på {s} cm. Hvor mange kubikkcentimeter er volumet?
+      en: Each edge of the cube is {s} cm. How many cubic centimetres is its
+        volume?
+    explanation:
+      nb: Volumet er lengde ganger bredde ganger høyde, og i en kube er alle
+        tre like. {s} · {s} · {s} er {volume} kubikkcentimeter.
+      en: Volume is length times width times height, and in a cube all three
+        are the same. {s} × {s} × {s} is {volume} cubic centimetres.
+    figure:
+      kind: box
+      length: "{s}"
+      width: "{s}"
+      height: "{s}"
+      length_label: "{s} cm"
+      width_label: "{s} cm"
+      height_label: "{s} cm"
+      alt:
+        nb: En kube. Lengden, bredden og høyden er alle merket {s} cm.
+        en: A cube. Its length, width and height are all labelled {s} cm.
+
+  - id: KM13280-T04
+    goal: KM13280
+    difficulty: 2
+    params:
+      l: {min: 2, max: 12}
+      w: {min: 2, max: 12}
+      h: {min: 2, max: 12}
+    derive:
+      base: l * w
+      volume: base * h
+    answer: volume
+    prompt:
+      nb: Esken er {l} cm lang, {w} cm bred og {h} cm høy. Hvor mange
+        kubikkcentimeter er volumet?
+      en: The box is {l} cm long, {w} cm wide and {h} cm tall. How many cubic
+        centimetres is its volume?
+    explanation:
+      nb: Volumet er lengde ganger bredde ganger høyde. {l} · {w} er {base}, og
+        {base} · {h} er {volume} kubikkcentimeter.
+      en: Volume is length times width times height. {l} × {w} is {base}, and
+        {base} × {h} is {volume} cubic centimetres.
+    figure:
+      kind: box
+      length: "{l}"
+      width: "{w}"
+      height: "{h}"
+      length_label: "{l} cm"
+      width_label: "{w} cm"
+      height_label: "{h} cm"
+      alt:
+        nb: En eske. Lengden er merket {l} cm, bredden {w} cm og høyden {h} cm.
+        en: A box. Its length is labelled {l} cm, its width {w} cm and its
+          height {h} cm.
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

@@ -25,9 +25,16 @@ from pensum.mastery.attribution import evidence_for
 from pensum.quiz.scoring import Result, score
 from pensum.quiz.session import QuizSession, SessionStore
 from pensum.quiz.shape import plan
+from pensum.quiz.topics import in_topic
 from pensum.scores.store import Attempt, GoalTally, attempt_key
 from pensum.web.comfort import comfort_of
-from pensum.web.deps import current_user, get_evidence, get_store, sees_unreviewed
+from pensum.web.deps import (
+    current_user,
+    get_evidence,
+    get_store,
+    sees_unreviewed,
+    skill_file_for,
+)
 from pensum.web.rendering import context, flow, templates, validate_locale
 
 router = APIRouter()
@@ -145,22 +152,27 @@ def _remember(request: Request, session: QuizSession, outcome: Result, now: date
     if store is None or not session.attributed or not session.finished:
         return
 
-    store.record(
-        Attempt(
-            key=attempt_key(session.id),
-            user_sub=str(session.user_sub),
-            user_name=session.user_name or str(session.user_sub),
-            subject=session.subject,
-            goal_set=session.goal_set,
-            grade=session.grade,
-            correct=outcome.correct,
-            total=outcome.total,
-            by_goal=tuple(
-                GoalTally(goal=g.goal, correct=g.correct, total=g.total) for g in outcome.by_goal
-            ),
-            finished_at=now,
+    # A topic drill is not a trinntest. Its answers are evidence for the map,
+    # below, but an attempt row would be averaged with the checkpoint quizzes
+    # on the admin pages as if it were one.
+    if session.topic is None:
+        store.record(
+            Attempt(
+                key=attempt_key(session.id),
+                user_sub=str(session.user_sub),
+                user_name=session.user_name or str(session.user_sub),
+                subject=session.subject,
+                goal_set=session.goal_set,
+                grade=session.grade,
+                correct=outcome.correct,
+                total=outcome.total,
+                by_goal=tuple(
+                    GoalTally(goal=g.goal, correct=g.correct, total=g.total)
+                    for g in outcome.by_goal
+                ),
+                finished_at=now,
+            )
         )
-    )
 
     # Evidence for the pupil's map, under the same three conditions and at the
     # same moment. A subject with no skills file has nothing to file it under.
@@ -216,7 +228,11 @@ def _question(request: Request, locale: str, session: QuizSession) -> HTMLRespon
 
 @router.post("/{locale}/klasse/{grade}/{subject_code}/quiz")
 async def start_quiz(
-    request: Request, locale: str, grade: int, subject_code: str
+    request: Request,
+    locale: str,
+    grade: int,
+    subject_code: str,
+    topic: str | None = Form(None),
 ) -> RedirectResponse:
     validate_locale(locale)
     subject = request.app.state.catalogue.subject(subject_code)
@@ -232,6 +248,13 @@ async def start_quiz(
     pool = _bank(request).for_goal_set(
         checkpoint.goal_set.code, unreviewed=sees_unreviewed(request)
     )
+    # A topic narrows the run to one strand of the subject's skills. The whole
+    # run, stage stepping included, then stays inside it.
+    if topic:
+        skill_file = skill_file_for(request, subject.code)
+        if skill_file is None or skill_file.strand(topic) is None:
+            raise HTTPException(status_code=404, detail="unknown topic")
+        pool = in_topic(pool, topic, checkpoint.goal_set.after_year, skill_file)
     user = current_user(request)
     now = datetime.now(UTC)
     shaped = plan(
@@ -252,8 +275,18 @@ async def start_quiz(
         user=user,
         pool=tuple(pool),
         finish_options=shaped.finish,
+        topic=topic or None,
     )
     return RedirectResponse(f"/{locale}/quiz/{session.id}", status_code=303)
+
+
+def _topic_title(request: Request, session: QuizSession, locale: str) -> str | None:
+    """The drilled strand's name, for the heading; None on a whole-checkpoint run."""
+    if session.topic is None:
+        return None
+    skill_file = request.app.state.skills.for_subject(session.subject)
+    strand = skill_file.strand(session.topic) if skill_file else None
+    return strand.title.get(locale) if strand else session.topic
 
 
 @router.get("/{locale}/quiz/{session_id}", response_class=HTMLResponse)
@@ -271,6 +304,7 @@ async def quiz_page(request: Request, locale: str, session_id: str) -> HTMLRespo
             session=session,
             subject=subject,
             item=session.current(),
+            topic=_topic_title(request, session, locale),
             **_flow(request, locale, session),
             **_run(request, locale, session),
         ),
@@ -398,6 +432,7 @@ async def result(request: Request, locale: str, session_id: str) -> HTMLResponse
             subject=subject,
             result=outcome,
             goals=goals,
+            topic=_topic_title(request, session, locale),
             # So a score reads against what the quiz actually reached, not the
             # whole checkpoint.
             coverage=_bank(request).coverage(goal_set, unreviewed=sees_unreviewed(request)),

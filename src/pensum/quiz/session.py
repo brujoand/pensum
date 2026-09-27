@@ -94,7 +94,12 @@ class QuizSession:
     user_sub: str | None = None
     user_name: str | None = None
 
-    # The goal set's whole bank, which stage stepping draws from.
+    # The strand this run drills, or None for the whole checkpoint. See
+    # `pensum.quiz.topics`.
+    topic: str | None = None
+
+    # The bank the run was drawn from, which stage stepping draws from too: the
+    # goal set's, or only its topic's.
     pool: tuple[QuizItem, ...] = ()
     # Two options for the last slot, or none when the bank could not spare one.
     finish_options: tuple[QuizItem, ...] = ()
@@ -363,6 +368,7 @@ class SessionStore:
         *,
         pool: tuple[QuizItem, ...] = (),
         finish_options: tuple[QuizItem, ...] = (),
+        topic: str | None = None,
     ) -> QuizSession:
         self._sweep(now)
         session = QuizSession(
@@ -378,6 +384,7 @@ class SessionStore:
             user_name=user.name if user else None,
             pool=pool,
             finish_options=finish_options,
+            topic=topic,
         )
         self._sessions[session.id] = session
         return session

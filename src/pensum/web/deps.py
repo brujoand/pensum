@@ -17,6 +17,7 @@ from pensum.missions.loader import MissionLibrary
 from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
+from pensum.skills.schema import SkillFile
 
 
 def get_settings(request: Request) -> Settings:
@@ -158,6 +159,14 @@ def sees_unreviewed(request: Request) -> bool:
     administrators approved, and nothing else, whatever its environment says.
     """
     return is_admin(request)
+
+
+def skill_file_for(request: Request, subject_code: str) -> SkillFile | None:
+    """A subject's skills as this reader may see them: approved only, unless admin."""
+    skills = request.app.state.skills
+    if sees_unreviewed(request):
+        return skills.for_subject(subject_code)
+    return skills.approved_file(subject_code)
 
 
 def base_url(request: Request) -> str:

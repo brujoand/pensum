@@ -107,6 +107,16 @@ quiz:
   authored_note: >-
     Spørsmålene er laget av Pensum, ikke hentet fra læreplanen.
 
+# Drilling one strand of a subject, such as geometry, instead of the whole
+# checkpoint. See `pensum.quiz.topics`.
+topics:
+  intro: "Eller øv på ett tema:"
+  count: "{count} spørsmål"
+  drilling: "Tema: {topic}"
+  no_verdict: >-
+    Dette var ett tema, ikke hele trinnet, så det sier ingenting om å bestå.
+    Ta hele quizen for det.
+
 result:
   heading: Slik gikk det
   score: Du fikk {correct} av {total} riktig.

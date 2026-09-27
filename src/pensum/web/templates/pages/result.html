@@ -4,9 +4,16 @@
 
 {% block content %}
   <h1>{{ t("result.heading") }}</h1>
+  {% if topic %}
+    <p class="topic-heading">{{ t("topics.drilling", topic=topic) }}</p>
+  {% endif %}
 
   <p class="score">{{ t("result.score", correct=result.correct, total=result.total) }}</p>
-  {% if result.complete %}
+  {% if result.complete and topic %}
+    {# One topic is not the trinn, so passing it is no verdict on the trinn.
+       The score and the goal breakdown below still say how it went. #}
+    <p class="note">{{ t("topics.no_verdict") }}</p>
+  {% elif result.complete %}
     <p class="verdict">{{ t("result.passed") if result.passed else t("result.not_passed") }}</p>
   {% else %}
     {# Stopped at a break card. A verdict on part of a run would be a verdict

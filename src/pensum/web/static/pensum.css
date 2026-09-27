@@ -424,6 +424,28 @@ a {
   display: block;
 }
 
+/* One button per strand, under the whole-checkpoint quiz. They wrap on a
+   phone rather than scroll. */
+.topic-cta {
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topic-count {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
 .field-help {
   margin: 0.25rem 0 0.5rem;
   font-size: 0.85rem;

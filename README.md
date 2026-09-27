@@ -68,6 +68,16 @@ drafts](#reviewing-drafts)), and the guide labels any that are not approved
 there. The design,
 and the layers still to come on top of it, are in [docs/design](docs/design/).
 
+**Strands are also the quiz's topics.** Under the checkpoint quiz, the subject
+page offers one button per strand with at least two questions at that checkpoint
+("Form og rom", "Brøk, desimaltall og prosent"), so a pupil stuck on geometry can
+drill geometry. An item's topic is not tagged separately. It is the strand of
+the skill the item names, or of the skills citing its goal at that checkpoint
+(`pensum.quiz.topics`), so tagging an item's `skill:` also sets its topic. A
+topic drill gives no pass verdict and writes no row to the admin's attempt
+history, because it is not the checkpoint. Its answers still count as evidence
+on the pupil's map.
+
 ## Running it
 
 ```bash

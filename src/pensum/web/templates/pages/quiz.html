@@ -8,6 +8,10 @@
     <a href="/{{ locale }}/klasse/{{ session.grade }}/{{ subject.code }}">{{ subject.display_title.get(lang) }}</a>
   </nav>
 
+  {% if topic %}
+    <p class="topic-heading">{{ t("topics.drilling", topic=topic) }}</p>
+  {% endif %}
+
   <p class="authored-note">{{ t("quiz.authored_note") }}</p>
 
   <div id="quiz-slot">

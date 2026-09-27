@@ -49,6 +49,28 @@
         <button class="button" type="submit">{{ t("quiz.start") }}</button>
       </form>
 
+      {# Drilling one topic, such as geometry, for a pupil who knows where they
+         struggle. Each is a strand of the subject's skills; see
+         `pensum.quiz.topics`. #}
+      {% if topics %}
+        <div class="topic-cta">
+          <p>{{ t("topics.intro") }}</p>
+          <ul class="topic-list">
+            {% for topic in topics %}
+              <li>
+                <form method="post" action="/{{ locale }}/klasse/{{ grade }}/{{ subject.code }}/quiz">
+                  <input type="hidden" name="topic" value="{{ topic.strand.id }}">
+                  <button class="button button--secondary" type="submit">
+                    {{ topic.strand.title.get(locale) }}
+                    <span class="topic-count">{{ t("topics.count", count=topic.count) }}</span>
+                  </button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
       {# The other question, offered where a pupil is already thinking about
          this subject: this page tests whether they are ready for *this* trinn,
          the nivåtest finds which trinn they are ready for. #}

@@ -12,13 +12,20 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 
 from pensum import __version__
 from pensum.catalogue.loader import Catalogue
-from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for, subjects_for_grade
+from pensum.domain.grades import (
+    FIRST_GRADE,
+    LAST_GRADE,
+    Checkpoint,
+    checkpoint_for,
+    subjects_for_grade,
+)
 from pensum.domain.ladder import MIN_RUNGS_FOR_PLACEMENT, Ladder
 from pensum.domain.models import NYNORSK
 from pensum.i18n import DEFAULT_LOCALE, curriculum_language
 from pensum.items.loader import ItemBank
+from pensum.quiz.topics import Topic, topics
 from pensum.reading.library import ReadingLibrary
-from pensum.web.deps import sees_unreviewed
+from pensum.web.deps import sees_unreviewed, skill_file_for
 from pensum.web.rendering import context, templates, validate_locale
 from pensum.writing.library import WritingLibrary
 
@@ -41,6 +48,16 @@ def _catalogue(request: Request) -> Catalogue:
 
 def _items(request: Request) -> ItemBank:
     return request.app.state.items
+
+
+def _topics(request: Request, subject_code: str, checkpoint: Checkpoint) -> tuple[Topic, ...]:
+    skill_file = skill_file_for(request, subject_code)
+    if skill_file is None:
+        return ()
+    pool = _items(request).for_goal_set(
+        checkpoint.goal_set.code, unreviewed=sees_unreviewed(request)
+    )
+    return topics(pool, checkpoint.goal_set.after_year, skill_file)
 
 
 def _reading(request: Request) -> ReadingLibrary:
@@ -200,6 +217,9 @@ async def subject_page(
             question_count=len(
                 _items(request).for_goal_set(checkpoint.goal_set.code, unreviewed=drafts)
             ),
+            # Strands of the skills file with enough questions here to drill on
+            # their own, such as geometry. See `pensum.quiz.topics`.
+            topics=_topics(request, subject.code, checkpoint),
             coverage=_items(request).coverage(checkpoint.goal_set, unreviewed=drafts),
             # Offered wherever a skills file exists, drafts included: the guide
             # labels its own drafts, and no pupil-facing path depends on it.

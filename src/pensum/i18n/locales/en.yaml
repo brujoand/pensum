@@ -94,6 +94,16 @@ quiz:
     These questions were written by Pensum; they are not taken from the
     curriculum.
 
+# Drilling one strand of a subject, such as geometry, instead of the whole
+# checkpoint. See `pensum.quiz.topics`.
+topics:
+  intro: "Or practise one topic:"
+  count: "{count} questions"
+  drilling: "Topic: {topic}"
+  no_verdict: >-
+    This was one topic, not the whole year, so it says nothing about passing.
+    Take the full quiz for that.
+
 result:
   heading: How it went
   score: You got {correct} out of {total} right.

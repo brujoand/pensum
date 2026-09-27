@@ -372,6 +372,79 @@ items:
       en: A square has four equal sides, so each side is 20 divided by 4, which
         is 5 cm. The area is 5 × 5, or 25 square centimetres.
 
+# Problems rather than questions: each is asked with new numbers every time.
+# Both sides are 10 to 100 cm and differ by one or two, never zero, so the
+# figure is a rectangle drawn in its own proportions.
+templates:
+  - id: KM13280-T01
+    goal: KM13280
+    difficulty: 2
+    params:
+      x: {min: 10, max: 100}
+      d: {min: -2, max: 2}
+    derive:
+      y: x + d
+      area: x * y
+      ratio: x / y
+    require:
+      - d != 0
+      - 10 <= y <= 100
+    answer: area
+    prompt:
+      nb: Rektangelet er {x} cm langt og {y} cm bredt. Hvor mange
+        kvadratcentimeter er arealet?
+      en: The rectangle is {x} cm long and {y} cm wide. How many square
+        centimetres is its area?
+    explanation:
+      nb: Arealet er lengde ganger bredde. {x} · {y} er {area}, så arealet er
+        {area} kvadratcentimeter.
+      en: Area is length times width. {x} × {y} is {area}, so the area is
+        {area} square centimetres.
+    figure:
+      kind: shape
+      shape: rectangle
+      sides: ["{x} cm", "{y} cm", "", ""]
+      right_angles: [0, 1, 2, 3]
+      ratio: "{ratio}"
+      alt:
+        nb: Et rektangel. Den ene siden er merket {x} cm, den andre {y} cm.
+        en: A rectangle. One side is labelled {x} cm, the other {y} cm.
+
+  - id: KM13280-T02
+    goal: KM13280
+    difficulty: 1
+    params:
+      x: {min: 10, max: 100}
+      d: {min: -2, max: 2}
+    derive:
+      y: x + d
+      half: x + y
+      perimeter: 2 * half
+      ratio: x / y
+    require:
+      - d != 0
+      - 10 <= y <= 100
+    answer: perimeter
+    prompt:
+      nb: Rektangelet er {x} cm langt og {y} cm bredt. Hvor mange centimeter
+        er omkretsen?
+      en: The rectangle is {x} cm long and {y} cm wide. How many centimetres is
+        its perimeter?
+    explanation:
+      nb: Omkretsen er alle fire sidene lagt sammen. {x} + {y} er {half}, og to
+        ganger det er {perimeter} cm.
+      en: The perimeter is all four sides added together. {x} + {y} is {half},
+        and twice that is {perimeter} cm.
+    figure:
+      kind: shape
+      shape: rectangle
+      sides: ["{x} cm", "{y} cm", "", ""]
+      right_angles: [0, 1, 2, 3]
+      ratio: "{ratio}"
+      alt:
+        nb: Et rektangel. Den ene siden er merket {x} cm, den andre {y} cm.
+        en: A rectangle. One side is labelled {x} cm, the other {y} cm.
+
 # Goals that no written question can honestly test. Recorded rather than
 # omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:

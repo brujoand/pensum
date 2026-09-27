@@ -19,6 +19,7 @@ from pensum.items.figures import (
     FractionFigure,
     NumberLineFigure,
     ShapeFigure,
+    _label_width,
     draw,
     line_geometry,
     line_value,
@@ -87,6 +88,36 @@ def test_side_labels_follow_the_sides() -> None:
     placed = {label.text: (round(label.x), round(label.y)) for label in drawing.labels}
     assert set(placed) == {"a", "b", "c"}
     assert len(set(placed.values())) == 3
+
+
+@pytest.mark.parametrize("ratio", [0.5, 1.0, 1.02, 1.6, 3.0])
+def test_a_long_side_label_beside_the_shape_stays_in_view_and_off_the_outline(
+    ratio: float,
+) -> None:
+    """A label on a left or right side runs away from the shape, and fits."""
+    drawing = draw(
+        shape(shape="rectangle", sides=("100 cm", "102 cm", "", "999 cm"), ratio=ratio), "nb"
+    )
+    xs = _coordinates(drawing.paths[0].d)[0::2]
+    for label in drawing.labels:
+        width = _label_width(label.text)
+        if label.anchor == "start":
+            assert label.x > max(xs)
+            assert label.x + width <= VIEW
+        elif label.anchor == "end":
+            assert label.x < min(xs)
+            assert label.x - width >= 0
+        else:
+            assert label.x - width / 2 >= 0 and label.x + width / 2 <= VIEW
+    assert {label.anchor for label in drawing.labels} == {"middle", "start", "end"}
+
+
+def test_a_rectangle_keeps_its_ratio_when_labels_narrow_it() -> None:
+    drawing = draw(shape(shape="rectangle", sides=("", "102 cm", "", ""), ratio=1.6), "nb")
+    points = _coordinates(drawing.paths[0].d)
+    xs, ys = points[0::2], points[1::2]
+    # The path is written to two decimals, so the ratio holds to about that.
+    assert (max(xs) - min(xs)) / (max(ys) - min(ys)) == pytest.approx(1.6, abs=1e-3)
 
 
 def test_an_empty_side_label_draws_nothing() -> None:

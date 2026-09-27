@@ -218,6 +218,20 @@ def committed(subjects: list[str]) -> list[tuple[str, object]]:
                     item.figure,
                 )
             )
+        # A template's figure is drawn from its numbers, so show the first,
+        # middle and last instance: the ends of every range, and one between.
+        for template in item_set.templates:
+            instances = template.instances()
+            picks = sorted({0, len(instances) // 2, len(instances) - 1})
+            for item in (instances[i] for i in picks):
+                if item.figure is not None:
+                    out.append(
+                        (
+                            f"{item_set.subject} / {item_set.goal_set} / {item.id}\n"
+                            f"{item.prompt.nb}",
+                            item.figure,
+                        )
+                    )
     return out
 
 

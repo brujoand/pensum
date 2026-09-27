@@ -782,6 +782,24 @@ the same thing as the words? The second ignores the data and draws every shape
 and option, including the ones no item uses yet — that is the sheet to look at
 after changing the geometry.
 
+**A question template can carry a figure too**, with `{name}` in any of its
+strings. A string that is exactly one placeholder becomes the number itself, and
+any other string is filled like the prompt:
+
+```yaml
+derive: {y: x + d, ratio: x / y}
+figure:
+  kind: shape
+  shape: rectangle
+  sides: ["{x} cm", "{y} cm", "", ""]
+  ratio: "{ratio}"
+```
+
+So every rectangle the template asks about is drawn in its own proportions with
+its own sides labelled. Each instance's figure is validated as the file loads,
+across the whole domain, and the first sheet shows the first, middle and last
+instance of each template.
+
 ### What a figure may and may not give away
 
 **A figure may show what the prompt already says. It may not show anything the

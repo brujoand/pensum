@@ -118,6 +118,14 @@ class ItemTemplate(BaseModel):
     prompt: AuthoredText
     explanation: AuthoredText
 
+    # A figure as an item declares one (`pensum.items.figures`), with `{name}`
+    # allowed in any string. A string that is exactly one placeholder becomes
+    # the value itself, so `ratio: "{ratio}"` is a number; any other string is
+    # filled like the prose, so a side reads `"{x} cm"`. Held as plain data
+    # because a placeholder is not yet a valid figure: each instance's figure
+    # is validated as it is built, which `_check` does for the whole domain.
+    figure: dict[str, Any] | None = None
+
     @model_validator(mode="before")
     @classmethod
     def _no_review_keys(cls, data: object) -> object:
@@ -154,6 +162,12 @@ class ItemTemplate(BaseModel):
                     raise ValueError(
                         f"{self.id}: {field}.{locale} reads undefined {sorted(missing)}"
                     )
+
+        missing = {
+            name for text in _strings(self.figure) for name in PLACEHOLDER.findall(text)
+        } - known
+        if missing:
+            raise ValueError(f"{self.id}: figure reads undefined {sorted(missing)}")
 
         size = 1
         for parameter in self.params.values():
@@ -221,6 +235,7 @@ class ItemTemplate(BaseModel):
             prompt=_fill(self.prompt, binding),
             explanation=_fill(self.explanation, binding),
             answer=answer,
+            figure=_fill_data(self.figure, binding),
         )
 
 
@@ -229,6 +244,29 @@ def _fill(text: AuthoredText, binding: dict[str, Any]) -> AuthoredText:
         nb=PLACEHOLDER.sub(lambda m: _number(binding[m.group(1)]), text.nb),
         en=PLACEHOLDER.sub(lambda m: _number(binding[m.group(1)]), text.en),
     )
+
+
+def _fill_data(data: Any, binding: dict[str, Any]) -> Any:
+    """A figure's data with its placeholders filled; see `ItemTemplate.figure`."""
+    if isinstance(data, dict):
+        return {key: _fill_data(value, binding) for key, value in data.items()}
+    if isinstance(data, list):
+        return [_fill_data(value, binding) for value in data]
+    if isinstance(data, str):
+        whole = PLACEHOLDER.fullmatch(data)
+        if whole:
+            return binding[whole.group(1)]
+        return PLACEHOLDER.sub(lambda m: _number(binding[m.group(1)]), data)
+    return data
+
+
+def _strings(data: Any) -> list[str]:
+    """Every string anywhere in a figure's data, for the placeholder check."""
+    if isinstance(data, dict):
+        return [text for value in data.values() for text in _strings(value)]
+    if isinstance(data, list):
+        return [text for value in data for text in _strings(value)]
+    return [data] if isinstance(data, str) else []
 
 
 def _number(value: Any) -> str:

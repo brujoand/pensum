@@ -54,6 +54,13 @@ PAD = 26.0
 LABEL_SIZE = 13.0
 TICK_SIZE = 11.0
 
+# How far a side label sits from its side, and how wide a character of it is
+# taken to be. The width is an estimate, since the renderer never measures
+# text: sans-serif digits average a little over half their height, and
+# overestimating costs a slightly smaller shape rather than a clipped label.
+SIDE_GAP = LABEL_SIZE * 0.9
+CHAR_WIDTH = 0.62
+
 # A figure nobody could take in at a glance is not helping. These caps are
 # about legibility at the size a phone renders a quiz question, not about
 # arithmetic: forty counters is already a wall of dots.
@@ -498,10 +505,17 @@ def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
     if figure.shape == "circle":
         return _draw_circle(figure, alt)
 
-    inner = VIEW - 2 * PAD
     ratio = figure.drawn_ratio
-    width = inner if ratio >= 1 else inner * ratio
-    height = inner if ratio <= 1 else inner / ratio
+    # A label beside a left or right side runs away from the shape, so the
+    # sides need room for the longest one: "102 cm" is far wider than PAD.
+    beside = [
+        text
+        for index, text in enumerate(figure.sides)
+        if text and _side_faces(figure.shape, ratio, index) != "middle"
+    ]
+    margin = max([PAD, *(SIDE_GAP + _label_width(text) for text in beside)])
+    width = min(VIEW - 2 * margin, (VIEW - 2 * PAD) * ratio)
+    height = width / ratio
     left = (VIEW - width) / 2
     top = (VIEW - height) / 2
     points = [(left + ux * width, top + uy * height) for ux, uy in _unit_vertices(figure.shape)]
@@ -521,7 +535,8 @@ def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
         ax, ay = points[index]
         bx, by = points[(index + 1) % len(points)]
         mid = ((ax + bx) / 2, (ay + by) / 2)
-        labels.append(Label(*_pushed_out(mid, centre, LABEL_SIZE * 0.9), text))
+        anchor = _side_faces(figure.shape, ratio, index)
+        labels.append(Label(*_pushed_out(mid, centre, SIDE_GAP), text, anchor=anchor))
 
     for index, text in enumerate(figure.vertices):
         if not text:
@@ -565,6 +580,27 @@ def _draw_circle(figure: ShapeFigure, alt: str) -> Drawing:
         labels.append(Label(cx, cy - LABEL_SIZE * 0.7, figure.diameter))
     dots = (Dot(cx, cy, 2.5),) if (figure.radius or figure.diameter) else ()
     return Drawing(VIEW, VIEW, alt, tuple(paths), dots, tuple(labels))
+
+
+def _side_faces(shape: ShapeName, ratio: float, index: int) -> str:
+    """Which way a side's label runs: "start" rightwards, "end" leftwards, or centred.
+
+    Read off the unit shape stretched to `ratio`, which points the same way as
+    the drawn one: only the scale differs.
+    """
+    unit = [(x * ratio, y) for x, y in _unit_vertices(shape)]
+    cx = sum(x for x, _ in unit) / len(unit)
+    cy = sum(y for _, y in unit) / len(unit)
+    (ax, ay), (bx, by) = unit[index], unit[(index + 1) % len(unit)]
+    dx, dy = (ax + bx) / 2 - cx, (ay + by) / 2 - cy
+    if abs(dx) <= abs(dy):
+        return "middle"
+    return "start" if dx > 0 else "end"
+
+
+def _label_width(text: str) -> float:
+    """Roughly how wide a side label is drawn, in view units."""
+    return len(text) * LABEL_SIZE * CHAR_WIDTH
 
 
 def _pushed_out(

@@ -127,6 +127,45 @@ def test_an_instance_is_an_ordinary_item() -> None:
     assert item.is_correct("5") is False
 
 
+def pen(**overrides) -> ItemTemplate:
+    """A field of sheep drawn as a labelled rectangle."""
+    return farm(
+        derive={"animals": "sheep + hens", "legs": "2 * hens + 4 * sheep", "ratio": "sheep / hens"},
+        figure={
+            "kind": "shape",
+            "shape": "rectangle",
+            "sides": ["{sheep} m", "{hens} m", "", ""],
+            "ratio": "{ratio}",
+            "alt": {"nb": "Et rektangel, {sheep} m og {hens} m.", "en": "{sheep} m by {hens} m."},
+        }
+        | overrides,
+    )
+
+
+def test_a_template_figure_is_filled_per_instance() -> None:
+    item = next(i for i in pen().instances() if i.id.endswith("#10-4"))
+    assert item.figure is not None
+    assert item.figure.sides == ("4 m", "10 m", "", "")
+    assert item.figure.alt.nb == "Et rektangel, 4 m og 10 m."
+
+
+def test_a_whole_placeholder_in_a_figure_is_the_value_itself() -> None:
+    """So a figure's number fields can come from the template's arithmetic."""
+    item = next(i for i in pen().instances() if i.id.endswith("#10-4"))
+    assert item.figure.ratio == pytest.approx(0.4)
+
+
+def test_a_figure_placeholder_with_no_value_is_refused() -> None:
+    with pytest.raises(ValidationError, match="figure reads undefined"):
+        pen(sides=["{goats} m", "", "", ""])
+
+
+def test_a_figure_no_instance_can_draw_is_refused_at_load() -> None:
+    """A rectangle has four sides; saying three fails when the file loads."""
+    with pytest.raises(ValidationError, match="4 sides"):
+        pen(sides=["{sheep} m", "", ""])
+
+
 def test_require_prunes_the_domain() -> None:
     narrowed = farm(require=("sheep == hens",))
     assert [item.answer for item in narrowed.instances()] == [6, 7, 8]

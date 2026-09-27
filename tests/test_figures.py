@@ -8,13 +8,17 @@ pass on a drawing that says the wrong thing.
 
 from __future__ import annotations
 
+import math
+
 import pytest
 from pydantic import ValidationError
 
 from pensum.items.figures import (
+    MAX_BOX_LABEL,
     PAD,
     VIEW,
     ArrayFigure,
+    BoxFigure,
     CountersFigure,
     FractionFigure,
     NumberLineFigure,
@@ -340,6 +344,78 @@ def test_a_line_too_long_to_read_is_refused() -> None:
 def test_decimal_ticks_are_written_the_norwegian_way() -> None:
     drawing = draw(NumberLineFigure(alt=ALT, start=0, end=2, step=0.5), "nb")
     assert [label.text for label in drawing.labels] == ["0", "0,5", "1", "1,5", "2"]
+
+
+# --- boxes -------------------------------------------------------------------
+
+
+def box(length: float, width: float, height: float, **labels) -> BoxFigure:
+    return BoxFigure(alt=ALT, length=length, width=width, height=height, **labels)
+
+
+def test_a_box_is_three_visible_faces_and_three_hidden_edges() -> None:
+    drawing = draw(box(4, 3, 2), "nb")
+    assert [path.role for path in drawing.paths] == ["outline"] * 3 + ["guide"] * 3
+    # The hidden edges all start at the one corner nobody can see.
+    starts = {tuple(_coordinates(path.d)[:2]) for path in drawing.paths[3:]}
+    assert len(starts) == 1
+
+
+def test_a_box_front_face_is_drawn_in_its_own_proportions() -> None:
+    front = _coordinates(draw(box(4, 3, 2), "nb").paths[0].d)
+    xs, ys = front[0::2], front[1::2]
+    assert (max(xs) - min(xs)) / (max(ys) - min(ys)) == pytest.approx(2.0, abs=1e-3)
+
+
+def test_a_cube_recedes_at_half_scale_and_45_degrees() -> None:
+    drawing = draw(box(5, 5, 5), "nb")
+    front = _coordinates(drawing.paths[0].d)
+    side = max(front[0::2]) - min(front[0::2])
+    top = _coordinates(drawing.paths[1].d)
+    dx, dy = top[2] - top[0], top[3] - top[1]
+    assert dx == pytest.approx(-dy, abs=0.02)
+    assert math.hypot(dx, dy) == pytest.approx(side / 2, abs=0.05)
+
+
+@pytest.mark.parametrize(
+    ("length", "width", "height"), [(2, 12, 2), (12, 2, 2), (2, 2, 12), (5, 5, 5), (12, 12, 12)]
+)
+def test_a_box_and_its_longest_labels_stay_in_view_and_off_the_outline(
+    length: float, width: float, height: float
+) -> None:
+    label = "x" * MAX_BOX_LABEL
+    drawing = draw(
+        box(length, width, height, length_label=label, width_label=label, height_label=label),
+        "nb",
+    )
+    points = [c for path in drawing.paths for c in _coordinates(path.d)]
+    xs, ys = points[0::2], points[1::2]
+    assert all(0 <= x <= VIEW for x in xs) and all(0 <= y <= VIEW for y in ys)
+    for placed in drawing.labels:
+        span = _label_width(placed.text)
+        low = {"start": placed.x, "end": placed.x - span, "middle": placed.x - span / 2}
+        assert low[placed.anchor] >= 0 and low[placed.anchor] + span <= VIEW
+    by_text = {placed.anchor: placed for placed in drawing.labels}
+    assert by_text["end"].x < min(xs), "the height label sits left of the box"
+    assert by_text["middle"].y > max(ys), "the length label sits below the box"
+
+
+def test_the_longest_labels_leave_room_for_the_box() -> None:
+    """The floor `MAX_BOX_LABEL` exists for: two side labels never crowd it out."""
+    label = "x" * MAX_BOX_LABEL
+    drawing = draw(box(5, 5, 5, width_label=label, height_label=label), "nb")
+    xs = [c for path in drawing.paths for c in _coordinates(path.d)][0::2]
+    assert max(xs) - min(xs) >= 60
+
+
+def test_a_plank_is_not_a_box() -> None:
+    with pytest.raises(ValidationError, match="plank"):
+        box(20, 2, 2)
+
+
+def test_a_box_label_too_long_to_fit_is_refused() -> None:
+    with pytest.raises(ValidationError):
+        box(4, 3, 2, height_label="x" * (MAX_BOX_LABEL + 1))
 
 
 # --- helpers -----------------------------------------------------------------

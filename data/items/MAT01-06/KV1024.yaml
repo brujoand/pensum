@@ -463,6 +463,50 @@ items:
         A dice has six sides, and every side has the same chance: 1/6. After a
         few rolls one number may have come up more often, but that is chance.
 
+# Problems rather than questions: each is asked with new numbers every time.
+templates:
+  # A fraction of a quantity, and an equation with a missing number. The
+  # whole is always a multiple of the denominator, so every answer is whole.
+  - id: KM13269-T01
+    goal: KM13269
+    difficulty: 2
+    params:
+      den: {min: 2, max: 10}
+      num: {min: 1, max: 9}
+      k: {min: 2, max: 10}
+    derive:
+      whole: den * k
+      part: num * k
+    require:
+      - num < den
+    answer: part
+    prompt:
+      nb: En klasse har {whole} blyanter. {num}/{den} av dem er røde. Hvor
+        mange blyanter er røde?
+      en: A class has {whole} pencils. {num}/{den} of them are red. How many
+        pencils are red?
+    explanation:
+      nb: "Finn 1/{den} først: {whole} delt på {den} er {k}. {num}/{den} er
+        {num} slike deler, og {num} · {k} er {part}."
+      en: "Find 1/{den} first: {whole} divided by {den} is {k}. {num}/{den} is
+        {num} of those parts, and {num} × {k} is {part}."
+
+  - id: KM13274-T01
+    goal: KM13274
+    difficulty: 1
+    params:
+      x: {min: 2, max: 40}
+      a: {min: 2, max: 30}
+    derive:
+      b: x + a
+    answer: x
+    prompt:
+      nb: "Hvilket tall mangler? ☐ + {a} = {b}"
+      en: "Which number is missing? ☐ + {a} = {b}"
+    explanation:
+      nb: "Tenk baklengs: {b} − {a} er {x}. Sjekk: {x} + {a} er {b}."
+      en: "Work backwards: {b} − {a} is {x}. Check: {x} + {a} is {b}."
+
 not_assessable:
   - goal: KM13271
     reason: >-

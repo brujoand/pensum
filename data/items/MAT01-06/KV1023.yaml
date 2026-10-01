@@ -445,3 +445,45 @@ items:
       en: >-
         The robot must take 6 steps in all. Before each step it checks for a
         wall ahead. At the edge it turns right and carries on down to the ring.
+
+# Problems rather than questions: each is asked with new numbers every time.
+templates:
+  # Sharing division, and division as multiplication backwards. Tables up to
+  # ten, so every answer is one a pupil can check by multiplying.
+  - id: KM13255-T01
+    goal: KM13255
+    difficulty: 2
+    params:
+      each: {min: 2, max: 10}
+      kids: {min: 2, max: 10}
+    derive:
+      total: each * kids
+    answer: each
+    prompt:
+      nb: "{total} kjeks deles likt mellom {kids} barn. Hvor mange kjeks får
+        hvert barn?"
+      en: "{total} biscuits are shared equally between {kids} children. How
+        many biscuits does each child get?"
+    explanation:
+      nb: "{total} delt på {kids} er {each}. Sjekk med ganging: {kids} · {each}
+        er {total}."
+      en: "{total} divided by {kids} is {each}. Check by multiplying: {kids} ×
+        {each} is {total}."
+
+  - id: KM13258-T01
+    goal: KM13258
+    difficulty: 2
+    params:
+      a: {min: 2, max: 10}
+      b: {min: 2, max: 10}
+    derive:
+      product: a * b
+    answer: b
+    prompt:
+      nb: "Du vet at {a} · {b} = {product}. Hva er {product} : {a}?"
+      en: "You know that {a} × {b} = {product}. What is {product} ÷ {a}?"
+    explanation:
+      nb: "Gange og dele hører sammen. Når {a} · {b} er {product}, må
+        {product} : {a} være {b}."
+      en: "Multiplication and division belong together. Since {a} × {b} is
+        {product}, {product} ÷ {a} must be {b}."

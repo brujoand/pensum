@@ -446,6 +446,13 @@ a {
   opacity: 0.8;
 }
 
+/* "Tema: Form og rom" above a drill's questions and its result. */
+.topic-heading {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .field-help {
   margin: 0.25rem 0 0.5rem;
   font-size: 0.85rem;

@@ -265,6 +265,17 @@ items:
         kvadratcentimeter?
       en: A cube has sides of 4 cm. What is its surface area in square
         centimetres?
+    figure:
+      kind: box
+      length: 4
+      width: 4
+      height: 4
+      length_label: "4 cm"
+      width_label: "4 cm"
+      height_label: "4 cm"
+      alt:
+        nb: En terning. Lengden, bredden og høyden er alle merket 4 cm.
+        en: A cube. Its length, width and height are all labelled 4 cm.
     answer: 96
     explanation:
       nb: En terning har 6 like flater. Hver flate er 4 · 4 = 16 cm², så

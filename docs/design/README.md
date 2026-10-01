@@ -15,6 +15,7 @@ through them every other child. Nothing here is implemented yet.
 | [architecture.md](architecture.md) | strands, skills, activities, evidence, mastery, the session engine, missions, the comfort profile, the teacher views |
 | [activities.md](activities.md) | the catalogue of interaction primitives every subject is built from |
 | [subjects/](subjects/) | per subject: strands, a progression per checkpoint citing LK20, misconceptions to watch for, activities, missions |
+| [llm-drills.md](llm-drills.md) | a beta class of drill where a language model writes the questions from reviewed facts, and what that changes about review |
 
 Subjects: [matematikk](subjects/matematikk.md) ·
 [norsk](subjects/norsk.md) · [engelsk](subjects/engelsk.md) ·

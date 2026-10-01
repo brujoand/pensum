@@ -483,6 +483,53 @@ items:
         Take one box and 2 blocks from both sides. Then 2x = 8, so x = 4. Check:
         3 × 4 + 2 = 14 and 4 + 10 = 14.
 
+# Problems rather than questions: each is asked with new numbers every time.
+templates:
+  # Percent of a quantity, and a two-step linear equation. The quantity is a
+  # multiple of 20 and the percent a multiple of 5, so 5 percent is always a
+  # whole number and so is the answer.
+  - id: KM13288-T01
+    goal: KM13288
+    difficulty: 2
+    params:
+      p: {min: 5, max: 95, step: 5}
+      m: {min: 1, max: 20}
+    derive:
+      amount: 20 * m
+      fives: p // 5
+      part: fives * m
+    answer: part
+    prompt:
+      nb: Et bibliotek har {amount} bøker. {p} prosent av dem er tegneserier.
+        Hvor mange tegneserier er det?
+      en: A library has {amount} books. {p} percent of them are comics. How
+        many comics are there?
+    explanation:
+      nb: "Finn 5 prosent først: {amount} delt på 20 er {m}. {p} prosent er
+        {fives} ganger så mye, og {fives} · {m} er {part}."
+      en: "Find 5 percent first: {amount} divided by 20 is {m}. {p} percent is
+        {fives} times as much, and {fives} × {m} is {part}."
+
+  - id: KM13291-T01
+    goal: KM13291
+    difficulty: 2
+    params:
+      a: {min: 2, max: 9}
+      x: {min: 1, max: 12}
+      b: {min: 1, max: 20}
+    derive:
+      ax: a * x
+      c: ax + b
+    answer: x
+    prompt:
+      nb: Løs likningen {a}x + {b} = {c}. Hva er x?
+      en: Solve the equation {a}x + {b} = {c}. What is x?
+    explanation:
+      nb: "Trekk fra {b} på begge sider: {a}x = {ax}. Del begge sider på {a}:
+        x = {x}."
+      en: "Subtract {b} from both sides: {a}x = {ax}. Divide both sides by {a}:
+        x = {x}."
+
 not_assessable:
   - goal: KM13293
     reason: >-

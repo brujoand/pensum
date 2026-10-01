@@ -526,3 +526,65 @@ items:
         The last turn in the loop must be to the left, so the robot faces up
         again before the next round. With right it turns the same way twice
         and walks back.
+
+# Problems rather than questions: each is asked with new numbers every time.
+templates:
+  # Powers and square roots, and an equation from a practical situation.
+  - id: KM13297-T01
+    goal: KM13297
+    difficulty: 1
+    params:
+      n: {min: 2, max: 20}
+    derive:
+      square: n * n
+    answer: n
+    prompt:
+      nb: Hva er kvadratroten av {square}?
+      en: What is the square root of {square}?
+    explanation:
+      nb: "{n} · {n} er {square}, så kvadratroten av {square} er {n}."
+      en: "{n} × {n} is {square}, so the square root of {square} is {n}."
+
+  - id: KM13297-T02
+    goal: KM13297
+    difficulty: 2
+    params:
+      base: {min: 2, max: 10}
+      power: {min: 2, max: 4}
+    derive:
+      value: base ** power
+    require:
+      - value <= 1000
+    answer: value
+    prompt:
+      nb: Hva er {base} opphøyd i {power}?
+      en: What is {base} to the power of {power}?
+    explanation:
+      nb: "{base} opphøyd i {power} betyr {base} ganget med seg selv, så det er
+        {power} faktorer som alle er {base}. Det blir {value}."
+      en: "{base} to the power of {power} means {base} multiplied by itself, so
+        there are {power} factors that are all {base}. That makes {value}."
+
+  - id: KM13304-T01
+    goal: KM13304
+    difficulty: 3
+    params:
+      n: {min: 2, max: 6}
+      price: {min: 20, max: 200, step: 10}
+      fee: {min: 20, max: 80, step: 10}
+    derive:
+      books: n * price
+      total: books + fee
+    answer: price
+    prompt:
+      nb: Skolebiblioteket bestiller {n} like bøker. Frakten koster {fee}
+        kroner, og alt koster {total} kroner til sammen. Hva koster én bok?
+      en: The school library orders {n} identical books. Delivery costs {fee}
+        kroner, and the total is {total} kroner. What does one book cost?
+    explanation:
+      nb: "Kall prisen for én bok x. Da er {n}x + {fee} = {total}. Trekk fra
+        frakten: {n}x = {books}. Del på {n}: x = {price}, så én bok koster
+        {price} kroner."
+      en: "Call the price of one book x. Then {n}x + {fee} = {total}. Subtract
+        the delivery: {n}x = {books}. Divide by {n}: x = {price}, so one book
+        costs {price} kroner."

@@ -686,6 +686,58 @@ items:
         The robot walks three squares to the right. Then it turns left, so it
         faces up. Two more steps, and it is on the ring.
 
+# Problems rather than questions: each is asked with new numbers every time.
+templates:
+  # Adding and taking away across a ten, the step 2. trinn is about. Both
+  # numbers stay under ten, and `require` keeps only sums that cross it.
+  - id: KM13234-T01
+    goal: KM13234
+    difficulty: 1
+    params:
+      a: {min: 5, max: 9}
+      b: {min: 2, max: 9}
+    derive:
+      total: a + b
+      fill: 10 - a
+      rest: b - fill
+    require:
+      - rest >= 1
+    answer: total
+    prompt:
+      nb: Ida har {a} perler. Hun får {b} til. Hvor mange perler har hun nå?
+      en: Ida has {a} beads. She gets {b} more. How many beads does she have
+        now?
+    explanation:
+      nb: "{a} + {b} er {total}. Fyll opp til 10 først: {a} + {fill} er 10, og
+        så {rest} til blir {total}."
+      en: "{a} + {b} is {total}. Fill up to 10 first: {a} + {fill} is 10, and
+        {rest} more makes {total}."
+
+  - id: KM13234-T02
+    goal: KM13234
+    difficulty: 2
+    params:
+      total: {min: 11, max: 18}
+      take: {min: 2, max: 9}
+    derive:
+      left: total - take
+      ones: total - 10
+      more: take - ones
+    require:
+      - more >= 1
+      - left >= 2
+    answer: left
+    prompt:
+      nb: Det sitter {total} fugler på et tak. {take} flyr bort. Hvor mange er
+        igjen?
+      en: There are {total} birds on a roof. {take} fly away. How many are
+        left?
+    explanation:
+      nb: "{total} minus {take} er {left}. Ta bort {ones} først, så er du på 10.
+        Så tar du bort {more} til, og da er det {left} igjen."
+      en: "{total} minus {take} is {left}. Take away {ones} first to get to 10.
+        Then take away {more} more, which leaves {left}."
+
 not_assessable:
   - goal: KM13229
     reason: >-

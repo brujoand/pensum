@@ -694,9 +694,11 @@ templates:
       shaded: coloured * columns
       white_rows: rows - coloured
       white: white_rows * columns
-    # At least two rows of each, so every sentence reads in the plural.
+    # At least two rows of each, so every sentence reads in the plural, and
+    # never square, for the same reason as KM13253-T01.
     require:
       - white_rows >= 2
+      - rows != columns
     answer: white
     prompt:
       nb: Rektangelet har {rows} rader med {columns} ruter i hver. {coloured} av

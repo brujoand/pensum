@@ -43,6 +43,17 @@ items:
         ligger midt mellom dem?
       en: On the number line, 3.4 and 3.5 sit next to each other. Which number
         lies halfway between them?
+    figure:
+      kind: number_line
+      start: 3.4
+      end: 3.5
+      step: 0.1
+      marks:
+        - at: 3.45
+          unknown: true
+      alt:
+        nb: En tallinje fra 3,4 til 3,5, med et spørsmålstegn midt mellom dem.
+        en: A number line from 3.4 to 3.5, with a question mark halfway between.
     answer: 3.45
     explanation:
       nb: Mellom 3,4 og 3,5 er det én tidel. Halvparten av en tidel er fem
@@ -186,6 +197,13 @@ items:
     prompt:
       nb: Hvor mange symmetrilinjer har et kvadrat?
       en: How many lines of symmetry does a square have?
+    figure:
+      kind: shape
+      shape: square
+      right_angles: [0, 1, 2, 3]
+      alt:
+        nb: Et kvadrat.
+        en: A square.
     answer: 4
     explanation:
       nb: Du kan brette kvadratet på midten loddrett og vannrett, og langs begge
@@ -256,6 +274,13 @@ items:
     prompt:
       nb: En sirkel har en diameter på 10 cm. Hvor mange centimeter er radien?
       en: A circle has a diameter of 10 cm. How many centimetres is the radius?
+    figure:
+      kind: shape
+      shape: circle
+      diameter: "10 cm"
+      alt:
+        nb: En sirkel med diameteren tegnet inn og merket 10 cm.
+        en: A circle with its diameter drawn and labelled 10 cm.
     answer: 5
     explanation:
       nb: Diameteren går tvers over hele sirkelen, og radien går fra midten og
@@ -272,6 +297,13 @@ items:
         centimeter? Bruk pi lik 3,14.
       en: A circle has a diameter of 4 cm. How long is the circumference in
         centimetres? Use pi as 3.14.
+    figure:
+      kind: shape
+      shape: circle
+      diameter: "4 cm"
+      alt:
+        nb: En sirkel med diameteren tegnet inn og merket 4 cm.
+        en: A circle with its diameter drawn and labelled 4 cm.
     answer: 12.56
     tolerance: 0.05
     explanation:
@@ -316,6 +348,17 @@ items:
         kubikkcentimeter er volumet?
       en: A box is 5 cm long, 3 cm wide and 2 cm tall. How many cubic
         centimetres is its volume?
+    figure:
+      kind: box
+      length: 5
+      width: 3
+      height: 2
+      length_label: "5 cm"
+      width_label: "3 cm"
+      height_label: "2 cm"
+      alt:
+        nb: En eske. Lengden er merket 5 cm, bredden 3 cm og høyden 2 cm.
+        en: A box. Its length is labelled 5 cm, its width 3 cm and its height 2 cm.
     answer: 30
     explanation:
       nb: Volumet er lengde ganger bredde ganger høyde. 5 · 3 er 15, og 15 · 2
@@ -334,6 +377,15 @@ items:
       en: A school garden is 12 m long and 7 m wide. You split it into one part
         10 m long and one part 2 m long. What is the total area in square
         metres?
+    figure:
+      kind: shape
+      shape: rectangle
+      sides: ["12 m", "7 m", "", ""]
+      right_angles: [0, 1, 2, 3]
+      ratio: 1.71
+      alt:
+        nb: Et rektangel. Den lange siden er merket 12 m, den korte 7 m.
+        en: A rectangle. The long side is labelled 12 m, the short side 7 m.
     answer: 84
     explanation:
       nb: Den ene delen er 10 · 7 er 70, den andre er 2 · 7 er 14. Til sammen
@@ -350,6 +402,15 @@ items:
         omkretsen?
       en: A miniature football pitch is 8 m long and 3 m wide. How many metres
         is the perimeter?
+    figure:
+      kind: shape
+      shape: rectangle
+      sides: ["8 m", "3 m", "", ""]
+      right_angles: [0, 1, 2, 3]
+      ratio: 2.67
+      alt:
+        nb: Et rektangel. Den lange siden er merket 8 m, den korte 3 m.
+        en: A rectangle. The long side is labelled 8 m, the short side 3 m.
     answer: 22
     explanation:
       nb: Omkretsen er alle fire sidene lagt sammen. Det er to sider på 8 m og

@@ -259,6 +259,14 @@ items:
     prompt:
       nb: Et kvadrat har sidelengde s. Hva forteller uttrykket 4s?
       en: A square has side length s. What does the expression 4s tell you?
+    figure:
+      kind: shape
+      shape: square
+      sides: ["s", "", "", ""]
+      right_angles: [0, 1, 2, 3]
+      alt:
+        nb: Et kvadrat der én side er merket s.
+        en: A square with one side labelled s.
     choices:
       - id: a
         text:

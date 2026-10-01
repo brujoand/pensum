@@ -803,6 +803,24 @@ its own sides labelled. Each instance's figure is validated as the file loads,
 across the whole domain, and the first sheet shows the first, middle and last
 instance of each template.
 
+**A template can also be multiple choice.** Its wrong answers are computed like
+the right one, and each must say which mistake it stands for:
+
+```yaml
+type: multiple_choice
+answer: area
+distractors:
+  - {value: perimeter, why: the perimeter, not the area}
+  - {value: half, why: the two sides added, not multiplied}
+choice_text: {nb: "{value} cm²", en: "{value} cm²"}
+```
+
+A combination where two choices come out equal is dropped from the domain, so
+no instance offers a right answer twice or marks one wrong. The validator flags
+a fractional or non-positive wrong answer beside a whole-number right one,
+since a pupil can rule that out without working anything out. Choices are shown
+in an order shuffled per instance, as they are for written items.
+
 ### What a figure may and may not give away
 
 **A figure may show what the prompt already says. It may not show anything the

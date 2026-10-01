@@ -61,6 +61,13 @@ TICK_SIZE = 11.0
 SIDE_GAP = LABEL_SIZE * 0.9
 CHAR_WIDTH = 0.62
 
+# The narrowest a shape is drawn across, so labels beside its left and right
+# sides can never squeeze it to nothing. 60 is what the box keeps too, and it
+# leaves room for a label of 7 characters on each side ("12,5 cm").
+MIN_SHAPE_WIDTH = 60.0
+MAX_SIDE_MARGIN = (VIEW - MIN_SHAPE_WIDTH) / 2
+MAX_BESIDE_LABEL = int((MAX_SIDE_MARGIN - SIDE_GAP) / (LABEL_SIZE * CHAR_WIDTH))
+
 # A figure nobody could take in at a glance is not helping. These caps are
 # about legibility at the size a phone renders a quiz question, not about
 # arithmetic: forty counters is already a wall of dots.
@@ -311,6 +318,16 @@ class ShapeFigure(BaseModel):
                 raise ValueError(f"{self.shape} has no unambiguous base to measure a height from")
         if self.ratio is not None and self.shape not in _STRETCHABLE:
             raise ValueError(f"{self.shape} cannot be stretched without becoming another shape")
+        # Refused here rather than squeezed in `_draw_shape`: a label too long
+        # to leave the shape its minimum width is an authoring mistake, and it
+        # should stop the file loading, as `MAX_BOX_LABEL` does for a box.
+        for index, text in enumerate(self.sides):
+            beside = _side_faces(self.shape, self.drawn_ratio, index) != "middle"
+            if text and beside and SIDE_GAP + _label_width(text) > MAX_SIDE_MARGIN:
+                raise ValueError(
+                    f"side label {text!r} is too long to sit beside the {self.shape}; "
+                    f"keep it to {MAX_BESIDE_LABEL} characters"
+                )
         return self
 
     @property

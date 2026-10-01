@@ -14,7 +14,9 @@ import pytest
 from pydantic import ValidationError
 
 from pensum.items.figures import (
+    MAX_BESIDE_LABEL,
     MAX_BOX_LABEL,
+    MIN_SHAPE_WIDTH,
     PAD,
     VIEW,
     ArrayFigure,
@@ -122,6 +124,28 @@ def test_a_rectangle_keeps_its_ratio_when_labels_narrow_it() -> None:
     xs, ys = points[0::2], points[1::2]
     # The path is written to two decimals, so the ratio holds to about that.
     assert (max(xs) - min(xs)) / (max(ys) - min(ys)) == pytest.approx(1.6, abs=1e-3)
+
+
+def test_a_side_label_too_long_to_sit_beside_a_shape_is_refused() -> None:
+    """Otherwise the margin it needs would squeeze the shape to nothing."""
+    too_long = "x" * (MAX_BESIDE_LABEL + 1)
+    with pytest.raises(ValidationError, match="too long to sit beside"):
+        shape(shape="rectangle", sides=("", too_long, "", ""))
+
+
+def test_a_long_label_above_or_below_a_shape_is_not_refused() -> None:
+    """Only a label beside the shape needs the margin; one above it does not."""
+    shape(shape="rectangle", sides=("x" * (MAX_BESIDE_LABEL + 1), "", "", ""))
+
+
+@pytest.mark.parametrize("ratio", [0.3, 1.0, 1.6, 4.0])
+def test_the_longest_beside_labels_leave_the_shape_its_minimum_width(ratio: float) -> None:
+    label = "x" * MAX_BESIDE_LABEL
+    drawing = draw(shape(shape="rectangle", sides=("", label, "", label), ratio=ratio), "nb")
+    xs = _coordinates(drawing.paths[0].d)[0::2]
+    # A tall thin rectangle is narrower by its own ratio, not by its labels.
+    expected = min(MIN_SHAPE_WIDTH, (VIEW - 2 * PAD) * ratio)
+    assert max(xs) - min(xs) >= expected - 0.01
 
 
 def test_an_empty_side_label_draws_nothing() -> None:
@@ -398,6 +422,17 @@ def test_a_box_and_its_longest_labels_stay_in_view_and_off_the_outline(
     by_text = {placed.anchor: placed for placed in drawing.labels}
     assert by_text["end"].x < min(xs), "the height label sits left of the box"
     assert by_text["middle"].y > max(ys), "the length label sits below the box"
+
+    # The width label sits below the receding bottom edge of the right face.
+    # That edge rises to the right, so the label's left end is where it comes
+    # closest; past the back corner there is no box above it at all.
+    right_face = _coordinates(drawing.paths[2].d)
+    (back_x, back_y), (front_x, front_y) = right_face[4:6], right_face[6:8]
+    width_label = by_text["start"]
+    top = width_label.y - width_label.size / 2
+    if width_label.x < back_x:
+        edge_y = front_y + (width_label.x - front_x) * (back_y - front_y) / (back_x - front_x)
+        assert top > edge_y, "the width label sits clear of the right face"
 
 
 def test_the_longest_labels_leave_room_for_the_box() -> None:

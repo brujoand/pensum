@@ -13,6 +13,7 @@ from pensum.auth.cookies import CookieCodec, read_local, read_user
 from pensum.auth.models import User
 from pensum.auth.oidc import OidcClient
 from pensum.config import Settings
+from pensum.drills.loader import DrillLibrary
 from pensum.missions.loader import MissionLibrary
 from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
@@ -72,6 +73,17 @@ def get_missions(request: Request) -> MissionLibrary:
     return missions
 
 
+def get_drills(request: Request) -> DrillLibrary:
+    """The fact packs and instruction sets, loaded on first use as missions are."""
+    drills = getattr(request.app.state, "drills", None)
+    if drills is None:
+        drills = DrillLibrary.load()
+        request.app.state.drills = drills
+    if not drills.has_ledger:
+        drills.with_ledger(get_reviews(request))
+    return drills
+
+
 def review_state(request: Request, kind: Kind, content_id: str) -> State:
     """Where one piece of content stands on this instance, whatever its kind.
 
@@ -88,6 +100,10 @@ def review_state(request: Request, kind: Kind, content_id: str) -> State:
         return state.writing.review_state(content_id)
     if kind == "skill":
         return state.skills.review_state(content_id)
+    if kind == "pack":
+        return get_drills(request).review_state(content_id)
+    if kind == "instructions":
+        return get_drills(request).instructions_state(content_id)
     return get_missions(request).review_state(content_id)
 
 

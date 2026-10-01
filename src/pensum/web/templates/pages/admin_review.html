@@ -147,6 +147,21 @@
               <p>{{ t("review.skill_refs", refs=skill.refs | join(", ")) }}</p>
               {% if not skill.assessable %}<p class="note">{{ t("review.skill_off_screen") }}</p>{% endif %}
               {% if skill.sensitive %}<p class="note">{{ t("review.skill_sensitive") }}</p>{% endif %}
+            {% elif entry.kind == "pack" %}
+              {% set pack = entry.content %}
+              <p class="review-title">{{ pack.title.get(locale) }}</p>
+              <p class="note">{{ t("review.pack_note") }}</p>
+              <ol class="pack-facts">
+                {% for fact in pack.facts %}<li>{{ fact.get(locale) }}</li>{% endfor %}
+              </ol>
+              <p>{{ t("review.pack_questions", count=pack.questions) }}</p>
+              <p>{{ t("review.pack_instructions", id=pack.instructions) }}</p>
+            {% elif entry.kind == "instructions" %}
+              {% set instructions = entry.content %}
+              <p class="review-title">{{ instructions.id }}</p>
+              <p class="note">{{ t("review.instructions_note") }}</p>
+              <pre class="instructions-rules" lang="en">{{ instructions.rules }}</pre>
+              <p>{{ t("review.instructions_distractors", count=instructions.distractors) }}</p>
             {% else %}
               {% set mission = entry.content %}
               <p class="review-title">{{ mission.title.get(locale) }}</p>

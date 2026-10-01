@@ -17,6 +17,7 @@ from pathlib import Path
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from markupsafe import escape
 
 from pensum.auth.cookies import LOGIN_COOKIE, CookieCodec
 from pensum.auth.models import User
@@ -31,7 +32,7 @@ from pensum.reading.library import ReadingLibrary
 from pensum.reading.schema import ReadingSet, ReadingText
 from pensum.review.queue import Libraries, counts, entries, find
 from pensum.web.app import create_app
-from pensum.web.deps import get_missions
+from pensum.web.deps import get_drills, get_missions
 from pensum.web.review_routes import PAGE_SIZE
 from pensum.writing.library import WritingLibrary, load_alphabet
 from pensum.writing.schema import WritingPrompt, WritingSet
@@ -160,16 +161,22 @@ def all_entries(app: FastAPI):
         writing=state.writing,
         skills=state.skills,
         missions=get_missions_of(app),
+        drills=get_drills_of(app),
     )
     return entries(libraries, state.reviews, CATALOGUE)
 
 
-def get_missions_of(app: FastAPI):
-    class _Request:
-        def __init__(self, app: FastAPI) -> None:
-            self.app = app
+class _Request:
+    def __init__(self, app: FastAPI) -> None:
+        self.app = app
 
+
+def get_missions_of(app: FastAPI):
     return get_missions(_Request(app))  # type: ignore[arg-type]
+
+
+def get_drills_of(app: FastAPI):
+    return get_drills(_Request(app))  # type: ignore[arg-type]
 
 
 def decide(
@@ -201,7 +208,7 @@ def decide(
 def test_the_queue_holds_every_reviewable_kind(tmp_path: Path) -> None:
     app, _ = build(tmp_path, items=ItemBank.load())
     kinds = {entry.kind for entry in all_entries(app)}
-    assert kinds == {"item", "reading", "writing", "skill", "mission"}
+    assert kinds == {"item", "reading", "writing", "skill", "mission", "pack", "instructions"}
 
 
 def test_everything_starts_pending(tmp_path: Path) -> None:
@@ -369,6 +376,43 @@ def test_skills_and_missions_are_decided_here_too(tmp_path: Path) -> None:
     assert get_missions_of(app).review_state(mission.id) == "approved"
 
 
+def test_fact_packs_and_instruction_sets_are_decided_here_too(tmp_path: Path) -> None:
+    app, client = admin(tmp_path)
+    drills = get_drills_of(app)
+    pack = drills.files[0].packs[0]
+
+    assert decide(client, app, "pack", pack.id).status_code == 303
+    assert drills.review_state(pack.id) == "approved"
+    # Half of what a model is prompted with: the pack alone is not enough.
+    assert not drills.publishes(pack)
+
+    assert decide(client, app, "instructions", pack.instructions).status_code == 303
+    assert drills.instructions_state(pack.instructions) == "approved"
+    assert drills.publishes(pack)
+
+
+@pytest.mark.parametrize("locale", ["nb", "en"])
+def test_a_fact_pack_is_shown_with_every_fact_and_what_approving_means(
+    tmp_path: Path, locale: str
+) -> None:
+    app, client = admin(tmp_path)
+    pack = get_drills_of(app).files[0].packs[0]
+
+    body = client.get(f"/{locale}/admin/gjennomgang", params={"kind": "pack"}).text
+    for fact in pack.facts:
+        assert str(escape(fact.get(locale))) in body
+    assert ("språkmodell" if locale == "nb" else "language model") in body
+
+
+def test_an_instruction_set_has_no_subject_and_adds_none_to_the_filter(tmp_path: Path) -> None:
+    app, client = admin(tmp_path)
+    instructions = get_drills_of(app).instruction_sets[0]
+
+    body = client.get(REVIEW_PATH, params={"kind": "instructions"}).text
+    assert str(escape(instructions.rules.splitlines()[0])) in body
+    assert '<option value=""' not in body
+
+
 def test_a_mission_page_opens_for_a_pupil_only_once_approved(tmp_path: Path) -> None:
     app, client = admin(tmp_path)
     mission = get_missions_of(app).for_subject("MAT01-06").missions[0]
@@ -470,7 +514,9 @@ def test_every_primitive_is_rendered_live_with_its_script(
 
 
 @pytest.mark.parametrize("locale", ["nb", "en"])
-@pytest.mark.parametrize("kind", ["item", "reading", "writing", "skill", "mission"])
+@pytest.mark.parametrize(
+    "kind", ["item", "reading", "writing", "skill", "mission", "pack", "instructions"]
+)
 def test_every_kind_renders_in_both_locales(
     everything: tuple[FastAPI, TestClient], kind: str, locale: str
 ) -> None:

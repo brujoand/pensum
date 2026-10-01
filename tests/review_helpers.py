@@ -16,6 +16,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 
+from pensum.drills.loader import DrillLibrary
 from pensum.items.loader import ItemBank
 from pensum.missions.loader import MissionLibrary
 from pensum.reading.library import ReadingLibrary
@@ -49,6 +50,7 @@ def approve_all(
     writing: WritingLibrary | None = None,
     skills: SkillLibrary | None = None,
     missions: MissionLibrary | None = None,
+    drills: DrillLibrary | None = None,
 ) -> int:
     """Approve every piece of content in the given libraries, and attach the ledger.
 
@@ -84,6 +86,19 @@ def approve_all(
             assert mission_file is not None
             for mission in mission_file.missions:
                 decisions.append(decision("mission", mission.id, missions.fingerprint(mission.id)))
+    if drills is not None:
+        drills.with_ledger(ledger)
+        for pack_file in drills.files:
+            for pack in pack_file.packs:
+                decisions.append(decision("pack", pack.id, drills.fingerprint(pack.id)))
+        for instructions in drills.instruction_sets:
+            decisions.append(
+                decision(
+                    "instructions",
+                    instructions.id,
+                    drills.instructions_fingerprint(instructions.id),
+                )
+            )
     written = ledger.store.record_many(decisions)
     ledger.reload()
     return written

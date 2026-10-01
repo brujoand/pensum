@@ -45,7 +45,13 @@ from pensum.review.queue import (
     select,
 )
 from pensum.review.store import KINDS, STATES, ReviewLedger, ReviewStore
-from pensum.web.deps import get_missions, get_review_store, get_reviews, require_admin
+from pensum.web.deps import (
+    get_drills,
+    get_missions,
+    get_review_store,
+    get_reviews,
+    require_admin,
+)
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter(include_in_schema=False)
@@ -74,6 +80,7 @@ def _libraries(request: Request) -> Libraries:
         writing=state.writing,
         skills=state.skills,
         missions=get_missions(request),
+        drills=get_drills(request),
     )
 
 
@@ -117,7 +124,8 @@ def _choices(collected: list[ReviewEntry], filters: Filters) -> dict[str, list[s
     Goal sets are narrowed to the chosen subject, so the list stays one a
     person can scan.
     """
-    subjects = sorted({e.subject for e in collected})
+    # An instruction set has no subject, and an empty option is not a choice.
+    subjects = sorted({e.subject for e in collected if e.subject})
     goal_sets = sorted(
         {
             e.goal_set

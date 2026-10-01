@@ -316,6 +316,8 @@ review:
     writing: Writing prompt
     skill: Skill
     mission: Mission
+    pack: Fact pack
+    instructions: Instruction set
   state:
     pending: Waiting for approval
     approved: Approved
@@ -348,6 +350,17 @@ review:
   skill_sensitive: Sensitive — never a reward, never on the class grid.
   mission_confirm_teacher: The teacher confirms it is done.
   mission_confirm_self: The pupil ticks it off themselves.
+  pack_note: >-
+    A language model writes questions from these facts. Nobody reads those
+    questions before a pupil does, so approving the pack is approving every
+    fact in it as true and as fit to ask about.
+  pack_questions: 'Questions per drill: {count}'
+  pack_instructions: 'Instruction set: {id}'
+  instructions_note: >-
+    Read by the language model, never shown to a pupil, and written in English
+    for that reason. Every fact pack that names this set is quizzed by these
+    rules.
+  instructions_distractors: 'Wrong choices per question: {count}'
   approve: Approve
   reject: Reject
   clear: Clear the decision

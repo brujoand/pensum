@@ -261,6 +261,84 @@ def test_an_answer_of_nought_is_a_problem() -> None:
     assert any("reads as a trick" in problem for problem in _domain_problems(template))
 
 
+# Multiple choice --------------------------------------------------------------
+
+
+def choice(**overrides) -> ItemTemplate:
+    """The flock question as a choice: sheep, or one of two real mistakes."""
+    fields = {
+        "type": "multiple_choice",
+        "distractors": (
+            {"value": "hens", "why": "the hens, not the sheep"},
+            {"value": "animals", "why": "every animal, not the sheep"},
+        ),
+        "choice_text": text("{value} sauer", "{value} sheep"),
+    }
+    return farm(**(fields | overrides))
+
+
+def test_a_choice_instance_is_an_ordinary_multiple_choice_item() -> None:
+    item = next(i for i in choice().instances() if i.id.endswith("#10-4"))
+    assert item.type == "multiple_choice"
+    assert [(c.text.nb, c.correct) for c in item.choices] == [
+        ("4 sauer", True),
+        ("10 sauer", False),
+        ("14 sauer", False),
+    ]
+    right = next(c.id for c in item.choices if c.correct)
+    assert item.is_correct(right) is True
+    assert not any(item.is_correct(c.id) for c in item.choices if not c.correct)
+    assert item.correct_text("nb") == "4 sauer"
+
+
+def test_a_combination_where_two_choices_agree_drops_out() -> None:
+    """Six sheep and six hens offers "6" twice, one of them marked wrong."""
+    ids = {item.id for item in choice().instances()}
+    assert not any(i.endswith("#6-6") for i in ids)
+    # Sheep equal hens at 6, 7 and 8; every other combination survives.
+    assert len(ids) == len(farm().instances()) - 3
+
+
+def test_a_choice_template_needs_two_distractors() -> None:
+    with pytest.raises(ValidationError, match="at least 2 distractors"):
+        choice(distractors=({"value": "hens", "why": "the hens"},))
+
+
+def test_a_distractor_must_say_what_mistake_it_is() -> None:
+    with pytest.raises(ValidationError):
+        choice(distractors=({"value": "hens"}, {"value": "animals", "why": "all"}))
+
+
+def test_a_distractor_reading_an_undefined_name_is_refused() -> None:
+    with pytest.raises(ValidationError, match="distractors\\[1\\] reads undefined"):
+        choice(distractors=({"value": "hens", "why": "a"}, {"value": "goats", "why": "b"}))
+
+
+def test_choice_text_reads_only_the_value() -> None:
+    with pytest.raises(ValidationError, match="may read only"):
+        choice(choice_text=text("{value} av {animals}"))
+
+
+def test_a_numeric_template_has_no_distractors() -> None:
+    with pytest.raises(ValidationError, match="only a multiple_choice template"):
+        farm(distractors=({"value": "hens", "why": "a"}, {"value": "animals", "why": "b"}))
+
+
+def test_a_fractional_distractor_is_a_problem() -> None:
+    """A pupil rules out "4,5 sauer" without counting a single leg."""
+    template = choice(
+        distractors=(
+            {"value": "hens", "why": "the hens"},
+            {"value": "animals / 2", "why": "half the flock"},
+        )
+    )
+    assert any("half the flock" in problem for problem in _domain_problems(template))
+
+
+def test_a_sound_choice_domain_has_no_problems() -> None:
+    assert _domain_problems(choice()) == []
+
+
 def test_a_domain_that_repeats_itself_is_a_problem() -> None:
     """Two combinations, one sentence: the domain is smaller than it looks."""
     template = farm(prompt=text("{animals} dyr"))

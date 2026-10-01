@@ -174,15 +174,24 @@ def _domain_problems(template: ItemTemplate) -> list[str]:
     problems: list[str] = []
     instances = template.instances()
 
-    for item in instances:
-        answer = float(item.answer)
+    for item_id, value, wrong in template.answers():
+        answer = float(value)
         if not answer.is_integer():
             problems.append(
-                f"{item.id}: the answer is {answer}, and a question phrased for a whole "
+                f"{item_id}: the answer is {answer}, and a question phrased for a whole "
                 "number should not produce a fraction"
             )
-        elif answer < MIN_ANSWER:
-            problems.append(f"{item.id}: the answer is {int(answer)}, which reads as a trick")
+            continue
+        if answer < MIN_ANSWER:
+            problems.append(f"{item_id}: the answer is {int(answer)}, which reads as a trick")
+        # A fractional or non-positive choice beside a whole-number answer is
+        # the odd one out, and a pupil can rule it out without doing the sum.
+        for distractor, other in zip(template.distractors, wrong, strict=True):
+            if not float(other).is_integer() or other < MIN_ANSWER:
+                problems.append(
+                    f"{item_id}: the distractor '{distractor.why}' is {other}, which a "
+                    "pupil can rule out beside a whole-number answer"
+                )
 
     # Two instances that read identically are one question wearing two ids: the
     # pupil meets the same flock twice and the domain is smaller than it looks.

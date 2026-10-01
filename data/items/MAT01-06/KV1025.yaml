@@ -506,6 +506,54 @@ templates:
         nb: Et rektangel. Den ene siden er merket {x} cm, den andre {y} cm.
         en: A rectangle. One side is labelled {x} cm, the other {y} cm.
 
+  # The same rectangles, as a choice. The wrong answers are the two mistakes
+  # the skill names: the perimeter for the area, and the sides added rather
+  # than multiplied.
+  - id: KM13280-T05
+    goal: KM13280
+    type: multiple_choice
+    difficulty: 1
+    params:
+      x: {min: 10, max: 100}
+      d: {min: -2, max: 2}
+    derive:
+      y: x + d
+      area: x * y
+      half: x + y
+      perimeter: 2 * half
+      ratio: x / y
+    require:
+      - d != 0
+      - 10 <= y <= 100
+    answer: area
+    distractors:
+      - value: perimeter
+        why: the perimeter, not the area
+      - value: half
+        why: the two sides added, not multiplied
+    choice_text:
+      nb: "{value} cm²"
+      en: "{value} cm²"
+    prompt:
+      nb: Rektangelet er {x} cm langt og {y} cm bredt. Hva er arealet?
+      en: The rectangle is {x} cm long and {y} cm wide. What is its area?
+    explanation:
+      nb: Arealet er lengde ganger bredde, {x} · {y} = {area} cm². {perimeter}
+        cm er omkretsen, alle sidene lagt sammen, og {half} er bare de to
+        sidene lagt sammen.
+      en: Area is length times width, {x} × {y} = {area} cm². {perimeter} cm is
+        the perimeter, all the sides added together, and {half} is just the
+        two sides added.
+    figure:
+      kind: shape
+      shape: rectangle
+      sides: ["{x} cm", "{y} cm", "", ""]
+      right_angles: [0, 1, 2, 3]
+      ratio: "{ratio}"
+      alt:
+        nb: Et rektangel. Den ene siden er merket {x} cm, den andre {y} cm.
+        en: A rectangle. One side is labelled {x} cm, the other {y} cm.
+
   # Volume, first of a cube and then of any box. Edges stay at 2 to 12 cm, so
   # the product is one a pupil can work out on paper.
   - id: KM13280-T03

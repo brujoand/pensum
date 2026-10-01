@@ -42,11 +42,11 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from pensum.items.expr import ExpressionError, evaluate, names, parse
-from pensum.items.schema import QuizItem
+from pensum.items.schema import MIN_CHOICES, Choice, QuizItem
 from pensum.items.text import AuthoredText
 from pensum.review.content import reject_review_keys
 
-__all__ = ["ItemTemplate", "Parameter"]
+__all__ = ["Distractor", "ItemTemplate", "Parameter"]
 
 # How many instances a single template may describe. Small enough that the
 # build walks every one of them in well under a second, and large enough that a
@@ -84,6 +84,21 @@ class Parameter(BaseModel):
         return tuple(range(self.min, self.max + 1, self.step))
 
 
+class Distractor(BaseModel):
+    """A wrong answer, computed, and the mistake that produces it.
+
+    `why` is required because a distractor nobody can explain is a random
+    number, and a random number teaches nothing when a pupil picks it. The
+    plausible wrong answer is the one that is a real mistake: the perimeter
+    offered when the area was asked.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    value: str = Field(min_length=1)
+    why: str = Field(min_length=1)
+
+
 class ItemTemplate(BaseModel):
     """A family of questions that differ only in their numbers."""
 
@@ -91,11 +106,9 @@ class ItemTemplate(BaseModel):
 
     id: str = Field(min_length=1)
     goal: str = Field(min_length=1)
-    # Numeric only, for now. A multiple_choice template has to generate its
-    # distractors, and a wrong answer that is plausible is a harder thing to
-    # compute than a right one; a short_text template has to generate the list
-    # of spellings it will accept. Both are real, and neither is this change.
-    type: Literal["numeric"] = "numeric"
+    # A short_text template would have to generate the spellings it accepts,
+    # which nothing here does yet.
+    type: Literal["numeric", "multiple_choice"] = "numeric"
     difficulty: int = Field(ge=1, le=3)
 
     # The free numbers. Everything else is computed from these.
@@ -114,6 +127,14 @@ class ItemTemplate(BaseModel):
     require: tuple[str, ...] = ()
 
     answer: str = Field(min_length=1)
+
+    # multiple_choice only: the wrong answers, each an expression and the
+    # mistake it stands for. At least two, so an instance has the three choices
+    # a multiple_choice item needs.
+    distractors: tuple[Distractor, ...] = ()
+    # multiple_choice only: how a choice reads, with `{value}` for its number.
+    # Unset is the bare number.
+    choice_text: AuthoredText | None = None
 
     prompt: AuthoredText
     explanation: AuthoredText
@@ -155,6 +176,28 @@ class ItemTemplate(BaseModel):
         if unknown:
             raise ValueError(f"{self.id}: answer reads undefined {sorted(unknown)}")
 
+        if self.type == "multiple_choice":
+            if len(self.distractors) < MIN_CHOICES - 1:
+                raise ValueError(
+                    f"{self.id}: a multiple_choice template needs at least "
+                    f"{MIN_CHOICES - 1} distractors"
+                )
+            for index, distractor in enumerate(self.distractors):
+                where = f"distractors[{index}]"
+                unknown = names(self._parse(distractor.value, where)) - known
+                if unknown:
+                    raise ValueError(f"{self.id}: {where} reads undefined {sorted(unknown)}")
+            if self.choice_text is not None:
+                for locale in ("nb", "en"):
+                    extra = set(PLACEHOLDER.findall(self.choice_text.get(locale))) - {"value"}
+                    if extra:
+                        raise ValueError(
+                            f"{self.id}: choice_text.{locale} may read only {{value}}, "
+                            f"not {sorted(extra)}"
+                        )
+        elif self.distractors or self.choice_text is not None:
+            raise ValueError(f"{self.id}: only a multiple_choice template has distractors")
+
         for field, text in (("prompt", self.prompt), ("explanation", self.explanation)):
             for locale in ("nb", "en"):
                 missing = set(PLACEHOLDER.findall(text.get(locale))) - known
@@ -179,7 +222,10 @@ class ItemTemplate(BaseModel):
             )
 
         if not self.instances():
-            raise ValueError(f"{self.id}: no combination satisfies require, so it asks nothing")
+            raise ValueError(
+                f"{self.id}: no combination satisfies require with distinct choices, "
+                "so it asks nothing"
+            )
 
         return self
 
@@ -200,12 +246,29 @@ class ItemTemplate(BaseModel):
         """
         return tuple(self._instance(binding) for binding in self._domain())
 
+    def answers(self) -> list[tuple[str, Any, tuple[Any, ...]]]:
+        """Each instance's id, its answer, and its distractors' values.
+
+        What the validator judges: a multiple_choice instance carries its
+        numbers only as text, so they are read here rather than off the item.
+        """
+        return [
+            (self._instance_id(binding), self._value(self.answer, binding), self._wrong(binding))
+            for binding in self._domain()
+        ]
+
     def _domain(self) -> list[dict[str, Any]]:
         """The parameter combinations that survive `require`, in a fixed order.
 
         Sorted by name and walked in range order, so the nth instance is the nth
         instance on every machine and in every process. A seed that picks a
         question has to pick the same question twice.
+
+        A multiple_choice combination where two choices come out equal is not
+        in the domain either. A distractor equal to the answer would mark a
+        right answer wrong, and two equal distractors are one choice twice, so
+        the combination asks nothing honest; it is dropped like a failed
+        `require`, and the validator says so if that empties the template.
         """
         order = sorted(self.params)
         surviving: list[dict[str, Any]] = []
@@ -221,22 +284,55 @@ class ItemTemplate(BaseModel):
                     # it twice.
                     binding = {}
                     break
-            if binding and all(evaluate(parse(s), binding) for s in self.require):
-                surviving.append(binding)
+            if not binding or not all(evaluate(parse(s), binding) for s in self.require):
+                continue
+            if self.type == "multiple_choice":
+                values = [self._value(self.answer, binding), *self._wrong(binding)]
+                if len(set(values)) != len(values):
+                    continue
+            surviving.append(binding)
         return surviving
 
+    def _instance_id(self, binding: dict[str, Any]) -> str:
+        return f"{self.id}#{'-'.join(str(binding[name]) for name in sorted(self.params))}"
+
+    def _value(self, source: str, binding: dict[str, Any]) -> Any:
+        return evaluate(parse(source), binding)
+
+    def _wrong(self, binding: dict[str, Any]) -> tuple[Any, ...]:
+        return tuple(self._value(d.value, binding) for d in self.distractors)
+
     def _instance(self, binding: dict[str, Any]) -> QuizItem:
-        answer = evaluate(parse(self.answer), binding)
+        answer = self._value(self.answer, binding)
+        common = {
+            "id": self._instance_id(binding),
+            "goal": self.goal,
+            "type": self.type,
+            "difficulty": self.difficulty,
+            "prompt": _fill(self.prompt, binding),
+            "explanation": _fill(self.explanation, binding),
+            "figure": _fill_data(self.figure, binding),
+        }
+        if self.type == "numeric":
+            return QuizItem(**common, answer=answer)
+        # Authored order, right answer first. The page shuffles them per item
+        # (`QuizItem.display_choices`), so the order here gives nothing away.
+        values = [answer, *self._wrong(binding)]
         return QuizItem(
-            id=f"{self.id}#{'-'.join(str(binding[name]) for name in sorted(self.params))}",
-            goal=self.goal,
-            type=self.type,
-            difficulty=self.difficulty,
-            prompt=_fill(self.prompt, binding),
-            explanation=_fill(self.explanation, binding),
-            answer=answer,
-            figure=_fill_data(self.figure, binding),
+            **common,
+            choices=tuple(
+                Choice(
+                    id=chr(ord("a") + index),
+                    text=self._choice_text(value),
+                    correct=index == 0,
+                )
+                for index, value in enumerate(values)
+            ),
         )
+
+    def _choice_text(self, value: Any) -> AuthoredText:
+        pattern = self.choice_text or AuthoredText(nb="{value}", en="{value}")
+        return _fill(pattern, {"value": value})
 
 
 def _fill(text: AuthoredText, binding: dict[str, Any]) -> AuthoredText:

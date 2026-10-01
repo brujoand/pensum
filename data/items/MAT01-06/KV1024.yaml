@@ -487,7 +487,7 @@ templates:
         pencils are red?
     explanation:
       nb: "Finn 1/{den} først: {whole} delt på {den} er {k}. {num}/{den} er
-        {num} slike deler, og {num} · {k} er {part}."
+        {num} av disse delene, og {num} · {k} er {part}."
       en: "Find 1/{den} first: {whole} divided by {den} is {k}. {num}/{den} is
         {num} of those parts, and {num} × {k} is {part}."
 

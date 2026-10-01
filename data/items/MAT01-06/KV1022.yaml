@@ -647,6 +647,80 @@ items:
         Take 6 blocks from both sides. Then the box stands alone on the left with 4
         blocks on the right, so the box is 4.
 
+# Area by covering, asked with new numbers every time. The grid is drawn, so a
+# pupil who does not yet multiply can count the squares and see afterwards that
+# rows times squares in a row gives the same number.
+templates:
+  - id: KM13253-T01
+    goal: KM13253
+    difficulty: 1
+    params:
+      rows: {min: 2, max: 6}
+      columns: {min: 2, max: 8}
+    derive:
+      area: rows * columns
+    # A square is a rectangle, but a third grader asked about "rektangelet"
+    # and shown a square is being asked a second question.
+    require:
+      - rows != columns
+    answer: area
+    prompt:
+      nb: Rektangelet er dekket av like ruter. Det er {rows} rader med {columns}
+        ruter i hver. Hvor mange ruter dekker rektangelet?
+      en: The rectangle is covered by equal squares. There are {rows} rows with
+        {columns} squares in each. How many squares cover the rectangle?
+    explanation:
+      nb: Arealet er hvor mange ruter som dekker figuren. Du kan telle dem, eller
+        regne {rows} rader med {columns} ruter, {rows} × {columns} = {area} ruter.
+      en: Area is how many squares cover the shape. You can count them, or work
+        out {rows} rows of {columns} squares, {rows} × {columns} = {area} squares.
+    figure:
+      kind: array
+      rows: "{rows}"
+      columns: "{columns}"
+      alt:
+        nb: Et rektangel dekket av like ruter, {rows} rader med {columns} ruter i
+          hver.
+        en: A rectangle covered by equal squares, {rows} rows of {columns}.
+
+  - id: KM13253-T02
+    goal: KM13253
+    difficulty: 2
+    params:
+      rows: {min: 3, max: 6}
+      columns: {min: 3, max: 7}
+      coloured: {min: 2, max: 5}
+    derive:
+      shaded: coloured * columns
+      white_rows: rows - coloured
+      white: white_rows * columns
+    # At least two rows of each, so every sentence reads in the plural.
+    require:
+      - white_rows >= 2
+    answer: white
+    prompt:
+      nb: Rektangelet har {rows} rader med {columns} ruter i hver. {coloured} av
+        radene er fargelagt. Hvor mange ruter er ikke fargelagt?
+      en: The rectangle has {rows} rows with {columns} squares in each.
+        {coloured} of the rows are coloured in. How many squares are not
+        coloured in?
+    explanation:
+      nb: "{white_rows} av {rows} rader er hvite. Hver rad har {columns} ruter, så
+        {white_rows} × {columns} = {white} ruter er ikke fargelagt."
+      en: "{white_rows} of the {rows} rows are white. Each row has {columns}
+        squares, so {white_rows} × {columns} = {white} squares are not coloured
+        in."
+    figure:
+      kind: array
+      rows: "{rows}"
+      columns: "{columns}"
+      shaded: "{shaded}"
+      alt:
+        nb: Et rektangel dekket av like ruter, {rows} rader med {columns} ruter i
+          hver. De øverste {coloured} radene er fargelagt.
+        en: A rectangle covered by equal squares, {rows} rows of {columns}. The
+          top {coloured} rows are coloured in.
+
 not_assessable:
   - goal: KM13252
     reason: >-

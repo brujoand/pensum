@@ -311,6 +311,20 @@ def test_a_template_contributes_one_question_not_its_domain(tmp_path: Path) -> N
     assert len(served) == 1
 
 
+def test_per_template_draws_that_many_different_questions(tmp_path: Path) -> None:
+    served = bank_with_template(tmp_path).for_goal_set("KV1029", per_template=3)
+    assert len(served) == 3
+    assert len({item.id for item in served}) == 3
+
+
+def test_per_template_never_draws_a_question_already_asked(tmp_path: Path) -> None:
+    """A template with fewer fresh questions than asked for gives what it has."""
+    bank = bank_with_template(tmp_path)
+    every = [item.id for item in farm().instances()]
+    served = bank.for_goal_set("KV1029", per_template=3, exclude=every[1:])
+    assert [item.id for item in served] == every[:1]
+
+
 def test_a_seed_asks_the_same_question_twice(tmp_path: Path) -> None:
     bank = bank_with_template(tmp_path)
     assert bank.for_goal_set("KV1029", seed=7)[0].id == bank.for_goal_set("KV1029", seed=7)[0].id

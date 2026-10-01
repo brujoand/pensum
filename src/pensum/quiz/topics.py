@@ -22,6 +22,11 @@ from pensum.skills.schema import SkillFile, Strand
 # Fewer than two questions is a single question, not a drill.
 MIN_ITEMS = 2
 
+# How many different instances of each question template a drill draws. A
+# checkpoint quiz takes one; a drill takes several, so a pupil practising area
+# meets three rectangles rather than one, and new ones each time.
+TEMPLATE_REPEATS = 3
+
 
 @dataclass(frozen=True)
 class Topic:

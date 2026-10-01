@@ -506,9 +506,9 @@ templates:
         many comics are there?
     explanation:
       nb: "Finn 5 prosent først: {amount} delt på 20 er {m}. {p} prosent er
-        {fives} ganger så mye, og {fives} · {m} er {part}."
+        {fives} · 5 prosent, så det blir {fives} · {m}, som er {part}."
       en: "Find 5 percent first: {amount} divided by 20 is {m}. {p} percent is
-        {fives} times as much, and {fives} × {m} is {part}."
+        {fives} × 5 percent, so it is {fives} × {m}, which is {part}."
 
   - id: KM13291-T01
     goal: KM13291

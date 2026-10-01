@@ -35,6 +35,7 @@ COPY data/curriculum/ ./data/curriculum/
 COPY data/items/ ./data/items/
 COPY data/reading/ ./data/reading/
 COPY data/writing/ ./data/writing/
+COPY data/drills/ ./data/drills/
 RUN if [ "${WITH_SPEECH}" = "1" ]; then \
       uv sync --frozen --no-dev --extra speech; \
     else \

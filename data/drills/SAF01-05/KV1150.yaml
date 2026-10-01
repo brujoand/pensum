@@ -1,0 +1,44 @@
+# Faktadriller, samfunnsfag etter 7. trinn (SAF01-05 / KV1150).
+#
+# Facts here are ours, not Udir's. A language model writes questions from them,
+# so each fact is one sentence that is true on its own, and nothing in this file
+# is official curriculum text.
+#
+# Only what happened and what is the case. Nothing here says which party,
+# belief or opinion is right.
+---
+subject: SAF01-05
+goal_set: KV1150
+
+packs:
+  # KM14695 - events that led to the democracy Norway has today
+  - id: saf-kv1150-demokratiet
+    goal: KM14695
+    difficulty: 2
+    title:
+      nb: Veien til demokratiet
+      en: The road to democracy
+    instructions: recall
+    questions: 5
+    facts:
+      - id: f1
+        nb: Norge fikk sin egen grunnlov i 1814.
+        en: Norway got its own constitution in 1814.
+      - id: f2
+        nb: Grunnloven ble vedtatt på Eidsvoll.
+        en: The constitution was adopted at Eidsvoll.
+      - id: f3
+        nb: Grunnloven ble underskrevet 17. mai.
+        en: The constitution was signed on 17 May.
+      - id: f4
+        nb: Menn i Norge fikk allmenn stemmerett i 1898.
+        en: Men in Norway got universal suffrage in 1898.
+      - id: f5
+        nb: Kvinner i Norge fikk stemmerett ved stortingsvalg i 1913.
+        en: Women in Norway got the right to vote in parliamentary elections in 1913.
+      - id: f6
+        nb: Stortinget har 169 representanter.
+        en: The Storting has 169 members.
+      - id: f7
+        nb: Det er stortingsvalg hvert fjerde år.
+        en: There is a parliamentary election every fourth year.

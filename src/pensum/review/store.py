@@ -38,8 +38,20 @@ from typing import Literal
 # built from reading passages, and only from the approved ones, so approving the
 # passage is approving what the listening exercise asks. A separate decision
 # would be a second switch for the same words.
-Kind = Literal["item", "reading", "writing", "skill", "mission"]
-KINDS: tuple[Kind, ...] = ("item", "reading", "writing", "skill", "mission")
+#
+# A fact drill is two kinds on purpose (`pensum.drills`): the pack says what to
+# quiz on and the instruction set says how, and one instruction set is shared
+# by many packs. Reading it once has to be enough.
+Kind = Literal["item", "reading", "writing", "skill", "mission", "pack", "instructions"]
+KINDS: tuple[Kind, ...] = (
+    "item",
+    "reading",
+    "writing",
+    "skill",
+    "mission",
+    "pack",
+    "instructions",
+)
 
 Verdict = Literal["approved", "rejected"]
 

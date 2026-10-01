@@ -325,6 +325,8 @@ review:
     writing: Skriveoppgave
     skill: Ferdighet
     mission: Oppdrag
+    pack: Faktapakke
+    instructions: Instruksjonssett
   state:
     pending: Venter på godkjenning
     approved: Godkjent
@@ -357,6 +359,17 @@ review:
   skill_sensitive: Følsomt tema — aldri en belønning, aldri i klasseoversikten.
   mission_confirm_teacher: Læreren bekrefter at det er gjort.
   mission_confirm_self: Eleven krysser av selv.
+  pack_note: >-
+    En språkmodell skriver spørsmål ut fra disse faktaene. Ingen leser de
+    spørsmålene før en elev gjør det, så å godkjenne pakken er å godkjenne hvert
+    faktum i den som sant og som egnet å spørre om.
+  pack_questions: 'Spørsmål per drill: {count}'
+  pack_instructions: 'Instruksjonssett: {id}'
+  instructions_note: >-
+    Leses av språkmodellen, vises aldri til en elev, og er derfor skrevet på
+    engelsk. Hver faktapakke som viser til dette settet, blir spurt ut etter
+    disse reglene.
+  instructions_distractors: 'Gale svaralternativer per spørsmål: {count}'
   approve: Godkjenn
   reject: Avvis
   clear: Fjern avgjørelsen

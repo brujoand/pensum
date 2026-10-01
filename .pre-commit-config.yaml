@@ -135,3 +135,13 @@ repos:
         language: system
         files: ^(data/(writing|curriculum)/|src/pensum/writing/)
         pass_filenames: false
+
+      # A fact pack cites a goal as an item does, and names an instruction set
+      # by id. Either reference going stale leaves a pack that is never offered,
+      # with nothing on any page to say why.
+      - id: validate-drills
+        name: Validate fact packs and instruction sets
+        entry: uv run python -m pensum.drills.validate
+        language: system
+        files: ^(data/(drills|curriculum)/|src/pensum/drills/)
+        pass_filenames: false

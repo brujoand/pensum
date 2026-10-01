@@ -1,0 +1,16 @@
+# How to quiz on plain facts: one question per fact, asking what it states.
+#
+# Read by the language model and never shown to a pupil, so it is written in
+# English only. The output format is not set here. It belongs to the contract,
+# which is code (docs/design/llm-drills.md).
+---
+id: recall
+distractors: 3
+rules: |
+  Ask one question per fact. Ask what the fact states, never why.
+  Write for the age given. At most two short sentences per question.
+  Use literal language. No idiom, no figure of speech, no joke.
+  A wrong choice is the same kind of thing as the right one: a number
+  where the answer is a number, a place where it is a place.
+  A wrong choice is never true according to any fact in the list.
+  Never ask which opinion, belief or party is right.

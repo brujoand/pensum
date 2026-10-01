@@ -5,8 +5,10 @@ language model the instance operator runs turns those facts into multiple-choice
 questions when a pupil starts the drill. The questions a pupil meets have not
 been read by anyone first.
 
-This is a design. Nothing here is implemented yet, and every name below is a
-proposal.
+This is a design. The content layer exists: `pensum.drills` holds the schema,
+the loader and the validator, and packs and instruction sets are on the review
+page. Nothing calls a model yet, and no pupil-facing page exists. Every name
+below that is not in `pensum.drills` is a proposal.
 
 ## What changes, and what does not
 
@@ -52,21 +54,24 @@ subject: SAF01-05
 goal_set: KV1150
 
 packs:
-  - id: saf-kv1150-stortinget
-    goal: KM14697
+  - id: saf-kv1150-demokratiet
+    goal: KM14695
+    difficulty: 2
     title:
-      nb: Stortinget
-      en: The Storting
+      nb: Veien til demokratiet
+      en: The road to democracy
     instructions: recall
     questions: 5
     facts:
-      - id: f1
+      - id: f6
         nb: Stortinget har 169 representanter.
         en: The Storting has 169 members.
-      - id: f2
+      - id: f7
         nb: Det er stortingsvalg hvert fjerde år.
         en: There is a parliamentary election every fourth year.
 ```
+
+The committed file has seven facts. Two are shown.
 
 A fact is one sentence that is true on its own, with an id. Prose paragraphs
 are not accepted. Atomic facts with ids buy three things:
@@ -94,6 +99,7 @@ distractors: 3
 rules: |
   Ask one question per fact. Ask what the fact states, never why.
   Write for the age given. At most two short sentences per question.
+  Use literal language. No idiom, no figure of speech, no joke.
   A wrong choice is the same kind of thing as the right one: a number
   where the answer is a number, a place where it is a place.
   A wrong choice is never true according to any fact in the list.
@@ -110,7 +116,7 @@ The endpoint is asked for JSON constrained by a schema, in one locale per call.
 
 ```json
 {"questions": [
-  {"fact": "f1",
+  {"fact": "f6",
    "prompt": "Hvor mange representanter har Stortinget?",
    "answer": "169",
    "distractors": ["150", "179", "200"]}

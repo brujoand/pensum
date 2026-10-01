@@ -25,6 +25,8 @@ from urllib.parse import urlencode
 
 from pensum.auth.models import User
 from pensum.catalogue.loader import Catalogue
+from pensum.drills.loader import DrillLibrary
+from pensum.drills.schema import FactPack, InstructionSet
 from pensum.items.loader import ItemBank
 from pensum.items.schema import QuizItem
 from pensum.items.template import ItemTemplate
@@ -38,7 +40,16 @@ from pensum.skills.schema import Skill
 from pensum.writing.library import WritingLibrary
 from pensum.writing.schema import WritingPrompt
 
-Content = QuizItem | ItemTemplate | ReadingText | WritingPrompt | Skill | Mission
+Content = (
+    QuizItem
+    | ItemTemplate
+    | ReadingText
+    | WritingPrompt
+    | Skill
+    | Mission
+    | FactPack
+    | InstructionSet
+)
 
 # "all" is the absence of a filter, spelled the way the page's links spell it.
 ALL = "all"
@@ -50,6 +61,7 @@ class ReviewEntry:
 
     kind: Kind
     content_id: str
+    # Empty for an instruction set, which belongs to no subject.
     subject: str
     # The goal set it belongs to. For a skill or mission, the goal set at its
     # checkpoint; empty only where the catalogue no longer has one.
@@ -86,6 +98,7 @@ class Libraries:
     writing: WritingLibrary
     skills: SkillLibrary
     missions: MissionLibrary
+    drills: DrillLibrary
 
 
 def _title_of(content: Content) -> str:
@@ -100,6 +113,11 @@ def _title_of(content: Content) -> str:
         return content.i_can.nob
     if isinstance(content, Mission):
         return content.title.nob
+    if isinstance(content, FactPack):
+        return content.title.get("nb")
+    if isinstance(content, InstructionSet):
+        # Model-facing and in English only: the id is the only name it has.
+        return content.id
     return content.title
 
 
@@ -216,6 +234,26 @@ def entries(
                 mission,
                 libraries.missions.fingerprint(mission.id),
             )
+    drills = libraries.drills
+    for pack_file in drills.files:
+        for pack in pack_file.packs:
+            add(
+                "pack",
+                pack_file.subject,
+                pack_file.goal_set,
+                pack,
+                drills.fingerprint(pack.id),
+                goal=pack.goal,
+                difficulty=pack.difficulty,
+            )
+    for instruction_set in drills.instruction_sets:
+        add(
+            "instructions",
+            "",
+            "",
+            instruction_set,
+            drills.instructions_fingerprint(instruction_set.id),
+        )
 
     return collected
 

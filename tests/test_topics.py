@@ -13,7 +13,7 @@ from test_admin import PUPIL, QUIZ_PATH, build, correct_response, settings_with,
 from pensum.catalogue.loader import Catalogue
 from pensum.items.loader import ItemBank
 from pensum.items.schema import AuthoredText, QuizItem
-from pensum.quiz.topics import MIN_ITEMS, in_topic, strands_of, topics
+from pensum.quiz.topics import MIN_ITEMS, TEMPLATE_REPEATS, in_topic, strands_of, topics
 from pensum.skills.loader import SkillLibrary
 from pensum.skills.schema import SkillFile
 from pensum.web.app import create_app
@@ -146,6 +146,34 @@ def test_a_topic_result_gives_no_verdict_on_the_trinn(client: TestClient) -> Non
     page = answer_all(client, start(client, "shape-space"))
     assert "ikke hele trinnet" in page
     assert 'class="verdict"' not in page
+
+
+def templates_in(client: TestClient, session_id: str) -> dict[str, int]:
+    """How many instances of each template a session's pool holds."""
+    session = client.app.state.sessions.get(session_id, datetime.now(UTC))
+    counts: dict[str, int] = {}
+    for one in session.pool:
+        if "#" in one.id:
+            template = one.id.split("#", 1)[0]
+            counts[template] = counts.get(template, 0) + 1
+    return counts
+
+
+def test_a_drill_asks_each_template_several_times(client: TestClient) -> None:
+    """6. trinn measurement has the area, perimeter and volume templates."""
+    started = client.post(
+        "/nb/klasse/6/MAT01-06/quiz", data={"topic": "measurement"}, follow_redirects=False
+    )
+    counts = templates_in(client, started.headers["location"].rsplit("/", 1)[-1])
+    assert counts
+    assert set(counts.values()) == {TEMPLATE_REPEATS}
+
+
+def test_a_checkpoint_quiz_still_asks_each_template_once(client: TestClient) -> None:
+    started = client.post("/nb/klasse/6/MAT01-06/quiz", follow_redirects=False)
+    counts = templates_in(client, started.headers["location"].rsplit("/", 1)[-1])
+    assert counts
+    assert set(counts.values()) == {1}
 
 
 def test_a_topic_drill_leaves_evidence_but_no_trinntest_attempt(tmp_path: Path) -> None:

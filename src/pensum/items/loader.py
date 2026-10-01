@@ -122,6 +122,7 @@ class ItemBank:
         unreviewed: bool = False,
         seed: int | None = None,
         exclude: Collection[str] = (),
+        per_template: int = 1,
     ) -> list[QuizItem]:
         """Servable items for a goal set.
 
@@ -144,6 +145,11 @@ class ItemBank:
         happens to be one already asked. Excluding before the draw picks a
         different question instead, and a template only falls silent when the
         run really has seen every question it has.
+
+        `per_template` is how many different instances each template offers.
+        One for a checkpoint quiz, which samples the checkpoint; more for a
+        topic drill (`pensum.quiz.topics`), where asking the same kind of
+        problem again with new numbers is the practice.
         """
         item_set = self._sets.get(code)
         if item_set is None:
@@ -156,18 +162,17 @@ class ItemBank:
             if (widened or self._publishes(item)) and item.id not in spent
         ]
 
-        # A template contributes one question, not its whole domain: a quiz of
-        # ten drawn from a bank where one template had supplied two hundred
-        # would be that template ten times over. Which one is the caller's
-        # choice, and `seed` is how a test or a session asks for the same
-        # question twice.
+        # A template contributes `per_template` questions, not its whole
+        # domain: a quiz of ten drawn from a bank where one template had
+        # supplied two hundred would be that template ten times over. Which
+        # ones is the caller's choice, and `seed` is how a test or a session
+        # asks for the same questions twice.
         rng = random.Random(seed)  # noqa: S311 -- quiz variety, not cryptography
         for template in item_set.templates:
             if not (widened or self._publishes_template(template)):
                 continue
             fresh = [item for item in template.instances() if item.id not in spent]
-            if fresh:
-                served.append(rng.choice(fresh))
+            served.extend(rng.sample(fresh, min(per_template, len(fresh))))
         return served
 
     def has_quiz(self, code: str, *, unreviewed: bool = False) -> bool:

@@ -23,7 +23,7 @@ from pensum.domain.ladder import MIN_RUNGS_FOR_PLACEMENT, Ladder
 from pensum.domain.models import NYNORSK
 from pensum.i18n import DEFAULT_LOCALE, curriculum_language
 from pensum.items.loader import ItemBank
-from pensum.quiz.topics import Topic, topics
+from pensum.quiz.topics import TEMPLATE_REPEATS, Topic, topics
 from pensum.reading.library import ReadingLibrary
 from pensum.web.deps import sees_unreviewed, skill_file_for
 from pensum.web.rendering import context, templates, validate_locale
@@ -54,8 +54,12 @@ def _topics(request: Request, subject_code: str, checkpoint: Checkpoint) -> tupl
     skill_file = skill_file_for(request, subject_code)
     if skill_file is None:
         return ()
+    # Counted from the pool a drill draws, so a strand served by one template
+    # alone is still offered, and the count is what the drill can ask.
     pool = _items(request).for_goal_set(
-        checkpoint.goal_set.code, unreviewed=sees_unreviewed(request)
+        checkpoint.goal_set.code,
+        unreviewed=sees_unreviewed(request),
+        per_template=TEMPLATE_REPEATS,
     )
     return topics(pool, checkpoint.goal_set.after_year, skill_file)
 

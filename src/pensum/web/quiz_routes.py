@@ -25,7 +25,7 @@ from pensum.mastery.attribution import evidence_for
 from pensum.quiz.scoring import Result, score
 from pensum.quiz.session import QuizSession, SessionStore
 from pensum.quiz.shape import plan
-from pensum.quiz.topics import in_topic
+from pensum.quiz.topics import TEMPLATE_REPEATS, in_topic
 from pensum.scores.store import Attempt, GoalTally, attempt_key
 from pensum.web.comfort import comfort_of
 from pensum.web.deps import (
@@ -245,8 +245,11 @@ async def start_quiz(
 
     # An administrator gets the drafts too, because reading a question in the
     # quiz it belongs to is the only way to judge it.
+    # A drill asks each template's kind of problem more than once.
     pool = _bank(request).for_goal_set(
-        checkpoint.goal_set.code, unreviewed=sees_unreviewed(request)
+        checkpoint.goal_set.code,
+        unreviewed=sees_unreviewed(request),
+        per_template=TEMPLATE_REPEATS if topic else 1,
     )
     # A topic narrows the run to one strand of the subject's skills. The whole
     # run, stage stepping included, then stays inside it.

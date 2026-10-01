@@ -76,7 +76,9 @@ the skill the item names, or of the skills citing its goal at that checkpoint
 (`pensum.quiz.topics`), so tagging an item's `skill:` also sets its topic. A
 topic drill gives no pass verdict and writes no row to the admin's attempt
 history, because it is not the checkpoint. Its answers still count as evidence
-on the pupil's map.
+on the pupil's map. A checkpoint quiz asks one instance of each question
+template; a drill asks three different ones, so practising area means three
+new rectangles every time.
 
 ## Running it
 

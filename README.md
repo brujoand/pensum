@@ -751,7 +751,7 @@ triangle asks a ten-year-old to hold a shape in their head that the page could
 simply have shown them. A quiz item can therefore carry a **figure**, drawn
 above its answers.
 
-Six kinds, chosen from what the committed questions actually describe:
+Seven kinds, chosen from what the committed questions actually describe:
 
 | | for | shows |
 |---|---|---|
@@ -761,6 +761,7 @@ Six kinds, chosen from what the committed questions actually describe:
 | `fraction` | parts of a whole | one to four wholes as bars or as circles, cut into equal parts with some of them shaded |
 | `number_line` | counting on and back, place value | a ruled line with marks, and jumps drawn as directed arcs above it |
 | `box` | volume | a cuboid or cube in cabinet projection, to its own proportions, with hidden edges dashed and length, width and height labelled |
+| `cylinder` | volume, surface | an upright cylinder to its own proportions, the hidden back of its base dashed, with its radius or diameter and its height labelled |
 
 **A figure is declared, not drawn.** An item names a kind and its parameters:
 `parts: 4, shaded: 1` is either one quarter or it is a typo somebody can see.

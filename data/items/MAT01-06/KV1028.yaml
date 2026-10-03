@@ -292,6 +292,17 @@ items:
         kubikkcentimeter? Rund av til nærmeste hele tall.
       en: A cylinder has a radius of 5 cm and a height of 10 cm. What is its
         volume in cubic centimetres? Round to the nearest whole number.
+    figure:
+      kind: cylinder
+      radius: 5
+      height: 10
+      radius_label: "5 cm"
+      height_label: "10 cm"
+      alt:
+        nb: En stående sylinder. Radien er tegnet fra midten av toppen ut til
+          kanten og merket 5 cm. Høyden er merket 10 cm.
+        en: An upright cylinder. The radius is drawn from the centre of the top
+          to the edge and labelled 5 cm. The height is labelled 10 cm.
     answer: 785
     tolerance: 1
     explanation:

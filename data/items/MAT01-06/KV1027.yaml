@@ -187,6 +187,17 @@ items:
         13. Hvilket uttrykk gir antall fyrstikker i figur n?"
       en: "Figure 1 uses 4 matchsticks, figure 2 uses 7, figure 3 uses 10 and
         figure 4 uses 13. Which expression gives the number in figure n?"
+    figure:
+      kind: matchsticks
+      stages: 4
+      alt:
+        nb: Fire figurer av fyrstikker, nummerert 1 til 4. Figur 1 er ett
+          kvadrat av 4 fyrstikker. Hver ny figur har ett kvadrat til på rad,
+          som deler en side med det forrige, så figurene har 4, 7, 10 og 13
+          fyrstikker.
+        en: Four matchstick figures, numbered 1 to 4. Figure 1 is one square of
+          4 matchsticks. Each new figure adds one more square in a row, sharing
+          a side with the last, so the figures have 4, 7, 10 and 13 matchsticks.
     choices:
       - id: a
         text:

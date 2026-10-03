@@ -763,6 +763,7 @@ The kinds, chosen from what the committed questions actually describe:
 | `box` | volume | a cuboid or cube in cabinet projection, to its own proportions, with hidden edges dashed and length, width and height labelled |
 | `similar` | similarity | a triangle and a copy up to three times larger, side by side, with corresponding angles marked by matching arcs |
 | `cylinder` | volume, surface | an upright cylinder to its own proportions, the hidden back of its base dashed, with its radius or diameter and its height labelled |
+| `matchsticks` | patterns, algebra | a growing row of matchstick squares, figure 1 to figure 5, each stick drawn apart so it can be counted |
 
 **A figure is declared, not drawn.** An item names a kind and its parameters:
 `parts: 4, shaded: 1` is either one quarter or it is a typo somebody can see.

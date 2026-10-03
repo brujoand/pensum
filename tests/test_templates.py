@@ -19,6 +19,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import yaml
 from pydantic import ValidationError
 from review_helpers import approved_bank
 
@@ -28,7 +29,7 @@ from pensum.items.schema import QuizItem
 from pensum.items.sets import ItemSet
 from pensum.items.template import MAX_DOMAIN, ItemTemplate
 from pensum.items.text import AuthoredText
-from pensum.items.validate import _domain_problems
+from pensum.items.validate import _domain_problems, validate
 
 
 def text(nb: str, en: str | None = None) -> AuthoredText:
@@ -280,15 +281,45 @@ def choice(**overrides) -> ItemTemplate:
 def test_a_choice_instance_is_an_ordinary_multiple_choice_item() -> None:
     item = next(i for i in choice().instances() if i.id.endswith("#10-4"))
     assert item.type == "multiple_choice"
-    assert [(c.text.nb, c.correct) for c in item.choices] == [
-        ("4 sauer", True),
+    assert sorted((c.text.nb, c.correct) for c in item.choices) == [
         ("10 sauer", False),
         ("14 sauer", False),
+        ("4 sauer", True),
     ]
     right = next(c.id for c in item.choices if c.correct)
     assert item.is_correct(right) is True
     assert not any(item.is_correct(c.id) for c in item.choices if not c.correct)
     assert item.correct_text("nb") == "4 sauer"
+
+
+def test_the_right_choice_id_varies_across_instances_and_is_stable() -> None:
+    """So nothing that records a choice id learns that "a" is always right."""
+    instances = choice().instances()
+    right = [next(c.id for c in i.choices if c.correct) for i in instances]
+    assert set(right) == {"a", "b", "c"}
+    assert right == [next(c.id for c in i.choices if c.correct) for i in choice().instances()]
+
+
+def test_a_template_passes_its_skill_to_every_instance() -> None:
+    assert {i.skill for i in farm(skill="mat.algebra.x").instances()} == {"mat.algebra.x"}
+    assert {i.skill for i in farm().instances()} == {None}
+
+
+def test_a_template_naming_a_skill_that_does_not_cite_its_goal_is_a_problem(
+    tmp_path: Path,
+) -> None:
+    item_set = ItemSet(
+        subject="MAT01-06",
+        goal_set="KV1025",
+        templates=(farm(goal="KM13280", skill="mat.counting.subitise"),),
+    )
+    directory = tmp_path / "MAT01-06"
+    directory.mkdir()
+    (directory / "KV1025.yaml").write_text(
+        yaml.safe_dump(item_set.model_dump(mode="json", exclude_defaults=True), allow_unicode=True)
+    )
+    problems = validate(tmp_path)
+    assert any("does not cite goal KM13280" in p for p in problems), problems
 
 
 def test_a_combination_where_two_choices_agree_drops_out() -> None:

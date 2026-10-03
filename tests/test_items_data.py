@@ -15,6 +15,7 @@ from review_helpers import approve_app, approved
 from test_admin import correct_response
 
 from pensum.catalogue.loader import Catalogue
+from pensum.items.figures import ArrayFigure, ShapeFigure
 from pensum.items.figures import draw as draw_figure
 from pensum.items.loader import ItemBank
 from pensum.items.validate import validate
@@ -78,6 +79,24 @@ def test_not_assessable_entries_give_a_reason(bank: ItemBank) -> None:
     for item_set in bank.item_sets:
         for excused in item_set.not_assessable:
             assert len(excused.reason.strip()) > 30, excused.goal
+
+
+def test_nothing_called_a_rectangle_is_drawn_square(bank: ItemBank) -> None:
+    """A third grader shown a square called "rektangelet" is asked a second question.
+
+    Across every item and every instance of every template, since a template's
+    numbers decide its shape and nobody reads all of them.
+    """
+    for item_set in bank.item_sets:
+        every = [*item_set.items, *(i for t in item_set.templates for i in t.instances())]
+        for item in every:
+            figure = item.figure
+            if figure is None or "rektangel" not in item.prompt.nb.lower():
+                continue
+            if isinstance(figure, ArrayFigure):
+                assert figure.rows != figure.columns, item.id
+            if isinstance(figure, ShapeFigure) and figure.shape == "rectangle":
+                assert figure.drawn_ratio != pytest.approx(1.0), item.id
 
 
 def test_unapproved_items_are_withheld_by_default() -> None:

@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import ast
 import re
+import zlib
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -106,6 +107,9 @@ class ItemTemplate(BaseModel):
 
     id: str = Field(min_length=1)
     goal: str = Field(min_length=1)
+    # The skill every instance is evidence for, exactly as on an item
+    # (`QuizItem.skill`): optional, and checked by the items validator.
+    skill: str | None = None
     # A short_text template would have to generate the spellings it accepts,
     # which nothing here does yet.
     type: Literal["numeric", "multiple_choice"] = "numeric"
@@ -307,6 +311,7 @@ class ItemTemplate(BaseModel):
         common = {
             "id": self._instance_id(binding),
             "goal": self.goal,
+            "skill": self.skill,
             "type": self.type,
             "difficulty": self.difficulty,
             "prompt": _fill(self.prompt, binding),
@@ -315,18 +320,23 @@ class ItemTemplate(BaseModel):
         }
         if self.type == "numeric":
             return QuizItem(**common, answer=answer)
-        # Authored order, right answer first. The page shuffles them per item
-        # (`QuizItem.display_choices`), so the order here gives nothing away.
+        # The page shuffles choices per item (`QuizItem.display_choices`), so
+        # the stored order is never shown. The right answer's id still varies,
+        # rotated by a hash of the instance id, so nothing that records a choice
+        # id can learn that "a" is always right. crc32 rather than `hash()`,
+        # which differs between processes.
         values = [answer, *self._wrong(binding)]
+        right = zlib.crc32(common["id"].encode("utf-8")) % len(values)
+        order = values[-right:] + values[:-right] if right else values
         return QuizItem(
             **common,
             choices=tuple(
                 Choice(
                     id=chr(ord("a") + index),
                     text=self._choice_text(value),
-                    correct=index == 0,
+                    correct=index == right,
                 )
-                for index, value in enumerate(values)
+                for index, value in enumerate(order)
             ),
         )
 

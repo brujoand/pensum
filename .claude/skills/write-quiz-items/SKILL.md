@@ -195,9 +195,34 @@ Four things to get right:
 - **Norwegian inflection is yours to handle.** `{sheep} sauer` reads wrong when
   `sheep` is 1, and nothing detects it. Exclude 1 in `require`.
 
-Numeric only, for now. A template is approved on an instance's review page as
-one piece of content: the reviewer sees one variant live and a sample of the
-others with their answers.
+Name the skill with `skill:`, as on an item, whenever the goal is cited by more
+than one skill. Without it every answer counts towards all of them.
+
+A template is `numeric` by default. It may instead be `multiple_choice`, with
+wrong answers computed from the same numbers:
+
+```yaml
+    type: multiple_choice
+    answer: area
+    distractors:
+      - value: perimeter
+        why: Perimeter, not area.
+      - value: half
+        why: Adds the sides instead of multiplying them.
+    choice_text: {nb: "{value} cm²", en: "{value} cm²"}
+```
+
+- **Each distractor is a misconception, named in `why`.** A random wrong
+  number teaches nothing when chosen; one that is the perimeter tells the
+  teacher why.
+- **At least two distractors.** A combination where any two choices come out
+  equal is dropped from the domain, so check the template still asks enough.
+- **`choice_text` may read only `{value}`.** Units go there, not in each
+  expression.
+
+A template is approved on an instance's review page as one piece of content:
+the reviewer sees one variant live and a sample of the others with their
+answers.
 
 Every `explanation` should teach. A pupil who got it wrong should understand
 why, not just be told they were.

@@ -79,6 +79,11 @@ def validate(items_dir: Path | None = None, skills: SkillLibrary | None = None) 
                     f"{template.id}: goal {template.goal} is not in {item_set.goal_set}; "
                     "it may have been renumbered by a curriculum revision"
                 )
+            # Every instance carries the template's goal and skill, so one
+            # instance answers for all of them.
+            problems.extend(
+                _skill_problems(template.instances()[0], skills.for_subject(item_set.subject))
+            )
             problems.extend(_domain_problems(template))
 
         for excused in item_set.not_assessable:

@@ -494,10 +494,9 @@ class NumberLineFigure(BaseModel):
 # A box whose longest edge is more than this many times its shortest is drawn
 # as a plank or a sheet, which no longer reads as a box.
 MAX_BOX_SPREAD = 6.0
-# Long enough for "100 cm" and "12,5 m". The height and width labels both sit
-# beside the box, and at this length they still leave over 60 of the view's 200
-# units across for the box itself.
-MAX_BOX_LABEL = 7
+# The height and width labels both sit beside the box, as a shape's left and
+# right side labels do, so the same limit keeps the box `MIN_SHAPE_WIDTH` wide.
+MAX_BOX_LABEL = MAX_BESIDE_LABEL
 # How far the depth recedes per unit of width, along each axis: half scale at
 # 45 degrees, the cabinet projection textbooks use.
 BOX_DEPTH = 0.5 * math.cos(math.pi / 4)

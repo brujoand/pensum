@@ -470,6 +470,27 @@ templates:
       en: "{total} divided by {kids} is {each}. Check by multiplying: {kids} ×
         {each} is {total}."
 
+  # The other half of division: not how many each gets, but how many groups.
+  - id: KM13255-T02
+    goal: KM13255
+    difficulty: 2
+    params:
+      each: {min: 2, max: 10}
+      bags: {min: 2, max: 10}
+    derive:
+      total: each * bags
+    answer: bags
+    prompt:
+      nb: "{total} kjeks skal pakkes i poser med {each} kjeks i hver pose. Hvor
+        mange poser blir det?"
+      en: "{total} biscuits are packed into bags of {each} biscuits each. How
+        many bags are there?"
+    explanation:
+      nb: "Hvor mange ganger går {each} opp i {total}? {total} delt på {each} er
+        {bags}. Sjekk med ganging: {bags} · {each} er {total}."
+      en: "How many times does {each} go into {total}? {total} divided by
+        {each} is {bags}. Check by multiplying: {bags} × {each} is {total}."
+
   - id: KM13258-T01
     goal: KM13258
     difficulty: 2

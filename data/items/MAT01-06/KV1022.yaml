@@ -422,9 +422,6 @@ items:
       en: The first number always shows how far across you go. The second shows
         how far up.
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-
   # --- Answered with the hands -------------------------------------------
   # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
   # board, and without a script the same target is asked as a number.
@@ -723,6 +720,8 @@ templates:
         en: A rectangle covered by equal squares, {rows} rows of {columns}. The
           top {coloured} rows are coloured in.
 
+# Goals that no written question can honestly test. Recorded rather than
+# omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:
   - goal: KM13252
     reason: >-

@@ -315,9 +315,6 @@ items:
       en: A classroom is a few metres long. Millimetres are far too small and
         kilometres far too big.
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-
   # --- Answered with the hands -------------------------------------------
   # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
   # board, and without a script the same target is asked as a number.
@@ -738,6 +735,8 @@ templates:
       en: "{total} minus {take} is {left}. Take away {ones} first to get to 10.
         Then take away {more} more, which leaves {left}."
 
+# Goals that no written question can honestly test. Recorded rather than
+# omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:
   - goal: KM13229
     reason: >-

@@ -446,9 +446,6 @@ items:
       en: A quick estimate says 9 balls at around 100 kroner must cost around 900
         kroner. The answer 108 is far too small, and 9 × 120 = 1080.
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-
   # --- Answered with the hands -------------------------------------------
   # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
   # board, and without a script the same target is asked as a number.
@@ -532,6 +529,8 @@ templates:
       en: "Subtract {b} from both sides: {a}x = {ax}. Divide both sides by {a}:
         x = {x}."
 
+# Goals that no written question can honestly test. Recorded rather than
+# omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:
   - goal: KM13293
     reason: >-

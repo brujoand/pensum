@@ -654,6 +654,35 @@ class SimilarFigure(BaseModel):
     angle_marks: bool = True
 
 
+# Matchstick patterns: the most figures one picture shows, the room for each
+# figure's number at the left of its row, the space between rows, how much of
+# each end a stick leaves bare so two sticks meeting at a corner read as two,
+# and the size of a stick's head. Two heads meet at every square's top-right
+# corner, INSET * sqrt(2) apart, so INSET must exceed HEAD * sqrt(2) or they
+# fuse into one blob.
+MAX_MATCHSTICK_STAGES = 5
+MATCHSTICK_LABEL = 16.0
+MATCHSTICK_ROW_GAP = 10.0
+MATCHSTICK_INSET = 3.5
+MATCHSTICK_HEAD = 2.2
+
+
+class MatchstickFigure(BaseModel):
+    """A growing pattern of matchstick squares: figure 1, figure 2, and so on.
+
+    Figure k is k squares in a row sharing their sides, so it takes 3k + 1
+    sticks, and the rows stack top to bottom with each figure's number at the
+    left. Every stick is drawn separately, shortened at both ends and with a
+    head, so a pupil can count them, including the ones two squares share.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: Literal["matchsticks"] = "matchsticks"
+    alt: AuthoredText
+    stages: int = Field(ge=1, le=MAX_MATCHSTICK_STAGES)
+
+
 Figure = Annotated[
     ShapeFigure
     | CountersFigure
@@ -662,7 +691,8 @@ Figure = Annotated[
     | NumberLineFigure
     | BoxFigure
     | CylinderFigure
-    | SimilarFigure,
+    | SimilarFigure
+    | MatchstickFigure,
     Field(discriminator="kind"),
 ]
 
@@ -689,6 +719,8 @@ def draw(figure: Figure, locale: str) -> Drawing:
         return _draw_cylinder(figure, alt)
     if isinstance(figure, SimilarFigure):
         return _draw_similar(figure, alt)
+    if isinstance(figure, MatchstickFigure):
+        return _draw_matchsticks(figure, alt)
     if isinstance(figure, FractionFigure):
         return _draw_fraction(figure, alt)
     return _draw_number_line(figure, alt)
@@ -942,6 +974,43 @@ def _angle_arcs(points: list[tuple[float, float]], index: int, count: int) -> li
             )
         )
     return arcs
+
+
+def _draw_matchsticks(figure: MatchstickFigure, alt: str) -> Drawing:
+    stages = figure.stages
+    room_x = VIEW - 2 * PAD - MATCHSTICK_LABEL
+    room_y = VIEW - 2 * PAD - (stages - 1) * MATCHSTICK_ROW_GAP
+    side = min(room_x / stages, room_y / stages)
+    left = PAD + MATCHSTICK_LABEL
+    top = (VIEW - stages * side - (stages - 1) * MATCHSTICK_ROW_GAP) / 2
+
+    paths: list[Path] = []
+    dots: list[Dot] = []
+    labels: list[Label] = []
+
+    def stick(x1: float, y1: float, x2: float, y2: float) -> None:
+        # Bare at both ends, so sticks meeting at a corner do not touch; the
+        # head at the right-hand or top end, as a matchstick lies on a table.
+        a, b = (
+            _towards((x1, y1), (x2, y2), MATCHSTICK_INSET),
+            _towards((x2, y2), (x1, y1), MATCHSTICK_INSET),
+        )
+        paths.append(Path(f"M{a[0]:.2f},{a[1]:.2f}L{b[0]:.2f},{b[1]:.2f}", "outline"))
+        dots.append(Dot(b[0], b[1], MATCHSTICK_HEAD))
+
+    for row in range(stages):
+        squares = row + 1
+        y = top + row * (side + MATCHSTICK_ROW_GAP)
+        for i in range(squares):
+            x = left + i * side
+            stick(x, y, x + side, y)
+            stick(x, y + side, x + side, y + side)
+        for i in range(squares + 1):
+            x = left + i * side
+            stick(x, y + side, x, y)
+        labels.append(Label(left - MATCHSTICK_LABEL / 2, y + side / 2, str(squares)))
+
+    return Drawing(VIEW, VIEW, alt, tuple(paths), tuple(dots), tuple(labels))
 
 
 def _draw_circle(figure: ShapeFigure, alt: str) -> Drawing:

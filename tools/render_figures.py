@@ -39,6 +39,7 @@ from pensum.items.figures import (  # noqa: E402
     CylinderFigure,
     Drawing,
     FractionFigure,
+    MatchstickFigure,
     NumberLineFigure,
     ShapeFigure,
     SimilarFigure,
@@ -187,6 +188,8 @@ def gallery() -> list[tuple[str, object]]:
         ("similar: twice the size", SimilarFigure(alt=ALT, scale=2)),
         ("similar: isosceles, three times", SimilarFigure(alt=ALT, scale=3, apex=0.5)),
         ("similar: right triangle", SimilarFigure(alt=ALT, scale=1.5, apex=0, ratio=1.6)),
+        ("matchsticks: four figures", MatchstickFigure(alt=ALT, stages=4)),
+        ("matchsticks: five figures, the most", MatchstickFigure(alt=ALT, stages=5)),
         (
             "cylinder: radius and height",
             CylinderFigure(alt=ALT, radius=5, height=10, radius_label="5 cm", height_label="10 cm"),

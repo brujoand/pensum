@@ -25,6 +25,7 @@ from pensum.items.figures import (
     CountersFigure,
     CylinderFigure,
     FractionFigure,
+    MatchstickFigure,
     NumberLineFigure,
     ShapeFigure,
     SimilarFigure,
@@ -586,6 +587,66 @@ def test_both_triangles_stay_in_view(fields: dict) -> None:
 def test_a_similar_figure_out_of_range_is_refused(fields: dict) -> None:
     with pytest.raises(ValidationError):
         similar(**fields)
+
+
+# --- matchsticks -------------------------------------------------------------
+
+
+def sticks_by_row(drawing) -> dict[str, list[list[float]]]:
+    """Each figure's sticks, keyed by the number labelling its row."""
+    rows: dict[str, list[list[float]]] = {label.text: [] for label in drawing.labels}
+    for path in drawing.paths:
+        x1, y1, x2, y2 = _coordinates(path.d)
+        mid = (y1 + y2) / 2
+        nearest = min(drawing.labels, key=lambda label: abs(label.y - mid))
+        rows[nearest.text].append([x1, y1, x2, y2])
+    return rows
+
+
+@pytest.mark.parametrize("stages", [1, 4, 5])
+def test_figure_k_takes_3k_plus_1_matchsticks(stages: int) -> None:
+    drawing = draw(MatchstickFigure(alt=ALT, stages=stages), "nb")
+    rows = sticks_by_row(drawing)
+    assert list(rows) == [str(k) for k in range(1, stages + 1)]
+    for k in range(1, stages + 1):
+        assert len(rows[str(k)]) == 3 * k + 1
+    assert len(drawing.dots) == len(drawing.paths), "one head per stick"
+
+
+def test_no_two_matchsticks_touch() -> None:
+    """So the side two squares share counts as one stick, not as two drawn over each other."""
+    drawing = draw(MatchstickFigure(alt=ALT, stages=4), "nb")
+    ends = [
+        point
+        for path in drawing.paths
+        for point in (tuple(_coordinates(path.d)[:2]), tuple(_coordinates(path.d)[2:]))
+    ]
+    for i, a in enumerate(ends):
+        for b in ends[i + 1 :]:
+            assert math.dist(a, b) > 1.0
+
+
+@pytest.mark.parametrize("stages", [1, 4, 5])
+def test_no_two_matchstick_heads_touch(stages: int) -> None:
+    """Heads are solid; two that overlap read as one, and the count is lost."""
+    heads = draw(MatchstickFigure(alt=ALT, stages=stages), "nb").dots
+    for i, a in enumerate(heads):
+        for b in heads[i + 1 :]:
+            assert math.dist((a.cx, a.cy), (b.cx, b.cy)) > a.r + b.r
+
+
+@pytest.mark.parametrize("stages", [1, 3, 5])
+def test_every_matchstick_stays_in_view(stages: int) -> None:
+    drawing = draw(MatchstickFigure(alt=ALT, stages=stages), "nb")
+    for path in drawing.paths:
+        for value in _coordinates(path.d):
+            assert PAD - 0.01 <= value <= VIEW - PAD + 0.01
+
+
+@pytest.mark.parametrize("stages", [0, 6])
+def test_a_matchstick_pattern_out_of_range_is_refused(stages: int) -> None:
+    with pytest.raises(ValidationError):
+        MatchstickFigure(alt=ALT, stages=stages)
 
 
 # --- cylinders ---------------------------------------------------------------

@@ -14,6 +14,7 @@ import pytest
 from pydantic import ValidationError
 
 from pensum.items.figures import (
+    LABEL_SIZE,
     MAX_BESIDE_LABEL,
     MAX_BOX_LABEL,
     MIN_SHAPE_WIDTH,
@@ -22,6 +23,7 @@ from pensum.items.figures import (
     ArrayFigure,
     BoxFigure,
     CountersFigure,
+    CylinderFigure,
     FractionFigure,
     NumberLineFigure,
     ShapeFigure,
@@ -451,6 +453,65 @@ def test_a_plank_is_not_a_box() -> None:
 def test_a_box_label_too_long_to_fit_is_refused() -> None:
     with pytest.raises(ValidationError):
         box(4, 3, 2, height_label="x" * (MAX_BOX_LABEL + 1))
+
+
+# --- cylinders ---------------------------------------------------------------
+
+
+def cylinder(radius: float, height: float, **labels) -> CylinderFigure:
+    return CylinderFigure(alt=ALT, radius=radius, height=height, **labels)
+
+
+def test_a_cylinder_hides_only_the_back_of_its_base() -> None:
+    drawing = draw(cylinder(5, 10), "nb")
+    roles = [path.role for path in drawing.paths]
+    assert roles == ["outline", "outline", "outline", "outline", "guide"]
+
+
+@pytest.mark.parametrize(("radius", "height"), [(5, 10), (1, 6), (3, 1), (6, 2)])
+def test_a_cylinder_is_drawn_in_its_own_proportions(radius: float, height: float) -> None:
+    drawing = draw(cylinder(radius, height), "nb")
+    west, top, _, bottom = _coordinates(drawing.paths[1].d)
+    east = _coordinates(drawing.paths[2].d)[0]
+    # Coordinates are written to two decimals, so a low cylinder's ratio holds
+    # to about one part in a thousand.
+    assert (east - west) / (bottom - top) == pytest.approx(2 * radius / height, rel=1e-3)
+
+
+@pytest.mark.parametrize(("radius", "height"), [(1, 6), (3, 1), (5, 10)])
+def test_a_cylinder_and_its_longest_labels_stay_in_view(radius: float, height: float) -> None:
+    label = "x" * MAX_BOX_LABEL
+    drawing = draw(cylinder(radius, height, radius_label=label, height_label=label), "nb")
+    west = _coordinates(drawing.paths[1].d)[0]
+    for placed in drawing.labels:
+        span = _label_width(placed.text)
+        low = {"end": placed.x - span, "middle": placed.x - span / 2}[placed.anchor]
+        assert low >= 0 and low + span <= VIEW
+        assert placed.y - LABEL_SIZE / 2 >= 0
+    height_label = next(p for p in drawing.labels if p.anchor == "end")
+    assert height_label.x < west
+
+
+def test_the_radius_runs_from_the_centre_and_the_diameter_across() -> None:
+    radius = draw(cylinder(5, 10, radius_label="5 cm"), "nb")
+    diameter = draw(cylinder(5, 10, diameter_label="10 cm"), "nb")
+    west = _coordinates(radius.paths[1].d)[0]
+    east = _coordinates(radius.paths[2].d)[0]
+    assert _coordinates(radius.paths[-1].d)[0] == pytest.approx((west + east) / 2, abs=0.01)
+    assert _coordinates(diameter.paths[-1].d)[0] == pytest.approx(west, abs=0.01)
+
+
+@pytest.mark.parametrize(
+    ("fields", "message"),
+    [
+        ({"radius": 1, "height": 20}, "pipe"),
+        ({"radius": 10, "height": 2}, "coin"),
+        ({"radius": 5, "height": 10, "radius_label": "5", "diameter_label": "10"}, "not both"),
+    ],
+)
+def test_a_cylinder_that_cannot_be_drawn_is_refused(fields: dict, message: str) -> None:
+    with pytest.raises(ValidationError, match=message):
+        CylinderFigure(alt=ALT, **fields)
 
 
 # --- helpers -----------------------------------------------------------------

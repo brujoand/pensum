@@ -36,6 +36,7 @@ from pensum.items.figures import (  # noqa: E402
     ArrayFigure,
     BoxFigure,
     CountersFigure,
+    CylinderFigure,
     Drawing,
     FractionFigure,
     NumberLineFigure,
@@ -169,6 +170,16 @@ def gallery() -> list[tuple[str, object]]:
                 length_label="100 cm",
                 width_label="12,5 m",
                 height_label="100 cm",
+            ),
+        ),
+        (
+            "cylinder: radius and height",
+            CylinderFigure(alt=ALT, radius=5, height=10, radius_label="5 cm", height_label="10 cm"),
+        ),
+        (
+            "cylinder: wide and low, diameter",
+            CylinderFigure(
+                alt=ALT, radius=6, height=2, diameter_label="12 cm", height_label="2 cm"
             ),
         ),
     ]

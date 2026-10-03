@@ -535,8 +535,54 @@ class BoxFigure(BaseModel):
         return self
 
 
+# How round the ends of a cylinder look: the ellipse's height as a share of its
+# width. A textbook's view from a little above.
+CYLINDER_TILT = 0.3
+
+
+class CylinderFigure(BaseModel):
+    """An upright cylinder with its radius or diameter and its height labelled.
+
+    The top is a full ellipse; the bottom shows its front half solid and its
+    back half dashed, the edge nobody can see. Drawn to its own proportions,
+    with the same spread limit as a box: a cylinder far wider than it is tall is
+    a coin, and one far taller is a pipe.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: Literal["cylinder"] = "cylinder"
+    alt: AuthoredText
+    # In any unit: only their proportions are drawn.
+    radius: float = Field(gt=0)
+    height: float = Field(gt=0)
+    # Drawn across the top: from the centre to the rim, or rim to rim.
+    radius_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+    diameter_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+    # Beside the left side, as a box's height is.
+    height_label: str | None = Field(default=None, max_length=MAX_BOX_LABEL)
+
+    @model_validator(mode="after")
+    def _check(self) -> CylinderFigure:
+        if self.radius_label and self.diameter_label:
+            raise ValueError("label the radius or the diameter, not both")
+        across = 2 * self.radius
+        if max(across, self.height) / min(across, self.height) > MAX_BOX_SPREAD:
+            raise ValueError(
+                f"a cylinder {across:g} across and {self.height:g} tall is a coin or a "
+                f"pipe; keep one within {MAX_BOX_SPREAD:g} times the other"
+            )
+        return self
+
+
 Figure = Annotated[
-    ShapeFigure | CountersFigure | ArrayFigure | FractionFigure | NumberLineFigure | BoxFigure,
+    ShapeFigure
+    | CountersFigure
+    | ArrayFigure
+    | FractionFigure
+    | NumberLineFigure
+    | BoxFigure
+    | CylinderFigure,
     Field(discriminator="kind"),
 ]
 
@@ -559,6 +605,8 @@ def draw(figure: Figure, locale: str) -> Drawing:
         return _draw_array(figure, alt)
     if isinstance(figure, BoxFigure):
         return _draw_box(figure, alt)
+    if isinstance(figure, CylinderFigure):
+        return _draw_cylinder(figure, alt)
     if isinstance(figure, FractionFigure):
         return _draw_fraction(figure, alt)
     return _draw_number_line(figure, alt)
@@ -673,6 +721,49 @@ def _draw_box(figure: BoxFigure, alt: str) -> Drawing:
         )
 
     return Drawing(VIEW, VIEW, alt, tuple(paths), (), tuple(labels))
+
+
+def _draw_cylinder(figure: CylinderFigure, alt: str) -> Drawing:
+    # The height label runs left of the cylinder, so the left side makes room.
+    left = max(PAD, SIDE_GAP + _label_width(figure.height_label or ""))
+    room_x, room_y = VIEW - left - PAD, VIEW - 2 * PAD
+
+    # Extent in the figure's own units: two radii across, and the height plus
+    # half an ellipse above and below. One scale keeps the proportions.
+    tilt = figure.radius * CYLINDER_TILT
+    scale = min(room_x / (2 * figure.radius), room_y / (figure.height + 2 * tilt))
+    rx, ry, height = figure.radius * scale, tilt * scale, figure.height * scale
+
+    cx = left + room_x / 2
+    top = PAD + (room_y - height - 2 * ry) / 2 + ry
+    bottom = top + height
+    west, east = cx - rx, cx + rx
+
+    def arc(y: float, sweep: int) -> str:
+        return f"M{west:.2f},{y:.2f}A{rx:.2f},{ry:.2f} 0 0 {sweep} {east:.2f},{y:.2f}"
+
+    paths = [
+        # The whole top: its back half, then back along its front half.
+        Path(f"{arc(top, 1)}A{rx:.2f},{ry:.2f} 0 0 1 {west:.2f},{top:.2f}Z", "outline"),
+        Path(f"M{west:.2f},{top:.2f}L{west:.2f},{bottom:.2f}", "outline"),
+        Path(f"M{east:.2f},{top:.2f}L{east:.2f},{bottom:.2f}", "outline"),
+        # The bottom rim: the front half seen, the back half behind the cylinder.
+        Path(arc(bottom, 0), "outline"),
+        Path(arc(bottom, 1), "guide"),
+    ]
+    labels: list[Label] = []
+    dots: tuple[Dot, ...] = ()
+    if figure.radius_label or figure.diameter_label:
+        start = cx if figure.radius_label else west
+        paths.append(Path(f"M{start:.2f},{top:.2f}L{east:.2f},{top:.2f}", "guide"))
+        text = figure.radius_label or figure.diameter_label or ""
+        labels.append(Label((start + east) / 2, top - ry - SIDE_GAP * 0.6, text))
+        dots = (Dot(cx, top, 2.5),)
+    if figure.height_label:
+        labels.append(
+            Label(west - SIDE_GAP * 0.6, (top + bottom) / 2, figure.height_label, anchor="end")
+        )
+    return Drawing(VIEW, VIEW, alt, tuple(paths), dots, tuple(labels))
 
 
 def _draw_circle(figure: ShapeFigure, alt: str) -> Drawing:

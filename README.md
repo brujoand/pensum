@@ -755,7 +755,7 @@ Six kinds, chosen from what the committed questions actually describe:
 
 | | for | shows |
 |---|---|---|
-| `shape` | geometry | a named plane figure, with sides, vertices, right angles and an altitude labelled as a textbook labels them |
+| `shape` | geometry | a named plane figure, with sides, vertices, right angles and an altitude labelled as a textbook labels them; a rectangle can be divided by dashed lines, each part labelled |
 | `counters` | counting, grouping | dots to count, optionally split into equal groups or partly filled in |
 | `array` | area, multiplication | a rectangle made of unit squares — the one figure drawn to scale, because its cells can be counted |
 | `fraction` | parts of a whole | one to four wholes as bars or as circles, cut into equal parts with some of them shaded |

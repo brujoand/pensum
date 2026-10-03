@@ -154,6 +154,48 @@ def test_an_empty_side_label_draws_nothing() -> None:
     assert [label.text for label in drawing.labels] == ["4 cm"]
 
 
+def split(**kwargs) -> ShapeFigure:
+    fields = {"shape": "rectangle", "ratio": 1.71, "divide_at": (10 / 12,)} | kwargs
+    return shape(**fields)
+
+
+def test_a_divided_rectangle_draws_a_line_where_it_was_cut() -> None:
+    drawing = draw(split(), "nb")
+    xs = _coordinates(drawing.paths[0].d)[0::2]
+    line = _coordinates(drawing.paths[-1].d)
+    assert drawing.paths[-1].role == "guide"
+    assert line[0] == line[2], "the line is vertical"
+    assert line[0] == pytest.approx(min(xs) + (max(xs) - min(xs)) * 10 / 12, abs=0.01)
+
+
+def test_each_part_is_labelled_under_its_own_middle() -> None:
+    drawing = draw(split(part_labels=("10 m", "2 m")), "nb")
+    xs = _coordinates(drawing.paths[0].d)[0::2]
+    ys = _coordinates(drawing.paths[0].d)[1::2]
+    width = max(xs) - min(xs)
+    placed = {label.text: label for label in drawing.labels}
+    assert placed["10 m"].x == pytest.approx(min(xs) + width * 5 / 12, abs=0.01)
+    assert placed["2 m"].x == pytest.approx(min(xs) + width * 11 / 12, abs=0.01)
+    assert all(label.y > max(ys) for label in placed.values())
+
+
+@pytest.mark.parametrize(
+    ("fields", "message"),
+    [
+        ({"shape": "triangle", "ratio": None}, "only a rectangle or a square"),
+        ({"divide_at": (0.6, 0.3)}, "rising"),
+        ({"divide_at": (1.0,)}, "between 0 and 1"),
+        ({"divide_at": (), "part_labels": ("a",)}, "rising"),
+        ({"part_labels": ("10 m",)}, "make 2 parts"),
+        ({"part_labels": ("a", "b"), "sides": ("", "", "12 m", "")}, "bottom edge"),
+        ({"divide_at": (0.3, 0.35), "part_labels": ("12,5 m", "1 m", "4 m")}, "overlap"),
+    ],
+)
+def test_a_division_that_cannot_be_drawn_is_refused(fields: dict, message: str) -> None:
+    with pytest.raises(ValidationError, match=message):
+        split(**fields)
+
+
 def test_the_altitude_lands_on_the_base() -> None:
     drawing = draw(shape(shape="triangle", height="h"), "nb")
     guide = next(path for path in drawing.paths if path.role == "guide")

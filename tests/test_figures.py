@@ -27,6 +27,7 @@ from pensum.items.figures import (
     FractionFigure,
     NumberLineFigure,
     ShapeFigure,
+    SimilarFigure,
     _label_width,
     draw,
     line_geometry,
@@ -495,6 +496,96 @@ def test_a_plank_is_not_a_box() -> None:
 def test_a_box_label_too_long_to_fit_is_refused() -> None:
     with pytest.raises(ValidationError):
         box(4, 3, 2, height_label="x" * (MAX_BOX_LABEL + 1))
+
+
+# --- similar triangles -------------------------------------------------------
+
+
+def similar(**kwargs) -> SimilarFigure:
+    return SimilarFigure(alt=ALT, **({"scale": 2.0} | kwargs))
+
+
+def triangles(drawing) -> list[list[tuple[float, float]]]:
+    outlines = [p for p in drawing.paths if p.role == "outline"]
+    return [list(zip(c[0::2], c[1::2], strict=True)) for c in map(_coordinates_of, outlines)]
+
+
+def _coordinates_of(path) -> list[float]:
+    return _coordinates(path.d)
+
+
+def _arc_centre(d: str) -> tuple[float, float]:
+    """The centre SVG puts a circular arc's circle at (SVG 1.1, appendix F.6.5)."""
+    x1, y1, r, _, _, large, sweep, x2, y2 = _coordinates(d)
+    hx, hy = (x1 - x2) / 2, (y1 - y2) / 2
+    half = hx * hx + hy * hy
+    coef = math.sqrt(max(0.0, (r * r - half) / half))
+    coef = coef if large != sweep else -coef
+    return coef * hy + (x1 + x2) / 2, -coef * hx + (y1 + y2) / 2
+
+
+@pytest.mark.parametrize("scale", [1.5, 2.0, 3.0])
+def test_the_large_triangle_is_the_small_one_scaled(scale: float) -> None:
+    small, large = triangles(draw(similar(scale=scale), "nb"))
+    for i in range(3):
+        j = (i + 1) % 3
+        ratio = math.dist(large[i], large[j]) / math.dist(small[i], small[j])
+        assert ratio == pytest.approx(scale, rel=1e-3)
+    assert small[1][1] == pytest.approx(large[1][1]), "bottom-aligned"
+
+
+@pytest.mark.parametrize(
+    "fields", [{}, {"apex": 0.5}, {"apex": 0.0, "ratio": 1.0}, {"scale": 3.0, "ratio": 2.5}]
+)
+def test_every_angle_arc_is_centred_on_its_corner(fields: dict) -> None:
+    """So each arc bulges into the angle it marks, not out of the triangle."""
+    drawing = draw(similar(**fields), "nb")
+    corners = [corner for triangle in triangles(drawing) for corner in triangle]
+    arcs = [p for p in drawing.paths if p.role == "guide" and "A" in p.d]
+    assert arcs
+    for arc in arcs:
+        cx, cy = _arc_centre(arc.d)
+        assert min(math.dist((cx, cy), c) for c in corners) < 0.05, arc.d
+
+
+def test_corresponding_angles_carry_the_same_marks_and_different_angles_differ() -> None:
+    drawing = draw(similar(), "nb")
+    small, large = triangles(drawing)
+    arcs = [_arc_centre(p.d) for p in drawing.paths if p.role == "guide" and "A" in p.d]
+
+    def count(corner):
+        return sum(1 for c in arcs if math.dist(c, corner) < 0.05)
+
+    assert [count(c) for c in small] == [count(c) for c in large]
+    assert sorted(count(c) for c in small) == [1, 2, 3]
+
+
+def test_equal_angles_carry_equal_marks_and_a_right_angle_the_square() -> None:
+    isosceles = draw(similar(apex=0.5), "nb")
+    arcs = [_arc_centre(p.d) for p in isosceles.paths if p.role == "guide" and "A" in p.d]
+    small = triangles(isosceles)[0]
+    counts = [sum(1 for c in arcs if math.dist(c, corner) < 0.05) for corner in small]
+    assert counts[1] == counts[2] != counts[0]
+
+    right = draw(similar(apex=0.0, ratio=1.0), "nb")
+    squares = [p for p in right.paths if p.role == "guide" and "A" not in p.d]
+    assert len(squares) == 2, "one square mark per triangle"
+
+
+@pytest.mark.parametrize(
+    "fields", [{"scale": 3.0, "ratio": 2.5}, {"scale": 3.0, "ratio": 0.5}, {"scale": 1.01}]
+)
+def test_both_triangles_stay_in_view(fields: dict) -> None:
+    for triangle in triangles(draw(similar(**fields), "nb")):
+        for x, y in triangle:
+            assert PAD - 0.01 <= x <= VIEW - PAD + 0.01
+            assert PAD - 0.01 <= y <= VIEW - PAD + 0.01
+
+
+@pytest.mark.parametrize("fields", [{"scale": 1.0}, {"scale": 3.5}, {"apex": 1.2}])
+def test_a_similar_figure_out_of_range_is_refused(fields: dict) -> None:
+    with pytest.raises(ValidationError):
+        similar(**fields)
 
 
 # --- cylinders ---------------------------------------------------------------

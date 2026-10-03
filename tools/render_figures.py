@@ -41,6 +41,7 @@ from pensum.items.figures import (  # noqa: E402
     FractionFigure,
     NumberLineFigure,
     ShapeFigure,
+    SimilarFigure,
     draw,
 )
 from pensum.items.loader import ItemBank  # noqa: E402
@@ -183,6 +184,9 @@ def gallery() -> list[tuple[str, object]]:
                 height_label="100 cm",
             ),
         ),
+        ("similar: twice the size", SimilarFigure(alt=ALT, scale=2)),
+        ("similar: isosceles, three times", SimilarFigure(alt=ALT, scale=3, apex=0.5)),
+        ("similar: right triangle", SimilarFigure(alt=ALT, scale=1.5, apex=0, ratio=1.6)),
         (
             "cylinder: radius and height",
             CylinderFigure(alt=ALT, radius=5, height=10, radius_label="5 cm", height_label="10 cm"),

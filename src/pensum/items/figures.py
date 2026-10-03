@@ -621,6 +621,39 @@ class CylinderFigure(BaseModel):
         return self
 
 
+# Space between the two triangles of a `similar` figure.
+SIMILAR_GAP = 20.0
+# Two angles closer than this, in degrees, are the same angle and get the same
+# mark: an author's 0.5 apex is an isosceles triangle, and its base angles must
+# not be marked as if they differed.
+SAME_ANGLE = 0.5
+
+
+class SimilarFigure(BaseModel):
+    """A triangle and a larger copy of it, side by side, with matching angles marked.
+
+    The textbook picture of "same angles, longer sides". Each angle of the small
+    triangle carries one, two or three arcs, and the same angle of the large one
+    carries the same number, so the pupil can see which angles correspond. Two
+    equal angles carry the same mark, and a right angle carries the square.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    kind: Literal["similar"] = "similar"
+    alt: AuthoredText
+    # How many times larger the second triangle is. Up to three: beyond that the
+    # small one is too small to read its marks.
+    scale: float = Field(gt=1, le=3)
+    # Where the top vertex sits along the base, from 0 (above the left end: a
+    # right triangle) to 1. The defaults give angles of about 77, 57 and 46
+    # degrees: every angle differs, by enough to see.
+    apex: float = Field(default=0.2, ge=0, le=1)
+    # Base length divided by height.
+    ratio: float = Field(default=1.2, ge=0.5, le=2.5)
+    angle_marks: bool = True
+
+
 Figure = Annotated[
     ShapeFigure
     | CountersFigure
@@ -628,7 +661,8 @@ Figure = Annotated[
     | FractionFigure
     | NumberLineFigure
     | BoxFigure
-    | CylinderFigure,
+    | CylinderFigure
+    | SimilarFigure,
     Field(discriminator="kind"),
 ]
 
@@ -653,6 +687,8 @@ def draw(figure: Figure, locale: str) -> Drawing:
         return _draw_box(figure, alt)
     if isinstance(figure, CylinderFigure):
         return _draw_cylinder(figure, alt)
+    if isinstance(figure, SimilarFigure):
+        return _draw_similar(figure, alt)
     if isinstance(figure, FractionFigure):
         return _draw_fraction(figure, alt)
     return _draw_number_line(figure, alt)
@@ -825,6 +861,87 @@ def _draw_cylinder(figure: CylinderFigure, alt: str) -> Drawing:
             Label(west - SIDE_GAP * 0.6, (top + bottom) / 2, figure.height_label, anchor="end")
         )
     return Drawing(VIEW, VIEW, alt, tuple(paths), dots, tuple(labels))
+
+
+def _draw_similar(figure: SimilarFigure, alt: str) -> Drawing:
+    # One unit triangle, base `ratio` wide and 1 tall; the large copy is the same
+    # triangle times `scale`. One scale fits both, bottom-aligned with a gap.
+    unit = [(figure.apex * figure.ratio, 0.0), (figure.ratio, 1.0), (0.0, 1.0)]
+    room = VIEW - 2 * PAD
+    size = min((room - SIMILAR_GAP) / (figure.ratio * (1 + figure.scale)), room / figure.scale)
+    small_w = figure.ratio * size
+    total_w = small_w * (1 + figure.scale) + SIMILAR_GAP
+    base = (VIEW + size * figure.scale) / 2
+    small_left = (VIEW - total_w) / 2
+    large_left = small_left + small_w + SIMILAR_GAP
+
+    def place(left: float, factor: float) -> list[tuple[float, float]]:
+        height = size * factor
+        return [(left + x * size * factor, base - height + y * height) for x, y in unit]
+
+    marks = _angle_marks(unit) if figure.angle_marks else (0, 0, 0)
+    paths: list[Path] = []
+    for points in (place(small_left, 1.0), place(large_left, figure.scale)):
+        paths.append(Path(_polygon_d(points), "outline"))
+        for index, count in enumerate(marks):
+            if count < 0:
+                paths.append(_right_angle_mark(points, index))
+            elif count:
+                paths.extend(_angle_arcs(points, index, count))
+    return Drawing(VIEW, VIEW, alt, tuple(paths))
+
+
+def _angle_marks(points: list[tuple[float, float]]) -> tuple[int, ...]:
+    """How many arcs each angle carries: one per distinct angle, -1 for a right one."""
+    angles = [_angle_at(points, index) for index in range(len(points))]
+    distinct: list[float] = []
+    marks = []
+    for angle in angles:
+        if abs(angle - 90) < SAME_ANGLE:
+            marks.append(-1)
+            continue
+        match = next((i for i, seen in enumerate(distinct) if abs(seen - angle) < SAME_ANGLE), None)
+        if match is None:
+            distinct.append(angle)
+            match = len(distinct) - 1
+        marks.append(match + 1)
+    return tuple(marks)
+
+
+def _angle_at(points: list[tuple[float, float]], index: int) -> float:
+    corner = points[index]
+    before = points[(index - 1) % len(points)]
+    after = points[(index + 1) % len(points)]
+    a = math.atan2(before[1] - corner[1], before[0] - corner[0])
+    b = math.atan2(after[1] - corner[1], after[0] - corner[0])
+    turn = abs(math.degrees(a - b)) % 360
+    return min(turn, 360 - turn)
+
+
+def _angle_arcs(points: list[tuple[float, float]], index: int, count: int) -> list[Path]:
+    """`count` concentric arcs inside one corner, sized to the corner's shorter side."""
+    corner = points[index]
+    before = points[(index - 1) % len(points)]
+    after = points[(index + 1) % len(points)]
+    radius = min(14.0, 0.22 * min(math.dist(corner, before), math.dist(corner, after)))
+    step = max(2.0, radius * 0.25)
+    # Which way round the circle is the inside of the angle, in SVG's y-down
+    # space: clockwise on screen when `after` is clockwise of `before`.
+    cross = (before[0] - corner[0]) * (after[1] - corner[1]) - (before[1] - corner[1]) * (
+        after[0] - corner[0]
+    )
+    sweep = 1 if cross > 0 else 0
+    arcs = []
+    for ring in range(count):
+        r = radius + ring * step
+        one, two = _towards(corner, before, r), _towards(corner, after, r)
+        arcs.append(
+            Path(
+                f"M{one[0]:.2f},{one[1]:.2f}A{r:.2f},{r:.2f} 0 0 {sweep} {two[0]:.2f},{two[1]:.2f}",
+                "guide",
+            )
+        )
+    return arcs
 
 
 def _draw_circle(figure: ShapeFigure, alt: str) -> Drawing:

@@ -148,6 +148,17 @@ def gallery() -> list[tuple[str, object]]:
             ),
         ),
         (
+            "shape: rectangle divided in three, parts labelled",
+            ShapeFigure(
+                alt=ALT,
+                shape="rectangle",
+                ratio=2.0,
+                sides=("12 m", "6 m", "", ""),
+                divide_at=(0.25, 0.75),
+                part_labels=("3 m", "6 m", "3 m"),
+            ),
+        ),
+        (
             "box: cube",
             BoxFigure(
                 alt=ALT,

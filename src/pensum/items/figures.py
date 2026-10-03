@@ -60,6 +60,8 @@ TICK_SIZE = 11.0
 # overestimating costs a slightly smaller shape rather than a clipped label.
 SIDE_GAP = LABEL_SIZE * 0.9
 CHAR_WIDTH = 0.62
+# The least space between two labels side by side, so they read as two.
+LABEL_GAP = LABEL_SIZE * 0.5
 
 # The narrowest a shape is drawn across, so labels beside its left and right
 # sides can never squeeze it to nothing. 60 is what the box keeps too, and it
@@ -126,6 +128,10 @@ ShapeName = Literal[
 # Which shapes it is meaningful to squash. A square that is not square, or a
 # regular hexagon that is not regular, is a different shape wearing the name.
 _STRETCHABLE = {"rectangle", "right_triangle", "parallelogram", "trapezoid", "triangle"}
+
+# Which shapes `divide_at` can split with vertical lines into smaller ones of
+# the same kind. A divided triangle is a different picture.
+_DIVISIBLE = {"rectangle", "square"}
 
 # How wide each shape is drawn relative to its height, unless an author says
 # otherwise. Per shape rather than one number for all of them, because the unit
@@ -294,6 +300,12 @@ class ShapeFigure(BaseModel):
     # Circles only: draws the radius or the diameter, labelled.
     radius: str | None = None
     diameter: str | None = None
+    # Rectangles and squares only: dashed lines dividing the width, each at a
+    # fraction of it from the left, for "split the garden into 10 m and 2 m".
+    # `part_labels` names each part under the bottom edge, so it takes the
+    # bottom side's place and the two are not given together.
+    divide_at: tuple[float, ...] = ()
+    part_labels: tuple[str, ...] = ()
 
     @model_validator(mode="after")
     def _check(self) -> ShapeFigure:
@@ -328,7 +340,41 @@ class ShapeFigure(BaseModel):
                     f"side label {text!r} is too long to sit beside the {self.shape}; "
                     f"keep it to {MAX_BESIDE_LABEL} characters"
                 )
+        self._check_parts()
         return self
+
+    def _check_parts(self) -> None:
+        if not (self.divide_at or self.part_labels):
+            return
+        if self.shape not in _DIVISIBLE:
+            raise ValueError(f"only a rectangle or a square can be divided, not a {self.shape}")
+        cuts = list(self.divide_at)
+        if not cuts or cuts != sorted(set(cuts)) or not all(0 < cut < 1 for cut in cuts):
+            raise ValueError("divide_at is fractions of the width, rising, each between 0 and 1")
+        if not self.part_labels:
+            return
+        if len(self.part_labels) != len(cuts) + 1:
+            raise ValueError(
+                f"{len(cuts)} dividing lines make {len(cuts) + 1} parts, "
+                f"got {len(self.part_labels)} part labels"
+            )
+        if len(self.sides) > 2 and self.sides[2]:
+            raise ValueError("part labels sit under the bottom edge, so it takes no side label")
+        # Each label centred on its part; neighbours must not run into each
+        # other. Worked out on the drawn width, which is what the pupil sees.
+        width = _shape_frame(self)[2]
+        edges = [0.0, *cuts, 1.0]
+        centres = [(a + b) / 2 * width for a, b in zip(edges, edges[1:], strict=False)]
+        for (c1, t1), (c2, t2) in zip(
+            zip(centres, self.part_labels, strict=True),
+            zip(centres[1:], self.part_labels[1:], strict=True),
+            strict=False,
+        ):
+            if c1 + _label_width(t1) / 2 + LABEL_GAP > c2 - _label_width(t2) / 2:
+                raise ValueError(
+                    f"part labels {t1!r} and {t2!r} would overlap; "
+                    "the parts are too narrow for them"
+                )
 
     @property
     def drawn_ratio(self) -> float:
@@ -564,10 +610,8 @@ def draw(figure: Figure, locale: str) -> Drawing:
     return _draw_number_line(figure, alt)
 
 
-def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
-    if figure.shape == "circle":
-        return _draw_circle(figure, alt)
-
+def _shape_frame(figure: ShapeFigure) -> tuple[float, float, float, float]:
+    """Left, top, width and height of the box a polygon is drawn in."""
     ratio = figure.drawn_ratio
     # A label beside a left or right side runs away from the shape, so the
     # sides need room for the longest one: "102 cm" is far wider than PAD.
@@ -579,8 +623,15 @@ def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
     margin = max([PAD, *(SIDE_GAP + _label_width(text) for text in beside)])
     width = min(VIEW - 2 * margin, (VIEW - 2 * PAD) * ratio)
     height = width / ratio
-    left = (VIEW - width) / 2
-    top = (VIEW - height) / 2
+    return (VIEW - width) / 2, (VIEW - height) / 2, width, height
+
+
+def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
+    if figure.shape == "circle":
+        return _draw_circle(figure, alt)
+
+    ratio = figure.drawn_ratio
+    left, top, width, height = _shape_frame(figure)
     points = [(left + ux * width, top + uy * height) for ux, uy in _unit_vertices(figure.shape)]
     centre = (
         sum(x for x, _ in points) / len(points),
@@ -607,6 +658,16 @@ def _draw_shape(figure: ShapeFigure, alt: str) -> Drawing:
         labels.append(Label(*_pushed_out(points[index], centre, LABEL_SIZE), text))
 
     paths.extend(_right_angle_mark(points, index) for index in figure.right_angles)
+
+    bottom = top + height
+    for cut in figure.divide_at:
+        x = left + cut * width
+        paths.append(Path(f"M{x:.2f},{top:.2f}L{x:.2f},{bottom:.2f}", "guide"))
+    if figure.part_labels:
+        edges = [0.0, *figure.divide_at, 1.0]
+        parts = zip(edges, edges[1:], strict=False)
+        for (a, b), text in zip(parts, figure.part_labels, strict=True):
+            labels.append(Label(left + (a + b) / 2 * width, bottom + SIDE_GAP, text))
 
     if figure.height is not None:
         apex = points[_APEX[figure.shape]]

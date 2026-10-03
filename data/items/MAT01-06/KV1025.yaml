@@ -383,9 +383,14 @@ items:
       sides: ["12 m", "7 m", "", ""]
       right_angles: [0, 1, 2, 3]
       ratio: 1.71
+      divide_at: [0.8333]
+      part_labels: ["10 m", "2 m"]
       alt:
-        nb: Et rektangel. Den lange siden er merket 12 m, den korte 7 m.
-        en: A rectangle. The long side is labelled 12 m, the short side 7 m.
+        nb: Et rektangel. Den lange siden er merket 12 m, den korte 7 m. En
+          stiplet linje deler det i en del merket 10 m og en del merket 2 m.
+        en: A rectangle. The long side is labelled 12 m, the short side 7 m. A
+          dashed line divides it into a part labelled 10 m and a part labelled
+          2 m.
     answer: 84
     explanation:
       nb: Den ene delen er 10 · 7 er 70, den andre er 2 · 7 er 14. Til sammen

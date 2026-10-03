@@ -491,8 +491,10 @@ templates:
   - id: KM13288-T01
     goal: KM13288
     difficulty: 2
+    # Up to half: a library that is 95 percent comics is not one a pupil
+    # recognises.
     params:
-      p: {min: 5, max: 95, step: 5}
+      p: {min: 5, max: 50, step: 5}
       m: {min: 1, max: 20}
     derive:
       amount: 20 * m

@@ -360,9 +360,6 @@ items:
       en: Count 25 minutes back from 08:10. Ten minutes back is 08:00, and 15
         more is 07:45.
 
-# Goals that no written question can honestly test. Recorded rather than
-# omitted, so the gap is a stated judgement instead of a silent one.
-
   # --- Answered with the hands -------------------------------------------
   # Manipulatives (`pensum.items.primitives`): the pupil builds the answer on a
   # board, and without a script the same target is asked as a number.
@@ -507,6 +504,8 @@ templates:
       nb: "Tenk baklengs: {b} − {a} er {x}. Sjekk: {x} + {a} er {b}."
       en: "Work backwards: {b} − {a} is {x}. Check: {x} + {a} is {b}."
 
+# Goals that no written question can honestly test. Recorded rather than
+# omitted, so the gap is a stated judgement instead of a silent one.
 not_assessable:
   - goal: KM13271
     reason: >-

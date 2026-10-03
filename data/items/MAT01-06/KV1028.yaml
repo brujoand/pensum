@@ -46,6 +46,16 @@ items:
         dobbelt så lange. Hva er riktig?
       en: Two triangles have exactly the same angles, but the sides of one are
         twice as long. Which statement is right?
+    figure:
+      kind: similar
+      scale: 2
+      alt:
+        nb: To trekanter side om side med samme form. Den høyre er dobbelt så
+          stor som den venstre. Vinklene er merket med én, to og tre buer, og
+          de samme vinklene har samme merke i begge trekantene.
+        en: Two triangles side by side with the same shape. The right one is
+          twice the size of the left. The angles are marked with one, two and
+          three arcs, and the matching angles carry the same mark in both.
     choices:
       - id: a
         text:

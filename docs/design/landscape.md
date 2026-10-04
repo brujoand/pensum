@@ -89,11 +89,11 @@ independent source are listed at the end, not described.
 
 **Patterns to refuse**
 
-1. Countdowns and visible leaderboards (Kahoot, Blooket, Gimkit).
+1. Visible leaderboards (Kahoot, Blooket, Gimkit), and a countdown as the default mode.
 2. Upsell or paywalled pedagogy aimed at children (Prodigy, Quizlet).
 3. A game bolted onto a quiz, where the game and the learning are separate
    (Blooket, Classcraft).
-4. Streak and league psychology (Duolingo's main app).
+4. League psychology (Duolingo's main app).
 5. An in-app metric presented as real-world progress (EndeavorRx). Pensum's
    *secure* means secure on these tasks, and the teacher view says so.
 
@@ -111,10 +111,10 @@ No product found combines all three of:
    ranking pupils against each other.
 
 The design also has to take a position the ADHD gamification literature mostly
-avoids: frequent small rewards help attention, and the same variable-reward
-mechanics carry a compulsion risk and overstimulate other pupils. Pensum's
-answer is frequent **and** predictable: every reward is earned deterministically
-and explained, and none is random (see [principles.md](principles.md#what-gamification-is-allowed-to-do)).
+avoids: frequent small rewards help attention, and variable-reward mechanics
+carry a compulsion risk and overstimulate other pupils. Pensum starts with
+frequent **and** predictable: XP earned by fixed rules. Random rewards are not
+built yet (see [principles.md](principles.md#what-gamification-does)).
 
 ## Could not verify
 

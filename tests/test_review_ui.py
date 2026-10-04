@@ -141,6 +141,13 @@ def sign_in(client: TestClient, user: User) -> None:
     )
 
 
+def pupil(app: FastAPI) -> TestClient:
+    """A signed-in pupil: every exercise needs one where sign-in is configured."""
+    client = TestClient(app, base_url=ORIGIN)
+    sign_in(client, PUPIL)
+    return client
+
+
 def admin(tmp_path: Path, **kwargs) -> tuple[FastAPI, TestClient]:
     app, client = build(tmp_path, **kwargs)
     sign_in(client, ADMIN)
@@ -269,7 +276,7 @@ def test_an_administrator_sees_the_draft_in_the_queue(tmp_path: Path) -> None:
 def test_approving_puts_the_passage_in_front_of_a_pupil(tmp_path: Path) -> None:
     """The whole point of the feature, asserted end to end."""
     app, admin_client = admin(tmp_path)
-    pupil_client = TestClient(app, base_url=ORIGIN)
+    pupil_client = pupil(app)
     assert pupil_client.get(READING_PATH).status_code == 404
 
     assert decide(admin_client, app, "reading", DRAFT_ID).status_code == 303
@@ -278,7 +285,7 @@ def test_approving_puts_the_passage_in_front_of_a_pupil(tmp_path: Path) -> None:
 
 def test_rejecting_takes_it_away_again(tmp_path: Path) -> None:
     app, admin_client = admin(tmp_path)
-    pupil_client = TestClient(app, base_url=ORIGIN)
+    pupil_client = pupil(app)
 
     decide(admin_client, app, "reading", DRAFT_ID)
     assert pupil_client.get(READING_PATH).status_code == 200
@@ -291,7 +298,7 @@ def test_clearing_returns_it_to_pending(tmp_path: Path) -> None:
     app, admin_client = admin(tmp_path)
     decide(admin_client, app, "reading", DRAFT_ID)
     decide(admin_client, app, "reading", DRAFT_ID, verdict="clear")
-    assert TestClient(app, base_url=ORIGIN).get(READING_PATH).status_code == 404
+    assert pupil(app).get(READING_PATH).status_code == 404
     assert app.state.review_store.decisions() == {}
 
 
@@ -301,7 +308,7 @@ def test_editing_after_approval_withholds_it_and_the_page_says_why(tmp_path: Pat
     decide(admin_client, app, "reading", DRAFT_ID)
 
     edited_app, edited_admin = admin(tmp_path, reading_library=reading("Paraplyen som ville ut"))
-    pupil_client = TestClient(edited_app, base_url=ORIGIN)
+    pupil_client = pupil(edited_app)
     assert pupil_client.get(READING_PATH).status_code == 404
 
     page = edited_admin.get(REVIEW_PATH, params={"state": "changed"}).text
@@ -330,7 +337,7 @@ def test_the_decision_takes_effect_without_waiting_for_the_refresh(tmp_path: Pat
 
     decide(admin_client, app, "reading", DRAFT_ID)
 
-    assert TestClient(app, base_url=ORIGIN).get(READING_PATH).status_code == 200
+    assert pupil(app).get(READING_PATH).status_code == 200
 
 
 def test_who_decided_when_and_why_is_shown(tmp_path: Path) -> None:
@@ -677,7 +684,7 @@ def test_bulk_on_an_empty_selection_says_so(tmp_path: Path) -> None:
 
 def test_bulk_approval_reaches_a_pupil(tmp_path: Path) -> None:
     app, client = admin(tmp_path, items=numeric_bank())
-    pupil_client = TestClient(app, base_url=ORIGIN)
+    pupil_client = pupil(app)
     assert pupil_client.post("/nb/klasse/2/MAT01-06/quiz").status_code == 404
 
     asked = bulk(client, kind="item", state="pending")

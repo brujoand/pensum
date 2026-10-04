@@ -6,6 +6,8 @@ app with sign-in configured without touching the environment.
 
 from __future__ import annotations
 
+from urllib.parse import urlsplit
+
 from fastapi import HTTPException, Request
 
 from pensum.auth import local
@@ -122,6 +124,35 @@ def current_user(request: Request) -> User | None:
     if read_local(request, get_codec(request)) and local.allowed(settings, request):
         return local.local_user(settings)
     return None
+
+
+class SignInRequired(Exception):
+    """Raised by `require_pupil`; the app turns it into a trip to the sign-in page."""
+
+    def __init__(self, next_url: str) -> None:
+        super().__init__(next_url)
+        self.next_url = next_url
+
+
+def require_pupil(request: Request) -> None:
+    """The gate on every exercise: quizzes, placement, reading, writing, listening.
+
+    Only where sign-in is configured. An instance without a provider has nobody
+    to sign in as, so its exercises stay open and nothing is recorded.
+
+    A GET comes back to itself after sign-in. A POST cannot be replayed, so it
+    comes back to the page the form was on, when that page is on this site.
+    """
+    if not get_settings(request).auth_enabled or current_user(request) is not None:
+        return
+    if request.method == "GET":
+        query = f"?{request.url.query}" if request.url.query else ""
+        raise SignInRequired(f"{request.url.path}{query}")
+    referer = urlsplit(request.headers.get("referer", ""))
+    if referer.netloc == request.url.netloc and referer.path:
+        query = f"?{referer.query}" if referer.query else ""
+        raise SignInRequired(f"{referer.path}{query}")
+    raise SignInRequired("/")
 
 
 def admin_possible(request: Request) -> bool:

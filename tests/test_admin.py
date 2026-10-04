@@ -107,14 +107,6 @@ def test_a_signed_in_pupil_who_finishes_a_quiz_is_recorded(tmp_path: Path) -> No
     assert stored.correct == stored.total > 0
 
 
-def test_an_anonymous_pupil_is_never_recorded(tmp_path: Path) -> None:
-    """The promise that survives this whole feature. Signing in is opt-in."""
-    app, client = build(settings_with(tmp_path))
-    take_quiz(app, client)
-
-    assert app.state.attempts.users() == []
-
-
 def test_an_abandoned_quiz_is_not_a_result(tmp_path: Path) -> None:
     """Half a quiz is not a score, and leaves nothing behind."""
     app, client = build(settings_with(tmp_path))
@@ -174,13 +166,6 @@ def test_a_signed_in_pupil_is_told_their_score_was_kept(tmp_path: Path) -> None:
 
     body = client.get(f"/nb/quiz/{session_id}/result").text
     assert "resultatet blir lagret" in body
-
-
-def test_an_anonymous_pupil_is_told_nothing_about_storage(tmp_path: Path) -> None:
-    app, client = build(settings_with(tmp_path))
-    session_id = take_quiz(app, client)
-
-    assert "resultatet blir lagret" not in client.get(f"/nb/quiz/{session_id}/result").text
 
 
 # Access -------------------------------------------------------------------

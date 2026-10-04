@@ -37,7 +37,7 @@ from pensum.domain.models import Subject
 from pensum.mastery.rules import DEFAULT_RULES, NOT_STARTED, Mastery, MasteryRules, State, assess
 from pensum.scores.evidence import Evidence
 from pensum.skills.schema import Skill, SkillFile, Strand
-from pensum.web.deps import current_user, get_evidence, get_store, require_admin
+from pensum.web.deps import current_user, get_evidence, get_store, get_xp, require_admin
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter(include_in_schema=False)
@@ -141,10 +141,13 @@ async def map_page(
     store = get_evidence(request)
     user = current_user(request)
 
+    ledger = get_xp(request)
     extra: dict[str, object] = {
         "subject": subject,
         "recording": store is not None,
         "nothing_approved": not skill_file.skills,
+        "xp_earned": 0,
+        "xp_total": ledger.total(user.sub) if ledger is not None and user is not None else None,
     }
     if store is not None and user is not None and skill_file.skills:
         evidence = {

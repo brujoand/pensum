@@ -1,0 +1,7 @@
+{# XP, for a signed-in pupil on an instance that keeps it. `xp_total` is None
+   otherwise, and then nothing is said: there is no XP to talk about. #}
+{% if xp_total is not none %}
+  <p class="xp">
+    {% if xp_earned %}{{ t("xp.earned", earned=xp_earned, total=xp_total) }}{% else %}{{ t("xp.total", total=xp_total) }}{% endif %}
+  </p>
+{% endif %}

@@ -40,6 +40,7 @@ from pensum.reading.transcribe import Transcriber, load_transcriber
 from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
+from pensum.scores.xp import XpStore
 from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
@@ -159,6 +160,8 @@ def create_app(
     # Same gate and same file as the attempts: evidence is written alongside a
     # finished attempt and never otherwise. See `pensum.scores.evidence`.
     app.state.evidence = EvidenceStore(active.database_file) if active.history_enabled else None
+    # And the XP ledger, written at the same moment as the evidence.
+    app.state.xp = XpStore(active.database_file) if active.history_enabled else None
 
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(router)

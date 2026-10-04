@@ -39,6 +39,8 @@
     <p class="note">{{ t("auth.recorded_note") }}</p>
   {% endif %}
 
+  {% include "partials/xp.html" %}
+
   {# A ceiling read without this overstates itself badly in norsk, where the
      quiz reaches about a third of each checkpoint. #}
   {% if coverage and not coverage.complete %}

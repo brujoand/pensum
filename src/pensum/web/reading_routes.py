@@ -27,6 +27,7 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse
 
 from pensum.domain.grades import checkpoint_for
+from pensum.mastery.attribution import goal_is_sensitive
 from pensum.reading import rewards
 from pensum.reading.audio import MAX_BYTES, SAMPLE_RATE, SAMPLE_WIDTH, AudioError, decode
 from pensum.reading.device import SPEECH_LOCALE, DeviceReading
@@ -35,7 +36,8 @@ from pensum.reading.library import ReadingLibrary
 from pensum.reading.schema import ReadingText
 from pensum.reading.streams import ReadingStream, StreamLimit, StreamStore
 from pensum.reading.transcribe import Transcriber
-from pensum.web.deps import get_settings, sees_unreviewed
+from pensum.scores.xp import PER_FINISH
+from pensum.web.deps import award_xp, get_settings, sees_unreviewed
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter()
@@ -198,6 +200,19 @@ def _result(
         earned = rewards.earned_timed(finished=True, band_hit=hit)
         timeline = even_replay(text, timing.seconds)
 
+    # XP for reaching the last word, never for stars: the recogniser behind the
+    # stars mishears exactly the pupils they would discourage.
+    after_year = checkpoint.goal_set.after_year
+    skill_file = request.app.state.skills.for_subject(subject.code)
+    sensitive = goal_is_sensitive(text.goal, after_year, skill_file)
+    xp_earned, xp_total = award_xp(
+        request,
+        source="reading",
+        subject=subject.code,
+        what=text.id,
+        amount=PER_FINISH if earned.finished and not sensitive else 0,
+    )
+
     return templates.TemplateResponse(
         request,
         "partials/reading_result.html",
@@ -217,6 +232,8 @@ def _result(
             # A replay of a reading nobody listened to is an even pace, not a
             # recording of anything. The page has to say which it is showing.
             replay_is_real=fluency is not None and fluency.timed,
+            xp_earned=xp_earned,
+            xp_total=xp_total,
         ),
     )
 

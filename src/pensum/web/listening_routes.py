@@ -24,7 +24,8 @@ from pensum.domain.grades import checkpoint_for
 from pensum.listening.exercise import Round
 from pensum.listening.library import ListeningLibrary
 from pensum.listening.marking import MAX_STARS, Answers, mark
-from pensum.web.deps import sees_unreviewed
+from pensum.scores.xp import PER_CORRECT
+from pensum.web.deps import award_xp, sees_unreviewed
 from pensum.web.rendering import context, templates, validate_locale
 
 router = APIRouter()
@@ -95,6 +96,15 @@ async def submit_answers(
     validate_locale(locale)
     subject, checkpoint = _checkpoint(request, subject_code, grade)
     built = _round_or_404(request, checkpoint)
+    result = mark(built, answers)
+    # Spelling words carry no goal, so there is nothing sensitive to withhold.
+    xp_earned, xp_total = award_xp(
+        request,
+        source="listening",
+        subject=subject.code,
+        what=checkpoint.goal_set.code,
+        amount=PER_CORRECT * result.right,
+    )
 
     return templates.TemplateResponse(
         request,
@@ -105,7 +115,9 @@ async def submit_answers(
             grade=grade,
             subject=subject,
             round=built,
-            result=mark(built, answers),
+            result=result,
             max_stars=MAX_STARS,
+            xp_earned=xp_earned,
+            xp_total=xp_total,
         ),
     )

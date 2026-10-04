@@ -393,16 +393,15 @@ review:
   bulk_empty: The selection is empty, so there is nothing to decide.
 
 auth:
-  # Signing in is optional. No string here may imply a quiz needs an account,
-  # because none of them do.
+  # Where sign-in is configured, every exercise needs it. Where it is not,
+  # there is no sign-in and none of these strings is shown.
   account: Account
   sign_in: Sign in
   sign_out: Sign out
   local_sign_in: Sign in as local administrator
   signed_in_as: "Signed in as {name}"
   failed: >-
-    Signing in did not go through. You can still take every quiz without
-    signing in.
+    Signing in did not go through. Try again, or ask an adult for help.
   recorded_note: >-
     You are signed in, so this result is saved and can be seen by an adult with
     access.

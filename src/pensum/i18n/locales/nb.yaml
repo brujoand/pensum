@@ -401,16 +401,16 @@ review:
   bulk_empty: Utvalget er tomt, så det er ingenting å avgjøre.
 
 auth:
-  # Innlogging er valgfritt. Teksten skal aldri antyde at man må logge inn for
-  # å ta en quiz -- det må man ikke.
+  # Der innlogging er satt opp, må man logge inn for å øve. Ellers finnes det
+  # ingen innlogging, og ingen av disse tekstene vises.
   account: Konto
   sign_in: Logg inn
   sign_out: Logg ut
   local_sign_in: Logg inn som lokal administrator
   signed_in_as: "Logget inn som {name}"
   failed: >-
-    Innloggingen gikk ikke gjennom. Du kan fortsatt ta alle quizene uten å
-    logge inn.
+    Innloggingen gikk ikke gjennom. Prøv igjen, eller spør en voksen om
+    hjelp.
   recorded_note: >-
     Du er logget inn, så resultatet blir lagret og kan ses av en voksen med
     tilgang.

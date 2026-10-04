@@ -139,6 +139,10 @@ rather than documented as intent:
   representation stage it asked for, right or not, and hints used. Not the
   answer that was given, and not how long it took. The tally and the skill are
   what an adult can act on; a log of a seven-year-old's actual answers is not.
+  A finished quiz or nivåtest also writes one row to the `xp` table: the
+  subject, the attempt hash and the XP it earned, by the rules in
+  [docs/design/xp.md](docs/design/xp.md). The pupil sees the XP they earned
+  and their total on the result page and the map.
 - **The pupil is told.** A signed-in pupil's result page says their score was
   saved and that an adult with access can see it.
 

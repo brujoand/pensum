@@ -1218,3 +1218,7 @@ mastery:
       her.
     links_heading: Klasseoversikt
     links_label: Klasseoversikt per fag
+
+xp:
+  earned: "+{earned} XP. Du har {total} XP til sammen."
+  total: "Du har {total} XP."

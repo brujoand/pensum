@@ -1201,3 +1201,7 @@ mastery:
       here.
     links_heading: Class overview
     links_label: Class overview by subject
+
+xp:
+  earned: "+{earned} XP. You have {total} XP in all."
+  total: "You have {total} XP."

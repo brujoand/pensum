@@ -21,17 +21,20 @@ from pensum.domain.grades import checkpoint_for
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.items.schema import QuizItem
-from pensum.mastery.attribution import evidence_for
+from pensum.mastery.attribution import evidence_for, is_sensitive
 from pensum.quiz.scoring import Result, score
 from pensum.quiz.session import QuizSession, SessionStore
 from pensum.quiz.shape import plan
 from pensum.quiz.topics import TEMPLATE_REPEATS, in_topic
 from pensum.scores.store import Attempt, GoalTally, attempt_key
+from pensum.scores.xp import Award
+from pensum.scores.xp import for_run as xp_for_run
 from pensum.web.comfort import comfort_of
 from pensum.web.deps import (
     current_user,
     get_evidence,
     get_store,
+    get_xp,
     sees_unreviewed,
     skill_file_for,
 )
@@ -141,16 +144,19 @@ def _session_or_404(request: Request, session_id: str) -> QuizSession:
     return session
 
 
-def _remember(request: Request, session: QuizSession, outcome: Result, now: datetime) -> None:
-    """Record a finished attempt and its evidence, if there is anywhere and anyone.
+def _remember(request: Request, session: QuizSession, outcome: Result, now: datetime) -> int:
+    """Record a finished attempt, its evidence and its XP, if there is anywhere and anyone.
 
     Three conditions, all of which must hold, and none of which is the default:
     a store is configured, the pupil was signed in when they started, and they
     actually finished. An abandoned quiz is not a result and is not kept.
+
+    Returns the XP this run earned, 0 when nothing was recorded. It is the same
+    number on every reload; the ledger keeps only the first.
     """
     store = get_store(request)
     if store is None or not session.attributed or not session.finished:
-        return
+        return 0
 
     # A topic drill is not a trinntest. Its answers are evidence for the map,
     # below, but an attempt row would be averaged with the checkpoint quizzes
@@ -174,14 +180,38 @@ def _remember(request: Request, session: QuizSession, outcome: Result, now: date
             )
         )
 
-    # Evidence for the pupil's map, under the same three conditions and at the
-    # same moment. A subject with no skills file has nothing to file it under.
-    evidence = get_evidence(request)
     skill_file = request.app.state.skills.for_subject(session.subject)
     subject = request.app.state.catalogue.subject(session.subject)
     goal_set = subject.goal_set(session.goal_set) if subject else None
+
+    # XP, by the fixed rules in `pensum.scores.xp`. Topic drills earn it too:
+    # they are practice, and practice is what XP is for.
+    earned = 0
+    ledger = get_xp(request)
+    if ledger is not None and goal_set is not None:
+        earned = xp_for_run(
+            (
+                item.is_correct(session.answers.get(item.id, "")),
+                is_sensitive(item, goal_set.after_year, skill_file),
+            )
+            for item in session.items
+        )
+        ledger.record(
+            Award(
+                user_sub=str(session.user_sub),
+                source="quiz",
+                subject=session.subject,
+                ref=attempt_key(session.id),
+                amount=earned,
+                recorded_at=now,
+            )
+        )
+
+    # Evidence for the pupil's map, under the same three conditions and at the
+    # same moment. A subject with no skills file has nothing to file it under.
+    evidence = get_evidence(request)
     if evidence is None or skill_file is None or goal_set is None:
-        return
+        return earned
     # Hints come from the session's answer records, which cover answered items
     # only; an item without one is recorded with 0, as before.
     hints = {record.item_id: record.hints_used for record in session.records()}
@@ -198,6 +228,7 @@ def _remember(request: Request, session: QuizSession, outcome: Result, now: date
             at=now,
         )
     )
+    return earned
 
 
 def _slot(request: Request, locale: str, session: QuizSession) -> Response:
@@ -419,7 +450,9 @@ async def result(request: Request, locale: str, session_id: str) -> HTMLResponse
     goal_set = subject.goal_set(session.goal_set)
 
     outcome = score(session)
-    _remember(request, session, outcome, datetime.now(UTC))
+    earned = _remember(request, session, outcome, datetime.now(UTC))
+    ledger = get_xp(request)
+    xp_total = ledger.total(str(session.user_sub)) if ledger and session.attributed else None
 
     # The per-goal breakdown is the useful half of the result, and it only reads
     # as useful if it shows the goal text rather than a KM code.
@@ -439,5 +472,7 @@ async def result(request: Request, locale: str, session_id: str) -> HTMLResponse
             # So a score reads against what the quiz actually reached, not the
             # whole checkpoint.
             coverage=_bank(request).coverage(goal_set, unreviewed=sees_unreviewed(request)),
+            xp_earned=earned,
+            xp_total=xp_total,
         ),
     )

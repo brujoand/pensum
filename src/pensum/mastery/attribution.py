@@ -49,6 +49,24 @@ def skills_for(item: QuizItem, checkpoint: int, skill_file: SkillFile) -> tuple[
     )
 
 
+def is_sensitive(item: QuizItem, checkpoint: int, skill_file: SkillFile | None) -> bool:
+    """Whether `item` touches a sensitive skill, by either route.
+
+    Wider than `skills_for` on purpose: a goal cited by one sensitive skill and
+    one ordinary skill is sensitive here, because a reward for it must not be
+    given at all, while evidence for the ordinary skill still may be.
+    """
+    if skill_file is None:
+        return False
+    if item.skill is not None:
+        named = skill_file.skill(item.skill)
+        return named is not None and named.sensitive
+    return any(
+        skill.sensitive and skill.checkpoint == checkpoint and item.goal in skill.refs
+        for skill in skill_file.skills
+    )
+
+
 def evidence_for(
     answered: Iterable[tuple[QuizItem, bool, int]],
     *,

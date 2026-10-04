@@ -12,6 +12,7 @@
 
   <div class="growth-page">
     <h1>{{ t("mastery.map.title", subject=title) }}</h1>
+    {% include "partials/xp.html" %}
 
     {% if not recording %}
       {# The default instance. Said plainly rather than shown as an empty map,

@@ -35,6 +35,8 @@
     <p class="note">{{ t("auth.recorded_note") }}</p>
   {% endif %}
 
+  {% include "partials/xp.html" %}
+
   {# A score means less if you do not know it covered only part of the trinn. #}
   {% if not coverage.complete %}
     <p class="note">

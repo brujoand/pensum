@@ -18,6 +18,7 @@ from pensum.missions.loader import MissionLibrary
 from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
+from pensum.scores.xp import XpStore
 from pensum.skills.schema import SkillFile
 
 
@@ -40,6 +41,11 @@ def get_store(request: Request) -> AttemptStore | None:
 def get_evidence(request: Request) -> EvidenceStore | None:
     """Where evidence rows go. None exactly when `get_store` is None."""
     return request.app.state.evidence
+
+
+def get_xp(request: Request) -> XpStore | None:
+    """The XP ledger. None exactly when `get_store` is None."""
+    return request.app.state.xp
 
 
 def get_review_store(request: Request) -> ReviewStore:

@@ -24,10 +24,14 @@ from pensum.domain.ladder import MIN_RUNGS_FOR_PLACEMENT, Ladder
 from pensum.i18n import translate
 from pensum.items.loader import ItemBank
 from pensum.items.schema import QuizItem
+from pensum.mastery.attribution import is_sensitive
 from pensum.quiz.run import PlacementRun
 from pensum.quiz.scoring import select
 from pensum.quiz.session import SessionStore
-from pensum.web.deps import current_user
+from pensum.scores.store import attempt_key
+from pensum.scores.xp import Award
+from pensum.scores.xp import for_run as xp_for_run
+from pensum.web.deps import current_user, get_xp
 from pensum.web.rendering import context, flow, templates, validate_locale
 
 router = APIRouter()
@@ -219,6 +223,40 @@ async def next_question(request: Request, locale: str, run_id: str) -> HTMLRespo
     )
 
 
+def _award(request: Request, run: PlacementRun) -> tuple[int, int | None]:
+    """XP for a finished nivåtest, and the pupil's new total.
+
+    Same rules and same conditions as a trinntest: a ledger, a pupil signed in
+    when the run began, and a run that is over. Each answer is judged sensitive
+    against the checkpoint of the rung it was asked at.
+    """
+    ledger = get_xp(request)
+    if ledger is None or not run.attributed or not run.finished:
+        return 0, None
+    skill_file = request.app.state.skills.for_subject(run.subject)
+    rungs = {rung.index: rung for rung in run.ladder.rungs}
+    earned = xp_for_run(
+        (
+            item.is_correct(run.answers[item.id]),
+            is_sensitive(item, rungs[block.rung].goal_set.after_year, skill_file),
+        )
+        for block in run.blocks
+        for item in block.items
+        if item.id in run.answers
+    )
+    ledger.record(
+        Award(
+            user_sub=str(run.user_sub),
+            source="placement",
+            subject=run.subject,
+            ref=attempt_key(run.id),
+            amount=earned,
+            recorded_at=datetime.now(UTC),
+        )
+    )
+    return earned, ledger.total(str(run.user_sub))
+
+
 @router.get("/{locale}/nivatest/run/{run_id}/result", response_class=HTMLResponse)
 async def result(request: Request, locale: str, run_id: str) -> HTMLResponse:
     validate_locale(locale)
@@ -226,6 +264,7 @@ async def result(request: Request, locale: str, run_id: str) -> HTMLResponse:
     subject = request.app.state.catalogue.subject(run.subject)
     outcome = run.outcome()
     bank = _bank(request)
+    xp_earned, xp_total = _award(request, run)
 
     # The gap list is the actionable half, and it only reads as actionable with
     # the goal text rather than a KM code. Goals are looked up across every rung
@@ -258,5 +297,7 @@ async def result(request: Request, locale: str, run_id: str) -> HTMLResponse:
             # norsk that is around a third of the checkpoint, and a page that
             # said "mestrer 7. trinn" without it would overstate badly.
             coverage=bank.coverage(outcome.ceiling.goal_set) if outcome.ceiling else None,
+            xp_earned=xp_earned,
+            xp_total=xp_total,
         ),
     )

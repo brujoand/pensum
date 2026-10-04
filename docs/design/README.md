@@ -11,10 +11,11 @@ through them every other child. Nothing here is implemented yet.
 | document | answers |
 |---|---|
 | [landscape.md](landscape.md) | what already exists, what to take from it, and the gap Pensum fills |
-| [principles.md](principles.md) | the 14 rules every activity follows, with evidence strength and citations; what gamification may and may not do |
+| [principles.md](principles.md) | the 14 rules every activity follows, with evidence strength and citations; what the game layer does now, later, and never |
 | [architecture.md](architecture.md) | strands, skills, activities, evidence, mastery, the session engine, missions, the comfort profile, the teacher views |
 | [activities.md](activities.md) | the catalogue of interaction primitives every subject is built from |
 | [subjects/](subjects/) | per subject: strands, a progression per checkpoint citing LK20, misconceptions to watch for, activities, missions |
+| [xp.md](xp.md) | what earns XP, where it is stored, and who sees it |
 | [llm-drills.md](llm-drills.md) | a beta class of drill where a language model writes the questions from reviewed facts, and what that changes about review |
 
 Subjects: [matematikk](subjects/matematikk.md) ·
@@ -41,8 +42,9 @@ progression row or mission.
    fallback.
 6. **Mastery is a small rule set, not a statistical model**, for the reason
    `quiz/placement.py` already gives: there is no data to fit one to.
-7. **No clock, no ranking, no random reward, no loss.** Runs are counted in
-   stones, not minutes; the pupil's map only grows.
+7. **XP first, no ranking.** Signed-in pupils earn XP by fixed rules; the
+   teacher sees it, other pupils never do. Runs are counted in stones, not
+   minutes, and the pupil's map only grows.
 8. **Calm is the default.** Motion, sound and celebration are things a pupil
    turns on.
 9. **Goals a screen cannot check become missions**: short off-screen tasks

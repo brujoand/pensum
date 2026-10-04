@@ -191,35 +191,42 @@ in warm-up and retention checks only.
 - **In the design:** the run shape keeps core tasks on one skill; spaced checks
   live in warm-up.
 
-## What gamification is allowed to do
+## What gamification does
 
-The meta-analysis of gamification in education found small to moderate effects,
-and that points and badges alone were the weakest designs; challenge, goals and
-narrative did better [23]. So the game layer is built from the parts that carry
-the effect and leaves out the parts that carry the risk.
+Pensum's audience includes older pupils, and the game layer is meant to pull
+them back to practise. The meta-analysis of gamification in education found
+small to moderate effects, and that points and badges alone were the weakest
+designs; challenge, goals and narrative did better [23]. So points are the
+first mechanic, not the last.
 
-**Allowed**
+Every mechanic needs a signed-in pupil. When a deployment has sign-in
+configured, every exercise requires it; a deployment without sign-in has no
+game layer at all.
 
-| mechanic | why it is safe |
+**Built, or being built**
+
+| mechanic | how it works |
 |---|---|
-| a growing map per subject (seed, sprout, plant, flower) | tied to mastery, never shrinks, fully explained |
-| collections: earning a sticker, a creature or a museum object per secure skill | deterministic: the pupil can see exactly what earns the next one |
-| personal bests, kept in the browser | compares the pupil with themself only; reading already works this way |
-| a gentle narrative wrapper per strand ("fix the bridge", "stock the shop") | gives a goal the task serves; switchable off |
-| completion marks per run | cannot mislead: finishing is finishing |
-| a weekly rhythm (three sessions this week) | a missed day does not reset anything |
+| XP | earned for correct answers and finished activities, by fixed rules in [xp.md](xp.md); never lost |
+| a growing map per subject (seed, sprout, plant, flower) | tied to mastery, never shrinks |
+| personal bests and days read this week | the reading screen's existing rewards |
 
-**Not allowed**
+**Not built yet, and not ruled out**
 
-| mechanic | why |
+| mechanic | what it waits on |
 |---|---|
-| leaderboards, rankings, class competition | rule 4 |
-| timers, speed bonuses, lives, hearts | rule 3; lives turn errors into loss |
-| random rewards, loot boxes, spin-to-win | variable reward schedules are the mechanism of compulsion; no evidence they help learning, and the harm case is plausible though untested here |
-| daily streaks that reset | a reset is a loss event, and a pupil's bad day is not a failure. The reading screen's daily streak should become a weekly rhythm |
-| currency, shops, upgrades bought with points | turns learning into grinding for the purchase, and adds a second economy to understand |
-| anything that works on a pupil outside the session: notifications, "your plant is thirsty" | Pensum has no business in a child's attention when they are not using it |
-| avatars as the main reward | cosmetic and cheap to earn quickly, and the cosmetic chase displaces the task |
+| daily streaks | XP running in use first |
+| random rewards, chests | a collection to draw from |
+| currency, shops, cosmetics, avatars | a decision that a second economy is worth its cost; there is none yet |
+| timers, lives | a run mode that leaves the untimed default intact (rule 3) |
+| notifications | a channel to reach a signed-in pupil; Pensum has none |
+| collections, narrative per strand | design time |
+
+**Not planned**
+
+| mechanic | instead |
+|---|---|
+| leaderboards, rankings, class competition | teachers see each pupil's XP and mastery on the class grid; pupils never see each other (rule 4) |
 
 ## Citations
 

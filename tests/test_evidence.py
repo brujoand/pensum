@@ -279,12 +279,6 @@ def test_reloading_the_result_page_adds_no_evidence(tmp_path: Path) -> None:
     assert before == after > 0
 
 
-def test_an_anonymous_pupil_leaves_no_evidence(tmp_path: Path) -> None:
-    app, client = build(settings_with(tmp_path))
-    take_quiz(app, client)
-    assert app.state.evidence.for_skills([s.id for s in mat().skills]) == {}
-
-
 def test_an_abandoned_quiz_leaves_no_evidence(tmp_path: Path) -> None:
     app, client = build(settings_with(tmp_path))
     sign_in(client, PUPIL)

@@ -121,16 +121,18 @@ built outside the release pipeline.
 **Off unless you turn it on.** Run the image as above and Pensum has no accounts,
 records nothing about anyone — its database holds review decisions and nothing
 else — and forgets every quiz the moment the tab closes. Point it at an OIDC
-provider and three things become possible: a pupil can sign in, an adult in a
+provider and three things become possible: a pupil signs in, an adult in a
 nominated group can see how the signed-in pupils have done, and that adult can
 approve content on the review page.
 
 Four properties hold whenever it *is* configured, and they are enforced in code
 rather than documented as intent:
 
-- **Signing in is optional, always.** Every quiz works signed out, and an
-  anonymous attempt is never recorded — there is nobody to record it against.
-  There is no page on the site that requires an account except the admin ones.
+- **Every exercise needs a signed-in pupil.** Quizzes, the placement test,
+  reading aloud, writing and listening send a signed-out visitor to the
+  provider's sign-in page and back again. The curriculum, the progression guide
+  and the missions stay open to anyone. Without a provider configured there is
+  nobody to sign in as, so every exercise stays open and nothing is recorded.
 - **Only finished quizzes are kept.** An abandoned attempt is not a result and
   leaves nothing behind.
 - **A summary, not a transcript.** What is stored is the checkpoint, the score

@@ -21,8 +21,10 @@ import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
+from urllib.parse import quote
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, Request
+from fastapi.responses import RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from pensum import __version__
@@ -45,6 +47,7 @@ from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.comfort_routes import router as comfort_router
+from pensum.web.deps import SignInRequired, require_pupil
 from pensum.web.listening_routes import router as listening_router
 from pensum.web.mastery_routes import router as mastery_router
 from pensum.web.missions_routes import router as missions_router
@@ -78,6 +81,20 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     if getattr(app.state, "skills", None) is None:
         app.state.skills = SkillLibrary.load().with_ledger(ledger)
     yield
+
+
+def _to_sign_in(request: Request, exc: Exception) -> Response:
+    """Send a signed-out pupil to sign in, and back to where they were after.
+
+    An htmx swap would follow a 303 and paint the provider's page into the
+    question slot, so htmx is told to navigate the whole page instead.
+    """
+    if not isinstance(exc, SignInRequired):
+        raise exc
+    destination = f"/auth/login?next={quote(exc.next_url, safe='/')}"
+    if request.headers.get("HX-Request"):
+        return Response(status_code=204, headers={"HX-Redirect": destination})
+    return RedirectResponse(destination, status_code=303)
 
 
 def create_app(
@@ -165,11 +182,15 @@ def create_app(
 
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(router)
-    app.include_router(quiz_router)
-    app.include_router(placement_router)
-    app.include_router(reading_router)
-    app.include_router(writing_router)
-    app.include_router(listening_router)
+    # Every exercise needs a signed-in pupil where sign-in is configured; the
+    # catalogue, progression guide and missions stay open to anyone.
+    exercise = [Depends(require_pupil)]
+    app.include_router(quiz_router, dependencies=exercise)
+    app.include_router(placement_router, dependencies=exercise)
+    app.include_router(reading_router, dependencies=exercise)
+    app.include_router(writing_router, dependencies=exercise)
+    app.include_router(listening_router, dependencies=exercise)
+    app.add_exception_handler(SignInRequired, _to_sign_in)
     app.include_router(auth_router)
     app.include_router(admin_router)
     app.include_router(review_router)

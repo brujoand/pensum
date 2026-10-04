@@ -144,7 +144,6 @@ def sign_in(client: TestClient, user: User) -> None:
 def test_an_anonymous_pupil_sees_no_unapproved_reading() -> None:
     _, client = build()
 
-    assert client.get(READING_PATH).status_code == 404
     assert "/lesing" not in client.get(SUBJECT_PATH).text
 
 
@@ -179,7 +178,6 @@ def test_a_draft_is_never_reachable_by_guessing_its_url() -> None:
 def test_an_anonymous_pupil_sees_no_unapproved_writing() -> None:
     _, client = build()
 
-    assert client.get(WRITING_PATH).status_code == 404
     assert "/skriving" not in client.get(SUBJECT_PATH).text
 
 
@@ -259,13 +257,12 @@ def test_the_old_environment_switch_shows_nobody_anything(monkeypatch: pytest.Mo
 # --- approved content, and the committed content ---------------------------
 
 
-@pytest.mark.parametrize("user", [None, PUPIL, ADMIN])
-def test_approved_content_is_visible_to_everyone(user: User | None) -> None:
+@pytest.mark.parametrize("user", [PUPIL, ADMIN])
+def test_approved_content_is_visible_to_everyone(user: User) -> None:
     """The gate only ever withholds what is not approved."""
     app, client = build()
     approve_app(app)
-    if user is not None:
-        sign_in(client, user)
+    sign_in(client, user)
 
     assert "Ta quizen" in client.get("/nb/klasse/2/MAT01-06").text
     assert client.get(READING_PATH).status_code == 200
@@ -276,7 +273,9 @@ def committed_app() -> tuple[FastAPI, TestClient]:
     app = create_app(
         Catalogue.load(), ItemBank.load(), settings=settings_with(), reading=ReadingLibrary.load()
     )
-    return app, TestClient(app, base_url=ORIGIN)
+    client = TestClient(app, base_url=ORIGIN)
+    sign_in(client, PUPIL)
+    return app, client
 
 
 def test_a_fresh_instance_serves_a_pupil_none_of_the_committed_content() -> None:

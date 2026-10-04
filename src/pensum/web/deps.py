@@ -6,6 +6,8 @@ app with sign-in configured without touching the environment.
 
 from __future__ import annotations
 
+import secrets
+from datetime import UTC, datetime
 from urllib.parse import urlsplit
 
 from fastapi import HTTPException, Request
@@ -20,7 +22,7 @@ from pensum.missions.loader import MissionLibrary
 from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
 from pensum.scores.store import AttemptStore
-from pensum.scores.xp import XpStore
+from pensum.scores.xp import Award, Source, XpStore
 from pensum.skills.schema import SkillFile
 
 
@@ -48,6 +50,33 @@ def get_evidence(request: Request) -> EvidenceStore | None:
 def get_xp(request: Request) -> XpStore | None:
     """The XP ledger. None exactly when `get_store` is None."""
     return request.app.state.xp
+
+
+def award_xp(
+    request: Request, *, source: Source, subject: str, what: str, amount: int
+) -> tuple[int, int | None]:
+    """Award XP for one marked reading, tracing or listening round.
+
+    These have no run to key the award by: each POST stands alone, and doing
+    the same passage again earns again. So the ref is what was done plus a
+    fresh token. Returns what was earned and the pupil's new total, or (0, None)
+    when there is no ledger or nobody signed in, and then nothing is shown.
+    """
+    ledger = get_xp(request)
+    user = current_user(request)
+    if ledger is None or user is None:
+        return 0, None
+    ledger.record(
+        Award(
+            user_sub=user.sub,
+            source=source,
+            subject=subject,
+            ref=f"{what}:{secrets.token_urlsafe(12)}",
+            amount=amount,
+            recorded_at=datetime.now(UTC),
+        )
+    )
+    return max(amount, 0), ledger.total(user.sub)
 
 
 def get_review_store(request: Request) -> ReviewStore:

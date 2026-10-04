@@ -61,8 +61,19 @@ def is_sensitive(item: QuizItem, checkpoint: int, skill_file: SkillFile | None) 
     if item.skill is not None:
         named = skill_file.skill(item.skill)
         return named is not None and named.sensitive
+    return goal_is_sensitive(item.goal, checkpoint, skill_file)
+
+
+def goal_is_sensitive(goal: str, checkpoint: int, skill_file: SkillFile | None) -> bool:
+    """Whether any sensitive skill at `checkpoint` cites `goal`.
+
+    For what has a goal and no skill of its own: a reading passage, a writing
+    prompt, or a quiz item that names none.
+    """
+    if skill_file is None:
+        return False
     return any(
-        skill.sensitive and skill.checkpoint == checkpoint and item.goal in skill.refs
+        skill.sensitive and skill.checkpoint == checkpoint and goal in skill.refs
         for skill in skill_file.skills
     )
 

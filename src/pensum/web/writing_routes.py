@@ -21,7 +21,9 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 
 from pensum.domain.grades import checkpoint_for
-from pensum.web.deps import sees_unreviewed
+from pensum.mastery.attribution import goal_is_sensitive
+from pensum.scores.xp import PER_FINISH
+from pensum.web.deps import award_xp, sees_unreviewed
 from pensum.web.rendering import context, templates, validate_locale
 from pensum.writing import rewards
 from pensum.writing.attempt import Attempt
@@ -217,6 +219,15 @@ def submit_tracing(
     prompt = _prompt_or_404(request, checkpoint.goal_set.code, prompt_id)
 
     marked = mark(prompt, _library(request).alphabet, attempt)
+    skill_file = request.app.state.skills.for_subject(subject.code)
+    sensitive = goal_is_sensitive(prompt.goal, checkpoint.goal_set.after_year, skill_file)
+    xp_earned, xp_total = award_xp(
+        request,
+        source="writing",
+        subject=subject.code,
+        what=prompt.id,
+        amount=PER_FINISH if marked.finished and not sensitive else 0,
+    )
 
     return templates.TemplateResponse(
         request,
@@ -230,5 +241,7 @@ def submit_tracing(
             mark=marked,
             rewards=rewards.earned(marked),
             max_stars=rewards.MAX_STARS,
+            xp_earned=xp_earned,
+            xp_total=xp_total,
         ),
     )

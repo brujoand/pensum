@@ -47,7 +47,7 @@ with `CREATE TABLE IF NOT EXISTS` like they are:
 | `user_sub` | the pupil |
 | `source` | `quiz`, `placement`, `reading`, `writing` or `listening` |
 | `subject` | the subject code, so the class grid can show XP per subject |
-| `ref` | what earned it: the attempt hash, or the passage, prompt or word plus a per-visit id |
+| `ref` | what earned it: the attempt hash, or the passage id, prompt id or listening goal set plus a random token |
 | `amount` | XP for this row |
 | `recorded_at` | when it was earned |
 

@@ -42,6 +42,10 @@
           <thead>
             <tr>
               <th scope="col">{{ t("admin.column.pupil") }}</th>
+              {% if xp_shown %}
+                <th scope="col">{{ t("admin.column.xp_week") }}</th>
+                <th scope="col">{{ t("admin.column.xp_total") }}</th>
+              {% endif %}
               {% for skill in skills %}
                 <th scope="col">
                   <span class="class-grid-skill">{{ skill.i_can.get(locale) }}</span>
@@ -54,6 +58,10 @@
             {% for row in rows %}
               <tr>
                 <th scope="row">{{ row.name }}</th>
+                {% if xp_shown %}
+                  <td class="class-xp">{{ row.xp.week }}</td>
+                  <td class="class-xp">{{ row.xp.total }}</td>
+                {% endif %}
                 {% for cell in row.cells %}
                   {# The state is words, not a colour. The concrete-only cell is
                      marked with a border and a sentence, so it is findable in

@@ -250,7 +250,9 @@ stages are authored.
 - **`/{locale}/admin/klasse/{subject}`** is the class grid for an admin: pupils
   down, one strand's skills across, each cell the state the evidence supports
   *now* and the furthest stage reached. "Practising, with objects only" is
-  marked, and so is a skill that has slipped since it was secure.
+  marked, and so is a skill that has slipped since it was secure. Two columns
+  beside each name give the pupil's XP in the subject: this week (from Monday
+  00:00 UTC) and in total. Pupils never see each other's XP.
 
 Sensitive skills (puberty, abuse, genocide; `sensitive: true` in the skills
 file) are shown on the map without a glyph, never appear on the grid, and have

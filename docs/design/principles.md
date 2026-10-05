@@ -59,8 +59,12 @@ exactly what a fast one does.
   that *did* help was about visual timers around transitions, not about tasks
   [7]. Pensum's reading screen already refuses to make a target of its speed
   band.
-- **In the design:** runs are measured in stones, not minutes. The only timer in
-  the product is an optional analogue-style break timer, which rule 5 covers.
+- **In the design:** runs are measured in stones, not minutes. Outside Arkade,
+  the only timer is an optional analogue-style break timer, which rule 5 covers.
+- **Arkade:** the drill games in [arkade.md](arkade.md) are a separate place a
+  pupil chooses to go. They have a drawn timer, on by default, which the pupil
+  can switch off. There is still no speed bonus, and running out of time is not
+  recorded as a wrong answer.
 
 ### 4. No ranking against other pupils
 
@@ -218,7 +222,8 @@ game layer at all.
 | daily streaks | XP running in use first |
 | random rewards, chests | a collection to draw from |
 | currency, shops, cosmetics, avatars | a decision that a second economy is worth its cost; there is none yet |
-| timers, lives | a run mode that leaves the untimed default intact (rule 3) |
+| timers | designed: Arkade, an opt-in mode with a timer the pupil can switch off ([arkade.md](arkade.md)) |
+| lives | a design that needs them; Arkade has none |
 | notifications | a channel to reach a signed-in pupil; Pensum has none |
 | collections, narrative per strand | design time |
 

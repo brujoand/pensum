@@ -3882,6 +3882,7 @@ button.token:disabled {
 /* The timer, drawn: the balloon grows from small to full size, then pops. */
 .balloon--growing {
   animation-name: balloon-grow;
+  animation-duration: var(--balloon-seconds, 60s);
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }

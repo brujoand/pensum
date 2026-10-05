@@ -33,7 +33,11 @@ function element(id) {
     dataset: {},
     hidden: false,
     disabled: false,
-    style: {},
+    style: {
+      setProperty(name, value) {
+        this[name] = value;
+      },
+    },
     children: [],
     listeners: {},
     innerHTML: "",
@@ -150,7 +154,7 @@ const ROUND = {
   check("the first item shows three balloons", els["balloons-sky"].children.length === 3);
   check("the position is shown", els["balloons-position"].textContent === "Ballong 1 av 3");
   check("a timed balloon grows", balloon(els, 0).classList.contains("balloon--growing"));
-  check("the balloon grows for the full time", balloon(els, 0).style.animationDuration === "60s");
+  check("the balloon grows for the full time", balloon(els, 0).style["--balloon-seconds"] === "60s");
   check("a timer is set for the item", timers.length === 1);
 
   balloon(els, 1).click();

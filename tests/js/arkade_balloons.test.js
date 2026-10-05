@@ -107,6 +107,10 @@ function page(round, { calm = false, failFirst = false } = {}) {
     getElementById: (id) => els[id] || null,
     createElement: () => element(""),
     documentElement: { hasAttribute: (name) => calm && name === "data-calm" },
+    keys: null,
+    addEventListener(type, fn) {
+      if (type === "keydown") this.keys = fn;
+    },
   };
   const window = {
     setTimeout: (fn) => timers.push(fn) && timers.length,
@@ -122,7 +126,8 @@ function page(round, { calm = false, failFirst = false } = {}) {
   };
 
   new Function("document", "window", "fetch", src)(document, window, fetch);
-  return { els, timers, posted };
+  const press = (key) => document.keys && document.keys({ key, preventDefault() {} });
+  return { els, timers, posted, press };
 }
 
 function balloon(els, i) {
@@ -214,6 +219,28 @@ const ROUND = {
   check("pressing it sends the same picks again", failing.posted.length === 2 &&
     JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
   check("and the result is then shown", failing.els["balloons-result"].innerHTML === "<p>resultat</p>");
+
+  /* --- the arrow keys ---------------------------------------------------- */
+
+  const pair = (match) => item(["3 · 4 = 12", "3 · 4 = 15"], match, "3 · 4 = 12");
+  const keyed = page({ round: "r1", timed: false, items: [pair(1), pair(1), pair(0)] });
+  keyed.press("ArrowRight");
+  check("the right arrow pops the right balloon", keyed.els["balloons-feedback"].textContent.startsWith("Riktig!"));
+  keyed.press("ArrowLeft");
+  check("a second key press does not answer again", keyed.els["balloons-feedback"].textContent.startsWith("Riktig!"));
+  keyed.els["balloons-next"].click();
+  keyed.press("ArrowLeft");
+  check("the left arrow pops the left balloon", keyed.els["balloons-feedback"].textContent.startsWith("Ikke helt"));
+  keyed.els["balloons-next"].click();
+  keyed.press("Enter");
+  check("other keys do nothing", keyed.els["balloons-next"].hidden === true);
+  keyed.press("ArrowLeft");
+  keyed.els["balloons-next"].click();
+  await new Promise((resolve) => setImmediate(resolve));
+  check(
+    "the keys post as picks",
+    keyed.posted[0] && JSON.stringify(keyed.posted[0].body.picks) === JSON.stringify([1, 0, 0])
+  );
 
   const calm = page(ROUND, { calm: true });
   check("calm mode cannot draw the timer, so it does not run one", calm.timers.length === 0);

@@ -44,6 +44,9 @@ ROUND_LENGTH = 8
 # Fewer spelling items than this and there is not a round to play: the
 # checkpoint's passages are too few, or not yet approved on this instance.
 MIN_ROUND = 4
+# Two balloons, side by side: one true and one false, or two spellings. More
+# than two did not fit a phone in a row, and stacked balloons read as a list.
+BALLOONS = 2
 # How long a balloon grows before it pops, with the timer on.
 BALLOON_SECONDS = 60
 # The most picks a finished round can send. A round has ROUND_LENGTH; this only
@@ -90,7 +93,7 @@ def _rng() -> random.Random:
 def _items(request: Request, game: str, grade: int) -> list[Item]:
     subject_code, kind = GAMES[game]
     if kind == "statements":
-        return statement_items(grade, _rng(), ROUND_LENGTH)
+        return statement_items(grade, _rng(), ROUND_LENGTH, BALLOONS)
 
     subject = request.app.state.catalogue.subject(subject_code)
     checkpoint = checkpoint_for(subject, grade) if subject is not None else None

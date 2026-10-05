@@ -122,7 +122,7 @@
       balloon.className = "balloon balloon--" + (i % 4);
       if (timed) {
         balloon.classList.add("balloon--growing");
-        balloon.style.animationDuration = seconds + "s";
+        balloon.style.setProperty("--balloon-seconds", seconds + "s");
       }
       var label = document.createElement("span");
       label.className = "balloon__label";

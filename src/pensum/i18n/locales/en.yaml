@@ -1251,4 +1251,5 @@ arkade:
     We do not have enough words for this game in your year yet. Try another
     game.
   needs_js: The game needs JavaScript.
+  failed: We could not save the round. Press Next to try again.
   no_voice: This browser has no voice for the language, so the word cannot be read aloud here.

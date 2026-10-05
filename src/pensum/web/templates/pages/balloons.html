@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.game_" ~ game) }} · {{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.game_" ~ game) }}</h1>
+
+  {% if played is none %}
+    <p class="lede">{{ t("arkade.no_round") }}</p>
+    <p><a class="button" href="/{{ locale }}/arkade">{{ t("arkade.back") }}</a></p>
+  {% else %}
+    <div id="balloons"
+         class="balloons"
+         data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ "?" ~ request.url.query if request.url.query else "" }}"
+         data-seconds="{{ balloon_seconds }}"
+         data-label-right="{{ t('arkade.right') }}"
+         data-label-wrong="{{ t('arkade.wrong') }}"
+         data-label-popped="{{ t('arkade.popped') }}"
+         data-label-next="{{ t('arkade.next') }}"
+         data-label-position="{{ t('arkade.position') }}">
+      <p class="balloons__position" id="balloons-position" aria-live="polite"></p>
+      <p class="balloons__rule" id="balloons-rule"></p>
+      <p class="balloons__hear" id="balloons-hear" hidden>
+        <button class="button" type="button" id="balloons-say">{{ t("arkade.hear_again") }}</button>
+        <span class="note" id="balloons-no-voice" hidden>{{ t("arkade.no_voice") }}</span>
+      </p>
+      <div class="balloons__sky" id="balloons-sky"></div>
+      <p class="balloons__feedback" id="balloons-feedback" aria-live="assertive"></p>
+      <p><button class="button" type="button" id="balloons-next" hidden>{{ t("arkade.next") }}</button></p>
+      <div id="balloons-result"></div>
+    </div>
+
+    <template id="balloons-rules">
+      <span data-rule="false_statement">{{ t("arkade.rule.false_statement") }}</span>
+      <span data-rule="spoken_word">{{ t("arkade.rule.spoken_word") }}</span>
+    </template>
+
+    {# The round, as the page plays it. #}
+    <script type="application/json" id="balloons-round">{{ payload | tojson }}</script>
+    <noscript><p class="note">{{ t("arkade.needs_js") }}</p></noscript>
+    <script src="/static/arkade-balloons.js" defer></script>
+  {% endif %}
+{% endblock %}

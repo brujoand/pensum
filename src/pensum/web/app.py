@@ -28,6 +28,7 @@ from fastapi.responses import RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from pensum import __version__
+from pensum.arkade.rounds import RoundStore
 from pensum.auth.cookies import CookieCodec
 from pensum.auth.oidc import OidcClient
 from pensum.catalogue.loader import Catalogue
@@ -46,6 +47,7 @@ from pensum.scores.store import AttemptStore
 from pensum.scores.xp import XpStore
 from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
+from pensum.web.arkade_routes import router as arkade_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.comfort_routes import router as comfort_router
 from pensum.web.deps import SignInRequired, YearRequired, require_pupil
@@ -180,6 +182,10 @@ def create_app(
     # quiz sessions: a restart loses an in-flight reading, which is not a result.
     app.state.streams = StreamStore()
 
+    # Arkade rounds in play. Same trade as quiz sessions: an unfinished round is
+    # not a result, so a restart losing one costs nothing that was kept.
+    app.state.arkade_rounds = RoundStore()
+
     app.state.cookies = CookieCodec(active.session_secret)
     # Constructed eagerly so half-configured sign-in fails at startup rather
     # than on the first child who clicks it. Discovery stays lazy -- the
@@ -204,6 +210,7 @@ def create_app(
     app.include_router(reading_router, dependencies=exercise)
     app.include_router(writing_router, dependencies=exercise)
     app.include_router(listening_router, dependencies=exercise)
+    app.include_router(arkade_router, dependencies=exercise)
     app.add_exception_handler(SignInRequired, _to_sign_in)
     app.add_exception_handler(YearRequired, _to_year)
     app.include_router(year_router)

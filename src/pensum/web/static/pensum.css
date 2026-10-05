@@ -3772,3 +3772,155 @@ button.token:disabled {
 .sim-strip li {
   flex: 0 1 14rem;
 }
+
+/* --- Arkade ---------------------------------------------------------------- */
+
+.arkade-games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.arkade-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+}
+
+.arkade-card:hover,
+.arkade-card:focus-visible {
+  border-color: var(--accent);
+}
+
+.arkade-card__balloon {
+  width: 2.5rem;
+  height: 3rem;
+  border-radius: 50% 50% 48% 48%;
+  background: var(--balloon-1);
+}
+
+/* Four balloon colours, light enough to read dark text on in both themes. */
+:root {
+  --balloon-1: #f4a7a0;
+  --balloon-2: #9fd3c7;
+  --balloon-3: #f6d58b;
+  --balloon-4: #b9b4f0;
+  --balloon-ink: #1c2024;
+}
+
+.balloons__rule {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.balloons__position {
+  color: var(--ink-soft);
+  margin-bottom: 0.25rem;
+}
+
+.balloons__sky {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1rem;
+  min-height: 16rem;
+  padding: 1rem 0;
+}
+
+.balloon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11rem;
+  height: 13rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 50% 50% 48% 48%;
+  color: var(--balloon-ink);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+}
+
+/* The string. */
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  width: 1px;
+  height: 1.5rem;
+  background: var(--ink-soft);
+}
+
+.balloon--0 { background: var(--balloon-1); }
+.balloon--1 { background: var(--balloon-2); }
+.balloon--2 { background: var(--balloon-3); }
+.balloon--3 { background: var(--balloon-4); }
+
+.balloon:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* The timer, drawn: the balloon grows from small to full size, then pops. */
+.balloon--growing {
+  animation-name: balloon-grow;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes balloon-grow {
+  from { transform: scale(0.45); }
+  to { transform: scale(1); }
+}
+
+.balloon--popped {
+  opacity: 0.25;
+}
+
+.balloon--answer {
+  opacity: 1;
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.balloon:disabled {
+  cursor: default;
+}
+
+.balloons__feedback {
+  min-height: 1.6rem;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.balloons__feedback--right {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+#balloons-next {
+  display: block;
+  margin: 0 auto;
+}
+
+#balloons-next[hidden] {
+  display: none;
+}

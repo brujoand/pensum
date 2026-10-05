@@ -20,7 +20,7 @@ every exercise open and has no XP.
 | reading aloud | 20 for reaching the last word | when the reading is marked |
 | writing | 20 for finishing a prompt | when the tracing is scored |
 | listening and spelling | 10 per correct answer | when the answer is marked |
-| Arkade round (not built, see [arkade.md](arkade.md)) | 10 per correct answer, 20 for finishing; 0 for running out of time | when the round ends |
+| Arkade round ([arkade.md](arkade.md)) | 10 per correct answer, 20 for finishing; 0 for running out of time | when the round is finished |
 
 - **Hints cost nothing.** They never lower the score, so they never lower XP.
 - **A wrong answer earns 0 and takes nothing away.**
@@ -46,7 +46,7 @@ with `CREATE TABLE IF NOT EXISTS` like they are:
 | column | what it is |
 |---|---|
 | `user_sub` | the pupil |
-| `source` | `quiz`, `placement`, `reading`, `writing` or `listening` |
+| `source` | `quiz`, `placement`, `reading`, `writing`, `listening` or `arkade` |
 | `subject` | the subject code, so the class grid can show XP per subject |
 | `ref` | what earned it: the attempt hash, or the passage id, prompt id or listening goal set plus a random token |
 | `amount` | XP for this row |

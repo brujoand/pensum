@@ -1,0 +1,8 @@
+<section class="balloons-result" aria-labelledby="balloons-result-heading">
+  <h2 id="balloons-result-heading">{{ t("arkade.result", correct=correct, total=total) }}</h2>
+  {% include "partials/xp.html" %}
+  <p>
+    <a class="button" href="/{{ locale }}/arkade/ballonger/{{ game }}{{ '?' ~ request.url.query if request.url.query and not user else '' }}">{{ t("arkade.again") }}</a>
+    <a href="/{{ locale }}/arkade">{{ t("arkade.back") }}</a>
+  </p>
+</section>

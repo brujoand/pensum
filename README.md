@@ -129,8 +129,8 @@ Four properties hold whenever it *is* configured, and they are enforced in code
 rather than documented as intent:
 
 - **Every exercise needs a signed-in pupil.** Quizzes, the placement test,
-  reading aloud, writing and listening send a signed-out visitor to the
-  provider's sign-in page and back again. The curriculum, the progression guide
+  reading aloud, writing, listening and the Arkade games send a signed-out
+  visitor to the provider's sign-in page and back again. The curriculum, the progression guide
   and the missions stay open to anyone. Without a provider configured there is
   nobody to sign in as, so every exercise stays open and nothing is recorded.
   At their first exercise a pupil is asked once which year they are in, at

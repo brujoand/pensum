@@ -128,6 +128,7 @@ def test_a_math_round_is_eight_timed_items_for_the_pupils_year(pupil) -> None:
 
     assert played["timed"] is True
     assert len(played["items"]) == 8
+    assert all(len(entry["candidates"]) == 2 for entry in played["items"])
     assert all(entry["rule"] == "false_statement" for entry in played["items"])
     # Year 4: tables and division, never plain adding.
     assert all(("·" in e["answer"]) or (":" in e["answer"]) for e in played["items"])

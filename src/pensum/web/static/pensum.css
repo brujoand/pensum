@@ -3832,7 +3832,7 @@ button.token:disabled {
 
 .balloons__sky {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: flex-end;
   gap: 1rem;
@@ -3845,14 +3845,18 @@ button.token:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 11rem;
-  height: 13rem;
-  padding: 1rem;
+  /* Two side by side on any screen: each takes half the row, up to 11rem. */
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 11rem;
+  aspect-ratio: 11 / 13;
+  padding: 0.75rem;
+  overflow-wrap: anywhere;
   border: none;
   border-radius: 50% 50% 48% 48%;
   color: var(--balloon-ink);
   font: inherit;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 4.5vw, 1.3rem);
   font-weight: 700;
   cursor: pointer;
   transform-origin: 50% 100%;

@@ -74,7 +74,7 @@ pattern, such as kj and skj.
 
 | game | the pupil | item shape | round |
 |---|---|---|---|
-| balloons | pops the balloon with the false statement, or hears a word and pops the balloon that spells it | 3 statements with one false, or 2 spellings with one right | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
+| balloons | pops the balloon with the false statement, or hears a word and pops the balloon that spells it | 2 balloons side by side: a true and a false statement, or two spellings with one right. The arrow keys pop the left or right one | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
 | memory pairs | turns cards two at a time to find matching pairs | 6 pairs | one board; with the timer on, the board has 2 minutes |
 | invaders | shoots only the targets matching the rule ("divisible by 3", "consonants") | a stream of candidates | 12 targets; with the timer on, targets advance, and a match that gets past earns 0 |
 

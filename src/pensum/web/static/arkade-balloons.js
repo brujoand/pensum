@@ -204,6 +204,15 @@
       });
   }
 
+  /* The left and right arrow keys pop the left and right balloon. */
+  document.addEventListener("keydown", function (event) {
+    if (done || index >= items.length) return;
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    var last = items[index].candidates.length - 1;
+    answer(items[index], event.key === "ArrowLeft" ? 0 : last);
+  });
+
   nextButton.addEventListener("click", next);
   sayButton.addEventListener("click", function () {
     say(items[index]);

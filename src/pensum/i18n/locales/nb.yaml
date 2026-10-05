@@ -1224,3 +1224,14 @@ mastery:
 xp:
   earned: "+{earned} XP. Du har {total} XP til sammen."
   total: "Du har {total} XP."
+
+year:
+  heading: Hvilket trinn går du på?
+  intro: >-
+    Vi spør én gang, så vi kan finne oppgaver som passer for deg. Etter
+    sommerferien flytter vi deg opp ett trinn av oss selv.
+  question: Jeg går i
+  save: Lagre
+  change_note: Valgte du feil? Du kan endre det her når som helst.
+  yours: "Du går i {grade}. klasse."
+  change: Endre

@@ -25,7 +25,7 @@ from pensum.i18n import DEFAULT_LOCALE, curriculum_language
 from pensum.items.loader import ItemBank
 from pensum.quiz.topics import TEMPLATE_REPEATS, Topic, topics
 from pensum.reading.library import ReadingLibrary
-from pensum.web.deps import sees_unreviewed, skill_file_for
+from pensum.web.deps import pupil_grade, sees_unreviewed, skill_file_for
 from pensum.web.rendering import context, templates, validate_locale
 from pensum.writing.library import WritingLibrary
 
@@ -108,6 +108,7 @@ async def home(request: Request, locale: str) -> HTMLResponse:
             request,
             locale,
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
+            my_grade=pupil_grade(request),
             placement_subjects=[
                 subject
                 for code in CORE_SUBJECTS

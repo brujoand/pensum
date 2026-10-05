@@ -56,10 +56,14 @@ def build(settings: Settings) -> tuple[FastAPI, TestClient]:
     return app, TestClient(app, base_url=ORIGIN)
 
 
-def sign_in(client: TestClient, user: User) -> None:
+def sign_in(client: TestClient, user: User, *, year: int | None = 5) -> None:
+    """Sign `user` in. They have said which year they are in, unless `year` is None."""
     client.cookies.set(
         LOGIN_COOKIE, CookieCodec(SECRET).dump_login(user), domain="pensum.example.com"
     )
+    profiles = client.app.state.profiles
+    if year is not None and profiles is not None:
+        profiles.set_grade(user.sub, year, datetime.now(UTC))
 
 
 def correct_response(item: QuizItem) -> str:

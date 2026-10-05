@@ -18,9 +18,11 @@ from pensum.auth.models import User
 from pensum.auth.oidc import OidcClient
 from pensum.config import Settings
 from pensum.drills.loader import DrillLibrary
+from pensum.i18n import DEFAULT_LOCALE
 from pensum.missions.loader import MissionLibrary
 from pensum.review.store import Kind, ReviewLedger, ReviewStore, State
 from pensum.scores.evidence import EvidenceStore
+from pensum.scores.profile import ProfileStore
 from pensum.scores.store import AttemptStore
 from pensum.scores.xp import Award, Source, XpStore
 from pensum.skills.schema import SkillFile
@@ -50,6 +52,20 @@ def get_evidence(request: Request) -> EvidenceStore | None:
 def get_xp(request: Request) -> XpStore | None:
     """The XP ledger. None exactly when `get_store` is None."""
     return request.app.state.xp
+
+
+def get_profiles(request: Request) -> ProfileStore | None:
+    """Each pupil's year. None exactly when `get_store` is None."""
+    return request.app.state.profiles
+
+
+def pupil_grade(request: Request) -> int | None:
+    """The signed-in pupil's year, or None when nobody is signed in or they have not said."""
+    profiles = get_profiles(request)
+    user = current_user(request)
+    if profiles is None or user is None:
+        return None
+    return profiles.grade(user.sub, datetime.now(UTC))
 
 
 def award_xp(
@@ -169,25 +185,51 @@ class SignInRequired(Exception):
         self.next_url = next_url
 
 
+class YearRequired(Exception):
+    """Raised by `require_pupil`; the app turns it into the one-time "which year" page."""
+
+    def __init__(self, locale: str, next_url: str) -> None:
+        super().__init__(next_url)
+        self.locale = locale
+        self.next_url = next_url
+
+
 def require_pupil(request: Request) -> None:
     """The gate on every exercise: quizzes, placement, reading, writing, listening.
 
     Only where sign-in is configured. An instance without a provider has nobody
     to sign in as, so its exercises stay open and nothing is recorded.
 
-    A GET comes back to itself after sign-in. A POST cannot be replayed, so it
-    comes back to the page the form was on, when that page is on this site.
+    A signed-in pupil who has not said which year they are in is asked first,
+    once. An administrator is not: a teacher trying a quiz is in no year.
     """
-    if not get_settings(request).auth_enabled or current_user(request) is not None:
+    if not get_settings(request).auth_enabled:
         return
+    user = current_user(request)
+    if user is None:
+        raise SignInRequired(_return_to(request))
+    profiles = get_profiles(request)
+    if profiles is None or is_admin(request):
+        return
+    if profiles.grade(user.sub, datetime.now(UTC)) is None:
+        locale = request.path_params.get("locale", DEFAULT_LOCALE)
+        raise YearRequired(locale, _return_to(request))
+
+
+def _return_to(request: Request) -> str:
+    """Where to come back to once the pupil has signed in or said their year.
+
+    A GET comes back to itself. A POST cannot be replayed, so it comes back to
+    the page the form was on, when that page is on this site.
+    """
     if request.method == "GET":
         query = f"?{request.url.query}" if request.url.query else ""
-        raise SignInRequired(f"{request.url.path}{query}")
+        return f"{request.url.path}{query}"
     referer = urlsplit(request.headers.get("referer", ""))
     if referer.netloc == request.url.netloc and referer.path:
         query = f"?{referer.query}" if referer.query else ""
-        raise SignInRequired(f"{referer.path}{query}")
-    raise SignInRequired("/")
+        return f"{referer.path}{query}"
+    return "/"
 
 
 def admin_possible(request: Request) -> bool:

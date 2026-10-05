@@ -133,6 +133,11 @@ rather than documented as intent:
   provider's sign-in page and back again. The curriculum, the progression guide
   and the missions stay open to anyone. Without a provider configured there is
   nobody to sign in as, so every exercise stays open and nothing is recorded.
+  At their first exercise a pupil is asked once which year they are in, at
+  `/{locale}/trinn`. The `pupil_year` table keeps the answer with the school
+  year it was given in, and the pupil moves up a year every 1 August. The home
+  page links to their year and the placement test starts from it. An
+  administrator is not asked.
 - **Only finished quizzes are kept.** An abandoned attempt is not a result and
   leaves nothing behind.
 - **A summary, not a transcript.** What is stored is the checkpoint, the score

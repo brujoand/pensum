@@ -12,6 +12,7 @@ The store and ledger rules on their own are in `test_review_state`.
 from __future__ import annotations
 
 import re
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -136,9 +137,12 @@ def build(
 
 
 def sign_in(client: TestClient, user: User) -> None:
+    """Sign `user` in, having said which year they are in, as `test_admin.sign_in` does."""
     client.cookies.set(
         LOGIN_COOKIE, CookieCodec(SECRET).dump_login(user), domain="pensum.example.com"
     )
+    if (profiles := client.app.state.profiles) is not None:
+        profiles.set_grade(user.sub, 5, datetime.now(UTC))
 
 
 def pupil(app: FastAPI) -> TestClient:

@@ -17,7 +17,7 @@
       <select name="grade" id="grade">
         <option value="">{{ t("placement.grade_unknown") }}</option>
         {% for grade in grades %}
-          <option value="{{ grade }}">{{ t("home.grade", grade=grade) }}</option>
+          <option value="{{ grade }}" {% if my_grade == grade %}selected{% endif %}>{{ t("home.grade", grade=grade) }}</option>
         {% endfor %}
       </select>
     </fieldset>

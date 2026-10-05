@@ -17,6 +17,8 @@ it, and approving it serves it.
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -133,9 +135,12 @@ def build(settings: Settings | None = None) -> tuple[FastAPI, TestClient]:
 
 
 def sign_in(client: TestClient, user: User) -> None:
+    """Sign `user` in, having said which year they are in, as `test_admin.sign_in` does."""
     client.cookies.set(
         LOGIN_COOKIE, CookieCodec(SECRET).dump_login(user), domain="pensum.example.com"
     )
+    if (profiles := client.app.state.profiles) is not None:
+        profiles.set_grade(user.sub, 5, datetime.now(UTC))
 
 
 # --- the negative cases ----------------------------------------------------

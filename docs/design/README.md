@@ -17,6 +17,7 @@ through them every other child. Nothing here is implemented yet.
 | [subjects/](subjects/) | per subject: strands, a progression per checkpoint citing LK20, misconceptions to watch for, activities, missions |
 | [xp.md](xp.md) | what earns XP, where it is stored, and who sees it |
 | [llm-drills.md](llm-drills.md) | a beta class of drill where a language model writes the questions from reviewed facts, and what that changes about review |
+| [arkade.md](arkade.md) | opt-in drill games (balloons, memory pairs, invaders), their timer, and what they record |
 
 Subjects: [matematikk](subjects/matematikk.md) ·
 [norsk](subjects/norsk.md) · [engelsk](subjects/engelsk.md) ·

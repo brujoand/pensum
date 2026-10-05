@@ -20,6 +20,7 @@ every exercise open and has no XP.
 | reading aloud | 20 for reaching the last word | when the reading is marked |
 | writing | 20 for finishing a prompt | when the tracing is scored |
 | listening and spelling | 10 per correct answer | when the answer is marked |
+| Arkade round (not built, see [arkade.md](arkade.md)) | 10 per correct answer, 20 for finishing; 0 for running out of time | when the round ends |
 
 - **Hints cost nothing.** They never lower the score, so they never lower XP.
 - **A wrong answer earns 0 and takes nothing away.**

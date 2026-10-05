@@ -28,7 +28,8 @@ grow -- rather than 404ing, which would read as a broken link.
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+from datetime import UTC, datetime
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -36,6 +37,7 @@ from fastapi.responses import HTMLResponse
 from pensum.domain.models import Subject
 from pensum.mastery.rules import DEFAULT_RULES, NOT_STARTED, Mastery, MasteryRules, State, assess
 from pensum.scores.evidence import Evidence
+from pensum.scores.xp import Tally, week_start
 from pensum.skills.schema import Skill, SkillFile, Strand
 from pensum.web.deps import current_user, get_evidence, get_store, get_xp, require_admin
 from pensum.web.rendering import context, templates, validate_locale
@@ -185,6 +187,7 @@ class GridRow:
     name: str
     sub: str
     cells: tuple[Mastery, ...]
+    xp: Tally = Tally()
 
 
 def class_grid(
@@ -242,7 +245,12 @@ async def class_page(
             store.for_skills([s.id for s in skills_on(skill_file, chosen.id)]),
             _rules(request),
         )
-        extra |= {"skills": skills, "rows": rows}
+        # XP in this subject, beside the mastery it is no substitute for.
+        ledger = get_xp(request)
+        if ledger is not None:
+            xp = ledger.for_subject(subject.code, week_start(datetime.now(UTC)))
+            rows = [replace(row, xp=xp.get(row.sub, Tally())) for row in rows]
+        extra |= {"skills": skills, "rows": rows, "xp_shown": ledger is not None}
 
     return templates.TemplateResponse(
         request, "pages/admin_class.html", context(request, locale, **extra)

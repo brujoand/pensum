@@ -421,6 +421,8 @@ admin:
   goals_heading: Competence goals in this quiz
   column:
     pupil: Pupil
+    xp_week: XP this week
+    xp_total: XP in total
     attempts: Quizzes
     average: Average
     latest: Last

@@ -432,6 +432,8 @@ admin:
   goals_heading: Kompetansemål i denne quizen
   column:
     pupil: Elev
+    xp_week: XP denne uka
+    xp_total: XP totalt
     attempts: Quizer
     average: Snitt
     latest: Sist

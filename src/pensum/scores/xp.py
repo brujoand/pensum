@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Literal
 
@@ -48,6 +48,21 @@ def for_run(answers: Iterable[tuple[bool, bool]]) -> int:
     if not counted:
         return 0
     return PER_CORRECT * sum(counted) + PER_FINISH
+
+
+def week_start(now: datetime) -> datetime:
+    """Monday 00:00 UTC of the week `now` is in. UTC, like the mastery rules' days."""
+    today = now.astimezone(UTC).date()
+    day = today - timedelta(days=today.weekday())
+    return datetime(day.year, day.month, day.day, tzinfo=UTC)
+
+
+@dataclass(frozen=True)
+class Tally:
+    """One pupil's XP in one subject, for the class grid."""
+
+    week: int = 0
+    total: int = 0
 
 
 @dataclass(frozen=True)
@@ -93,6 +108,20 @@ class XpStore:
                     award.recorded_at.astimezone(UTC).isoformat(),
                 ),
             )
+
+    def for_subject(self, subject: str, since: datetime) -> dict[str, Tally]:
+        """Every pupil's XP in `subject`: earned since `since`, and in all."""
+        with connect(self.path) as connection:
+            rows = connection.execute(
+                """
+                SELECT user_sub,
+                       SUM(CASE WHEN recorded_at >= ? THEN amount ELSE 0 END) AS week,
+                       SUM(amount) AS total
+                FROM xp WHERE subject = ? GROUP BY user_sub
+                """,
+                (since.astimezone(UTC).isoformat(), subject),
+            ).fetchall()
+        return {row["user_sub"]: Tally(week=row["week"], total=row["total"]) for row in rows}
 
     def total(self, user_sub: str) -> int:
         """Everything this pupil has earned, in every subject."""

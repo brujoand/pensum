@@ -80,7 +80,7 @@ function element(id) {
   return el;
 }
 
-function page(round, { calm = false } = {}) {
+function page(round, { calm = false, failFirst = false } = {}) {
   const ids = [
     "balloons", "balloons-round", "balloons-position", "balloons-rule", "balloons-hear",
     "balloons-say", "balloons-sky", "balloons-feedback", "balloons-next",
@@ -94,6 +94,7 @@ function page(round, { calm = false } = {}) {
     labelWrong: "Ikke helt. Riktig er:",
     labelPopped: "Ballongen sprakk. Riktig er:",
     labelPosition: "Ballong {n} av {total}",
+    labelFailed: "Vi fikk ikke lagret runden."
   });
   els["balloons-round"].textContent = JSON.stringify(round);
   els["balloons-rules"].content = {
@@ -116,7 +117,8 @@ function page(round, { calm = false } = {}) {
   };
   const fetch = (url, options) => {
     posted.push({ url, body: JSON.parse(options.body) });
-    return Promise.resolve({ text: () => Promise.resolve("<p>resultat</p>") });
+    const ok = !(failFirst && posted.length === 1);
+    return Promise.resolve({ ok, text: () => Promise.resolve("<p>resultat</p>") });
   };
 
   new Function("document", "window", "fetch", src)(document, window, fetch);
@@ -196,6 +198,22 @@ const ROUND = {
   const untimed = page({ ...ROUND, timed: false });
   check("with the timer off nothing grows", !balloon(untimed.els, 0).classList.contains("balloon--growing"));
   check("with the timer off no timer is set", untimed.timers.length === 0);
+
+  /* --- a save that fails -------------------------------------------------- */
+
+  const failing = page({ ...ROUND, timed: false }, { failFirst: true });
+  for (let i = 0; i < ROUND.items.length; i++) {
+    balloon(failing.els, 0).click();
+    failing.els["balloons-next"].click();
+  }
+  await new Promise((resolve) => setImmediate(resolve));
+  check("a failed save says so", failing.els["balloons-feedback"].textContent === "Vi fikk ikke lagret runden.");
+  check("and offers the button again", failing.els["balloons-next"].hidden === false);
+  failing.els["balloons-next"].click();
+  await new Promise((resolve) => setImmediate(resolve));
+  check("pressing it sends the same picks again", failing.posted.length === 2 &&
+    JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
+  check("and the result is then shown", failing.els["balloons-result"].innerHTML === "<p>resultat</p>");
 
   const calm = page(ROUND, { calm: true });
   check("calm mode cannot draw the timer, so it does not run one", calm.timers.length === 0);

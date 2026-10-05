@@ -1269,4 +1269,5 @@ arkade:
     Vi har ikke nok ord til dette spillet på trinnet ditt ennå. Prøv et annet
     spill.
   needs_js: Spillet trenger JavaScript.
+  failed: Vi fikk ikke lagret runden. Trykk Neste for å prøve igjen.
   no_voice: Nettleseren har ingen stemme for dette språket, så ordet kan ikke leses opp her.

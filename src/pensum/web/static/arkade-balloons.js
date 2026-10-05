@@ -190,10 +190,17 @@
       credentials: "same-origin",
     })
       .then(function (response) {
+        if (!response.ok) throw new Error("mark failed");
         return response.text();
       })
       .then(function (html) {
         result.innerHTML = html;
+      })
+      .catch(function () {
+        /* The board is already cleared, so say what happened and offer the
+         * same button again: pressing it sends the same picks once more. */
+        feedback.textContent = root.dataset.labelFailed;
+        nextButton.hidden = false;
       });
   }
 

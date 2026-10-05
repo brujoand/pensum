@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.heading") }}</h1>
+  <p class="lede">{{ t("arkade.intro") }}</p>
+
+  {% if grade is none %}
+    {# Only where nobody is signed in: a signed-in pupil always has a year. #}
+    <section aria-labelledby="arkade-year">
+      <h2 id="arkade-year">{{ t("year.heading") }}</h2>
+      <ul class="grade-grid">
+        {% for g in grades %}
+          <li>
+            <a class="grade-card" href="/{{ locale }}/arkade?trinn={{ g }}">
+              <span class="grade-number">{{ g }}</span>
+              <span class="grade-label">{{ t("home.grade", grade=g) }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% else %}
+    {% set query = "" if user else "?trinn=" ~ grade ~ ("" if timer_on else "&tidtaker=av") %}
+    <section aria-labelledby="arkade-games">
+      <h2 id="arkade-games">{{ t("arkade.balloons") }}</h2>
+      <p class="note">{{ t("arkade.balloons_note", count=round_length) }}</p>
+      <ul class="arkade-games">
+        {% for game in games %}
+          <li>
+            <a class="arkade-card" href="/{{ locale }}/arkade/ballonger/{{ game }}{{ query }}">
+              <span class="arkade-card__balloon" aria-hidden="true"></span>
+              <span>{{ t("arkade.game_" ~ game) }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section aria-labelledby="arkade-timer">
+      <h2 id="arkade-timer">{{ t("arkade.timer") }}</h2>
+      <p class="note">{{ t("arkade.timer_on" if timer_on else "arkade.timer_off") }}</p>
+      {% if timer_stored %}
+        <form method="post" action="/{{ locale }}/arkade/tidtaker">
+          <input type="hidden" name="timer" value="{{ 'av' if timer_on else 'på' }}" />
+          <button class="button" type="submit">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</button>
+        </form>
+      {% else %}
+        <a class="button" href="/{{ locale }}/arkade?trinn={{ grade }}{{ '&tidtaker=av' if timer_on else '' }}">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</a>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

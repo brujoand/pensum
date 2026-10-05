@@ -1235,3 +1235,38 @@ year:
   change_note: Valgte du feil? Du kan endre det her når som helst.
   yours: "Du går i {grade}. klasse."
   change: Endre
+
+arkade:
+  link: Arkade
+  heading: Arkade
+  intro: >-
+    Korte spill for å drille det du må huske: gangetabellen, regnestykker og
+    hvordan ord staves.
+  home_cta: Spill i Arkade
+  balloons: Ballonger
+  balloons_note: "{count} ballonger per runde. Sprekk den riktige før den sprekker av seg selv."
+  game_matte: Regnestykker
+  game_norsk: Staving på norsk
+  game_engelsk: Staving på engelsk
+  timer: Tidtaker
+  timer_on: Ballongene vokser og sprekker etter en stund.
+  timer_off: Ballongene venter så lenge du trenger.
+  timer_turn_off: Skru av tidtakeren
+  timer_turn_on: Skru på tidtakeren
+  rule:
+    false_statement: Sprekk ballongen med regnestykket som er feil.
+    spoken_word: Sprekk ballongen som staver ordet du hører.
+  hear_again: Hør ordet igjen
+  position: "Ballong {n} av {total}"
+  right: Riktig!
+  wrong: "Ikke helt. Riktig er:"
+  popped: "Ballongen sprakk. Riktig er:"
+  next: Neste
+  result: "{correct} av {total} riktige"
+  again: Spill igjen
+  back: Tilbake til Arkade
+  no_round: >-
+    Vi har ikke nok ord til dette spillet på trinnet ditt ennå. Prøv et annet
+    spill.
+  needs_js: Spillet trenger JavaScript.
+  no_voice: Nettleseren har ingen stemme for dette språket, så ordet kan ikke leses opp her.

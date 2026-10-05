@@ -1217,3 +1217,38 @@ year:
   change_note: Picked the wrong one? You can change it here at any time.
   yours: "You are in year {grade}."
   change: Change
+
+arkade:
+  link: Arkade
+  heading: Arkade
+  intro: >-
+    Short games for drilling what you need to remember: times tables, sums and
+    how words are spelt.
+  home_cta: Play in Arkade
+  balloons: Balloons
+  balloons_note: "{count} balloons per round. Pop the right one before it pops by itself."
+  game_matte: Sums
+  game_norsk: Norwegian spelling
+  game_engelsk: English spelling
+  timer: Timer
+  timer_on: The balloons grow and pop after a while.
+  timer_off: The balloons wait as long as you need.
+  timer_turn_off: Turn the timer off
+  timer_turn_on: Turn the timer on
+  rule:
+    false_statement: Pop the balloon with the sum that is wrong.
+    spoken_word: Pop the balloon that spells the word you hear.
+  hear_again: Hear the word again
+  position: "Balloon {n} of {total}"
+  right: Right!
+  wrong: "Not quite. The right one is:"
+  popped: "The balloon popped. The right one is:"
+  next: Next
+  result: "{correct} of {total} right"
+  again: Play again
+  back: Back to Arkade
+  no_round: >-
+    We do not have enough words for this game in your year yet. Try another
+    game.
+  needs_js: The game needs JavaScript.
+  no_voice: This browser has no voice for the language, so the word cannot be read aloud here.

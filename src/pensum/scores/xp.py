@@ -24,7 +24,7 @@ from pensum.scores.store import connect
 PER_CORRECT = 10
 PER_FINISH = 20
 
-Source = Literal["quiz", "placement", "reading", "writing", "listening"]
+Source = Literal["quiz", "placement", "reading", "writing", "listening", "arkade"]
 
 # Created on open, like `attempts` and `evidence`; an existing database gains
 # it on the next start.

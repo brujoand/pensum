@@ -4,9 +4,10 @@ Short games for practising what has to be remembered: spelling, number facts,
 times tables, countries. A pupil chooses to go to Arkade. It is a separate place
 from the exercises, and the exercises keep every rule they have today.
 
-This is a design. What exists is the pupil's year (`pensum.scores.profile`),
-which every game reads its content from, and the items in `pensum.arkade`. No
-page serves them yet. Every other name below is a proposal.
+Built so far: the pupil's year and timer setting (`pensum.scores.profile`), the
+items (`pensum.arkade`), and the balloon game at `/{locale}/arkade`
+(`pensum.web.arkade_routes`, `static/arkade-balloons.js`). Memory pairs and
+invaders are proposals.
 
 ## What changes, and what does not
 
@@ -23,7 +24,9 @@ page serves them yet. Every other name below is a proposal.
    choice is stored per pupil, beside their year, and applies to every game.
    Switching it off changes nothing else: the same items, the same XP.
 3. **The timer is drawn, never written as digits.** A balloon growing or a disc
-   shrinking, as rule 5 already requires of the break timer.
+   shrinking, as rule 5 already requires of the break timer. Where calm mode or
+   the device's reduced-motion setting stops animation, the timer cannot be
+   drawn, so it does not run: the balloons wait, as with the timer off.
 4. **Running out of time earns 0 and is not evidence.** A popped balloon or a
    target that got past is not a wrong answer. It is not written to `evidence`,
    so it never lowers mastery.
@@ -84,7 +87,7 @@ rather than recognises one.
 1. The pupil's year. Done: `pensum.scores.profile`.
 2. The item model, the arithmetic generator and the spelling generator.
    Done: `pensum.arkade`.
-3. Balloons, the Arkade page and the timer setting.
+3. Balloons, the Arkade page and the timer setting. Done.
 4. Memory pairs.
 5. Invaders.
 6. Fact items, once the false versions are written and reviewed.

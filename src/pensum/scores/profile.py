@@ -29,6 +29,12 @@ CREATE TABLE IF NOT EXISTS pupil_year (
     school_year INTEGER NOT NULL,
     recorded_at TEXT NOT NULL
 );
+-- The Arkade timer, on unless the pupil switched it off (docs/design/arkade.md,
+-- rule 2). A table of its own so an existing database gains it on start.
+CREATE TABLE IF NOT EXISTS arkade_timer (
+    user_sub TEXT PRIMARY KEY,
+    timer_on INTEGER NOT NULL
+);
 """
 
 
@@ -74,3 +80,18 @@ class ProfileStore:
             return None
         moved_up = school_year(now.astimezone(UTC).date()) - row["school_year"]
         return min(row["grade"] + max(moved_up, 0), LAST_GRADE)
+
+    def timer_on(self, user_sub: str) -> bool:
+        """Whether Arkade games are timed for this pupil. On until they say otherwise."""
+        with connect(self.path) as connection:
+            row = connection.execute(
+                "SELECT timer_on FROM arkade_timer WHERE user_sub = ?", (user_sub,)
+            ).fetchone()
+        return True if row is None else bool(row["timer_on"])
+
+    def set_timer(self, user_sub: str, on: bool) -> None:
+        with connect(self.path) as connection:
+            connection.execute(
+                "INSERT OR REPLACE INTO arkade_timer (user_sub, timer_on) VALUES (?, ?)",
+                (user_sub, int(on)),
+            )

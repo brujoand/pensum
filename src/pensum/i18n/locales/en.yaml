@@ -1206,3 +1206,14 @@ mastery:
 xp:
   earned: "+{earned} XP. You have {total} XP in all."
   total: "You have {total} XP."
+
+year:
+  heading: Which year are you in?
+  intro: >-
+    We ask once, so we can find exercises that suit you. After the summer
+    holidays we move you up a year on our own.
+  question: I am in
+  save: Save
+  change_note: Picked the wrong one? You can change it here at any time.
+  yours: "You are in year {grade}."
+  change: Change

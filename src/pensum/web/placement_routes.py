@@ -31,7 +31,7 @@ from pensum.quiz.session import SessionStore
 from pensum.scores.store import attempt_key
 from pensum.scores.xp import Award
 from pensum.scores.xp import for_run as xp_for_run
-from pensum.web.deps import current_user, get_xp
+from pensum.web.deps import current_user, get_xp, pupil_grade
 from pensum.web.rendering import context, flow, templates, validate_locale
 
 router = APIRouter()
@@ -118,6 +118,8 @@ async def start_page(request: Request, locale: str, subject_code: str) -> HTMLRe
             subject=subject,
             ladder=ladder,
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
+            # Pre-selected, never forced: "Jeg vet ikke" stays one click away.
+            my_grade=pupil_grade(request),
         ),
     )
 

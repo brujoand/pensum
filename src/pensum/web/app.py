@@ -41,13 +41,14 @@ from pensum.reading.streams import StreamStore
 from pensum.reading.transcribe import Transcriber, load_transcriber
 from pensum.review.store import ReviewLedger, ReviewStore
 from pensum.scores.evidence import EvidenceStore
+from pensum.scores.profile import ProfileStore
 from pensum.scores.store import AttemptStore
 from pensum.scores.xp import XpStore
 from pensum.skills.loader import SkillLibrary
 from pensum.web.admin_routes import router as admin_router
 from pensum.web.auth_routes import router as auth_router
 from pensum.web.comfort_routes import router as comfort_router
-from pensum.web.deps import SignInRequired, require_pupil
+from pensum.web.deps import SignInRequired, YearRequired, require_pupil
 from pensum.web.listening_routes import router as listening_router
 from pensum.web.mastery_routes import router as mastery_router
 from pensum.web.missions_routes import router as missions_router
@@ -58,6 +59,7 @@ from pensum.web.review_routes import router as review_router
 from pensum.web.routes import router
 from pensum.web.skills_routes import router as skills_router
 from pensum.web.writing_routes import router as writing_router
+from pensum.web.year_routes import router as year_router
 from pensum.writing.library import WritingLibrary
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -91,7 +93,17 @@ def _to_sign_in(request: Request, exc: Exception) -> Response:
     """
     if not isinstance(exc, SignInRequired):
         raise exc
-    destination = f"/auth/login?next={quote(exc.next_url, safe='/')}"
+    return _navigate(request, f"/auth/login?next={quote(exc.next_url, safe='/')}")
+
+
+def _to_year(request: Request, exc: Exception) -> Response:
+    """Ask a signed-in pupil which year they are in, then send them back."""
+    if not isinstance(exc, YearRequired):
+        raise exc
+    return _navigate(request, f"/{exc.locale}/trinn?next={quote(exc.next_url, safe='/')}")
+
+
+def _navigate(request: Request, destination: str) -> Response:
     if request.headers.get("HX-Request"):
         return Response(status_code=204, headers={"HX-Redirect": destination})
     return RedirectResponse(destination, status_code=303)
@@ -179,6 +191,8 @@ def create_app(
     app.state.evidence = EvidenceStore(active.database_file) if active.history_enabled else None
     # And the XP ledger, written at the same moment as the evidence.
     app.state.xp = XpStore(active.database_file) if active.history_enabled else None
+    # Each pupil's year, asked at their first exercise. See `pensum.scores.profile`.
+    app.state.profiles = ProfileStore(active.database_file) if active.history_enabled else None
 
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(router)
@@ -191,6 +205,8 @@ def create_app(
     app.include_router(writing_router, dependencies=exercise)
     app.include_router(listening_router, dependencies=exercise)
     app.add_exception_handler(SignInRequired, _to_sign_in)
+    app.add_exception_handler(YearRequired, _to_year)
+    app.include_router(year_router)
     app.include_router(auth_router)
     app.include_router(admin_router)
     app.include_router(review_router)

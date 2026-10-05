@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("year.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("year.heading") }}</h1>
+  <p class="lede">{{ t("year.intro") }}</p>
+
+  <form method="post" action="/{{ locale }}/trinn">
+    {% if back %}<input type="hidden" name="next" value="{{ back }}" />{% endif %}
+    <fieldset>
+      <legend>{{ t("year.question") }}</legend>
+      <ul class="choices">
+        {% for grade in grades %}
+          <li>
+            <label>
+              <input type="radio" name="grade" value="{{ grade }}" required
+                     {% if current == grade %}checked{% endif %} />
+              <span>{{ t("home.grade", grade=grade) }}</span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    </fieldset>
+
+    <button class="button" type="submit">{{ t("year.save") }}</button>
+  </form>
+
+  <p class="note">{{ t("year.change_note") }}</p>
+{% endblock %}

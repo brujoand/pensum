@@ -11,6 +11,12 @@
      was previously not answerable at all. #}
   <section aria-labelledby="grades-heading">
     <h2 id="grades-heading">{{ t("home.heading") }}</h2>
+    {% if my_grade %}
+      <p class="lede">
+        <a href="/{{ locale }}/klasse/{{ my_grade }}">{{ t("year.yours", grade=my_grade) }}</a>
+        · <a href="/{{ locale }}/trinn">{{ t("year.change") }}</a>
+      </p>
+    {% endif %}
     <ul class="grade-grid">
       {% for grade in grades %}
         <li>

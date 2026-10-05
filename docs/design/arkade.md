@@ -36,7 +36,8 @@ which every game reads its content from. Every other name below is a proposal.
    the pupil picked.
 8. **Content comes from the pupil's year,** through `checkpoint_for(subject,
    grade)`, so a 3rd-grader gets 3rd-grade items.
-9. **Sensitive skills never appear in Arkade.** Design decision 10.
+9. **An item on a sensitive skill earns 0,** as it does in a quiz
+   ([xp.md](xp.md)). Design decision 10: sensitive topics are never gamified.
 10. **No pupil sees another pupil's results.** Rule 4. The teacher's class grid
     shows Arkade XP with the rest.
 

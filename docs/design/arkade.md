@@ -5,7 +5,8 @@ times tables, countries. A pupil chooses to go to Arkade. It is a separate place
 from the exercises, and the exercises keep every rule they have today.
 
 This is a design. What exists is the pupil's year (`pensum.scores.profile`),
-which every game reads its content from. Every other name below is a proposal.
+which every game reads its content from, and the items in `pensum.arkade`. No
+page serves them yet. Every other name below is a proposal.
 
 ## What changes, and what does not
 
@@ -49,21 +50,28 @@ A game decides only how they look.
 
 | generator | example | where the content comes from |
 |---|---|---|
-| arithmetic | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated: addition and subtraction for years 1-2, times tables for 3-4, division, fractions and divisibility for 5-7 |
-| Norwegian spelling | `kjøleskap` and `kjøleskapp` | generated from a word list by `pensum.listening.confusable`, which already derives plausible misspellings |
-| English spelling | `because` and `becuase` | needs English misspelling rules, which do not exist yet |
+| arithmetic (`pensum.arkade.arithmetic`) | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated: adding and subtracting within 20 for years 1-2, within 100 and the 2, 5 and 10 tables for year 3, all tables and division from year 4. Fractions and divisibility are not generated yet |
+| spelling (`pensum.arkade.spelling`) | the word `kjøleskap` is spoken; `kjøleskap` and `kjøleskapp` are shown | the words of the passages approved for the pupil's checkpoint, Norwegian or English, and a wrong spelling from `pensum.listening.confusable`, as in the listening exercise |
 | letter class | consonant or vowel | generated |
 | pairs | `7 × 8` and `56`, a country and its capital, `hund` and `dog` | generated for numbers; word and fact lists for the rest |
 | facts | a true and a false statement | the fact packs under `data/drills/`, plus a false version of each fact, reviewed like any other content |
 
-Each item names the skill it practises, so an answer becomes one `evidence` row
-under that skill, as a quiz answer does.
+A spelling item is spoken first, so a wrong spelling that is also a real word
+(`bok` beside `bak`) is a fair question: the pupil is asked which one is the
+word they heard, not which one is not a word.
+
+An item names the skill it practises where one fits closely, and an answer then
+becomes one `evidence` row under that skill, as a quiz answer does. Where none
+fits, the item names none and its answers record no evidence. Adding within 100
+has none, because the year-3 adding skills are about choosing and explaining a
+method. Spelling after 2. trinn has none, because those skills each name one
+pattern, such as kj and skj.
 
 ## Games
 
 | game | the pupil | item shape | round |
 |---|---|---|---|
-| balloons | pops the balloon with the false statement or the misspelt word | 3 candidates, or 2 for spelling, one not matching | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
+| balloons | pops the balloon with the false statement, or hears a word and pops the balloon that spells it | 3 statements with one false, or 2 spellings with one right | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
 | memory pairs | turns cards two at a time to find matching pairs | 6 pairs | one board; with the timer on, the board has 2 minutes |
 | invaders | shoots only the targets matching the rule ("divisible by 3", "consonants") | a stream of candidates | 12 targets; with the timer on, targets advance, and a match that gets past earns 0 |
 
@@ -74,8 +82,8 @@ rather than recognises one.
 ## Build order
 
 1. The pupil's year. Done: `pensum.scores.profile`.
-2. The item model, the arithmetic generator and the Norwegian spelling
-   generator.
+2. The item model, the arithmetic generator and the spelling generator.
+   Done: `pensum.arkade`.
 3. Balloons, the Arkade page and the timer setting.
 4. Memory pairs.
 5. Invaders.

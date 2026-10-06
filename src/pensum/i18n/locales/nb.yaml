@@ -1244,7 +1244,7 @@ arkade:
     hvordan ord staves.
   home_cta: Spill i Arkade
   balloons: Ballonger
-  balloons_note: "{count} ballonger per runde og tre liv. Sveip til venstre hvis ballongen har rett, til høyre hvis den tar feil."
+  balloons_note: "{count} ballonger per runde og tre liv. Sveip ballongen mot ✓ hvis den har rett, mot nålen hvis den tar feil."
   game_matte: Regnestykker
   game_norsk: Staving på norsk
   game_engelsk: Staving på engelsk
@@ -1254,18 +1254,17 @@ arkade:
   timer_turn_off: Skru av tidtakeren
   timer_turn_on: Skru på tidtakeren
   rule:
-    statement: Stemmer regnestykket? Sveip til venstre for ja, til høyre for nei.
-    spoken_word: Er ordet du hører stavet slik? Sveip til venstre for ja, til høyre for nei.
+    statement: Stemmer regnestykket? Sveip mot ✓ eller ✗.
+    spoken_word: Er ordet du hører stavet slik? Sveip mot ✓ eller ✗.
   hear_again: Hør ordet igjen
   position: "Ballong {n} av {total}"
-  fly: La den fly
-  pop: Stikk hull
+  fly: "Riktig: la den fly"
+  pop: "Feil: stikk hull"
   lives: "Liv: {n}"
-  point: "Riktig! Et poeng."
-  popped_false: "Riktig, den var feil. Det riktige er:"
-  lost_true: "Den var riktig! Du mistet et liv. Det riktige er:"
-  lost_false: "Den var feil, og fløy sin vei. Du mistet et liv. Det riktige er:"
-  drifted: "Ballongen fløy av seg selv. Det riktige er:"
+  right: Riktig!
+  lost_true: Den var riktig! Du mistet et liv.
+  lost_false: "Feil! Du mistet et liv. Det riktige er:"
+  drifted: "Det riktige er:"
   next: Neste
   result: "{correct} av {total} riktige"
   result_points: "{points} poeng"

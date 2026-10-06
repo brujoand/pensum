@@ -1,15 +1,24 @@
 /* Arkade balloons: one balloon at a time, true or false.
  *
  * The balloon carries a statement, or one spelling of a word the page speaks.
- * Swipe it left (or press the left arrow or the left button) to let it fly
- * away: that says it is true, and a true one earns a point. Swipe it right to
- * send it up to the needle: that says it is false. Getting either wrong costs
- * a life, and the round ends when the lives are gone. Popping a false balloon
- * is right and does nothing else.
+ * The sky behind it is split: the left half is "true", the right half has the
+ * needle and is "false". Swipe the balloon towards a half, tap the half, or
+ * press the arrow key on that side.
  *
- * With the timer on, the balloon floats up for `data-seconds` and drifts off
- * the top: neither a point nor a life (design rule 4). Every balloon ends on
- * its correct form (rule 7), and the next one comes when the pupil asks.
+ * Swiped left, the balloon flies off up and to the left: a true one is a
+ * point, a false one costs a life. Swiped right, it travels to the needle and
+ * bursts: a false one is simply right, a true one costs a life. The round ends
+ * when the lives are gone. A right answer says "Riktig!"; a wrong one also
+ * shows the right form (design rule 7).
+ *
+ * With the timer on, the balloon rises for `data-seconds` and drifts off the
+ * top: neither a point nor a life (rule 4).
+ *
+ * The motion is done by hand, frame by frame: the balloon follows the finger,
+ * leans and stretches with it, its string trails behind and settles, and a
+ * swipe too short to count springs back past the middle before it rests. In
+ * calm mode, or where the device asks for less motion, none of it runs: the
+ * balloon is simply there, and simply gone.
  *
  * At the end the page posts, per balloon, 0 for flown, 1 for popped, null for
  * drifted, and nothing for the balloons after the last life; the server marks
@@ -28,31 +37,33 @@
   var round = JSON.parse(data.textContent);
   var items = round.items;
   var seconds = Number(root.dataset.seconds) || 60;
-  /* The rising balloon is the timer. Where calm mode or the device stops
-   * animation it cannot be seen, and a balloon that leaves with no warning
-   * breaks rule 5 -- so there it waits, as with the timer off. */
   var still =
     document.documentElement.hasAttribute("data-calm") ||
     (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  /* The rising balloon is the timer. Where it cannot be seen to rise, a balloon
+   * that leaves with no warning breaks rule 5, so there it waits. */
   var timed = round.timed && !still;
+  var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : null;
+  var motion = !still && !!raf;
 
   var FLY = 0;
   var POP = 1;
-  /* How far a swipe has to travel to count, in pixels. Less is a tap or a
-   * wobble, and the balloon goes back. */
+  /* How far a swipe has to travel to count, in pixels. */
   var SWIPE = 60;
   /* How long the fly-away or the trip to the needle plays before the answer
-   * shows. Without animation it is only a short pause. */
-  var LEAVE_MS = still ? 150 : 700;
+   * shows. Without motion it is only a short pause. */
+  var LEAVE_MS = motion ? 900 : 150;
 
   var position = document.getElementById("balloons-position");
   var livesLine = document.getElementById("balloons-lives");
   var ruleLine = document.getElementById("balloons-rule");
   var hear = document.getElementById("balloons-hear");
   var sayButton = document.getElementById("balloons-say");
+  var sky = document.getElementById("balloons-sky");
   var balloonEl = document.getElementById("balloons-balloon");
+  var stringEl = document.getElementById("balloons-string");
   var shownEl = document.getElementById("balloons-shown");
-  var choices = document.getElementById("balloons-choices");
+  var burstEl = document.getElementById("balloons-burst");
   var flyButton = document.getElementById("balloons-fly");
   var popButton = document.getElementById("balloons-pop");
   var feedback = document.getElementById("balloons-feedback");
@@ -121,7 +132,134 @@
     });
   }
 
-  /* --- one balloon ---------------------------------------------------------- */
+
+  /* --- motion ---------------------------------------------------------------- */
+
+  /* The balloon's state, in pixels and degrees from where it rests. `tip` is
+   * where the end of the string is: it follows the balloon on a spring of its
+   * own, so it lags behind a quick move and swings back after it. */
+  var m = { x: 0, y: 0, vx: 0, vy: 0, rot: 0, sx: 1, sy: 1, tip: 0, tipV: 0, opacity: 1 };
+  var mode = "idle";
+  var dragX = 0;
+  var lastDragX = 0;
+  var shownAt = 0;
+  var target = { x: 0, y: 0 };
+
+  function clamp(value, low, high) {
+    return Math.max(low, Math.min(high, value));
+  }
+
+  function reset() {
+    m = { x: 0, y: 0, vx: 0, vy: 0, rot: 0, sx: 1, sy: 1, tip: 0, tipV: 0, opacity: 1 };
+    mode = "idle";
+  }
+
+  function render() {
+    balloonEl.style.transform =
+      "translate(" + m.x.toFixed(1) + "px," + m.y.toFixed(1) + "px) rotate(" +
+      m.rot.toFixed(2) + "deg) scale(" + m.sx.toFixed(3) + "," + m.sy.toFixed(3) + ")";
+    balloonEl.style.opacity = String(Math.max(0, m.opacity));
+    /* The string is drawn in the balloon's own units (100 across), bending
+     * towards where its end has fallen behind. */
+    var width = balloonEl.offsetWidth || 100;
+    var bend = clamp(((m.tip - m.x) * 100) / width, -45, 45);
+    stringEl.setAttribute(
+      "d",
+      "M50 121 Q" + (50 + bend * 0.5).toFixed(1) + " 160 " + (50 + bend).toFixed(1) + " 198"
+    );
+  }
+
+  function step(now) {
+    m.tipV = (m.tipV + (m.x - m.tip) * 0.06) * 0.86;
+    m.tip += m.tipV;
+
+    /* The timer: while it rests, is dragged or springs back, the balloon is
+     * as high as the time gone says, measured from when it was shown. */
+    if (timed && !done && (mode === "idle" || mode === "drag" || mode === "spring")) {
+      m.y = -riseDistance() * Math.min(1, (now - shownAt) / (seconds * 1000));
+    }
+    /* A slow sway while it waits, so it looks like it is floating. */
+    var sway = Math.sin(now / 1300) * 4;
+
+    if (mode === "idle") {
+      m.x = sway;
+      m.rot = Math.sin(now / 900) * 2;
+    } else if (mode === "drag") {
+      m.vx = dragX - lastDragX;
+      lastDragX = dragX;
+      m.x = dragX;
+      m.rot = clamp(dragX * 0.08, -22, 22);
+      /* Stretch along a quick move, the way a rubber balloon does. */
+      var s = Math.min(Math.abs(m.vx) * 0.012, 0.14);
+      m.sx += (1 - s - m.sx) * 0.4;
+      m.sy += (1 + s - m.sy) * 0.4;
+    } else if (mode === "spring") {
+      /* Under-damped, so a short swipe swings back past the middle once. */
+      m.vx = (m.vx - (m.x - sway) * 0.09) * 0.86;
+      m.x += m.vx;
+      m.rot = (m.x - sway) * 0.08;
+      m.sx += (1 - m.sx) * 0.2;
+      m.sy += (1 - m.sy) * 0.2;
+      if (Math.abs(m.x - sway) < 0.4 && Math.abs(m.vx) < 0.4) mode = "idle";
+    } else if (mode === "fly") {
+      m.vx -= 0.35;
+      m.vy -= 0.55;
+      m.x += m.vx;
+      m.y += m.vy;
+      m.rot = Math.max(m.rot - 0.7, -32);
+      m.sx += (0.92 - m.sx) * 0.1;
+      m.sy += (1.08 - m.sy) * 0.1;
+      m.opacity -= 0.012;
+    } else if (mode === "needle") {
+      m.x += (target.x - m.x) * 0.14;
+      m.y += (target.y - m.y) * 0.14;
+      m.rot += (14 - m.rot) * 0.1;
+      if (Math.abs(target.x - m.x) < 3 && Math.abs(target.y - m.y) < 3) burst();
+    } else if (mode === "drift") {
+      m.vy -= 0.18;
+      m.y += m.vy;
+      m.opacity -= 0.015;
+    }
+  }
+
+  function frame(now) {
+    step(now);
+    render();
+    raf(frame);
+  }
+
+  function riseDistance() {
+    return (sky.clientHeight || 400) * 0.45;
+  }
+
+  /* Where the needle's point is, from where the balloon rests. */
+  function needleTarget() {
+    var needle = popButton.querySelector ? popButton.querySelector(".balloons__needle") : null;
+    if (!needle || !needle.getBoundingClientRect) return { x: 160, y: -260 };
+    var n = needle.getBoundingClientRect();
+    var b = balloonEl.getBoundingClientRect();
+    var restLeft = b.left - m.x;
+    var restTop = b.top - m.y;
+    return { x: n.left + n.width / 2 - (restLeft + b.width / 2), y: n.bottom - restTop + 4 };
+  }
+
+  function burst() {
+    mode = "gone";
+    balloonEl.classList.add("balloon--gone");
+    if (!burstEl) return;
+    var b = balloonEl.getBoundingClientRect ? balloonEl.getBoundingClientRect() : null;
+    var s = sky.getBoundingClientRect ? sky.getBoundingClientRect() : null;
+    if (b && s) {
+      burstEl.style.left = (b.left - s.left + b.width / 2).toFixed(0) + "px";
+      burstEl.style.top = (b.top - s.top + b.width * 0.35).toFixed(0) + "px";
+    }
+    burstEl.hidden = false;
+    burstEl.classList.remove("balloons__burst--go");
+    void burstEl.offsetWidth;
+    burstEl.classList.add("balloons__burst--go");
+  }
+
+  /* --- one balloon ------------------------------------------------------------- */
 
   function ruleText(rule) {
     var node = rules.querySelector('[data-rule="' + rule + '"]');
@@ -134,8 +272,10 @@
     livesLine.textContent = root.dataset.labelLives.replace("{n}", String(lives)) + " " + hearts;
   }
 
-  function setBalloonClass(extra) {
-    balloonEl.className = "balloon balloon--" + (index % 4) + (extra ? " " + extra : "");
+  function toward(side) {
+    sky.classList.remove("balloons__sky--toward-fly");
+    sky.classList.remove("balloons__sky--toward-pop");
+    if (side) sky.classList.add("balloons__sky--toward-" + side);
   }
 
   function show(item) {
@@ -143,17 +283,20 @@
     feedback.textContent = "";
     feedback.className = "balloons__feedback";
     nextButton.hidden = true;
-    choices.hidden = false;
     position.textContent = root.dataset.labelPosition
       .replace("{n}", String(index + 1))
       .replace("{total}", String(items.length));
     ruleLine.textContent = ruleText(item.rule);
     hear.hidden = !item.spoken;
     shownEl.textContent = item.shown;
-    balloonEl.disabled = false;
-    balloonEl.style.transform = "";
-    balloonEl.style.setProperty("--balloon-seconds", seconds + "s");
-    setBalloonClass(timed ? "balloon--rising" : "");
+    balloonEl.className = "balloon balloon--" + (index % 4) + (timed ? " balloon--rising" : "");
+    if (burstEl) burstEl.hidden = true;
+    flyButton.disabled = false;
+    popButton.disabled = false;
+    toward(null);
+    reset();
+    shownAt = window.performance && window.performance.now ? window.performance.now() : 0;
+    render();
     if (timed) timer = window.setTimeout(function () { answer(item, null); }, seconds * 1000);
     say(item);
   }
@@ -166,23 +309,23 @@
       timer = null;
     }
     picks.push(pick);
-    balloonEl.disabled = true;
-    choices.hidden = true;
-    balloonEl.style.transform = "";
+    flyButton.disabled = true;
+    popButton.disabled = true;
+    toward(null);
 
     var label;
     var right = false;
     if (pick === null) {
-      setBalloonClass("balloon--drifted");
-      label = root.dataset.labelDrifted;
+      label = root.dataset.labelDrifted + " " + item.answer;
+      leave("drift");
     } else if (pick === FLY) {
-      setBalloonClass("balloon--fly");
       right = item.true;
-      label = item.true ? root.dataset.labelPoint : root.dataset.labelLostFalse;
+      label = right ? root.dataset.labelRight : root.dataset.labelLostFalse + " " + item.answer;
+      leave("fly");
     } else {
-      setBalloonClass("balloon--to-needle");
       right = !item.true;
-      label = item.true ? root.dataset.labelLostTrue : root.dataset.labelPoppedFalse;
+      label = right ? root.dataset.labelRight : root.dataset.labelLostTrue;
+      leave("needle");
     }
     if (pick !== null && !right) {
       lives -= 1;
@@ -190,12 +333,23 @@
     }
 
     window.setTimeout(function () {
-      if (pick === POP) setBalloonClass("balloon--popped");
-      feedback.textContent = label + " " + item.answer;
+      feedback.textContent = label;
       if (right) feedback.classList.add("balloons__feedback--right");
       nextButton.hidden = false;
       nextButton.focus();
     }, LEAVE_MS);
+  }
+
+  function leave(how) {
+    balloonEl.classList.add("balloon--" + (how === "needle" ? "popped" : how === "fly" ? "flown" : "drifted"));
+    if (!motion) {
+      balloonEl.classList.add("balloon--gone");
+      return;
+    }
+    if (how === "needle") target = needleTarget();
+    m.vx = how === "fly" ? Math.min(m.vx, -2) : 0;
+    m.vy = how === "fly" ? -3 : 0;
+    mode = how;
   }
 
   function next() {
@@ -211,8 +365,7 @@
     finished = true;
     ruleLine.textContent = "";
     hear.hidden = true;
-    choices.hidden = true;
-    balloonEl.hidden = true;
+    sky.hidden = true;
     feedback.textContent = "";
     feedback.className = "balloons__feedback";
     nextButton.hidden = true;
@@ -238,19 +391,27 @@
       });
   }
 
-  /* --- swiping -------------------------------------------------------------- */
+  /* --- swiping --------------------------------------------------------------- */
 
   var startX = null;
 
   balloonEl.addEventListener("pointerdown", function (event) {
     if (done) return;
     startX = event.clientX;
+    dragX = 0;
+    lastDragX = 0;
+    mode = "drag";
     if (balloonEl.setPointerCapture) balloonEl.setPointerCapture(event.pointerId);
   });
 
   balloonEl.addEventListener("pointermove", function (event) {
     if (startX === null || done) return;
-    balloonEl.style.transform = "translateX(" + (event.clientX - startX) + "px)";
+    dragX = event.clientX - startX;
+    toward(dragX <= -SWIPE / 2 ? "fly" : dragX >= SWIPE / 2 ? "pop" : null);
+    if (!motion) {
+      m.x = dragX;
+      render();
+    }
   });
 
   function release(event) {
@@ -258,15 +419,28 @@
     var dx = event.clientX - startX;
     startX = null;
     if (done) return;
-    balloonEl.style.transform = "";
-    if (dx <= -SWIPE) answer(items[index], FLY);
-    else if (dx >= SWIPE) answer(items[index], POP);
+    if (dx <= -SWIPE) return answer(items[index], FLY);
+    if (dx >= SWIPE) return answer(items[index], POP);
+    toward(null);
+    if (motion) {
+      mode = "spring";
+    } else {
+      reset();
+      render();
+    }
   }
 
   balloonEl.addEventListener("pointerup", release);
   balloonEl.addEventListener("pointercancel", function () {
     startX = null;
-    balloonEl.style.transform = "";
+    toward(null);
+    if (done) return;
+    if (motion) {
+      mode = "spring";
+    } else {
+      reset();
+      render();
+    }
   });
 
   flyButton.addEventListener("click", function () {
@@ -297,4 +471,5 @@
 
   showLives();
   show(items[0]);
+  if (motion) raf(frame);
 })();

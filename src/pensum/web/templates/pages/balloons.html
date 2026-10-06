@@ -13,8 +13,7 @@
          class="balloons"
          data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ "?" ~ request.url.query if request.url.query else "" }}"
          data-seconds="{{ balloon_seconds }}"
-         data-label-point="{{ t('arkade.point') }}"
-         data-label-popped-false="{{ t('arkade.popped_false') }}"
+         data-label-right="{{ t('arkade.right') }}"
          data-label-lost-true="{{ t('arkade.lost_true') }}"
          data-label-lost-false="{{ t('arkade.lost_false') }}"
          data-label-drifted="{{ t('arkade.drifted') }}"
@@ -31,18 +30,43 @@
         <span class="note" id="balloons-no-voice" hidden>{{ t("arkade.no_voice") }}</span>
       </p>
 
-      {# One balloon. Swipe it left to let it fly away (it is true), or right to
-         send it up to the needle (it is not). The buttons and the arrow keys do
-         the same. #}
+      {# One balloon on a sky split in two. The left half is "true, let it fly"
+         and the right half is "false, the needle", drawn rather than written.
+         Swipe the balloon towards a half, tap the half, or press the arrow key
+         on that side. #}
       <div class="balloons__sky" id="balloons-sky">
-        <span class="balloons__needle" aria-hidden="true"></span>
-        <button class="balloon" type="button" id="balloons-balloon">
-          <span class="balloon__label" id="balloons-shown"></span>
+        <button class="balloons__side balloons__side--fly" type="button" id="balloons-fly"
+                aria-label="{{ t('arkade.fly') }}">
+          <svg class="balloons__mark" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
-      </div>
-      <div class="balloons__choices" id="balloons-choices">
-        <button class="button balloons__fly" type="button" id="balloons-fly">← {{ t("arkade.fly") }}</button>
-        <button class="button balloons__pop" type="button" id="balloons-pop">{{ t("arkade.pop") }} →</button>
+        <button class="balloons__side balloons__side--pop" type="button" id="balloons-pop"
+                aria-label="{{ t('arkade.pop') }}">
+          <svg class="balloons__mark" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" />
+          </svg>
+          <svg class="balloons__needle" viewBox="0 0 20 80" aria-hidden="true">
+            <circle cx="10" cy="7" r="6" />
+            <path d="M8.5 12h3L10.6 78h-1.2z" />
+          </svg>
+        </button>
+
+        <div class="balloon" id="balloons-balloon">
+          <svg class="balloon__art" viewBox="0 0 100 200" aria-hidden="true">
+            <path class="balloon__string" id="balloons-string"
+                  d="M50 121 Q50 160 50 198" fill="none" />
+            <path class="balloon__body"
+                  d="M50 4C79 4 95 29 95 57c0 30-22 52-41 57l-4 2-4-2C27 109 5 87 5 57 5 29 21 4 50 4z" />
+            <path class="balloon__knot" d="M45 114h10l-5 8z" />
+            <ellipse class="balloon__shine" cx="31" cy="36" rx="8" ry="16"
+                     transform="rotate(-24 31 36)" />
+          </svg>
+          <span class="balloon__label" id="balloons-shown"></span>
+        </div>
+        <div class="balloons__burst" id="balloons-burst" hidden></div>
       </div>
 
       <p class="balloons__feedback" id="balloons-feedback" aria-live="assertive"></p>

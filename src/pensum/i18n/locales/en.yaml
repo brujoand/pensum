@@ -1226,7 +1226,7 @@ arkade:
     how words are spelt.
   home_cta: Play in Arkade
   balloons: Balloons
-  balloons_note: "{count} balloons per round and three lives. Swipe left if the balloon is right, right if it is wrong."
+  balloons_note: "{count} balloons per round and three lives. Swipe the balloon towards ✓ if it is right, towards the needle if it is wrong."
   game_matte: Sums
   game_norsk: Norwegian spelling
   game_engelsk: English spelling
@@ -1236,18 +1236,17 @@ arkade:
   timer_turn_off: Turn the timer off
   timer_turn_on: Turn the timer on
   rule:
-    statement: Is the sum right? Swipe left for yes, right for no.
-    spoken_word: Is the word you hear spelt like this? Swipe left for yes, right for no.
+    statement: Is the sum right? Swipe towards ✓ or ✗.
+    spoken_word: Is the word you hear spelt like this? Swipe towards ✓ or ✗.
   hear_again: Hear the word again
   position: "Balloon {n} of {total}"
-  fly: Let it fly
-  pop: Pop it
+  fly: "Right: let it fly"
+  pop: "Wrong: pop it"
   lives: "Lives: {n}"
-  point: "Right! A point."
-  popped_false: "Right, it was wrong. The right one is:"
-  lost_true: "It was right! You lost a life. The right one is:"
-  lost_false: "It was wrong, and it flew away. You lost a life. The right one is:"
-  drifted: "The balloon drifted away. The right one is:"
+  right: Right!
+  lost_true: It was right! You lost a life.
+  lost_false: "Wrong! You lost a life. The right one is:"
+  drifted: "The right one is:"
   next: Next
   result: "{correct} of {total} right"
   result_points: "{points} points"

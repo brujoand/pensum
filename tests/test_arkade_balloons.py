@@ -8,14 +8,17 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
+from fastapi.testclient import TestClient
 from test_admin import ADMIN, PUPIL, build, settings_with, sign_in
 
 from pensum.arkade.items import FLY, POP, Item, balloon
 from pensum.arkade.rounds import ROUND_LIFETIME, RoundStore, mark
 from pensum.auth.models import User
+from pensum.catalogue.loader import Catalogue
 from pensum.config import Settings
 from pensum.scores.profile import ProfileStore
 from pensum.scores.xp import PER_CORRECT, PER_FINISH
+from pensum.web.app import create_app
 
 OTHER = User(sub="u-2", name="Kari", groups=("pupils",))
 NOW = datetime(2026, 10, 5, 12, tzinfo=UTC)
@@ -321,3 +324,48 @@ def test_an_administrator_who_picked_a_year_on_the_hub_reaches_the_game(tmp_path
     again = re.search(r'href="(/nb/arkade/ballonger/matte[^"]*)"', result)
     assert again
     assert "trinn=4" in again.group(1)
+
+
+def test_an_administrator_switching_the_timer_keeps_their_year(tmp_path: Path) -> None:
+    _, client = build(settings_with(tmp_path))
+    sign_in(client, ADMIN, year=None)
+
+    hub = client.get("/nb/arkade?trinn=4").text
+    assert '<input type="hidden" name="trinn" value="4" />' in hub
+
+    response = client.post(
+        "/nb/arkade/tidtaker", data={"timer": "av", "trinn": "4"}, follow_redirects=False
+    )
+
+    assert response.headers["location"] == "/nb/arkade?trinn=4"
+
+
+def test_a_pupil_switching_the_timer_needs_no_year_in_the_address(pupil) -> None:
+    _, client = pupil
+
+    hub = client.get("/nb/arkade").text
+    response = client.post("/nb/arkade/tidtaker", data={"timer": "av"}, follow_redirects=False)
+
+    assert 'name="trinn"' not in hub
+    assert response.headers["location"] == "/nb/arkade"
+
+
+def test_a_year_outside_grunnskole_is_not_sent_back(tmp_path: Path) -> None:
+    _, client = build(settings_with(tmp_path))
+    sign_in(client, ADMIN, year=None)
+
+    response = client.post(
+        "/nb/arkade/tidtaker", data={"timer": "av", "trinn": "11"}, follow_redirects=False
+    )
+
+    assert response.headers["location"] == "/nb/arkade"
+
+
+def test_the_back_link_with_no_round_keeps_the_year() -> None:
+    """Nothing is approved on a fresh instance, so there are no words to spell."""
+    client = TestClient(create_app(Catalogue.load(), settings=Settings()))
+
+    page = client.get("/nb/arkade/ballonger/norsk?trinn=2").text
+
+    assert 'id="balloons-round"' not in page
+    assert 'href="/nb/arkade?trinn=2"' in page

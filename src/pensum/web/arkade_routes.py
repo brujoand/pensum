@@ -159,7 +159,10 @@ def _carry(request: Request, grade: int | None, *, timer_on: bool, timer_stored:
 
 @router.post("/{locale}/arkade/tidtaker")
 async def save_timer(
-    request: Request, locale: str, timer: Annotated[str, Form()] = "av"
+    request: Request,
+    locale: str,
+    timer: Annotated[str, Form()] = "av",
+    trinn: Annotated[str, Form()] = "",
 ) -> RedirectResponse:
     validate_locale(locale)
     profiles = get_profiles(request)
@@ -167,7 +170,12 @@ async def save_timer(
     if profiles is None or user is None:
         raise HTTPException(status_code=404, detail="nowhere to keep the setting")
     profiles.set_timer(user.sub, timer == "på")
-    return RedirectResponse(f"/{locale}/arkade", status_code=303)
+    # An administrator's year was picked on the hub, not stored: send it back,
+    # or the hub asks for it again.
+    back = f"/{locale}/arkade"
+    if trinn.isdigit() and FIRST_GRADE <= int(trinn) <= LAST_GRADE:
+        back += "?" + urlencode({"trinn": trinn})
+    return RedirectResponse(back, status_code=303)
 
 
 @router.get("/{locale}/arkade/ballonger/{game}", response_class=HTMLResponse)

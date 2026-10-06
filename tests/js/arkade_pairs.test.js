@@ -191,8 +191,9 @@ const ROUND = {
   check("a failed save says so", failing.els["pairs-status"].textContent === "Vi fikk ikke lagret brettet.");
   check("and offers to try again", failing.els["pairs-retry"].hidden === false);
   failing.els["pairs-retry"].click();
+  failing.els["pairs-retry"].click();
   await failing.flush();
-  check("which sends the same picks", failing.posted.length === 2 && JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
+  check("which sends the same picks, once however often it is pressed", failing.posted.length === 2 && JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
 
   /* --- untimed ------------------------------------------------------------- */
   check("untimed has no clock", failing.timers.every((t) => !t || t.ms !== 120000));

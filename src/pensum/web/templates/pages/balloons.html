@@ -7,7 +7,7 @@
 
   {% if played is none %}
     <p class="lede">{{ t("arkade.no_round") }}</p>
-    <p><a class="button" href="/{{ locale }}/arkade">{{ t("arkade.back") }}</a></p>
+    <p><a class="button" href="/{{ locale }}/arkade{{ "?" ~ request.url.query if request.url.query else "" }}">{{ t("arkade.back") }}</a></p>
   {% else %}
     <div id="balloons"
          class="balloons"

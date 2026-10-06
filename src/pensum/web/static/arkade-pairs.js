@@ -39,6 +39,7 @@
   var first = null;
   var busy = false;
   var over = false;
+  var sending = false;
   var timer = null;
   var cards = [];
 
@@ -113,6 +114,9 @@
   }
 
   function send() {
+    /* One save at a time, as for balloons. */
+    if (sending) return;
+    sending = true;
     retry.hidden = true;
     var picks = [];
     for (var i = 0; i < total; i++) picks.push(found[i] ? 0 : null);
@@ -130,6 +134,7 @@
         result.innerHTML = html;
       })
       .catch(function () {
+        sending = false;
         status.textContent = root.dataset.labelFailed;
         retry.hidden = false;
       });

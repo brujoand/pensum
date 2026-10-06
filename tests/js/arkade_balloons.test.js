@@ -55,6 +55,10 @@ function element(id) {
       remove: (c) => classes.delete(c),
       contains: (c) => classes.has(c),
     },
+    attrs: {},
+    setAttribute(name, value) {
+      this.attrs[name] = value;
+    },
     addEventListener(type, fn) {
       this.listeners[type] = fn;
     },
@@ -68,22 +72,22 @@ function element(id) {
   };
 }
 
-function page(round, { calm = false, failFirst = false } = {}) {
+function page(round, { calm = false, failFirst = false, animate = false } = {}) {
+  const frames = [];
   const ids = [
     "balloons", "balloons-round", "balloons-position", "balloons-lives", "balloons-rule",
-    "balloons-hear", "balloons-say", "balloons-balloon", "balloons-shown", "balloons-choices",
-    "balloons-fly", "balloons-pop", "balloons-feedback", "balloons-next", "balloons-result",
-    "balloons-rules", "balloons-no-voice",
+    "balloons-hear", "balloons-say", "balloons-balloon", "balloons-shown", "balloons-sky",
+    "balloons-string", "balloons-burst", "balloons-fly", "balloons-pop", "balloons-feedback",
+    "balloons-next", "balloons-result", "balloons-rules", "balloons-no-voice",
   ];
   const els = Object.fromEntries(ids.map((id) => [id, element(id)]));
   Object.assign(els.balloons.dataset, {
     postUrl: "/nb/arkade/runde/r1",
     seconds: "60",
-    labelPoint: "Riktig! Et poeng.",
-    labelPoppedFalse: "Riktig, den var feil. Det riktige er:",
-    labelLostTrue: "Den var riktig! Du mistet et liv. Det riktige er:",
-    labelLostFalse: "Den var feil, og fløy sin vei. Du mistet et liv. Det riktige er:",
-    labelDrifted: "Ballongen fløy av seg selv. Det riktige er:",
+    labelRight: "Riktig!",
+    labelLostTrue: "Den var riktig! Du mistet et liv.",
+    labelLostFalse: "Feil! Du mistet et liv. Det riktige er:",
+    labelDrifted: "Det riktige er:",
     labelPosition: "Ballong {n} av {total}",
     labelLives: "Liv: {n}",
     labelFailed: "Vi fikk ikke lagret runden.",
@@ -110,6 +114,7 @@ function page(round, { calm = false, failFirst = false } = {}) {
       timers[n - 1] = null;
     },
     matchMedia: () => ({ matches: false }),
+    ...(animate ? { requestAnimationFrame: (fn) => frames.push(fn) } : {}),
   };
   const fetch = (url, options) => {
     posted.push({ url, body: JSON.parse(options.body) });
@@ -140,7 +145,16 @@ function page(round, { calm = false, failFirst = false } = {}) {
   const next = () => els["balloons-next"].click();
   const flush = () => new Promise((resolve) => setImmediate(resolve));
   const feedback = () => els["balloons-feedback"].textContent;
-  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback };
+  /* Run `n` animation frames, 16 ms apart. */
+  let clock = 0;
+  const run = (n) => {
+    for (let i = 0; i < n; i++) {
+      clock += 16;
+      const due = frames.splice(0);
+      due.forEach((fn) => fn(clock));
+    }
+  };
+  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback, run };
 }
 
 const item = (shown, isTrue, answer) => ({
@@ -171,27 +185,34 @@ const ROUND = {
   check("the balloon shows the statement", g.els["balloons-shown"].textContent === "5 : 1 = 5");
   check("three hearts", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
   check("a timed balloon rises", g.el.classList.contains("balloon--rising"));
-  check("for the full time", g.el.style["--balloon-seconds"] === "60s");
 
-  g.swipe(-20);
-  check("a short swipe is not an answer", g.posted.length === 0 && !g.el.disabled);
-  check("and the balloon goes back", g.el.style.transform === "");
+  g.el.fire("pointerdown", { clientX: 200, pointerId: 1 });
+  g.el.fire("pointermove", { clientX: 290 });
+  check("dragging towards the needle lights that half", g.els["balloons-sky"].classList.contains("balloons__sky--toward-pop"));
+  check("and the balloon follows the finger", g.el.style.transform.startsWith("translate(90.0px"));
+  g.el.fire("pointermove", { clientX: 210 });
+  check("back near the middle, neither half is lit", !g.els["balloons-sky"].classList.contains("balloons__sky--toward-pop"));
+  g.el.fire("pointerup", { clientX: 210 });
+  check("a short swipe is not an answer", g.posted.length === 0 && g.feedback() === "");
+  check("and the balloon goes back", g.el.style.transform.startsWith("translate(0.0px,0.0px)"));
 
   g.swipe(-120);
-  check("a swipe left lets it fly", g.el.classList.contains("balloon--fly"));
+  check("a swipe left lets it fly", g.el.classList.contains("balloon--flown"));
+  check("not to the needle", !g.el.classList.contains("balloon--popped"));
   g.settle();
-  check("a true one flown is a point, shown with its right form", g.feedback() === "Riktig! Et poeng. 5 : 1 = 5");
+  check("a right answer just says so", g.feedback() === "Riktig!");
   check("no life lost", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
   g.swipe(120);
-  check("a swipe after the answer does nothing", g.el.classList.contains("balloon--fly"));
+  check("a swipe after the answer does nothing", !g.el.classList.contains("balloon--popped"));
 
   g.next();
   check("the next balloon", g.els["balloons-shown"].textContent === "7 · 8 = 48");
+  check("comes back whole", !g.el.classList.contains("balloon--gone") && !g.el.classList.contains("balloon--flown"));
   g.swipe(120);
-  check("a swipe right sends it to the needle", g.el.classList.contains("balloon--to-needle"));
+  check("a swipe right sends it to the needle", g.el.classList.contains("balloon--popped"));
+  check("not away", !g.el.classList.contains("balloon--flown"));
   g.settle();
-  check("and pops it", g.el.classList.contains("balloon--popped"));
-  check("popping a false one is right and costs nothing", g.feedback() === "Riktig, den var feil. Det riktige er: 7 · 8 = 56");
+  check("popping a false one is right, and says only that", g.feedback() === "Riktig!");
 
   g.next();
   g.els["balloons-pop"].click();
@@ -203,11 +224,12 @@ const ROUND = {
   g.press("ArrowLeft");
   g.settle();
   check("the left arrow flies; a false one flown costs a life", g.els["balloons-lives"].textContent === "Liv: 1 ♥♡♡");
+  check("and a wrong answer shows the right form", g.feedback() === "Feil! Du mistet et liv. Det riktige er: 6 + 1 = 7");
 
   g.next();
   g.timers.find((t) => t && t.ms === 60000).fn();
   g.settle();
-  check("a balloon left alone drifts away", g.feedback() === "Ballongen fløy av seg selv. Det riktige er: 2 · 2 = 4");
+  check("a balloon left alone drifts away and shows the right form", g.feedback() === "Det riktige er: 2 · 2 = 4");
   check("and costs no life", g.els["balloons-lives"].textContent === "Liv: 1 ♥♡♡");
 
   g.next();
@@ -233,6 +255,47 @@ const ROUND = {
   lost.next();
   await lost.flush();
   check("and end the round there", lost.posted.length === 1 && JSON.stringify(lost.posted[0].body.picks) === JSON.stringify([1, 0, 1]));
+
+  /* --- the motion, frame by frame ----------------------------------------- */
+  const pos = (el) => {
+    const found = /translate\((-?[\d.]+)px,(-?[\d.]+)px\)/.exec(el.style.transform);
+    return found ? [Number(found[1]), Number(found[2])] : [NaN, NaN];
+  };
+  const bendOf = (p) => {
+    const found = / (-?[\d.]+) 198$/.exec(p.els["balloons-string"].attrs.d || "");
+    return found ? Number(found[1]) - 50 : NaN;
+  };
+
+  const anim = page({ ...ROUND, timed: false }, { animate: true });
+  anim.run(5);
+  anim.el.fire("pointerdown", { clientX: 200, pointerId: 1 });
+  anim.el.fire("pointermove", { clientX: 250 });
+  anim.run(2);
+  check("the string trails behind a quick drag", bendOf(anim) < -5);
+  anim.el.fire("pointerup", { clientX: 250 });
+  let crossed = false;
+  for (let i = 0; i < 60; i++) {
+    anim.run(1);
+    if (pos(anim.el)[0] < -2) crossed = true;
+  }
+  check("a short swipe springs back past the middle before it rests", crossed);
+  anim.run(120);
+  check("and then rests near the middle", Math.abs(pos(anim.el)[0]) < 6);
+
+  anim.swipe(-120);
+  anim.run(30);
+  const [flyX, flyY] = pos(anim.el);
+  check("swiped left, it flies up and to the left", flyX < -50 && flyY < -50);
+
+  anim.settle();
+  anim.next();
+  anim.run(5);
+  anim.swipe(120);
+  anim.run(8);
+  const [needleX, needleY] = pos(anim.el);
+  check("swiped right, it goes up and to the right, to the needle", needleX > 30 && needleY < -30);
+  anim.run(60);
+  check("and bursts there", anim.el.classList.contains("balloon--gone") && anim.els["balloons-burst"].hidden === false);
 
   /* --- untimed, and calm ---------------------------------------------------- */
   const untimed = page({ ...ROUND, timed: false });

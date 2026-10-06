@@ -3842,147 +3842,207 @@ button.token:disabled {
   font-weight: 700;
 }
 
-/* The sky: one balloon in the middle, the needle in the top right corner. */
+/* The sky, split in two. The left half means "true, let it fly", the right
+   half "false, the needle". Both halves are buttons, so a tap on one is an
+   answer too; the balloon floats over the seam. */
+:root {
+  --sky-fly: #e3f4e6;
+  --sky-fly-mark: #2f8a47;
+  --sky-pop: #fbe4e1;
+  --sky-pop-mark: #b8402f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sky-fly: #1d3324;
+    --sky-fly-mark: #7fd396;
+    --sky-pop: #3a2220;
+    --sky-pop-mark: #f0998b;
+  }
+}
+
 .balloons__sky {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  height: 20rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: min(30rem, 70vh);
+  margin: 0.75rem 0;
+  border-radius: var(--radius);
   overflow: hidden;
   touch-action: pan-y;
+  user-select: none;
+}
+
+.balloons__sky[hidden] {
+  display: none;
+}
+
+.balloons__side {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.balloons__side--fly {
+  justify-content: flex-start;
+  background: var(--sky-fly);
+  color: var(--sky-fly-mark);
+}
+
+.balloons__side--pop {
+  justify-content: flex-end;
+  background: var(--sky-pop);
+  color: var(--sky-pop-mark);
+}
+
+.balloons__side:disabled {
+  cursor: default;
+}
+
+.balloons__side:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+/* The ✓ and the ✗: large and faint, where a thumb does not cover them. */
+.balloons__mark {
+  width: clamp(3rem, 14vw, 5rem);
+  height: clamp(3rem, 14vw, 5rem);
+  opacity: 0.55;
+}
+
+/* A half lights up as the balloon is dragged towards it. */
+.balloons__sky--toward-fly .balloons__side--fly .balloons__mark,
+.balloons__sky--toward-pop .balloons__side--pop .balloons__mark {
+  opacity: 1;
+}
+
+.balloons__sky--toward-fly .balloons__side--fly {
+  background: color-mix(in srgb, var(--sky-fly) 70%, var(--sky-fly-mark));
+}
+
+.balloons__sky--toward-pop .balloons__side--pop {
+  background: color-mix(in srgb, var(--sky-pop) 70%, var(--sky-pop-mark));
 }
 
 .balloons__needle {
   position: absolute;
   top: 0.5rem;
-  right: 1rem;
-  width: 0.25rem;
-  height: 3.5rem;
-  border-radius: 0 0 2px 2px;
-  background: linear-gradient(var(--ink-soft), var(--ink));
+  right: 1.25rem;
+  width: 1.25rem;
+  height: 5rem;
+  fill: var(--ink-soft);
 }
 
-.balloons__needle::after {
-  content: "";
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  border-left: 0.125rem solid transparent;
-  border-right: 0.125rem solid transparent;
-  border-top: 0.5rem solid var(--ink);
-}
-
+/* The balloon: drawn, not a circle. Its body is taller than it is wide and
+   ends in a knot, and the string hangs from the knot. */
 .balloon {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  bottom: 0.5rem;
+  width: min(12rem, 46vw);
+  margin-left: calc(min(12rem, 46vw) / -2);
+  aspect-ratio: 1 / 2;
+  touch-action: none;
+  cursor: grab;
+  transform-origin: 50% 30%;
+  z-index: 1;
+}
+
+.balloon:active {
+  cursor: grabbing;
+}
+
+.balloon__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.balloon--0 { --balloon: var(--balloon-1); }
+.balloon--1 { --balloon: var(--balloon-2); }
+.balloon--2 { --balloon: var(--balloon-3); }
+.balloon--3 { --balloon: var(--balloon-4); }
+
+.balloon__body,
+.balloon__knot {
+  fill: var(--balloon, var(--balloon-1));
+}
+
+.balloon__shine {
+  fill: #fff;
+  opacity: 0.45;
+}
+
+.balloon__string {
+  stroke: var(--ink-soft);
+  stroke-width: 1.2;
+}
+
+/* The text sits on the body, which is the top 58% of the drawing. */
+.balloon__label {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 58%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(14rem, 70vw);
-  aspect-ratio: 11 / 13;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border: none;
-  border-radius: 50% 50% 48% 48%;
   color: var(--balloon-ink);
-  font: inherit;
-  font-size: clamp(1.1rem, 5vw, 1.5rem);
-  font-weight: 700;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
   overflow-wrap: anywhere;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
+  pointer-events: none;
 }
 
-/* The string. */
-.balloon::after {
-  content: "";
-  position: absolute;
-  bottom: -1.5rem;
-  left: 50%;
-  width: 1px;
-  height: 1.5rem;
-  background: var(--ink-soft);
-}
-
-.balloon--0 { background: var(--balloon-1); }
-.balloon--1 { background: var(--balloon-2); }
-.balloon--2 { background: var(--balloon-3); }
-.balloon--3 { background: var(--balloon-4); }
-
-.balloon:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
-}
-
-.balloon:disabled {
-  cursor: default;
-}
-
-/* The timer, drawn: the balloon floats up and drifts off the top. */
-.balloon--rising {
-  animation-name: balloon-rise;
-  animation-duration: var(--balloon-seconds, 60s);
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-}
-
-@keyframes balloon-rise {
-  from { translate: 0 0; }
-  to { translate: 0 -12rem; }
-}
-
-/* Let it fly: away up and to the left. */
-.balloon--fly {
-  animation: balloon-fly 700ms ease-in forwards;
-}
-
-@keyframes balloon-fly {
-  to { translate: -60vw -24rem; rotate: -20deg; }
-}
-
-/* Up to the needle in the top right corner. */
-.balloon--to-needle {
-  animation: balloon-to-needle 700ms ease-in forwards;
-}
-
-@keyframes balloon-to-needle {
-  to { translate: 40% -14rem; scale: 0.6; }
-}
-
-.balloon[hidden] {
-  display: none;
-}
-
-.balloon--popped {
+.balloon--gone {
   visibility: hidden;
 }
 
-.balloon--drifted {
-  opacity: 0.25;
+/* The pop: a ring of shreds where the balloon met the needle. */
+.balloons__burst {
+  position: absolute;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin: -0.3rem 0 0 -0.3rem;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  color: var(--sky-pop-mark);
+  box-shadow:
+    0 -2.2rem 0 currentColor, 1.6rem -1.6rem 0 currentColor,
+    2.2rem 0 0 currentColor, 1.6rem 1.6rem 0 currentColor,
+    0 2.2rem 0 currentColor, -1.6rem 1.6rem 0 currentColor,
+    -2.2rem 0 0 currentColor, -1.6rem -1.6rem 0 currentColor;
+  opacity: 0;
 }
 
-.balloons__choices {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  max-width: 24rem;
-  margin: 0 auto;
+.balloons__burst--go {
+  animation: balloons-burst 450ms ease-out forwards;
 }
 
-.balloons__choices[hidden] {
-  display: none;
+@keyframes balloons-burst {
+  from { opacity: 1; scale: 0.3; }
+  to { opacity: 0; scale: 1.4; }
 }
 
 .balloons__feedback {
   min-height: 1.6rem;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   text-align: center;
 }
 
 .balloons__feedback--right {
-  font-weight: 700;
-  color: var(--accent);
+  font-weight: 800;
+  color: var(--sky-fly-mark);
 }
 
 #balloons-next {

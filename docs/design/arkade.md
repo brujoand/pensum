@@ -36,9 +36,10 @@ sums (`static/arkade-pairs.js`). Invaders is a proposal.
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
    pupil sees how many items there are. Balloons have three lives: a wrong
    answer spends one, and the third ends the round early. Memory has none.
-7. **Every answer ends on the correct form.** Spelling games show misspelt
-   words, so the right spelling is always the last thing on screen, whatever
-   the pupil picked.
+7. **A wrong answer ends on the correct form.** Spelling games show misspelt
+   words, so after a mistake the right spelling is the last thing on screen.
+   A right answer says "Riktig!" and nothing more: repeating the right form
+   after a false balloon was rightly popped reads as a correction.
 8. **Content comes from the pupil's year,** through `checkpoint_for(subject,
    grade)`, so a 3rd-grader gets 3rd-grade items.
 9. **An item on a sensitive skill earns 0,** as it does in a quiz

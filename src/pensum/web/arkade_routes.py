@@ -14,6 +14,7 @@ from __future__ import annotations
 import random
 from datetime import UTC, datetime
 from typing import Annotated
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
@@ -112,20 +113,41 @@ def _items(request: Request, game: str, grade: int) -> list[Item]:
 async def hub(request: Request, locale: str) -> HTMLResponse:
     validate_locale(locale)
     profiles = get_profiles(request)
+    grade = _grade(request)
+    timer_on = _timer_on(request)
+    timer_stored = profiles is not None and current_user(request) is not None
     return templates.TemplateResponse(
         request,
         "pages/arkade.html",
         context(
             request,
             locale,
-            grade=_grade(request),
+            grade=grade,
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
-            timer_on=_timer_on(request),
-            timer_stored=profiles is not None and current_user(request) is not None,
+            timer_on=timer_on,
+            timer_stored=timer_stored,
             round_length=ROUND_LENGTH,
+            carry=_carry(request, grade, timer_on=timer_on, timer_stored=timer_stored),
         ),
     )
+
+
+def _carry(request: Request, grade: int | None, *, timer_on: bool, timer_stored: bool) -> str:
+    """The query string a game link needs to know what the hub knew.
+
+    The year rides in the address whenever it came from the address: where
+    nobody is signed in, and for a signed-in administrator, whom the sign-in
+    gate never asks. Keyed on where the year came from rather than on whether
+    someone is signed in, or the administrator's game finds no year and sends
+    them back to pick one. The timer rides only where it is not stored.
+    """
+    if grade is None or pupil_grade(request) is not None:
+        return ""
+    query = {"trinn": str(grade)}
+    if not timer_on and not timer_stored:
+        query["tidtaker"] = "av"
+    return "?" + urlencode(query)
 
 
 @router.post("/{locale}/arkade/tidtaker")

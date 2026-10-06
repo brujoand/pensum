@@ -249,3 +249,24 @@ def test_without_sign_in_the_year_and_timer_ride_in_the_address() -> None:
     ).text
     assert "8 av 8 riktige" in page
     assert 'href="/nb/arkade/ballonger/matte?trinn=3&amp;tidtaker=av"' in page
+
+
+def test_an_administrator_who_picked_a_year_on_the_hub_reaches_the_game(tmp_path: Path) -> None:
+    """The year picked on the hub has to ride along to the game, or the game
+    finds no year and sends the administrator back to pick one, round and round."""
+    _, client = build(settings_with(tmp_path))
+    sign_in(client, ADMIN, year=None)
+
+    hub = client.get("/nb/arkade?trinn=4").text
+    link = re.search(r'href="(/nb/arkade/ballonger/matte[^"]*)"', hub)
+    assert link
+    game = client.get(link.group(1).replace("&amp;", "&"), follow_redirects=False)
+
+    assert game.status_code == 200
+    played = round_of(game.text)
+    result = client.post(
+        f"/nb/arkade/runde/{played['round']}?trinn=4", json={"picks": right_picks(played)}
+    ).text
+    again = re.search(r'href="(/nb/arkade/ballonger/matte[^"]*)"', result)
+    assert again
+    assert "trinn=4" in again.group(1)

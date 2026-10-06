@@ -22,14 +22,13 @@
       </ul>
     </section>
   {% else %}
-    {% set query = "" if user else "?trinn=" ~ grade ~ ("" if timer_on else "&tidtaker=av") %}
     <section aria-labelledby="arkade-games">
       <h2 id="arkade-games">{{ t("arkade.balloons") }}</h2>
       <p class="note">{{ t("arkade.balloons_note", count=round_length) }}</p>
       <ul class="arkade-games">
         {% for game in games %}
           <li>
-            <a class="arkade-card" href="/{{ locale }}/arkade/ballonger/{{ game }}{{ query }}">
+            <a class="arkade-card" href="/{{ locale }}/arkade/ballonger/{{ game }}{{ carry }}">
               <span class="arkade-card__balloon" aria-hidden="true"></span>
               <span>{{ t("arkade.game_" ~ game) }}</span>
             </a>

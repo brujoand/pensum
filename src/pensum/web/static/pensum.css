@@ -3823,21 +3823,54 @@ button.token:disabled {
 .balloons__rule {
   font-size: 1.15rem;
   font-weight: 600;
+  text-align: center;
 }
 
-.balloons__position {
-  color: var(--ink-soft);
-  margin-bottom: 0.25rem;
-}
-
-.balloons__sky {
+.balloons__status {
   display: flex;
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-soft);
+}
+
+.balloons__status p {
+  margin: 0;
+}
+
+.balloons__lives {
+  color: var(--fire-2);
+  font-weight: 700;
+}
+
+/* The sky: one balloon in the middle, the needle in the top right corner. */
+.balloons__sky {
+  position: relative;
+  display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 1rem;
-  min-height: 16rem;
-  padding: 1rem 0;
+  height: 20rem;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.balloons__needle {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  width: 0.25rem;
+  height: 3.5rem;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(var(--ink-soft), var(--ink));
+}
+
+.balloons__needle::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  border-left: 0.125rem solid transparent;
+  border-right: 0.125rem solid transparent;
+  border-top: 0.5rem solid var(--ink);
 }
 
 .balloon {
@@ -3845,21 +3878,20 @@ button.token:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Two side by side on any screen: each takes half the row, up to 11rem. */
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 11rem;
+  width: min(14rem, 70vw);
   aspect-ratio: 11 / 13;
-  padding: 0.75rem;
-  overflow-wrap: anywhere;
+  margin-bottom: 2rem;
+  padding: 1rem;
   border: none;
   border-radius: 50% 50% 48% 48%;
   color: var(--balloon-ink);
   font: inherit;
-  font-size: clamp(1rem, 4.5vw, 1.3rem);
+  font-size: clamp(1.1rem, 5vw, 1.5rem);
   font-weight: 700;
-  cursor: pointer;
-  transform-origin: 50% 100%;
+  overflow-wrap: anywhere;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
 }
 
 /* The string. */
@@ -3883,31 +3915,63 @@ button.token:disabled {
   outline-offset: 4px;
 }
 
-/* The timer, drawn: the balloon grows from small to full size, then pops. */
-.balloon--growing {
-  animation-name: balloon-grow;
+.balloon:disabled {
+  cursor: default;
+}
+
+/* The timer, drawn: the balloon floats up and drifts off the top. */
+.balloon--rising {
+  animation-name: balloon-rise;
   animation-duration: var(--balloon-seconds, 60s);
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
 
-@keyframes balloon-grow {
-  from { transform: scale(0.45); }
-  to { transform: scale(1); }
+@keyframes balloon-rise {
+  from { translate: 0 0; }
+  to { translate: 0 -12rem; }
+}
+
+/* Let it fly: away up and to the left. */
+.balloon--fly {
+  animation: balloon-fly 700ms ease-in forwards;
+}
+
+@keyframes balloon-fly {
+  to { translate: -60vw -24rem; rotate: -20deg; }
+}
+
+/* Up to the needle in the top right corner. */
+.balloon--to-needle {
+  animation: balloon-to-needle 700ms ease-in forwards;
+}
+
+@keyframes balloon-to-needle {
+  to { translate: 40% -14rem; scale: 0.6; }
+}
+
+.balloon[hidden] {
+  display: none;
 }
 
 .balloon--popped {
+  visibility: hidden;
+}
+
+.balloon--drifted {
   opacity: 0.25;
 }
 
-.balloon--answer {
-  opacity: 1;
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
+.balloons__choices {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 24rem;
+  margin: 0 auto;
 }
 
-.balloon:disabled {
-  cursor: default;
+.balloons__choices[hidden] {
+  display: none;
 }
 
 .balloons__feedback {

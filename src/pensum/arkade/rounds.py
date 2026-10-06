@@ -12,7 +12,7 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from pensum.arkade.items import Item
+from pensum.arkade.items import BALLOON_CHOICES, POP, Item
 
 # Long enough for a round played slowly with breaks, short enough that the store
 # does not grow with every round anyone ever started.
@@ -28,14 +28,28 @@ class Round:
     timed: bool
     created_at: datetime
     user_sub: str | None = None
+    # Wrong answers allowed before the round ends, or None for no lives.
+    lives: int | None = None
 
 
 @dataclass(frozen=True)
 class Marked:
-    """One item's outcome. `correct` is None when time ran out (rule 4)."""
+    """One item's outcome. `correct` is None when it was not answered: time ran
+    out (rule 4), or the lives ran out before it."""
 
     item: Item
     correct: bool | None
+    pick: int | None = None
+
+    @property
+    def scores(self) -> bool:
+        """Whether this answer earns a point.
+
+        A right answer does, except a balloon popped because it was false:
+        popping a false balloon is right, and it does nothing.
+        """
+        popped = self.item.candidates == BALLOON_CHOICES and self.pick == POP
+        return self.correct is True and not popped
 
 
 @dataclass
@@ -51,6 +65,7 @@ class RoundStore:
         timed: bool,
         now: datetime,
         user_sub: str | None,
+        lives: int | None = None,
     ) -> Round:
         self._sweep(now)
         played = Round(
@@ -61,6 +76,7 @@ class RoundStore:
             timed=timed,
             created_at=now,
             user_sub=user_sub,
+            lives=lives,
         )
         self._rounds[played.id] = played
         return played
@@ -91,9 +107,19 @@ def mark(played: Round, picks: list[int | None]) -> list[Marked]:
 
     No pick is not an answer: time ran out, or the page sent fewer picks than
     there were items. Either way it is neither right nor wrong.
+
+    With lives, the round is over at the wrong answer that spends the last one,
+    and any pick after it is not an answer either: the page stops there, and
+    the server does not take its word that it did.
     """
     out = []
+    wrong = 0
     for index, item in enumerate(played.items):
         pick = picks[index] if index < len(picks) else None
-        out.append(Marked(item, None if pick is None else item.is_match(pick)))
+        if pick is None or (played.lives is not None and wrong >= played.lives):
+            out.append(Marked(item, None))
+            continue
+        correct = item.is_match(pick)
+        wrong += 0 if correct else 1
+        out.append(Marked(item, correct, pick))
     return out

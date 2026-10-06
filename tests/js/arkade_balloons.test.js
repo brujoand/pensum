@@ -1,8 +1,8 @@
 /* The balloon game, played through a stub DOM.
  *
  * arkade-balloons.js is an IIFE that reads the page the moment it loads, so the
- * harness builds the few elements it reads, runs the shipped file against them,
- * and plays a round: a right pop, a balloon left to pop by itself, a wrong pop.
+ * harness builds the elements it reads, runs the shipped file against them,
+ * and plays: swipes, buttons, arrow keys, lives, and a balloon left to drift.
  * What the page posts at the end is what the server marks, so that is what is
  * checked.
  *
@@ -28,26 +28,20 @@ function check(what, condition) {
 
 function element(id) {
   const classes = new Set();
-  const el = {
+  return {
     id,
     dataset: {},
     hidden: false,
     disabled: false,
-    style: {
-      setProperty(name, value) {
-        this[name] = value;
-      },
-    },
     children: [],
     listeners: {},
     innerHTML: "",
-    _text: "",
-    get textContent() {
-      return this._text;
-    },
-    set textContent(value) {
-      this._text = value;
-      if (value === "") this.children = [];
+    textContent: "",
+    style: {
+      transform: "",
+      setProperty(name, value) {
+        this[name] = value;
+      },
     },
     get className() {
       return [...classes].join(" ");
@@ -61,51 +55,49 @@ function element(id) {
       remove: (c) => classes.delete(c),
       contains: (c) => classes.has(c),
     },
-    appendChild(child) {
-      this.children.push(child);
-      if (child._text) this._text += child._text;
-      return child;
-    },
-    querySelectorAll(selector) {
-      return selector === ".balloon" ? this.children : [];
-    },
     addEventListener(type, fn) {
       this.listeners[type] = fn;
+    },
+    fire(type, event = {}) {
+      if (this.listeners[type]) this.listeners[type](event);
     },
     click() {
       if (!this.disabled && this.listeners.click) this.listeners.click();
     },
     focus() {},
   };
-  return el;
 }
 
 function page(round, { calm = false, failFirst = false } = {}) {
   const ids = [
-    "balloons", "balloons-round", "balloons-position", "balloons-rule", "balloons-hear",
-    "balloons-say", "balloons-sky", "balloons-feedback", "balloons-next",
-    "balloons-result", "balloons-rules", "balloons-no-voice",
+    "balloons", "balloons-round", "balloons-position", "balloons-lives", "balloons-rule",
+    "balloons-hear", "balloons-say", "balloons-balloon", "balloons-shown", "balloons-choices",
+    "balloons-fly", "balloons-pop", "balloons-feedback", "balloons-next", "balloons-result",
+    "balloons-rules", "balloons-no-voice",
   ];
   const els = Object.fromEntries(ids.map((id) => [id, element(id)]));
   Object.assign(els.balloons.dataset, {
     postUrl: "/nb/arkade/runde/r1",
     seconds: "60",
-    labelRight: "Riktig!",
-    labelWrong: "Ikke helt. Riktig er:",
-    labelPopped: "Ballongen sprakk. Riktig er:",
+    labelPoint: "Riktig! Et poeng.",
+    labelPoppedFalse: "Riktig, den var feil. Det riktige er:",
+    labelLostTrue: "Den var riktig! Du mistet et liv. Det riktige er:",
+    labelLostFalse: "Den var feil, og fløy sin vei. Du mistet et liv. Det riktige er:",
+    labelDrifted: "Ballongen fløy av seg selv. Det riktige er:",
     labelPosition: "Ballong {n} av {total}",
-    labelFailed: "Vi fikk ikke lagret runden."
+    labelLives: "Liv: {n}",
+    labelFailed: "Vi fikk ikke lagret runden.",
   });
   els["balloons-round"].textContent = JSON.stringify(round);
+  els["balloons-next"].hidden = true;
   els["balloons-rules"].content = {
-    querySelector: (sel) => ({ textContent: sel.includes("false_statement") ? "Sprekk feil" : "Sprekk ordet" }),
+    querySelector: (sel) => ({ textContent: sel.includes("statement") ? "Stemmer det?" : "Hør" }),
   };
 
   const timers = [];
   const posted = [];
   const document = {
     getElementById: (id) => els[id] || null,
-    createElement: () => element(""),
     documentElement: { hasAttribute: (name) => calm && name === "data-calm" },
     keys: null,
     addEventListener(type, fn) {
@@ -113,7 +105,7 @@ function page(round, { calm = false, failFirst = false } = {}) {
     },
   };
   const window = {
-    setTimeout: (fn) => timers.push(fn) && timers.length,
+    setTimeout: (fn, ms) => timers.push({ fn, ms }) && timers.length,
     clearTimeout: (n) => {
       timers[n - 1] = null;
     },
@@ -126,18 +118,35 @@ function page(round, { calm = false, failFirst = false } = {}) {
   };
 
   new Function("document", "window", "fetch", src)(document, window, fetch);
+
+  const el = els["balloons-balloon"];
+  /* Let the fly-away or needle animation finish: run the newest short timer. */
+  const settle = () => {
+    for (let i = timers.length - 1; i >= 0; i--) {
+      if (timers[i] && timers[i].ms < 5000) {
+        const t = timers[i];
+        timers[i] = null;
+        t.fn();
+        return;
+      }
+    }
+  };
+  const swipe = (dx) => {
+    el.fire("pointerdown", { clientX: 200, pointerId: 1 });
+    el.fire("pointermove", { clientX: 200 + dx });
+    el.fire("pointerup", { clientX: 200 + dx });
+  };
   const press = (key) => document.keys && document.keys({ key, preventDefault() {} });
-  return { els, timers, posted, press };
+  const next = () => els["balloons-next"].click();
+  const flush = () => new Promise((resolve) => setImmediate(resolve));
+  const feedback = () => els["balloons-feedback"].textContent;
+  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback };
 }
 
-function balloon(els, i) {
-  return els["balloons-sky"].children[i];
-}
-
-const item = (candidates, match, answer) => ({
-  rule: "false_statement",
-  candidates,
-  matches: [match],
+const item = (shown, isTrue, answer) => ({
+  rule: "statement",
+  shown,
+  true: isTrue,
   answer,
   spoken: null,
   language: null,
@@ -146,104 +155,103 @@ const item = (candidates, match, answer) => ({
 const ROUND = {
   round: "r1",
   timed: true,
+  lives: 3,
   items: [
-    item(["2 · 3 = 6", "5 : 1 = 1", "4 · 2 = 8"], 1, "5 : 1 = 5"),
-    item(["7 · 8 = 48", "2 · 2 = 4", "3 · 3 = 9"], 0, "7 · 8 = 56"),
-    item(["1 + 1 = 2", "9 : 3 = 3", "6 + 1 = 8"], 2, "6 + 1 = 7"),
+    item("5 : 1 = 5", true, "5 : 1 = 5"),
+    item("7 · 8 = 48", false, "7 · 8 = 56"),
+    item("3 · 4 = 12", true, "3 · 4 = 12"),
+    item("6 + 1 = 8", false, "6 + 1 = 7"),
+    item("2 · 2 = 4", true, "2 · 2 = 4"),
   ],
 };
 
-/* --- a timed round ------------------------------------------------------- */
-
 (async () => {
-  const { els, timers, posted } = page(ROUND);
+  /* --- a round played by swiping ------------------------------------------ */
+  const g = page(ROUND);
+  check("the balloon shows the statement", g.els["balloons-shown"].textContent === "5 : 1 = 5");
+  check("three hearts", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
+  check("a timed balloon rises", g.el.classList.contains("balloon--rising"));
+  check("for the full time", g.el.style["--balloon-seconds"] === "60s");
 
-  check("the first item shows three balloons", els["balloons-sky"].children.length === 3);
-  check("the position is shown", els["balloons-position"].textContent === "Ballong 1 av 3");
-  check("a timed balloon grows", balloon(els, 0).classList.contains("balloon--growing"));
-  check("the balloon grows for the full time", balloon(els, 0).style["--balloon-seconds"] === "60s");
-  check("a timer is set for the item", timers.length === 1);
+  g.swipe(-20);
+  check("a short swipe is not an answer", g.posted.length === 0 && !g.el.disabled);
+  check("and the balloon goes back", g.el.style.transform === "");
 
-  balloon(els, 1).click();
-  check("a right pop says so", els["balloons-feedback"].textContent === "Riktig! 5 : 1 = 5");
-  check("the pop cancels the timer", timers[0] === null);
-  check("every balloon is then disabled", els["balloons-sky"].children.every((b) => b.disabled));
-  check("next appears", els["balloons-next"].hidden === false);
+  g.swipe(-120);
+  check("a swipe left lets it fly", g.el.classList.contains("balloon--fly"));
+  g.settle();
+  check("a true one flown is a point, shown with its right form", g.feedback() === "Riktig! Et poeng. 5 : 1 = 5");
+  check("no life lost", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
+  g.swipe(120);
+  check("a swipe after the answer does nothing", g.el.classList.contains("balloon--fly"));
 
-  els["balloons-next"].click();
-  check("the second item replaces the first", els["balloons-position"].textContent === "Ballong 2 av 3");
-  timers[1]();
+  g.next();
+  check("the next balloon", g.els["balloons-shown"].textContent === "7 · 8 = 48");
+  g.swipe(120);
+  check("a swipe right sends it to the needle", g.el.classList.contains("balloon--to-needle"));
+  g.settle();
+  check("and pops it", g.el.classList.contains("balloon--popped"));
+  check("popping a false one is right and costs nothing", g.feedback() === "Riktig, den var feil. Det riktige er: 7 · 8 = 56");
+
+  g.next();
+  g.els["balloons-pop"].click();
+  g.settle();
+  check("popping a true one costs a life", g.els["balloons-lives"].textContent === "Liv: 2 ♥♥♡");
+  check("and says so", g.feedback().startsWith("Den var riktig!"));
+
+  g.next();
+  g.press("ArrowLeft");
+  g.settle();
+  check("the left arrow flies; a false one flown costs a life", g.els["balloons-lives"].textContent === "Liv: 1 ♥♡♡");
+
+  g.next();
+  g.timers.find((t) => t && t.ms === 60000).fn();
+  g.settle();
+  check("a balloon left alone drifts away", g.feedback() === "Ballongen fløy av seg selv. Det riktige er: 2 · 2 = 4");
+  check("and costs no life", g.els["balloons-lives"].textContent === "Liv: 1 ♥♡♡");
+
+  g.next();
+  await g.flush();
+  check("the round is posted once", g.posted.length === 1);
   check(
-    "a balloon left alone pops and shows the right form",
-    els["balloons-feedback"].textContent === "Ballongen sprakk. Riktig er: 7 · 8 = 56"
+    "flown, popped, popped, flown, drifted",
+    JSON.stringify(g.posted[0].body.picks) === JSON.stringify([0, 1, 1, 0, null])
   );
-  balloon(els, 0).click();
-  check("a popped item cannot be answered again", els["balloons-feedback"].textContent.startsWith("Ballongen sprakk"));
+  check("the server's result is shown", g.els["balloons-result"].innerHTML === "<p>resultat</p>");
 
-  els["balloons-next"].click();
-  balloon(els, 0).click();
-  check(
-    "a wrong pop shows the right form",
-    els["balloons-feedback"].textContent === "Ikke helt. Riktig er: 6 + 1 = 7"
-  );
-  check("the right balloon is marked", balloon(els, 2).classList.contains("balloon--answer"));
+  /* --- the last life ends the round --------------------------------------- */
+  const lost = page({ ...ROUND, timed: false });
+  lost.press("ArrowRight"); // true popped: 2 left
+  lost.settle();
+  lost.next();
+  lost.press("ArrowLeft"); // false flown: 1 left
+  lost.settle();
+  lost.next();
+  lost.press("ArrowRight"); // true popped: 0 left
+  lost.settle();
+  check("three wrong answers spend three lives", lost.els["balloons-lives"].textContent === "Liv: 0 ♡♡♡");
+  lost.next();
+  await lost.flush();
+  check("and end the round there", lost.posted.length === 1 && JSON.stringify(lost.posted[0].body.picks) === JSON.stringify([1, 0, 1]));
 
-  els["balloons-next"].click();
-  await new Promise((resolve) => setImmediate(resolve));
-  check("the round is posted once", posted.length === 1);
-  check("to the round's address", posted[0] && posted[0].url === "/nb/arkade/runde/r1");
-  check(
-    "with the right pop, a timeout as null, and the wrong pop",
-    posted[0] && JSON.stringify(posted[0].body.picks) === JSON.stringify([1, null, 0])
-  );
-  check("the server's result is shown", els["balloons-result"].innerHTML === "<p>resultat</p>");
-
-  /* --- untimed, by setting or by calm mode ------------------------------- */
-
+  /* --- untimed, and calm ---------------------------------------------------- */
   const untimed = page({ ...ROUND, timed: false });
-  check("with the timer off nothing grows", !balloon(untimed.els, 0).classList.contains("balloon--growing"));
-  check("with the timer off no timer is set", untimed.timers.length === 0);
-
-  /* --- a save that fails -------------------------------------------------- */
-
-  const failing = page({ ...ROUND, timed: false }, { failFirst: true });
-  for (let i = 0; i < ROUND.items.length; i++) {
-    balloon(failing.els, 0).click();
-    failing.els["balloons-next"].click();
-  }
-  await new Promise((resolve) => setImmediate(resolve));
-  check("a failed save says so", failing.els["balloons-feedback"].textContent === "Vi fikk ikke lagret runden.");
-  check("and offers the button again", failing.els["balloons-next"].hidden === false);
-  failing.els["balloons-next"].click();
-  await new Promise((resolve) => setImmediate(resolve));
-  check("pressing it sends the same picks again", failing.posted.length === 2 &&
-    JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
-  check("and the result is then shown", failing.els["balloons-result"].innerHTML === "<p>resultat</p>");
-
-  /* --- the arrow keys ---------------------------------------------------- */
-
-  const pair = (match) => item(["3 · 4 = 12", "3 · 4 = 15"], match, "3 · 4 = 12");
-  const keyed = page({ round: "r1", timed: false, items: [pair(1), pair(1), pair(0)] });
-  keyed.press("ArrowRight");
-  check("the right arrow pops the right balloon", keyed.els["balloons-feedback"].textContent.startsWith("Riktig!"));
-  keyed.press("ArrowLeft");
-  check("a second key press does not answer again", keyed.els["balloons-feedback"].textContent.startsWith("Riktig!"));
-  keyed.els["balloons-next"].click();
-  keyed.press("ArrowLeft");
-  check("the left arrow pops the left balloon", keyed.els["balloons-feedback"].textContent.startsWith("Ikke helt"));
-  keyed.els["balloons-next"].click();
-  keyed.press("Enter");
-  check("other keys do nothing", keyed.els["balloons-next"].hidden === true);
-  keyed.press("ArrowLeft");
-  keyed.els["balloons-next"].click();
-  await new Promise((resolve) => setImmediate(resolve));
-  check(
-    "the keys post as picks",
-    keyed.posted[0] && JSON.stringify(keyed.posted[0].body.picks) === JSON.stringify([1, 0, 0])
-  );
-
+  check("with the timer off the balloon does not rise", !untimed.el.classList.contains("balloon--rising"));
+  check("and there is no clock", untimed.timers.length === 0);
   const calm = page(ROUND, { calm: true });
   check("calm mode cannot draw the timer, so it does not run one", calm.timers.length === 0);
+
+  /* --- a save that fails ---------------------------------------------------- */
+  const failing = page({ ...ROUND, timed: false, items: ROUND.items.slice(0, 1) }, { failFirst: true });
+  failing.press("ArrowLeft");
+  failing.settle();
+  failing.next();
+  await failing.flush();
+  check("a failed save says so", failing.feedback() === "Vi fikk ikke lagret runden.");
+  failing.next();
+  await failing.flush();
+  check("Next sends the same picks again", failing.posted.length === 2 &&
+    JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
 
   if (failures) {
     console.error(`${failures} check(s) failed`);

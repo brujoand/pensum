@@ -14,7 +14,7 @@ sums (`static/arkade-pairs.js`). Invaders is a proposal.
 | statement today | after this design |
 |---|---|
 | Rule 3: "No countdown, no speed bonus" on any task | No countdown on any exercise. Arkade games have a drawn timer that the pupil can switch off. There is still no speed bonus anywhere. |
-| Game layer: "timers, lives" wait on "a run mode that leaves the untimed default intact" | Arkade is that mode. Timers are in it. Lives are not. |
+| Game layer: "timers, lives" wait on "a run mode that leaves the untimed default intact" | Arkade is that mode. Timers are in it, and balloons have three lives. |
 
 ## The rules
 
@@ -30,11 +30,12 @@ sums (`static/arkade-pairs.js`). Invaders is a proposal.
 4. **Running out of time earns 0 and is not evidence.** A popped balloon or a
    target that got past is not a wrong answer. It is not written to `evidence`,
    so it never lowers mastery.
-5. **No speed bonus.** 10 XP per correct answer and 20 for finishing a round, as
-   for a quiz. A round finished slowly earns the same as one finished fast.
+5. **No speed bonus.** 10 XP per point (a true balloon let fly, a pair found) and
+   20 for finishing a round. A round finished slowly earns the same as one
+   finished fast.
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
-   pupil sees how many items there are. There are no lives, and a wrong answer
-   never ends a round.
+   pupil sees how many items there are. Balloons have three lives: a wrong
+   answer spends one, and the third ends the round early. Memory has none.
 7. **Every answer ends on the correct form.** Spelling games show misspelt
    words, so the right spelling is always the last thing on screen, whatever
    the pupil picked.
@@ -74,7 +75,7 @@ pattern, such as kj and skj.
 
 | game | the pupil | item shape | round |
 |---|---|---|---|
-| balloons | pops the balloon with the false statement, or hears a word and pops the balloon that spells it | 2 balloons side by side: a true and a false statement, or two spellings with one right. The arrow keys pop the left or right one | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
+| balloons | sees one balloon with a statement, or hears a word and sees one spelling of it. Swipes left (or ←) to let it fly away if it is true, right (or →) to send it up to the needle if it is not | 1 balloon at a time, true or false about half the time each. A true one flown earns a point; popping a false one is right and earns nothing; getting either wrong costs one of three lives | 8 balloons, or fewer if the lives run out; with the timer on, each rises for 60 seconds and drifts off the top, which earns nothing and costs no life |
 | memory pairs | turns cards two at a time to find a sum and its answer | 6 pairs, 12 cards, no two answers alike | one board; with the timer on, a bar empties over 2 minutes. A pair found earns 10 XP; a pair not found when time runs out earns 0 and is turned up, so the board ends on every right form. A wrong turn is forgetting where a card lay, so a board records no evidence |
 | invaders | shoots only the targets matching the rule ("divisible by 3", "consonants") | a stream of candidates | 12 targets; with the timer on, targets advance, and a match that gets past earns 0 |
 

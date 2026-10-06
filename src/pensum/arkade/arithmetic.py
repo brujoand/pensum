@@ -15,7 +15,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from random import Random
 
-from pensum.arkade.items import Item
+from pensum.arkade.items import Item, balloon
 
 ADD, SUBTRACT, MULTIPLY, DIVIDE = "+", "−", "·", ":"
 
@@ -114,44 +114,42 @@ def families_for(grade: int) -> tuple[Family, ...]:
     return (TABLES, DIVISION)
 
 
-# Draws per item before giving up on finding three distinct facts. A family has
-# dozens of facts, so this is never reached in practice; it bounds the loop.
+# Draws before giving up on a board of distinct answers. A family has dozens of
+# facts, so this is never reached in practice; it bounds the loop.
 MAX_DRAWS = 50
 
 
-def false_statement_item(family: Family, rng: Random, candidates: int = 3) -> Item:
-    """`candidates` statements from one family, exactly one of them false."""
-    facts: dict[str, Fact] = {}
+def statement_item(family: Family, rng: Random, avoid: frozenset[str] = frozenset()) -> Item:
+    """One balloon: a fact from `family`, shown true or, half the time, with a wrong answer.
+
+    A fact whose key is in `avoid` is drawn again, so a round never asks the
+    same sum twice: the second answer would also be dropped from the evidence,
+    which is keyed on the round and the item.
+    """
     for _ in range(MAX_DRAWS):
         fact = family.draw(rng)
-        facts.setdefault(fact.key, fact)
-        if len(facts) == candidates:
+        if fact.key not in avoid:
             break
-    else:
-        raise ValueError(f"{family.name}: too few distinct facts for {candidates} candidates")
-
-    chosen = list(facts.values())
-    false_fact = chosen[0]
-    wrong = rng.choice(sorted(false_fact.wrong_values()))
-    texts = [false_fact.statement(wrong)] + [fact.statement() for fact in chosen[1:]]
-    order = list(range(candidates))
-    rng.shuffle(order)
-    return Item(
-        id=f"mat:{false_fact.key}",
-        rule="false_statement",
-        candidates=tuple(texts[i] for i in order),
-        matches=frozenset({order.index(0)}),
-        answer=false_fact.statement(),
+    true = rng.random() < 0.5
+    shown = fact.statement() if true else fact.statement(rng.choice(sorted(fact.wrong_values())))
+    return balloon(
+        f"mat:{fact.key}",
+        "statement",
+        shown,
+        true=true,
+        answer=fact.statement(),
         skill=family.skill,
     )
 
 
-def statement_items(grade: int, rng: Random, count: int, candidates: int = 3) -> list[Item]:
-    """A round of false-statement items for `grade`, families taken in turn."""
+def statement_items(grade: int, rng: Random, count: int) -> list[Item]:
+    """A round of balloons for `grade`, families taken in turn."""
     families = families_for(grade)
-    return [
-        false_statement_item(families[i % len(families)], rng, candidates) for i in range(count)
-    ]
+    items: list[Item] = []
+    for i in range(count):
+        seen = frozenset(item.id.removeprefix("mat:") for item in items)
+        items.append(statement_item(families[i % len(families)], rng, seen))
+    return items
 
 
 def pair_items(grade: int, rng: Random, count: int) -> list[Item]:

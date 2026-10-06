@@ -223,7 +223,7 @@ game layer at all.
 | random rewards, chests | a collection to draw from |
 | currency, shops, cosmetics, avatars | a decision that a second economy is worth its cost; there is none yet |
 | timers | designed: Arkade, an opt-in mode with a timer the pupil can switch off ([arkade.md](arkade.md)) |
-| lives | a design that needs them; Arkade has none |
+| lives | designed: Arkade balloons, three per round, the third wrong answer ends it ([arkade.md](arkade.md)) |
 | notifications | a channel to reach a signed-in pupil; Pensum has none |
 | collections, narrative per strand | design time |
 

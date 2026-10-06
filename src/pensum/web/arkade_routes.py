@@ -20,7 +20,7 @@ from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from pensum.arkade.arithmetic import pair_items, statement_items
-from pensum.arkade.items import Item
+from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.spelling import spoken_word_items
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for
@@ -45,10 +45,9 @@ ROUND_LENGTH = 8
 # Fewer spelling items than this and there is not a round to play: the
 # checkpoint's passages are too few, or not yet approved on this instance.
 MIN_ROUND = 4
-# Two balloons, side by side: one true and one false, or two spellings. More
-# than two did not fit a phone in a row, and stacked balloons read as a list.
-BALLOONS = 2
-# How long a balloon grows before it pops, with the timer on.
+# Wrong answers a balloon round allows: the third ends it.
+LIVES = 3
+# How long a balloon floats up before it drifts off the top, with the timer on.
 BALLOON_SECONDS = 60
 # A memory board: six pairs, twelve cards, three across. With the timer on the
 # whole board has two minutes.
@@ -100,7 +99,7 @@ def _rng() -> random.Random:
 def _items(request: Request, game: str, grade: int) -> list[Item]:
     subject_code, kind = GAMES[game]
     if kind == "statements":
-        return statement_items(grade, _rng(), ROUND_LENGTH, BALLOONS)
+        return statement_items(grade, _rng(), ROUND_LENGTH)
 
     subject = request.app.state.catalogue.subject(subject_code)
     checkpoint = checkpoint_for(subject, grade) if subject is not None else None
@@ -192,6 +191,7 @@ async def balloons(request: Request, locale: str, game: str) -> Response:
             timed=timed,
             now=datetime.now(UTC),
             user_sub=user.sub if user else None,
+            lives=LIVES,
         )
     return templates.TemplateResponse(
         request,
@@ -255,16 +255,18 @@ async def pairs(request: Request, locale: str, game: str) -> Response:
 
 
 def _payload(played: Round) -> dict[str, object]:
-    """What the page plays. It includes which balloon is right: the page says so
-    the moment one is popped, and the server marks the picks again regardless."""
+    """What the page plays. It includes whether each balloon is true: the page
+    says so the moment one flies or pops, and the server marks the picks again
+    regardless, lives included."""
     return {
         "round": played.id,
         "timed": played.timed,
+        "lives": played.lives,
         "items": [
             {
                 "rule": item.rule,
-                "candidates": list(item.candidates),
-                "matches": sorted(item.matches),
+                "shown": item.shown,
+                "true": item.is_match(FLY),
                 "answer": item.answer,
                 "spoken": item.spoken,
                 "language": item.language,
@@ -299,6 +301,8 @@ async def finish(
             locale,
             again=f"/{locale}/arkade/{played.game}",
             correct=sum(1 for m in marked if m.correct),
+            points=sum(1 for m in marked if m.scores),
+            lives=played.lives,
             total=len(marked),
             xp_earned=earned,
             xp_total=ledger.total(played.user_sub) if ledger and played.user_sub else None,
@@ -326,7 +330,7 @@ def _record(request: Request, played: Round, marked: list[Marked], now: datetime
     earned = 0
     ledger = get_xp(request)
     if ledger is not None:
-        earned = xp_for_run((m.correct is True, sensitive(m.item)) for m in marked)
+        earned = xp_for_run((m.scores, sensitive(m.item)) for m in marked)
         ledger.record(
             Award(
                 user_sub=played.user_sub,

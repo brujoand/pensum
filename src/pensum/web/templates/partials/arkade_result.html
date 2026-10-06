@@ -2,7 +2,7 @@
   <h2 id="balloons-result-heading">{{ t("arkade.result", correct=correct, total=total) }}</h2>
   {% include "partials/xp.html" %}
   <p>
-    <a class="button" href="/{{ locale }}/arkade/ballonger/{{ game }}{{ '?' ~ request.url.query if request.url.query else '' }}">{{ t("arkade.again") }}</a>
+    <a class="button" href="{{ again }}{{ '?' ~ request.url.query if request.url.query else '' }}">{{ t("arkade.again") }}</a>
     <a href="/{{ locale }}/arkade{{ '?' ~ request.url.query if request.url.query else '' }}">{{ t("arkade.back") }}</a>
   </p>
 </section>

@@ -1252,4 +1252,12 @@ arkade:
     game.
   needs_js: The game needs JavaScript.
   failed: We could not save the round. Press Next to try again.
+  pairs: Memory
+  pairs_note: "{count} pairs per board. Turn two cards at a time and find the ones that belong together."
+  pairs_rule: Find the sum and the answer that belong together.
+  pair_found: "A pair!"
+  pairs_left: "{n} pairs left"
+  time_up: Time is up.
+  failed_pairs: We could not save the board.
+  try_again: Try again
   no_voice: This browser has no voice for the language, so the word cannot be read aloud here.

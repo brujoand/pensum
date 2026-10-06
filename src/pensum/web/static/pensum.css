@@ -3929,3 +3929,100 @@ button.token:disabled {
 #balloons-next[hidden] {
   display: none;
 }
+
+/* Memory pairs: twelve cards, three across, so the board fits a phone. */
+.arkade-card__cards {
+  width: 2.5rem;
+  height: 3rem;
+  border-radius: 6px;
+  background: var(--balloon-2);
+  box-shadow: 6px -6px 0 var(--balloon-4);
+}
+
+.pairs__board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  max-width: 24rem;
+  margin: 0 auto 1rem;
+}
+
+.pair-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  min-width: 0;
+  padding: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--balloon-ink);
+  font: inherit;
+  font-size: clamp(1rem, 4.5vw, 1.3rem);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pair-card--up {
+  background: var(--balloon-3);
+}
+
+.pair-card--found {
+  background: var(--balloon-2);
+  border-color: var(--accent);
+}
+
+.pair-card--missed {
+  background: var(--card);
+  border-style: dashed;
+  border-color: var(--ink-soft);
+}
+
+.pair-card:disabled {
+  cursor: default;
+}
+
+.pair-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pairs__status {
+  min-height: 1.6rem;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+/* The timer, drawn: a bar that empties over the board's time. */
+.pairs__time {
+  height: 0.6rem;
+  max-width: 24rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.pairs__time-left {
+  height: 100%;
+  width: 100%;
+  background: var(--accent);
+  transform-origin: 0 50%;
+}
+
+.pairs__time--running .pairs__time-left {
+  animation-name: pairs-time;
+  animation-duration: var(--pairs-seconds, 120s);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pairs-time {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+#pairs-retry[hidden] {
+  display: none;
+}

@@ -6,8 +6,8 @@ from the exercises, and the exercises keep every rule they have today.
 
 Built so far: the pupil's year and timer setting (`pensum.scores.profile`), the
 items (`pensum.arkade`), and the balloon game at `/{locale}/arkade`
-(`pensum.web.arkade_routes`, `static/arkade-balloons.js`). Memory pairs and
-invaders are proposals.
+(`pensum.web.arkade_routes`, `static/arkade-balloons.js`) and memory pairs for
+sums (`static/arkade-pairs.js`). Invaders is a proposal.
 
 ## What changes, and what does not
 
@@ -75,7 +75,7 @@ pattern, such as kj and skj.
 | game | the pupil | item shape | round |
 |---|---|---|---|
 | balloons | pops the balloon with the false statement, or hears a word and pops the balloon that spells it | 2 balloons side by side: a true and a false statement, or two spellings with one right. The arrow keys pop the left or right one | 8 items; with the timer on, each balloon grows for 60 seconds and pops |
-| memory pairs | turns cards two at a time to find matching pairs | 6 pairs | one board; with the timer on, the board has 2 minutes |
+| memory pairs | turns cards two at a time to find a sum and its answer | 6 pairs, 12 cards, no two answers alike | one board; with the timer on, a bar empties over 2 minutes. A pair found earns 10 XP; a pair not found when time runs out earns 0 and is turned up, so the board ends on every right form. A wrong turn is forgetting where a card lay, so a board records no evidence |
 | invaders | shoots only the targets matching the rule ("divisible by 3", "consonants") | a stream of candidates | 12 targets; with the timer on, targets advance, and a match that gets past earns 0 |
 
 Later, not ruled out: a word search for themed lists, and falling words the
@@ -88,6 +88,6 @@ rather than recognises one.
 2. The item model, the arithmetic generator and the spelling generator.
    Done: `pensum.arkade`.
 3. Balloons, the Arkade page and the timer setting. Done.
-4. Memory pairs.
+4. Memory pairs, for sums. Done. Word pairs (`hund` and `dog`) and capitals wait on word and fact lists.
 5. Invaders.
 6. Fact items, once the false versions are written and reviewed.

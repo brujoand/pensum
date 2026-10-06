@@ -16,6 +16,7 @@ from pensum.arkade.arithmetic import (
     Fact,
     false_statement_item,
     families_for,
+    pair_items,
     statement_items,
 )
 from pensum.arkade.items import Item
@@ -165,3 +166,25 @@ def _numbers_in(statement: str) -> list[int]:
 def _is_true(statement: str) -> bool:
     a, op, b, _, shown = statement.split()
     return Fact(int(a), op, int(b)).value == int(shown)
+
+
+# --- memory pairs ----------------------------------------------------------
+
+
+@pytest.mark.parametrize("grade", range(1, 11))
+def test_a_board_never_repeats_an_answer(grade: int) -> None:
+    for seed in range(30):
+        items = pair_items(grade, seeded(seed), 6)
+        answers = [item.candidates[1] for item in items]
+        assert len(items) == 6
+        assert len(set(answers)) == 6
+
+
+def test_a_pair_is_a_sum_and_its_answer() -> None:
+    for item in pair_items(4, seeded(1), 6):
+        expression, value = item.candidates
+        assert item.rule == "pair"
+        assert item.matches == frozenset({0, 1})
+        assert item.answer == f"{expression} = {value}"
+        assert _is_true(item.answer)
+        assert item.skill is None

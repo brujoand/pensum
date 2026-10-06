@@ -1270,4 +1270,12 @@ arkade:
     spill.
   needs_js: Spillet trenger JavaScript.
   failed: Vi fikk ikke lagret runden. Trykk Neste for å prøve igjen.
+  pairs: Memory
+  pairs_note: "{count} par per brett. Snu to kort om gangen og finn de som hører sammen."
+  pairs_rule: Finn regnestykket og svaret som hører sammen.
+  pair_found: "Par!"
+  pairs_left: "{n} par igjen"
+  time_up: Tiden er ute.
+  failed_pairs: Vi fikk ikke lagret brettet.
+  try_again: Prøv igjen
   no_voice: Nettleseren har ingen stemme for dette språket, så ordet kan ikke leses opp her.

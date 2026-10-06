@@ -35,3 +35,23 @@ def test_a_full_round_is_within_what_the_server_will_accept() -> None:
     """The page posts one pick per item. More than the server accepts would be a
     422 at the last balloon, the one moment the page has nothing to say."""
     assert ROUND_LENGTH <= MAX_PICKS
+
+
+PAIRS_HARNESS = Path(__file__).parent / "js" / "arkade_pairs.test.js"
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
+def test_a_memory_board_played_in_the_page() -> None:
+    result = subprocess.run(  # noqa: S603
+        [shutil.which("node") or "node", str(PAIRS_HARNESS)],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=PAIRS_HARNESS.parents[2],
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_the_pairs_harness_is_reachable() -> None:
+    assert PAIRS_HARNESS.is_file()

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.pairs") }} · {{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.pairs") }}: {{ t("arkade.game_" ~ game) }}</h1>
+  <p class="lede">{{ t("arkade.pairs_rule") }}</p>
+
+  <div id="pairs"
+       class="pairs"
+       data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ "?" ~ request.url.query if request.url.query else "" }}"
+       data-seconds="{{ seconds }}"
+       data-label-found="{{ t('arkade.pair_found') }}"
+       data-label-left="{{ t('arkade.pairs_left') }}"
+       data-label-time-up="{{ t('arkade.time_up') }}"
+       data-label-failed="{{ t('arkade.failed_pairs') }}">
+    {# The timer, drawn: a bar that empties. Hidden when the round is untimed. #}
+    <div class="pairs__time" id="pairs-time" hidden><div class="pairs__time-left"></div></div>
+    <p class="pairs__status" id="pairs-status" aria-live="polite"></p>
+    <div class="pairs__board" id="pairs-board"></div>
+    <p><button class="button" type="button" id="pairs-retry" hidden>{{ t("arkade.try_again") }}</button></p>
+    <div id="pairs-result"></div>
+  </div>
+
+  <script type="application/json" id="pairs-round">{{ payload | tojson }}</script>
+  <noscript><p class="note">{{ t("arkade.needs_js") }}</p></noscript>
+  <script src="/static/arkade-pairs.js" defer></script>
+{% endblock %}

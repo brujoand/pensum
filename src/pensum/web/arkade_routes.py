@@ -19,7 +19,7 @@ from urllib.parse import urlencode
 from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
-from pensum.arkade.arithmetic import statement_items
+from pensum.arkade.arithmetic import pair_items, statement_items
 from pensum.arkade.items import Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.spelling import spoken_word_items
@@ -50,6 +50,12 @@ MIN_ROUND = 4
 BALLOONS = 2
 # How long a balloon grows before it pops, with the timer on.
 BALLOON_SECONDS = 60
+# A memory board: six pairs, twelve cards, three across. With the timer on the
+# whole board has two minutes.
+PAIRS = 6
+PAIRS_SECONDS = 120
+# The memory games, by slug: the subject.
+PAIR_GAMES = {"matte": "MAT01-06"}
 # The most picks a finished round can send. A round has ROUND_LENGTH; this only
 # bounds what a malformed request can make the server read.
 MAX_PICKS = 64
@@ -125,6 +131,8 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             grade=grade,
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
+            pair_games=list(PAIR_GAMES),
+            pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
             round_length=ROUND_LENGTH,
@@ -178,7 +186,7 @@ async def balloons(request: Request, locale: str, game: str) -> Response:
     played = None
     if len(items) >= MIN_ROUND:
         played = _rounds(request).create(
-            game,
+            f"ballonger/{game}",
             GAMES[game][0],
             items,
             timed=timed,
@@ -197,6 +205,51 @@ async def balloons(request: Request, locale: str, game: str) -> Response:
             payload=_payload(played) if played else None,
             timed=timed,
             balloon_seconds=BALLOON_SECONDS,
+        ),
+    )
+
+
+@router.get("/{locale}/arkade/par/{game}", response_class=HTMLResponse)
+async def pairs(request: Request, locale: str, game: str) -> Response:
+    """A memory board. The page posts, per pair, 0 where it was found and null
+    where time ran out first, so the finish route marks it like any round."""
+    validate_locale(locale)
+    if game not in PAIR_GAMES:
+        raise HTTPException(status_code=404, detail="no such game")
+    grade = _grade(request)
+    if grade is None:
+        return RedirectResponse(f"/{locale}/arkade", status_code=303)
+
+    user = current_user(request)
+    played = _rounds(request).create(
+        f"par/{game}",
+        PAIR_GAMES[game],
+        pair_items(grade, _rng(), PAIRS),
+        timed=_timer_on(request),
+        now=datetime.now(UTC),
+        user_sub=user.sub if user else None,
+    )
+    cards = [
+        {"text": text, "pair": index}
+        for index, item in enumerate(played.items)
+        for text in item.candidates
+    ]
+    _rng().shuffle(cards)
+    return templates.TemplateResponse(
+        request,
+        "pages/pairs.html",
+        context(
+            request,
+            locale,
+            game=game,
+            played=played,
+            payload={
+                "round": played.id,
+                "timed": played.timed,
+                "cards": cards,
+                "answers": [item.answer for item in played.items],
+            },
+            seconds=PAIRS_SECONDS,
         ),
     )
 
@@ -244,7 +297,7 @@ async def finish(
         context(
             request,
             locale,
-            game=played.game,
+            again=f"/{locale}/arkade/{played.game}",
             correct=sum(1 for m in marked if m.correct),
             total=len(marked),
             xp_earned=earned,

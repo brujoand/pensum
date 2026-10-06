@@ -14,7 +14,7 @@ from typing import Literal
 # What the pupil looks for, as the i18n key under `arkade.rule`. The rule is the
 # instruction shown above the candidates, so it is part of the item: two items
 # with the same candidates and a different rule are different questions.
-Rule = Literal["false_statement", "spoken_word"]
+Rule = Literal["false_statement", "spoken_word", "pair"]
 
 
 @dataclass(frozen=True)

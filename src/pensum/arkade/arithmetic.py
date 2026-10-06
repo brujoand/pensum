@@ -40,6 +40,10 @@ class Fact:
     def key(self) -> str:
         return f"{self.a}{self.op}{self.b}"
 
+    @property
+    def expression(self) -> str:
+        return f"{self.a} {self.op} {self.b}"
+
     def statement(self, shown: int | None = None) -> str:
         return f"{self.a} {self.op} {self.b} = {self.value if shown is None else shown}"
 
@@ -147,4 +151,40 @@ def statement_items(grade: int, rng: Random, count: int, candidates: int = 3) ->
     families = families_for(grade)
     return [
         false_statement_item(families[i % len(families)], rng, candidates) for i in range(count)
+    ]
+
+
+def pair_items(grade: int, rng: Random, count: int) -> list[Item]:
+    """`count` facts for a memory board: each a card with the sum and a card with its answer.
+
+    No two answers repeat. `3 · 8` and `4 · 6` on one board would make a pupil
+    who matched `3 · 8` with the 24 meant for `4 · 6` wrong for knowing it, so a
+    fact whose answer is already on the board is drawn again.
+
+    No skill: a wrong turn in memory is forgetting where a card lay, not
+    getting the sum wrong, so a board is no evidence either way.
+    """
+    families = families_for(grade)
+    facts: list[Fact] = []
+    values: set[int] = set()
+    for draw in range(MAX_DRAWS * count):
+        fact = families[draw % len(families)].draw(rng)
+        if fact.value in values:
+            continue
+        facts.append(fact)
+        values.add(fact.value)
+        if len(facts) == count:
+            break
+    else:
+        raise ValueError(f"year {grade}: too few distinct answers for {count} pairs")
+
+    return [
+        Item(
+            id=f"pair:{fact.key}",
+            rule="pair",
+            candidates=(fact.expression, str(fact.value)),
+            matches=frozenset({0, 1}),
+            answer=fact.statement(),
+        )
+        for fact in facts
     ]

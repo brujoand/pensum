@@ -32,6 +32,8 @@
   /* How long two cards that do not match stay face up. Long enough to read
    * both, which is the point of the game. */
   var SHOW_MS = 1200;
+  /* How long a pair's pop takes, so a cleared board waves after it. */
+  var WAVE_AFTER_MS = 750;
 
   var total = round.answers.length;
   var found = {};
@@ -53,11 +55,13 @@
   function faceUp(card) {
     card.button.classList.add("pair-card--up");
     card.button.removeAttribute("aria-label");
+    card.face.removeAttribute("aria-hidden");
   }
 
   function faceDown(card) {
     card.button.classList.remove("pair-card--up");
     card.button.setAttribute("aria-label", card.label);
+    card.face.setAttribute("aria-hidden", "true");
   }
 
   function turn(card) {
@@ -117,7 +121,12 @@
       card.button.classList.add("pair-card--missed");
     });
     /* A cleared board waves, card by card. */
-    if (foundCount === total) board.classList.add("pairs__board--cleared");
+    /* After the last pair has popped: the wave would replace its pop. */
+    if (foundCount === total) {
+      window.setTimeout(function () {
+        board.classList.add("pairs__board--cleared");
+      }, WAVE_AFTER_MS);
+    }
     send();
   }
 
@@ -158,6 +167,7 @@
     var face = document.createElement("span");
     face.className = "pair-card__face";
     face.textContent = entry.text;
+    face.setAttribute("aria-hidden", "true");
     button.appendChild(face);
     var back = document.createElement("span");
     back.className = "pair-card__back";

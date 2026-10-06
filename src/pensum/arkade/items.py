@@ -15,12 +15,21 @@ from typing import Literal
 
 # What the pupil is asked, as the i18n key under `arkade.rule`. The rule is the
 # instruction shown with the item, so it is part of the item.
-Rule = Literal["statement", "spoken_word", "pair"]
+Rule = Literal["statement", "spoken_word", "pair", "target"]
 
 # A balloon's two choices, as candidate indexes. Letting it fly away says the
 # statement on it is true; sending it to the needle says it is not.
 FLY, POP = 0, 1
 BALLOON_CHOICES = ("fly", "pop")
+
+# An invader's two choices, the same way round: shooting it says it matches the
+# round's rule, letting it pass says it does not.
+SHOOT, PASS = 0, 1
+TARGET_CHOICES = ("shoot", "pass")
+
+# The yes-or-no items, where the second choice is a right "no" that earns no
+# point: a false balloon popped, a target rightly let past.
+JUDGEMENTS = (BALLOON_CHOICES, TARGET_CHOICES)
 
 
 @dataclass(frozen=True)
@@ -66,12 +75,16 @@ def balloon(
     skill: str | None = None,
     spoken: str | None = None,
     language: str | None = None,
+    choices: tuple[str, str] = BALLOON_CHOICES,
 ) -> Item:
-    """One balloon: `shown` on it, and whether that is true."""
+    """One yes-or-no item: `shown` on it, and whether the first choice is right.
+
+    A balloon by default; an invader with `choices=TARGET_CHOICES`.
+    """
     return Item(
         id=id,
         rule=rule,
-        candidates=BALLOON_CHOICES,
+        candidates=choices,
         matches=frozenset({FLY if true else POP}),
         answer=answer,
         skill=skill,

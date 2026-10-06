@@ -7,7 +7,7 @@ from the exercises, and the exercises keep every rule they have today.
 Built so far: the pupil's year and timer setting (`pensum.scores.profile`), the
 items (`pensum.arkade`), and the balloon game at `/{locale}/arkade`
 (`pensum.web.arkade_routes`, `static/arkade-balloons.js`) and memory pairs for
-sums (`static/arkade-pairs.js`). Invaders is a proposal.
+sums (`static/arkade-pairs.js`). Invaders is at `/{locale}/arkade/romskip` (`pensum.arkade.invaders`, `static/arkade-invaders.js`).
 
 ## What changes, and what does not
 
@@ -35,7 +35,7 @@ sums (`static/arkade-pairs.js`). Invaders is a proposal.
    finished fast.
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
    pupil sees how many items there are. Balloons have three lives: a wrong
-   answer spends one, and the third ends the round early. Memory has none.
+   answer spends one, and the third ends the round early. Invaders have three as well. Memory has none.
 7. **A wrong answer ends on the correct form.** Spelling games show misspelt
    words, so after a mistake the right spelling is the last thing on screen.
    A right answer says "Riktig!" and nothing more: repeating the right form
@@ -57,7 +57,7 @@ A game decides only how they look.
 |---|---|---|
 | arithmetic (`pensum.arkade.arithmetic`) | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated: adding and subtracting within 20 for years 1-2, within 100 and the 2, 5 and 10 tables for year 3, all tables and division from year 4. Fractions and divisibility are not generated yet |
 | spelling (`pensum.arkade.spelling`) | the word `kjøleskap` is spoken; `kjøleskap` and `kjøleskapp` are shown | the words of the passages approved for the pupil's checkpoint, Norwegian or English, and a wrong spelling from `pensum.listening.confusable`, as in the listening exercise |
-| letter class | consonant or vowel | generated |
+| letter class (`pensum.arkade.invaders`) | consonant or vowel | generated from the alphabet of the page's language; English leaves out Y, which is either |
 | pairs | `7 × 8` and `56`, a country and its capital, `hund` and `dog` | generated for numbers; word and fact lists for the rest |
 | facts | a true and a false statement | the fact packs under `data/drills/`, plus a false version of each fact, reviewed like any other content |
 
@@ -78,7 +78,7 @@ pattern, such as kj and skj.
 |---|---|---|---|
 | balloons | sees one balloon with a statement, or hears a word and sees one spelling of it. Swipes left (or ←) to let it fly away if it is true, right (or →) to send it up to the needle if it is not | 1 balloon at a time, true or false about half the time each. A true one flown earns a point; popping a false one is right and earns nothing; getting either wrong costs one of three lives | 8 balloons, or fewer if the lives run out; with the timer on, each rises for 60 seconds and drifts off the top, which earns nothing and costs no life |
 | memory pairs | turns cards two at a time to find a sum and its answer | 6 pairs, 12 cards, no two answers alike | one board; with the timer on, a bar empties over 2 minutes. A pair found earns 10 XP; a pair not found when time runs out earns 0 and is turned up, so the board ends on every right form. A wrong turn is forgetting where a card lay, so a board records no evidence |
-| invaders | shoots only the targets matching the rule ("divisible by 3", "consonants") | a stream of candidates | 12 targets; with the timer on, targets advance, and a match that gets past earns 0 |
+| invaders | sees one target fall towards the ship, under one rule for the round ("Skyt tallene som kan deles på 3", "Skyt konsonantene"). Taps it, or space or ↑, to shoot it; swipes it down, ↓ or the arrow button to let it pass | 1 target at a time, matching about half the time. A match shot earns a point; a non-match let past is right and earns nothing; shooting a non-match or letting a match pass costs one of three lives. Numbers: even numbers for years 1-2 (evidence for `mat.counting.odd-even`), dividing by 2, 5 or 10 for year 3, by larger numbers after; no skill past year 2. Letters: consonants or vowels, no skill | 12 targets, or fewer if the lives run out; with the timer on each falls for 8 seconds, and one that lands was let past: right for a non-match, a miss for a match, which earns nothing and costs no life |
 
 Later, not ruled out: a word search for themed lists, and falling words the
 pupil types. Typing is the only game here where a pupil produces a spelling
@@ -91,5 +91,5 @@ rather than recognises one.
    Done: `pensum.arkade`.
 3. Balloons, the Arkade page and the timer setting. Done.
 4. Memory pairs, for sums. Done. Word pairs (`hund` and `dog`) and capitals wait on word and fact lists.
-5. Invaders.
+5. Invaders, for numbers and letters. Done. Countries and other themed lists wait on fact lists.
 6. Fact items, once the false versions are written and reviewed.

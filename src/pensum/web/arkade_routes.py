@@ -20,10 +20,12 @@ from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from pensum.arkade.arithmetic import pair_items, statement_items
+from pensum.arkade.invaders import Targets, letter_targets, number_targets
 from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.spelling import spoken_word_items
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for
+from pensum.i18n import translate
 from pensum.scores.evidence import Evidence
 from pensum.scores.store import attempt_key
 from pensum.scores.xp import Award
@@ -55,6 +57,11 @@ PAIRS = 6
 PAIRS_SECONDS = 120
 # The memory games, by slug: the subject.
 PAIR_GAMES = {"matte": "MAT01-06"}
+# Invaders: a round of targets, each falling for this long with the timer on.
+INVADER_ROUND = 12
+INVADER_SECONDS = 8
+# The invader games, by slug: the subject.
+INVADER_GAMES = {"tall": "MAT01-06", "bokstaver": "NOR01-08"}
 # The most picks a finished round can send. A round has ROUND_LENGTH; this only
 # bounds what a malformed request can make the server read.
 MAX_PICKS = 64
@@ -131,6 +138,8 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
             pair_games=list(PAIR_GAMES),
+            invader_games=list(INVADER_GAMES),
+            invader_round=INVADER_ROUND,
             pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
@@ -250,6 +259,75 @@ async def pairs(request: Request, locale: str, game: str) -> Response:
                 "answers": [item.answer for item in played.items],
             },
             seconds=PAIRS_SECONDS,
+        ),
+    )
+
+
+def _describe(locale: str):
+    """The sentence that says what a target was, in the page's language."""
+
+    def describe(rule: str, token: str, matches: bool, params: dict[str, int]) -> str:
+        if rule in ("consonants", "vowels"):
+            consonant = matches == (rule == "consonants")
+            key = "is_consonant" if consonant else "is_vowel"
+        elif rule == "even":
+            key = "is_even" if matches else "is_odd"
+        else:
+            key = "divides" if matches else "does_not_divide"
+        return translate(locale, f"arkade.invaders.{key}", x=token, **params)
+
+    return describe
+
+
+def _targets(request: Request, locale: str, game: str, grade: int) -> Targets:
+    if game == "tall":
+        return number_targets(grade, _rng(), INVADER_ROUND, _describe(locale))
+    language = "en" if locale == "en" else ("nn" if locale == "nn" else "nb")
+    return letter_targets(language, _rng(), INVADER_ROUND, _describe(locale))
+
+
+@router.get("/{locale}/arkade/romskip/{game}", response_class=HTMLResponse)
+async def invaders(request: Request, locale: str, game: str) -> Response:
+    """Invaders. The page posts, per target, 0 for shot, 1 for let past, null
+    for a match that fell past with the timer on, and nothing after the last
+    life; the finish route marks it like any round."""
+    validate_locale(locale)
+    if game not in INVADER_GAMES:
+        raise HTTPException(status_code=404, detail="no such game")
+    grade = _grade(request)
+    if grade is None:
+        return RedirectResponse(f"/{locale}/arkade", status_code=303)
+
+    targets = _targets(request, locale, game, grade)
+    user = current_user(request)
+    played = _rounds(request).create(
+        f"romskip/{game}",
+        INVADER_GAMES[game],
+        targets.items,
+        timed=_timer_on(request),
+        now=datetime.now(UTC),
+        user_sub=user.sub if user else None,
+        lives=LIVES,
+    )
+    return templates.TemplateResponse(
+        request,
+        "pages/invaders.html",
+        context(
+            request,
+            locale,
+            game=game,
+            played=played,
+            payload={
+                "round": played.id,
+                "timed": played.timed,
+                "lives": played.lives,
+                "rule": translate(locale, f"arkade.invaders.rule.{targets.rule}", **targets.params),
+                "items": [
+                    {"shown": item.shown, "true": item.is_match(FLY), "answer": item.answer}
+                    for item in played.items
+                ],
+            },
+            seconds=INVADER_SECONDS,
         ),
     )
 

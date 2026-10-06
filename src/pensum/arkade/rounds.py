@@ -12,7 +12,7 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from pensum.arkade.items import BALLOON_CHOICES, POP, Item
+from pensum.arkade.items import JUDGEMENTS, POP, Item
 
 # Long enough for a round played slowly with breaks, short enough that the store
 # does not grow with every round anyone ever started.
@@ -45,11 +45,12 @@ class Marked:
     def scores(self) -> bool:
         """Whether this answer earns a point.
 
-        A right answer does, except a balloon popped because it was false:
-        popping a false balloon is right, and it does nothing.
+        A right answer does, except a right "no" on a yes-or-no item: popping a
+        false balloon, or letting a target that does not match go past. Those
+        are right, and they do nothing.
         """
-        popped = self.item.candidates == BALLOON_CHOICES and self.pick == POP
-        return self.correct is True and not popped
+        said_no = self.item.candidates in JUDGEMENTS and self.pick == POP
+        return self.correct is True and not said_no
 
 
 @dataclass

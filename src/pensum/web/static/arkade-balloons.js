@@ -80,6 +80,7 @@
   var timer = null;
   var done = false;
   var finished = false;
+  var sending = false;
 
   /* --- speaking ------------------------------------------------------------ */
 
@@ -227,7 +228,7 @@
   function frame(now) {
     step(now);
     render();
-    raf(frame);
+    if (!finished) raf(frame);
   }
 
   function riseDistance() {
@@ -367,6 +368,10 @@
   }
 
   function finish() {
+    /* One save at a time: a second click while the first is on its way would
+     * find the round already taken, and its 404 would replace the result. */
+    if (sending) return;
+    sending = true;
     finished = true;
     ruleLine.textContent = "";
     hear.hidden = true;
@@ -391,6 +396,7 @@
       .catch(function () {
         /* Say what happened and offer the same button again: pressing it
          * sends the same picks once more. */
+        sending = false;
         feedback.textContent = root.dataset.labelFailed;
         nextButton.hidden = false;
       });

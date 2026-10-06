@@ -159,7 +159,8 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
       due.forEach((fn) => fn(clock));
     }
   };
-  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback, run };
+  const pending = () => frames.length;
+  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback, run, pending };
 }
 
 const item = (shown, isTrue, answer) => ({
@@ -318,9 +319,20 @@ const ROUND = {
   await failing.flush();
   check("a failed save says so", failing.feedback() === "Vi fikk ikke lagret runden.");
   failing.next();
+  failing.next();
   await failing.flush();
-  check("Next sends the same picks again", failing.posted.length === 2 &&
+  check("Next sends the same picks again, once however often it is pressed", failing.posted.length === 2 &&
     JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
+
+  /* --- the animation stops with the round ---------------------------------- */
+  const ending = page({ ...ROUND, timed: false, items: ROUND.items.slice(0, 1) }, { animate: true });
+  ending.run(3);
+  check("frames run while the round does", ending.pending() === 1);
+  ending.press("ArrowLeft");
+  ending.settle();
+  ending.next();
+  ending.run(2);
+  check("and stop once it is over", ending.pending() === 0);
 
   if (failures) {
     console.error(`${failures} check(s) failed`);

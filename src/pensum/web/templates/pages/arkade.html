@@ -73,6 +73,8 @@
       {% if timer_stored %}
         <form method="post" action="/{{ locale }}/arkade/tidtaker">
           <input type="hidden" name="timer" value="{{ 'av' if timer_on else 'på' }}" />
+          {# A year picked here rather than stored comes back with the form. #}
+          {% if carry %}<input type="hidden" name="trinn" value="{{ grade }}" />{% endif %}
           <button class="button" type="submit">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</button>
         </form>
       {% else %}

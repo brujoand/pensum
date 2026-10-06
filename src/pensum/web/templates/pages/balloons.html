@@ -13,26 +13,45 @@
          class="balloons"
          data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ "?" ~ request.url.query if request.url.query else "" }}"
          data-seconds="{{ balloon_seconds }}"
-         data-label-right="{{ t('arkade.right') }}"
-         data-label-wrong="{{ t('arkade.wrong') }}"
-         data-label-popped="{{ t('arkade.popped') }}"
-         data-label-next="{{ t('arkade.next') }}"
+         data-label-point="{{ t('arkade.point') }}"
+         data-label-popped-false="{{ t('arkade.popped_false') }}"
+         data-label-lost-true="{{ t('arkade.lost_true') }}"
+         data-label-lost-false="{{ t('arkade.lost_false') }}"
+         data-label-drifted="{{ t('arkade.drifted') }}"
          data-label-position="{{ t('arkade.position') }}"
+         data-label-lives="{{ t('arkade.lives') }}"
          data-label-failed="{{ t('arkade.failed') }}">
-      <p class="balloons__position" id="balloons-position" aria-live="polite"></p>
+      <div class="balloons__status">
+        <p class="balloons__position" id="balloons-position" aria-live="polite"></p>
+        <p class="balloons__lives" id="balloons-lives" aria-live="polite"></p>
+      </div>
       <p class="balloons__rule" id="balloons-rule"></p>
       <p class="balloons__hear" id="balloons-hear" hidden>
         <button class="button" type="button" id="balloons-say">{{ t("arkade.hear_again") }}</button>
         <span class="note" id="balloons-no-voice" hidden>{{ t("arkade.no_voice") }}</span>
       </p>
-      <div class="balloons__sky" id="balloons-sky"></div>
+
+      {# One balloon. Swipe it left to let it fly away (it is true), or right to
+         send it up to the needle (it is not). The buttons and the arrow keys do
+         the same. #}
+      <div class="balloons__sky" id="balloons-sky">
+        <span class="balloons__needle" aria-hidden="true"></span>
+        <button class="balloon" type="button" id="balloons-balloon">
+          <span class="balloon__label" id="balloons-shown"></span>
+        </button>
+      </div>
+      <div class="balloons__choices" id="balloons-choices">
+        <button class="button balloons__fly" type="button" id="balloons-fly">← {{ t("arkade.fly") }}</button>
+        <button class="button balloons__pop" type="button" id="balloons-pop">{{ t("arkade.pop") }} →</button>
+      </div>
+
       <p class="balloons__feedback" id="balloons-feedback" aria-live="assertive"></p>
       <p><button class="button" type="button" id="balloons-next" hidden>{{ t("arkade.next") }}</button></p>
       <div id="balloons-result"></div>
     </div>
 
     <template id="balloons-rules">
-      <span data-rule="false_statement">{{ t("arkade.rule.false_statement") }}</span>
+      <span data-rule="statement">{{ t("arkade.rule.statement") }}</span>
       <span data-rule="spoken_word">{{ t("arkade.rule.spoken_word") }}</span>
     </template>
 

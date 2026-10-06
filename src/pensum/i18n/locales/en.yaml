@@ -1226,25 +1226,31 @@ arkade:
     how words are spelt.
   home_cta: Play in Arkade
   balloons: Balloons
-  balloons_note: "{count} balloons per round. Pop the right one before it pops by itself."
+  balloons_note: "{count} balloons per round and three lives. Swipe left if the balloon is right, right if it is wrong."
   game_matte: Sums
   game_norsk: Norwegian spelling
   game_engelsk: English spelling
   timer: Timer
-  timer_on: The balloons grow and pop after a while.
+  timer_on: The balloons rise and drift away by themselves after a while.
   timer_off: The balloons wait as long as you need.
   timer_turn_off: Turn the timer off
   timer_turn_on: Turn the timer on
   rule:
-    false_statement: Pop the balloon with the sum that is wrong.
-    spoken_word: Pop the balloon that spells the word you hear.
+    statement: Is the sum right? Swipe left for yes, right for no.
+    spoken_word: Is the word you hear spelt like this? Swipe left for yes, right for no.
   hear_again: Hear the word again
   position: "Balloon {n} of {total}"
-  right: Right!
-  wrong: "Not quite. The right one is:"
-  popped: "The balloon popped. The right one is:"
+  fly: Let it fly
+  pop: Pop it
+  lives: "Lives: {n}"
+  point: "Right! A point."
+  popped_false: "Right, it was wrong. The right one is:"
+  lost_true: "It was right! You lost a life. The right one is:"
+  lost_false: "It was wrong, and it flew away. You lost a life. The right one is:"
+  drifted: "The balloon drifted away. The right one is:"
   next: Next
   result: "{correct} of {total} right"
+  result_points: "{points} points"
   again: Play again
   back: Back to Arkade
   no_round: >-

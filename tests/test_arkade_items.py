@@ -14,12 +14,12 @@ from pensum.arkade.arithmetic import (
     TABLES,
     WITHIN_20,
     Fact,
-    false_statement_item,
     families_for,
     pair_items,
+    statement_item,
     statement_items,
 )
-from pensum.arkade.items import Item
+from pensum.arkade.items import BALLOON_CHOICES, FLY, POP, Item
 from pensum.arkade.spelling import SKILL_BY_CHECKPOINT, spoken_word_items
 from pensum.items.loader import ItemBank
 from pensum.listening.lexicon import Lexicon, build
@@ -41,7 +41,7 @@ def test_an_item_with_repeated_candidates_is_refused() -> None:
     with pytest.raises(ValueError, match="repeat"):
         Item(
             id="x",
-            rule="false_statement",
+            rule="statement",
             candidates=("a", "a"),
             matches=frozenset({0}),
             answer="a",
@@ -51,26 +51,28 @@ def test_an_item_with_repeated_candidates_is_refused() -> None:
 @pytest.mark.parametrize("matches", [frozenset(), frozenset({2})])
 def test_an_item_must_match_one_of_its_candidates(matches: frozenset[int]) -> None:
     with pytest.raises(ValueError, match="matches"):
-        Item(id="x", rule="false_statement", candidates=("a", "b"), matches=matches, answer="a")
+        Item(id="x", rule="statement", candidates=("a", "b"), matches=matches, answer="a")
 
 
 # --- arithmetic ------------------------------------------------------------
 
 
-def test_the_false_statement_is_the_one_that_matches() -> None:
+def test_a_balloon_flies_when_its_statement_is_true_and_pops_when_not() -> None:
     for seed in range(200):
-        item = false_statement_item(TABLES, seeded(seed))
-        (index,) = item.matches
-        assert item.candidates[index] != item.answer
-        others = [c for i, c in enumerate(item.candidates) if i != index]
-        assert all(_is_true(c) for c in others)
-        assert not _is_true(item.candidates[index])
+        item = statement_item(TABLES, seeded(seed))
+        assert item.candidates == BALLOON_CHOICES
         assert _is_true(item.answer)
+        if _is_true(item.shown):
+            assert item.matches == frozenset({FLY})
+            assert item.shown == item.answer
+        else:
+            assert item.matches == frozenset({POP})
+            assert item.shown != item.answer
 
 
-def test_the_false_one_is_not_always_in_the_same_place() -> None:
-    places = {next(iter(false_statement_item(WITHIN_20, seeded(s)).matches)) for s in range(50)}
-    assert places == {0, 1, 2}
+def test_balloons_are_true_about_half_the_time() -> None:
+    trues = sum(statement_item(WITHIN_20, seeded(s)).is_match(FLY) for s in range(200))
+    assert 70 < trues < 130
 
 
 def test_the_same_seed_gives_the_same_round() -> None:
@@ -129,16 +131,21 @@ def passages():
     return ReadingLibrary.load().for_goal_set(NOR_YEAR_2, unreviewed=True)
 
 
-def test_the_spoken_word_is_one_of_the_two_and_the_one_that_matches(lexicons, passages) -> None:
+def test_a_spelling_balloon_flies_when_it_spells_the_spoken_word(lexicons, passages) -> None:
     items = spoken_word_items(passages, lexicons["nb"], 2, seeded(1), 8)
 
     assert len(items) == 8
     for item in items:
-        assert len(item.candidates) == 2
-        (index,) = item.matches
-        assert item.candidates[index] == item.spoken == item.answer
+        assert item.candidates == BALLOON_CHOICES
+        assert item.spoken == item.answer
+        assert item.matches == frozenset({FLY if item.shown == item.spoken else POP})
         assert item.language == "nb"
         assert item.skill == "nor.decoding.spell-by-sound"
+
+
+def test_spelling_balloons_show_both_right_and_wrong_spellings(lexicons, passages) -> None:
+    items = spoken_word_items(passages, lexicons["nb"], 2, seeded(3), 8)
+    assert {item.is_match(FLY) for item in items} == {True, False}
 
 
 def test_a_later_year_records_no_skill(lexicons, passages) -> None:

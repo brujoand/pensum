@@ -71,6 +71,8 @@
   var result = document.getElementById("balloons-result");
   var noVoice = document.getElementById("balloons-no-voice");
   var rules = document.getElementById("balloons-rules").content;
+  var flyName = flyButton.getAttribute("aria-label") || "";
+  var popName = popButton.getAttribute("aria-label") || "";
 
   var picks = [];
   var index = 0;
@@ -289,6 +291,9 @@
     ruleLine.textContent = ruleText(item.rule);
     hear.hidden = !item.spoken;
     shownEl.textContent = item.shown;
+    /* The halves are the answers; their names say what they answer. */
+    flyButton.setAttribute("aria-label", flyName + ": " + item.shown);
+    popButton.setAttribute("aria-label", popName + ": " + item.shown);
     balloonEl.className = "balloon balloon--" + (index % 4) + (timed ? " balloon--rising" : "");
     if (burstEl) burstEl.hidden = true;
     flyButton.disabled = false;
@@ -324,7 +329,7 @@
       leave("fly");
     } else {
       right = !item.true;
-      label = right ? root.dataset.labelRight : root.dataset.labelLostTrue;
+      label = right ? root.dataset.labelRight : root.dataset.labelLostTrue + " " + item.answer;
       leave("needle");
     }
     if (pick !== null && !right) {

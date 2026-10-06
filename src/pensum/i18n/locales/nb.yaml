@@ -1283,24 +1283,4 @@ arkade:
   time_up: Tiden er ute.
   failed_pairs: Vi fikk ikke lagret brettet.
   try_again: Prøv igjen
-  invaders:
-    heading: Romskip
-    note: "{count} mål per runde og tre liv. Skyt de som passer regelen, og la resten passere."
-    game_tall: Tall
-    game_bokstaver: Bokstaver
-    position: "Mål {n} av {total}"
-    pass: La den passere
-    wrong: "Feil! Du mistet et liv."
-    missed: "Den skulle vært skutt."
-    rule:
-      even: Skyt partallene.
-      divisible: "Skyt tallene som kan deles på {n}."
-      consonants: Skyt konsonantene.
-      vowels: Skyt vokalene.
-    is_even: "{x} er et partall."
-    is_odd: "{x} er et oddetall."
-    divides: "{x} kan deles på {n}."
-    does_not_divide: "{x} kan ikke deles på {n}."
-    is_consonant: "{x} er en konsonant."
-    is_vowel: "{x} er en vokal."
   no_voice: Nettleseren har ingen stemme for dette språket, så ordet kan ikke leses opp her.

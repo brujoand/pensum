@@ -128,6 +128,7 @@ const ROUND = {
   check("every card is on the board", game.cards.length === 4);
   check("dealt one after another", game.cards[3].classList.contains("pair-card--deal") && game.cards[3].style["--i"] === "3");
   check("a face carries its text from the start, hidden by the back", game.cards[0].children[0].textContent === "7 · 8");
+  check("and hidden from a screen reader while the card is down", game.cards[0].children[0].getAttribute("aria-hidden") === "true");
   check("cards start face down", game.face(0) === "" && game.cards[0].getAttribute("aria-label") === "1");
   check("the pairs left are shown", game.els["pairs-status"].textContent === "2 par igjen");
   check("the timer bar runs", game.els["pairs-time"].hidden === false && game.els["pairs-time"].style["--pairs-seconds"] === "120s");
@@ -136,7 +137,7 @@ const ROUND = {
 
   game.cards[0].click();
   check("a turned card shows its text", game.face(0) === "7 · 8");
-  check("and its text is what a screen reader reads", game.cards[0].getAttribute("aria-label") === null);
+  check("and its text is what a screen reader reads", game.cards[0].getAttribute("aria-label") === null && game.cards[0].children[0].getAttribute("aria-hidden") === null);
   game.cards[1].click();
   check("two that do not match stay up for a moment", game.face(1) === "3 · 4");
   check("and shake", game.cards[0].classList.contains("pair-card--miss") && game.cards[1].classList.contains("pair-card--miss"));
@@ -162,7 +163,9 @@ const ROUND = {
   check("posting both pairs found", JSON.stringify(game.posted[0].body.picks) === JSON.stringify([0, 0]));
   check("and stopping the clock", game.timers[0] === null);
   check("the result is shown", game.els["pairs-result"].innerHTML === "<p>resultat</p>");
-  check("a cleared board waves", game.els["pairs-board"].classList.contains("pairs__board--cleared"));
+  check("the last pair pops before the board waves", !game.els["pairs-board"].classList.contains("pairs__board--cleared"));
+  game.timers.find((t) => t && t.ms === 750).fn();
+  check("then the cleared board waves", game.els["pairs-board"].classList.contains("pairs__board--cleared"));
 
   /* --- time running out --------------------------------------------------- */
   const late = page(ROUND);

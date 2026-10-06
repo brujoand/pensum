@@ -103,7 +103,8 @@ function page(round, { calm = false, failFirst = false } = {}) {
 
   new Function("document", "window", "fetch", src)(document, window, fetch);
   const cards = els["pairs-board"].children;
-  const face = (i) => cards[i].children[0].textContent;
+  /* What a card shows: its face when it is turned up, nothing when it is down. */
+  const face = (i) => (cards[i].classList.contains("pair-card--up") ? cards[i].children[0].textContent : "");
   const flush = () => new Promise((resolve) => setImmediate(resolve));
   return { els, timers, posted, cards, face, flush };
 }
@@ -125,6 +126,8 @@ const ROUND = {
   /* --- a board cleared ---------------------------------------------------- */
   const game = page(ROUND);
   check("every card is on the board", game.cards.length === 4);
+  check("dealt one after another", game.cards[3].classList.contains("pair-card--deal") && game.cards[3].style["--i"] === "3");
+  check("a face carries its text from the start, hidden by the back", game.cards[0].children[0].textContent === "7 · 8");
   check("cards start face down", game.face(0) === "" && game.cards[0].getAttribute("aria-label") === "1");
   check("the pairs left are shown", game.els["pairs-status"].textContent === "2 par igjen");
   check("the timer bar runs", game.els["pairs-time"].hidden === false && game.els["pairs-time"].style["--pairs-seconds"] === "120s");
@@ -136,14 +139,17 @@ const ROUND = {
   check("and its text is what a screen reader reads", game.cards[0].getAttribute("aria-label") === null);
   game.cards[1].click();
   check("two that do not match stay up for a moment", game.face(1) === "3 · 4");
+  check("and shake", game.cards[0].classList.contains("pair-card--miss") && game.cards[1].classList.contains("pair-card--miss"));
   game.cards[2].click();
   check("a third card cannot be turned meanwhile", game.face(2) === "");
   game.timers[game.timers.length - 1].fn();
   check("then both turn back", game.face(0) === "" && game.face(1) === "");
+  check("and stop shaking", !game.cards[0].classList.contains("pair-card--miss"));
 
   game.cards[0].click();
   game.cards[2].click();
   check("a pair stays up", game.face(0) === "7 · 8" && game.face(2) === "56");
+  check("and pops", game.cards[0].classList.contains("pair-card--found") && game.cards[2].classList.contains("pair-card--found"));
   check("and says the sum in full", game.els["pairs-status"].textContent === "Par! 7 · 8 = 56");
   check("a found card cannot be turned again", game.cards[0].disabled && game.cards[2].disabled);
 
@@ -156,6 +162,7 @@ const ROUND = {
   check("posting both pairs found", JSON.stringify(game.posted[0].body.picks) === JSON.stringify([0, 0]));
   check("and stopping the clock", game.timers[0] === null);
   check("the result is shown", game.els["pairs-result"].innerHTML === "<p>resultat</p>");
+  check("a cleared board waves", game.els["pairs-board"].classList.contains("pairs__board--cleared"));
 
   /* --- time running out --------------------------------------------------- */
   const late = page(ROUND);

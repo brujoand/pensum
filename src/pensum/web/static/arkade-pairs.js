@@ -47,15 +47,16 @@
     status.textContent = root.dataset.labelLeft.replace("{n}", String(total - foundCount));
   }
 
+  /* The card turns over in 3D: its face carries the text all along and the
+   * back hides it, so the text is never seen to appear or vanish mid-turn.
+   * Face down, a card is named by its number; face up, by what it says. */
   function faceUp(card) {
     card.button.classList.add("pair-card--up");
-    card.face.textContent = card.text;
     card.button.removeAttribute("aria-label");
   }
 
   function faceDown(card) {
     card.button.classList.remove("pair-card--up");
-    card.face.textContent = "";
     card.button.setAttribute("aria-label", card.label);
   }
 
@@ -81,8 +82,13 @@
       return;
     }
     busy = true;
+    /* Not a pair: both shake, then turn back. */
+    other.button.classList.add("pair-card--miss");
+    card.button.classList.add("pair-card--miss");
     window.setTimeout(function () {
       busy = false;
+      other.button.classList.remove("pair-card--miss");
+      card.button.classList.remove("pair-card--miss");
       /* The board ended meanwhile and turned every unfound card up: leave it. */
       if (over) return;
       other.up = false;
@@ -110,6 +116,8 @@
       faceUp(card);
       card.button.classList.add("pair-card--missed");
     });
+    /* A cleared board waves, card by card. */
+    if (foundCount === total) board.classList.add("pairs__board--cleared");
     send();
   }
 
@@ -143,11 +151,18 @@
   round.cards.forEach(function (entry, index) {
     var button = document.createElement("button");
     button.type = "button";
-    button.className = "pair-card";
+    button.className = "pair-card pair-card--deal";
     button.setAttribute("aria-label", String(index + 1));
+    /* Its place in the deal: the cards land one after another. */
+    button.style.setProperty("--i", String(index));
     var face = document.createElement("span");
     face.className = "pair-card__face";
+    face.textContent = entry.text;
     button.appendChild(face);
+    var back = document.createElement("span");
+    back.className = "pair-card__back";
+    back.setAttribute("aria-hidden", "true");
+    button.appendChild(back);
     var card = {
       button: button,
       face: face,

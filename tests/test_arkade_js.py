@@ -55,3 +55,23 @@ def test_a_memory_board_played_in_the_page() -> None:
 
 def test_the_pairs_harness_is_reachable() -> None:
     assert PAIRS_HARNESS.is_file()
+
+
+INVADERS_HARNESS = Path(__file__).parent / "js" / "arkade_invaders.test.js"
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
+def test_an_invader_round_played_in_the_page() -> None:
+    result = subprocess.run(  # noqa: S603
+        [shutil.which("node") or "node", str(INVADERS_HARNESS)],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=INVADERS_HARNESS.parents[2],
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_the_invaders_harness_is_reachable() -> None:
+    assert INVADERS_HARNESS.is_file()

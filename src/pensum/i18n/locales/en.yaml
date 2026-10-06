@@ -1265,4 +1265,24 @@ arkade:
   time_up: Time is up.
   failed_pairs: We could not save the board.
   try_again: Try again
+  invaders:
+    heading: Spaceship
+    note: "{count} targets per round and three lives. Shoot the ones that fit the rule, and let the rest pass."
+    game_tall: Numbers
+    game_bokstaver: Letters
+    position: "Target {n} of {total}"
+    pass: Let it pass
+    wrong: "Wrong! You lost a life."
+    missed: "That one should have been shot."
+    rule:
+      even: Shoot the even numbers.
+      divisible: "Shoot the numbers you can divide by {n}."
+      consonants: Shoot the consonants.
+      vowels: Shoot the vowels.
+    is_even: "{x} is even."
+    is_odd: "{x} is odd."
+    divides: "{x} can be divided by {n}."
+    does_not_divide: "{x} cannot be divided by {n}."
+    is_consonant: "{x} is a consonant."
+    is_vowel: "{x} is a vowel."
   no_voice: This browser has no voice for the language, so the word cannot be read aloud here.

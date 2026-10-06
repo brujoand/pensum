@@ -20,7 +20,7 @@ every exercise open and has no XP.
 | reading aloud | 20 for reaching the last word | when the reading is marked |
 | writing | 20 for finishing a prompt | when the tracing is scored |
 | listening and spelling | 10 per correct answer | when the answer is marked |
-| Arkade round ([arkade.md](arkade.md)) | balloons: 10 per true balloon let fly, nothing for a false one popped; memory: 10 per pair found. 20 for finishing, including a round ended by its lives; 0 for running out of time | when the round is finished |
+| Arkade round ([arkade.md](arkade.md)) | balloons: 10 per true balloon let fly, nothing for a false one popped; memory: 10 per pair found; invaders: 10 per match shot, nothing for a non-match let past. 20 for finishing, including a round ended by its lives; 0 for running out of time | when the round is finished |
 
 - **Hints cost nothing.** They never lower the score, so they never lower XP.
 - **A wrong answer earns 0 and takes nothing away.**

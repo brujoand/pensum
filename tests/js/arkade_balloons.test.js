@@ -59,6 +59,9 @@ function element(id) {
     setAttribute(name, value) {
       this.attrs[name] = value;
     },
+    getAttribute(name) {
+      return name in this.attrs ? this.attrs[name] : null;
+    },
     addEventListener(type, fn) {
       this.listeners[type] = fn;
     },
@@ -85,7 +88,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     postUrl: "/nb/arkade/runde/r1",
     seconds: "60",
     labelRight: "Riktig!",
-    labelLostTrue: "Den var riktig! Du mistet et liv.",
+    labelLostTrue: "Den var riktig! Du mistet et liv. Det riktige er:",
     labelLostFalse: "Feil! Du mistet et liv. Det riktige er:",
     labelDrifted: "Det riktige er:",
     labelPosition: "Ballong {n} av {total}",
@@ -93,6 +96,8 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     labelFailed: "Vi fikk ikke lagret runden.",
   });
   els["balloons-round"].textContent = JSON.stringify(round);
+  els["balloons-fly"].attrs = { "aria-label": "Riktig: la den fly" };
+  els["balloons-pop"].attrs = { "aria-label": "Feil: stikk hull" };
   els["balloons-next"].hidden = true;
   els["balloons-rules"].content = {
     querySelector: (sel) => ({ textContent: sel.includes("statement") ? "Stemmer det?" : "Hør" }),
@@ -184,6 +189,7 @@ const ROUND = {
   const g = page(ROUND);
   check("the balloon shows the statement", g.els["balloons-shown"].textContent === "5 : 1 = 5");
   check("three hearts", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
+  check("each half is named for what it says about this balloon", g.els["balloons-fly"].attrs["aria-label"] === "Riktig: la den fly: 5 : 1 = 5" && g.els["balloons-pop"].attrs["aria-label"] === "Feil: stikk hull: 5 : 1 = 5");
   check("a timed balloon rises", g.el.classList.contains("balloon--rising"));
 
   g.el.fire("pointerdown", { clientX: 200, pointerId: 1 });
@@ -218,7 +224,7 @@ const ROUND = {
   g.els["balloons-pop"].click();
   g.settle();
   check("popping a true one costs a life", g.els["balloons-lives"].textContent === "Liv: 2 ♥♥♡");
-  check("and says so", g.feedback().startsWith("Den var riktig!"));
+  check("and shows the right form", g.feedback() === "Den var riktig! Du mistet et liv. Det riktige er: 3 · 4 = 12");
 
   g.next();
   g.press("ArrowLeft");

@@ -1262,7 +1262,7 @@ arkade:
   pop: "Feil: stikk hull"
   lives: "Liv: {n}"
   right: Riktig!
-  lost_true: Den var riktig! Du mistet et liv.
+  lost_true: "Den var riktig! Du mistet et liv. Det riktige er:"
   lost_false: "Feil! Du mistet et liv. Det riktige er:"
   drifted: "Det riktige er:"
   next: Neste

@@ -226,6 +226,7 @@ const ROUND = {
 
   g.next();
   check("the next balloon", g.els["balloons-shown"].textContent === "7 · 8 = 48");
+  check("says how long its text is, so it is sized to one line", g.els["balloons-shown"].style["--chars"] === "10");
   check("with the answer gone from the screen", g.feedback() === "");
   check("and a question mark to ask for it", g.els["balloons-previous"].hidden === false);
   g.previous();
@@ -298,6 +299,10 @@ const ROUND = {
   anim.el.fire("pointermove", { clientX: 250 });
   anim.run(2);
   check("the string trails behind a quick drag", bendOf(anim) < -5);
+  const threadOf = (p) => (p.els["balloons-string"].attrs.d || "").split(/ [QL] ?/).slice(1).map((part) => Number(part.split(" ")[0]));
+  const bends = threadOf(anim);
+  check("as a thread does: a line through several points", bends.length === 6);
+  check("without motion the thread hangs straight", threadOf(g).every((x) => x === 50));
   anim.el.fire("pointerup", { clientX: 250 });
   let crossed = false;
   for (let i = 0; i < 60; i++) {

@@ -393,6 +393,8 @@
     feedback.textContent = "";
     feedback.className = "balloons__feedback";
     retryButton.hidden = true;
+    /* The round is over: the feedback line now belongs to the save. */
+    previousButton.hidden = true;
     position.textContent = "";
     fetch(root.dataset.postUrl, {
       method: "POST",

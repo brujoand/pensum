@@ -338,6 +338,7 @@ const ROUND = {
   await failing.flush();
   check("a failed save says so", failing.feedback() === "Vi fikk ikke lagret runden.");
   check("and offers to try again", failing.els["balloons-retry"].hidden === false);
+  check("the question mark goes with the round, so it cannot replace that message", failing.els["balloons-previous"].hidden === true);
   failing.retry();
   failing.retry();
   await failing.flush();

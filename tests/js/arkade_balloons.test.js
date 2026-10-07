@@ -88,8 +88,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     postUrl: "/nb/arkade/runde/r1",
     seconds: "60",
     labelRight: "Riktig!",
-    labelLostTrue: "Den var riktig! Du mistet et liv. Det riktige er:",
-    labelLostFalse: "Feil! Du mistet et liv. Det riktige er:",
+    labelWrong: "Feil!",
     labelDrifted: "Det riktige er:",
     labelPosition: "Ballong {n} av {total}",
     labelLives: "Liv: {n}",
@@ -243,15 +242,17 @@ const ROUND = {
   g.els["balloons-pop"].click();
   g.settle();
   check("popping a true one costs a life", g.els["balloons-lives"].textContent === "Liv: 2 ♥♥♡");
-  check("and shows the right form", g.feedback() === "Den var riktig! Du mistet et liv. Det riktige er: 3 · 4 = 12");
+  check("and says only that it was wrong", g.feedback() === "Feil!");
   check("and throws no confetti", g.thrown.length === 2);
-  check("a wrong answer stays longer before the next balloon", g.timers[g.timers.length - 1].ms === 1800);
+  check("a wrong answer stays a beat longer before the next balloon", g.timers[g.timers.length - 1].ms === 1200);
 
   g.next();
   g.press("ArrowLeft");
   g.settle();
   check("the left arrow flies; a false one flown costs a life", g.els["balloons-lives"].textContent === "Liv: 1 ♥♡♡");
-  check("and a wrong answer shows the right form", g.feedback() === "Feil! Du mistet et liv. Det riktige er: 6 + 1 = 7");
+  check("and a wrong answer says only that", g.feedback() === "Feil!");
+  g.previous();
+  check("the question mark is where the right form is", g.feedback() === "Forrige ballong: 6 + 1 = 7");
 
   g.next();
   g.timers.find((t) => t && t.ms === 60000).fn();
@@ -302,7 +303,7 @@ const ROUND = {
   const threadOf = (p) => (p.els["balloons-string"].attrs.d || "").split(/ [QL] ?/).slice(1).map((part) => Number(part.split(" ")[0]));
   const bends = threadOf(anim);
   check("as a thread does: a line through several points", bends.length === 6);
-  check("and never far: the thread does not flail", bends.every((x) => Math.abs(x - 50) <= 21));
+  check("held close at the knot and free at the end", Math.abs(bends[0] - 50) <= 14 && bends.every((x) => Math.abs(x - 50) <= 39));
   check("without motion the thread hangs straight", threadOf(g).every((x) => x === 50));
   anim.el.fire("pointerup", { clientX: 250 });
   let crossed = false;

@@ -1244,8 +1244,7 @@ arkade:
   pop: "Wrong: pop it"
   lives: "Lives: {n}"
   right: Right!
-  lost_true: "It was right! You lost a life. The right one is:"
-  lost_false: "Wrong! You lost a life. The right one is:"
+  wrong: Wrong!
   drifted: "The right one is:"
   previous: "The last balloon:"
   previous_show: Show the answer to the last balloon

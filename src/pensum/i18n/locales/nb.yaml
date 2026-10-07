@@ -1262,8 +1262,7 @@ arkade:
   pop: "Feil: stikk hull"
   lives: "Liv: {n}"
   right: Riktig!
-  lost_true: "Den var riktig! Du mistet et liv. Det riktige er:"
-  lost_false: "Feil! Du mistet et liv. Det riktige er:"
+  wrong: Feil!
   drifted: "Det riktige er:"
   previous: "Forrige ballong:"
   previous_show: Vis svaret på forrige ballong

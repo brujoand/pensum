@@ -8,10 +8,9 @@
  * Swiped left, the balloon flies off up and to the left: a true one is a
  * point, a false one costs a life. Swiped right, it travels into that half and
  * bursts: a false one is simply right, a true one costs a life. The round ends
- * when the lives are gone. A right answer says "Riktig!"; a wrong one also
- * shows the right form (design rule 7). The next balloon then comes by
- * itself, and the question mark says again what the one before should have
- * been.
+ * when the lives are gone. A right answer says "Riktig!" and a wrong one
+ * "Feil!", nothing more (design rule 7). The next balloon then comes by
+ * itself, and the question mark says what the one before should have been.
  *
  * With the timer on, the balloon rises for `data-seconds` and drifts off the
  * top: neither a point nor a life (rule 4).
@@ -56,9 +55,11 @@
    * shows. Without motion it is only a short pause. */
   var LEAVE_MS = motion ? 900 : 150;
   /* How long the answer stays before the next balloon comes by itself. A
-   * wrong one stays longer: it shows the right form, which has to be read. */
+   * wrong one stays a beat longer, to be noticed. A balloon that drifted away
+   * shows the right form, which has to be read. */
   var NEXT_RIGHT_MS = 900;
-  var NEXT_WRONG_MS = 1800;
+  var NEXT_WRONG_MS = 1200;
+  var NEXT_DRIFTED_MS = 1800;
 
   var position = document.getElementById("balloons-position");
   var livesLine = document.getElementById("balloons-lives");
@@ -193,10 +194,11 @@
     var ys = [121];
     for (var i = 0; i < THREAD_POINTS; i++) {
       var part = (i + 1) / THREAD_POINTS;
-      /* Half of how far the point has fallen behind, and never far: the
-       * thread shows the move, it does not flail. */
-      var bend = clamp(((m.thread[i] - m.x) * 50) / width, -20, 20);
-      var ripple = motion ? Math.sin(m.now / 320 - i * 1.1) * 0.6 * part : 0;
+      /* Half of how far the point has fallen behind. How far it may go
+       * grows down the thread: held close at the knot, free at the end. */
+      var reach = 8 + 30 * part;
+      var bend = clamp(((m.thread[i] - m.x) * 50) / width, -reach, reach);
+      var ripple = motion ? Math.sin(m.now / 460 - i * 1.1) * 0.6 * part : 0;
       xs.push(50 + bend + ripple);
       ys.push(121 + 77 * part);
     }
@@ -369,11 +371,11 @@
       leave("drift");
     } else if (pick === FLY) {
       right = item.true;
-      label = right ? root.dataset.labelRight : root.dataset.labelLostFalse + " " + item.answer;
+      label = right ? root.dataset.labelRight : root.dataset.labelWrong;
       leave("fly");
     } else {
       right = !item.true;
-      label = right ? root.dataset.labelRight : root.dataset.labelLostTrue + " " + item.answer;
+      label = right ? root.dataset.labelRight : root.dataset.labelWrong;
       leave("pop");
     }
     if (pick !== null && !right) {
@@ -391,7 +393,7 @@
       previous = item;
       previousButton.hidden = false;
       /* The next balloon comes by itself. */
-      window.setTimeout(next, right ? NEXT_RIGHT_MS : NEXT_WRONG_MS);
+      window.setTimeout(next, right ? NEXT_RIGHT_MS : pick === null ? NEXT_DRIFTED_MS : NEXT_WRONG_MS);
     }, LEAVE_MS);
   }
 

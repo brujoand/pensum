@@ -1226,7 +1226,7 @@ arkade:
     how words are spelt.
   home_cta: Play in Arkade
   balloons: Balloons
-  balloons_note: "{count} balloons per round and three lives. Swipe the balloon towards ✓ if it is right, towards the needle if it is wrong."
+  balloons_note: "{count} balloons per round and three lives. Swipe the balloon towards ✓ if it is right, towards ✗ if it is wrong."
   game_matte: Sums
   game_norsk: Norwegian spelling
   game_engelsk: English spelling

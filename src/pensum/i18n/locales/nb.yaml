@@ -1244,7 +1244,7 @@ arkade:
     hvordan ord staves.
   home_cta: Spill i Arkade
   balloons: Ballonger
-  balloons_note: "{count} ballonger per runde og tre liv. Sveip ballongen mot ✓ hvis den har rett, mot nålen hvis den tar feil."
+  balloons_note: "{count} ballonger per runde og tre liv. Sveip ballongen mot ✓ hvis den har rett, mot ✗ hvis den tar feil."
   game_matte: Regnestykker
   game_norsk: Staving på norsk
   game_engelsk: Staving på engelsk

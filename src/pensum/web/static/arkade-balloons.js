@@ -1,12 +1,12 @@
 /* Arkade balloons: one balloon at a time, true or false.
  *
  * The balloon carries a statement, or one spelling of a word the page speaks.
- * The sky behind it is split: the left half is "true", the right half has the
- * needle and is "false". Swipe the balloon towards a half, tap the half, or
+ * The sky behind it is split: the left half is "true", the right half is
+ * "false". Swipe the balloon towards a half, tap the half, or
  * press the arrow key on that side.
  *
  * Swiped left, the balloon flies off up and to the left: a true one is a
- * point, a false one costs a life. Swiped right, it travels to the needle and
+ * point, a false one costs a life. Swiped right, it travels into that half and
  * bursts: a false one is simply right, a true one costs a life. The round ends
  * when the lives are gone. A right answer says "Riktig!"; a wrong one also
  * shows the right form (design rule 7). The next balloon then comes by
@@ -52,7 +52,7 @@
   var POP = 1;
   /* How far a swipe has to travel to count, in pixels. */
   var SWIPE = 60;
-  /* How long the fly-away or the trip to the needle plays before the answer
+  /* How long the fly-away or the trip to the burst plays before the answer
    * shows. Without motion it is only a short pause. */
   var LEAVE_MS = motion ? 900 : 150;
   /* How long the answer stays before the next balloon comes by itself. A
@@ -193,8 +193,10 @@
     var ys = [121];
     for (var i = 0; i < THREAD_POINTS; i++) {
       var part = (i + 1) / THREAD_POINTS;
-      var bend = clamp(((m.thread[i] - m.x) * 100) / width, -45, 45);
-      var ripple = motion ? Math.sin(m.now / 320 - i * 1.1) * 1.6 * part : 0;
+      /* Half of how far the point has fallen behind, and never far: the
+       * thread shows the move, it does not flail. */
+      var bend = clamp(((m.thread[i] - m.x) * 50) / width, -20, 20);
+      var ripple = motion ? Math.sin(m.now / 320 - i * 1.1) * 0.6 * part : 0;
       xs.push(50 + bend + ripple);
       ys.push(121 + 77 * part);
     }
@@ -254,7 +256,7 @@
       m.sx += (0.92 - m.sx) * 0.1;
       m.sy += (1.08 - m.sy) * 0.1;
       m.opacity -= 0.012;
-    } else if (mode === "needle") {
+    } else if (mode === "pop") {
       m.x += (target.x - m.x) * 0.14;
       m.y += (target.y - m.y) * 0.14;
       m.rot += (14 - m.rot) * 0.1;
@@ -276,15 +278,14 @@
     return (sky.clientHeight || 400) * 0.45;
   }
 
-  /* Where the needle's point is, from where the balloon rests. */
-  function needleTarget() {
-    var needle = popButton.querySelector ? popButton.querySelector(".balloons__needle") : null;
-    if (!needle || !needle.getBoundingClientRect) return { x: 160, y: -260 };
-    var n = needle.getBoundingClientRect();
+  /* Where a popped balloon bursts, from where it rests: the middle of the
+   * "false" half, a little above where the balloon is now. */
+  function popTarget() {
+    if (!popButton.getBoundingClientRect || !balloonEl.getBoundingClientRect) return { x: 160, y: m.y - 120 };
+    var p = popButton.getBoundingClientRect();
     var b = balloonEl.getBoundingClientRect();
     var restLeft = b.left - m.x;
-    var restTop = b.top - m.y;
-    return { x: n.left + n.width / 2 - (restLeft + b.width / 2), y: n.bottom - restTop + 4 };
+    return { x: p.left + p.width / 2 - (restLeft + b.width / 2), y: m.y - p.height * 0.18 };
   }
 
   function burst() {
@@ -373,7 +374,7 @@
     } else {
       right = !item.true;
       label = right ? root.dataset.labelRight : root.dataset.labelLostTrue + " " + item.answer;
-      leave("needle");
+      leave("pop");
     }
     if (pick !== null && !right) {
       lives -= 1;
@@ -384,8 +385,8 @@
       feedback.textContent = label;
       if (right) {
         feedback.classList.add("balloons__feedback--right");
-        /* A right answer throws a little confetti from where it says so. */
-        if (window.arkadeConfetti) window.arkadeConfetti(feedback);
+        /* A right answer throws confetti. */
+        if (window.arkadeConfetti) window.arkadeConfetti();
       }
       previous = item;
       previousButton.hidden = false;
@@ -395,12 +396,12 @@
   }
 
   function leave(how) {
-    balloonEl.classList.add("balloon--" + (how === "needle" ? "popped" : how === "fly" ? "flown" : "drifted"));
+    balloonEl.classList.add("balloon--" + (how === "pop" ? "popped" : how === "fly" ? "flown" : "drifted"));
     if (!motion) {
       balloonEl.classList.add("balloon--gone");
       return;
     }
-    if (how === "needle") target = needleTarget();
+    if (how === "pop") target = popTarget();
     m.vx = how === "fly" ? Math.min(m.vx, -2) : 0;
     m.vy = how === "fly" ? -3 : 0;
     mode = how;

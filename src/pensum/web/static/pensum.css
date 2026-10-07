@@ -3950,7 +3950,7 @@ body.arkade-play .pair-card {
 }
 
 /* The sky, split in two. The left half means "true, let it fly", the right
-   half "false, the needle". Both halves are buttons, so a tap on one is an
+   half "false, burst it". Both halves are buttons, so a tap on one is an
    answer too; the balloon floats over the seam. */
 :root {
   --sky-fly: #c8ecc9;
@@ -4035,15 +4035,6 @@ body.arkade-play .pair-card {
 
 .balloons__sky--toward-pop .balloons__side--pop {
   background: color-mix(in srgb, var(--sky-pop) 70%, var(--sky-pop-mark));
-}
-
-.balloons__needle {
-  position: absolute;
-  top: 0.5rem;
-  right: 1.25rem;
-  width: 1.25rem;
-  height: 5rem;
-  fill: var(--ink-soft);
 }
 
 /* The balloon: drawn, not a circle. Its body is taller than it is wide and
@@ -4131,7 +4122,7 @@ body.arkade-play .pair-card {
   visibility: hidden;
 }
 
-/* The pop: a ring of shreds where the balloon met the needle. */
+/* The pop: a ring of shreds where the balloon burst. */
 .balloons__burst {
   position: absolute;
   width: 0.6rem;
@@ -4326,8 +4317,9 @@ body.arkade-play .pair-card {
   40% { translate: 0 -0.6rem; scale: 1.06; }
 }
 
-/* Arkade confetti: a right move throws a little of it. The pieces are placed
-   by arkade-confetti.js, over the page, and it makes none in calm mode. */
+/* Arkade confetti: a right move bursts it from the middle of the screen. The
+   pieces are made by arkade-confetti.js, which says how far each one flies,
+   and it makes none in calm mode. */
 .arkade-confetti {
   position: fixed;
   inset: 0;
@@ -4338,13 +4330,14 @@ body.arkade-play .pair-card {
 
 .arkade-confetti__piece {
   position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 0.5rem;
-  height: 0.3rem;
-  border-radius: 1px;
+  left: 50%;
+  top: 50%;
+  width: calc(1.1rem * var(--size, 1));
+  height: calc(0.65rem * var(--size, 1));
+  margin: -0.35rem 0 0 -0.55rem;
+  border-radius: 2px;
   background: var(--balloon-1);
-  animation: arkade-confetti 900ms 200ms cubic-bezier(0.2, 0.7, 0.4, 1) both;
+  animation: arkade-confetti 1400ms 150ms cubic-bezier(0.2, 0.7, 0.4, 1) both;
 }
 
 .arkade-confetti__piece--1 { background: var(--balloon-2); }
@@ -4354,8 +4347,8 @@ body.arkade-play .pair-card {
 @keyframes arkade-confetti {
   0% { translate: 0 0; rotate: 0deg; opacity: 0; }
   10% { opacity: 1; }
-  60% { translate: var(--dx) var(--dy); opacity: 1; }
-  100% { translate: var(--dx) calc(var(--dy) + 2.5rem); rotate: var(--turn); opacity: 0; }
+  55% { translate: var(--dx) var(--dy); opacity: 1; }
+  100% { translate: var(--dx) calc(var(--dy) + var(--fall, 8rem)); rotate: var(--turn); opacity: 0; }
 }
 
 .pairs__status {

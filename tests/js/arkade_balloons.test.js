@@ -124,7 +124,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
       timers[n - 1] = null;
     },
     matchMedia: () => ({ matches: false }),
-    arkadeConfetti: (from) => thrown.push(from),
+    arkadeConfetti: (...from) => thrown.push(from),
     ...(animate ? { requestAnimationFrame: (fn) => frames.push(fn) } : {}),
   };
   const fetch = (url, options) => {
@@ -136,7 +136,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
   new Function("document", "window", "fetch", src)(document, window, fetch);
 
   const el = els["balloons-balloon"];
-  /* Let the fly-away or needle animation finish: run the newest short timer. */
+  /* Let the fly-away or the burst finish: run the newest short timer. */
   const settle = () => {
     for (let i = timers.length - 1; i >= 0; i--) {
       if (timers[i] && timers[i].ms < 5000) {
@@ -204,7 +204,7 @@ const ROUND = {
 
   g.el.fire("pointerdown", { clientX: 200, pointerId: 1 });
   g.el.fire("pointermove", { clientX: 290 });
-  check("dragging towards the needle lights that half", g.els["balloons-sky"].classList.contains("balloons__sky--toward-pop"));
+  check("dragging towards the cross lights that half", g.els["balloons-sky"].classList.contains("balloons__sky--toward-pop"));
   check("and the balloon follows the finger", g.el.style.transform.startsWith("translate(90.0px"));
   g.el.fire("pointermove", { clientX: 210 });
   check("back near the middle, neither half is lit", !g.els["balloons-sky"].classList.contains("balloons__sky--toward-pop"));
@@ -214,12 +214,12 @@ const ROUND = {
 
   g.swipe(-120);
   check("a swipe left lets it fly", g.el.classList.contains("balloon--flown"));
-  check("not to the needle", !g.el.classList.contains("balloon--popped"));
+  check("not to burst", !g.el.classList.contains("balloon--popped"));
   g.settle();
   check("a right answer just says so", g.feedback() === "Riktig!");
   check("the game fills the screen", g.body.classList.contains("arkade-play"));
   check("and the next balloon is on its way, with no button to press", g.timers[g.timers.length - 1].ms === 900);
-  check("and throws confetti from where it says so", g.thrown.length === 1 && g.thrown[0] === g.els["balloons-feedback"]);
+  check("and throws confetti, from no element of its own", g.thrown.length === 1 && g.thrown[0].length === 0);
   check("no life lost", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
   g.swipe(120);
   check("a swipe after the answer does nothing", !g.el.classList.contains("balloon--popped"));
@@ -233,7 +233,7 @@ const ROUND = {
   check("which says what the balloon before was", g.feedback() === "Forrige ballong: " + ROUND.items[0].answer);
   check("comes back whole", !g.el.classList.contains("balloon--gone") && !g.el.classList.contains("balloon--flown"));
   g.swipe(120);
-  check("a swipe right sends it to the needle", g.el.classList.contains("balloon--popped"));
+  check("a swipe right sends it to burst", g.el.classList.contains("balloon--popped"));
   check("not away", !g.el.classList.contains("balloon--flown"));
   g.settle();
   check("popping a false one is right, and says only that", g.feedback() === "Riktig!");
@@ -302,6 +302,7 @@ const ROUND = {
   const threadOf = (p) => (p.els["balloons-string"].attrs.d || "").split(/ [QL] ?/).slice(1).map((part) => Number(part.split(" ")[0]));
   const bends = threadOf(anim);
   check("as a thread does: a line through several points", bends.length === 6);
+  check("and never far: the thread does not flail", bends.every((x) => Math.abs(x - 50) <= 21));
   check("without motion the thread hangs straight", threadOf(g).every((x) => x === 50));
   anim.el.fire("pointerup", { clientX: 250 });
   let crossed = false;
@@ -323,8 +324,8 @@ const ROUND = {
   anim.run(5);
   anim.swipe(120);
   anim.run(8);
-  const [needleX, needleY] = pos(anim.el);
-  check("swiped right, it goes up and to the right, to the needle", needleX > 30 && needleY < -30);
+  const [popX, popY] = pos(anim.el);
+  check("swiped right, it goes up and into the right half", popX > 30 && popY < -30);
   anim.run(60);
   check("and bursts there", anim.el.classList.contains("balloon--gone") && anim.els["balloons-burst"].hidden === false);
 

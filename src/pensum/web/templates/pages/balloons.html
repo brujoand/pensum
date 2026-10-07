@@ -19,9 +19,14 @@
          data-label-drifted="{{ t('arkade.drifted') }}"
          data-label-position="{{ t('arkade.position') }}"
          data-label-lives="{{ t('arkade.lives') }}"
+         data-label-previous="{{ t('arkade.previous') }}"
          data-label-failed="{{ t('arkade.failed') }}">
       <div class="balloons__status">
         <p class="balloons__position" id="balloons-position" aria-live="polite"></p>
+        {# The next balloon comes by itself, so the answer to the one before
+           is asked for here. Hidden until there is one. #}
+        <button class="balloons__previous" type="button" id="balloons-previous"
+                aria-label="{{ t('arkade.previous_show') }}" hidden>?</button>
         <p class="balloons__lives" id="balloons-lives" aria-live="polite"></p>
       </div>
       <p class="balloons__rule" id="balloons-rule"></p>
@@ -70,7 +75,7 @@
       </div>
 
       <p class="balloons__feedback" id="balloons-feedback" aria-live="assertive"></p>
-      <p><button class="button" type="button" id="balloons-next" hidden>{{ t("arkade.next") }}</button></p>
+      <p><button class="button" type="button" id="balloons-retry" hidden>{{ t("arkade.try_again") }}</button></p>
       <div id="balloons-result"></div>
     </div>
 

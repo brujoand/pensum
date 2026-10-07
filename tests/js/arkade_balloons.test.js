@@ -81,7 +81,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     "balloons", "balloons-round", "balloons-position", "balloons-lives", "balloons-rule",
     "balloons-hear", "balloons-say", "balloons-balloon", "balloons-shown", "balloons-sky",
     "balloons-string", "balloons-burst", "balloons-fly", "balloons-pop", "balloons-feedback",
-    "balloons-next", "balloons-result", "balloons-rules", "balloons-no-voice",
+    "balloons-retry", "balloons-previous", "balloons-result", "balloons-rules", "balloons-no-voice",
   ];
   const els = Object.fromEntries(ids.map((id) => [id, element(id)]));
   Object.assign(els.balloons.dataset, {
@@ -93,12 +93,14 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     labelDrifted: "Det riktige er:",
     labelPosition: "Ballong {n} av {total}",
     labelLives: "Liv: {n}",
+    labelPrevious: "Forrige ballong:",
     labelFailed: "Vi fikk ikke lagret runden.",
   });
   els["balloons-round"].textContent = JSON.stringify(round);
   els["balloons-fly"].attrs = { "aria-label": "Riktig: la den fly" };
   els["balloons-pop"].attrs = { "aria-label": "Feil: stikk hull" };
-  els["balloons-next"].hidden = true;
+  els["balloons-retry"].hidden = true;
+  els["balloons-previous"].hidden = true;
   els["balloons-rules"].content = {
     querySelector: (sel) => ({ textContent: sel.includes("statement") ? "Stemmer det?" : "Hør" }),
   };
@@ -110,6 +112,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
   const document = {
     getElementById: (id) => els[id] || null,
     documentElement: { hasAttribute: (name) => calm && name === "data-calm" },
+    body: element("body"),
     keys: null,
     addEventListener(type, fn) {
       if (type === "keydown") this.keys = fn;
@@ -150,7 +153,10 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     el.fire("pointerup", { clientX: 200 + dx });
   };
   const press = (key) => document.keys && document.keys({ key, preventDefault() {} });
-  const next = () => els["balloons-next"].click();
+  /* The next balloon comes by itself: run the timer the answer left. */
+  const next = settle;
+  const retry = () => els["balloons-retry"].click();
+  const previous = () => els["balloons-previous"].click();
   const flush = () => new Promise((resolve) => setImmediate(resolve));
   const feedback = () => els["balloons-feedback"].textContent;
   /* Run `n` animation frames, 16 ms apart. */
@@ -163,7 +169,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     }
   };
   const pending = () => frames.length;
-  return { els, el, timers, posted, thrown, settle, swipe, press, next, flush, feedback, run, pending };
+  return { els, el, timers, posted, thrown, body: document.body, settle, swipe, press, next, retry, previous, flush, feedback, run, pending };
 }
 
 const item = (shown, isTrue, answer) => ({
@@ -211,6 +217,8 @@ const ROUND = {
   check("not to the needle", !g.el.classList.contains("balloon--popped"));
   g.settle();
   check("a right answer just says so", g.feedback() === "Riktig!");
+  check("the game fills the screen", g.body.classList.contains("arkade-play"));
+  check("and the next balloon is on its way, with no button to press", g.timers[g.timers.length - 1].ms === 900);
   check("and throws confetti from where it says so", g.thrown.length === 1 && g.thrown[0] === g.els["balloons-feedback"]);
   check("no life lost", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
   g.swipe(120);
@@ -218,6 +226,10 @@ const ROUND = {
 
   g.next();
   check("the next balloon", g.els["balloons-shown"].textContent === "7 · 8 = 48");
+  check("with the answer gone from the screen", g.feedback() === "");
+  check("and a question mark to ask for it", g.els["balloons-previous"].hidden === false);
+  g.previous();
+  check("which says what the balloon before was", g.feedback() === "Forrige ballong: " + ROUND.items[0].answer);
   check("comes back whole", !g.el.classList.contains("balloon--gone") && !g.el.classList.contains("balloon--flown"));
   g.swipe(120);
   check("a swipe right sends it to the needle", g.el.classList.contains("balloon--popped"));
@@ -232,6 +244,7 @@ const ROUND = {
   check("popping a true one costs a life", g.els["balloons-lives"].textContent === "Liv: 2 ♥♥♡");
   check("and shows the right form", g.feedback() === "Den var riktig! Du mistet et liv. Det riktige er: 3 · 4 = 12");
   check("and throws no confetti", g.thrown.length === 2);
+  check("a wrong answer stays longer before the next balloon", g.timers[g.timers.length - 1].ms === 1800);
 
   g.next();
   g.press("ArrowLeft");
@@ -324,10 +337,11 @@ const ROUND = {
   failing.next();
   await failing.flush();
   check("a failed save says so", failing.feedback() === "Vi fikk ikke lagret runden.");
-  failing.next();
-  failing.next();
+  check("and offers to try again", failing.els["balloons-retry"].hidden === false);
+  failing.retry();
+  failing.retry();
   await failing.flush();
-  check("Next sends the same picks again, once however often it is pressed", failing.posted.length === 2 &&
+  check("which sends the same picks again, once however often it is pressed", failing.posted.length === 2 &&
     JSON.stringify(failing.posted[1].body) === JSON.stringify(failing.posted[0].body));
 
   /* --- the animation stops with the round ---------------------------------- */

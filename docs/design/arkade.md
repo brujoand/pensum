@@ -36,16 +36,23 @@ sums (`static/arkade-pairs.js`).
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
    pupil sees how many items there are. Balloons have three lives: a wrong
    answer spends one, and the third ends the round early. Memory has none.
-7. **A wrong answer ends on the correct form.** Spelling games show misspelt
-   words, so after a mistake the right spelling is the last thing on screen.
+7. **A wrong answer shows the correct form.** Spelling games show misspelt
+   words, so after a mistake the right spelling is what the pupil sees next.
    A right answer says "Riktig!" and nothing more: repeating the right form
-   after a false balloon was rightly popped reads as a correction.
+   after a false balloon was rightly popped reads as a correction. The next
+   balloon then comes by itself, sooner after a right answer than after a
+   wrong one, and a question mark brings back the answer to the balloon
+   before. The right form is therefore shown for a moment, and after that on
+   request; it does not stay until the pupil chooses to move on.
 8. **Content comes from the pupil's year,** through `checkpoint_for(subject,
    grade)`, so a 3rd-grader gets 3rd-grade items.
 9. **An item on a sensitive skill earns 0,** as it does in a quiz
    ([xp.md](xp.md)). Design decision 10: sensitive topics are never gamified.
 10. **No pupil sees another pupil's results.** Rule 4. The teacher's class grid
     shows Arkade XP with the rest.
+11. **A game being played fills the screen.** The whole game fits the window
+    and the page does not scroll during a round. The site footer and the
+    game's introduction are hidden while it is played; the header stays.
 
 ## Items
 

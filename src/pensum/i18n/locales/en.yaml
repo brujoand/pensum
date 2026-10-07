@@ -1247,7 +1247,8 @@ arkade:
   lost_true: "It was right! You lost a life. The right one is:"
   lost_false: "Wrong! You lost a life. The right one is:"
   drifted: "The right one is:"
-  next: Next
+  previous: "The last balloon:"
+  previous_show: Show the answer to the last balloon
   result: "{correct} of {total} right"
   result_points: "{points} points"
   again: Play again

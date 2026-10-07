@@ -194,6 +194,8 @@
   });
 
   retry.addEventListener("click", send);
+  /* The game fills the screen and nothing scrolls while it is played. */
+  document.body.classList.add("arkade-play");
   left();
 
   if (timed) {

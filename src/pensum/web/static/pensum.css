@@ -3885,7 +3885,7 @@ body.arkade-play .balloons__sky {
   max-height: 40rem;
   margin: 0.5rem 0;
   container-type: size;
-  --balloon-width: min(12rem, 46vw, 44cqh);
+  --balloon-width: min(13.5rem, 52vw, 44cqh);
 }
 
 /* Four rows of three, sharing the height that is left. The cards give up
@@ -3953,18 +3953,18 @@ body.arkade-play .pair-card {
    half "false, the needle". Both halves are buttons, so a tap on one is an
    answer too; the balloon floats over the seam. */
 :root {
-  --sky-fly: #e3f4e6;
-  --sky-fly-mark: #2f8a47;
-  --sky-pop: #fbe4e1;
-  --sky-pop-mark: #b8402f;
+  --sky-fly: #c8ecc9;
+  --sky-fly-mark: #138a36;
+  --sky-pop: #f9c6bf;
+  --sky-pop-mark: #c8261a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --sky-fly: #1d3324;
-    --sky-fly-mark: #7fd396;
-    --sky-pop: #3a2220;
-    --sky-pop-mark: #f0998b;
+    --sky-fly: #153f22;
+    --sky-fly-mark: #6fdc8c;
+    --sky-pop: #4d1b17;
+    --sky-pop-mark: #ff8f7f;
   }
 }
 
@@ -4015,11 +4015,12 @@ body.arkade-play .pair-card {
   outline-offset: -3px;
 }
 
-/* The ✓ and the ✗: large and faint, where a thumb does not cover them. */
+/* The ✓ and the ✗: large, a green tick on the green half and a red cross on
+   the red one, where a thumb does not cover them. */
 .balloons__mark {
-  width: clamp(3rem, 14vw, 5rem);
-  height: clamp(3rem, 14vw, 5rem);
-  opacity: 0.55;
+  width: clamp(3.5rem, 16vw, 6rem);
+  height: clamp(3.5rem, 16vw, 6rem);
+  opacity: 0.85;
 }
 
 /* A half lights up as the balloon is dragged towards it. */
@@ -4051,9 +4052,11 @@ body.arkade-play .pair-card {
   position: absolute;
   left: 50%;
   bottom: 0.5rem;
-  width: var(--balloon-width, min(12rem, 46vw));
-  margin-left: calc(var(--balloon-width, min(12rem, 46vw)) / -2);
+  width: var(--balloon-width, min(13.5rem, 52vw));
+  margin-left: calc(var(--balloon-width, min(13.5rem, 52vw)) / -2);
   aspect-ratio: 1 / 2;
+  /* The label's type is sized from the balloon's width. */
+  container-type: inline-size;
   touch-action: none;
   cursor: grab;
   transform-origin: 50% 30%;
@@ -4088,7 +4091,9 @@ body.arkade-play .pair-card {
 
 .balloon__string {
   stroke: var(--ink-soft);
-  stroke-width: 1.2;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* The text sits on the body, which is the top 58% of the drawing. */
@@ -4108,6 +4113,18 @@ body.arkade-play .pair-card {
   text-align: center;
   overflow-wrap: anywhere;
   pointer-events: none;
+}
+
+/* One line, whatever it says: the type is as large as the balloon's width
+   allows for the number of characters the script counted, and no larger than
+   a short sum looks right at. A bold character is about 0.58 of its size
+   wide, and the label is 84% of the balloon. */
+@supports (font-size: 1cqw) {
+  .balloon__label {
+    font-size: min(13cqw, calc(140cqw / var(--chars, 13)));
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
 }
 
 .balloon--gone {

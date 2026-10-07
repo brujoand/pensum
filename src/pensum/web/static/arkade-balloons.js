@@ -17,7 +17,7 @@
  * top: neither a point nor a life (rule 4).
  *
  * The motion is done by hand, frame by frame: the balloon follows the finger,
- * leans and stretches with it, its string trails behind and settles, and a
+ * leans and stretches with it, its thread trails behind in a wave and settles, and a
  * swipe too short to count springs back past the middle before it rests. In
  * calm mode, or where the device asks for less motion, none of it runs: the
  * balloon is simply there, and simply gone.
@@ -147,10 +147,24 @@
 
   /* --- motion ---------------------------------------------------------------- */
 
-  /* The balloon's state, in pixels and degrees from where it rests. `tip` is
-   * where the end of the string is: it follows the balloon on a spring of its
-   * own, so it lags behind a quick move and swings back after it. */
-  var m = { x: 0, y: 0, vx: 0, vy: 0, rot: 0, sx: 1, sy: 1, tip: 0, tipV: 0, opacity: 1 };
+  /* The thread is a chain of points below the knot. Each follows the one
+   * above it on a spring of its own, so a quick move travels down the thread
+   * as a wave and the end swings furthest and settles last. */
+  var THREAD_POINTS = 6;
+
+  function restState() {
+    var thread = [];
+    var threadV = [];
+    for (var i = 0; i < THREAD_POINTS; i++) {
+      thread.push(0);
+      threadV.push(0);
+    }
+    return { x: 0, y: 0, vx: 0, vy: 0, rot: 0, sx: 1, sy: 1, thread: thread, threadV: threadV, now: 0, opacity: 1 };
+  }
+
+  /* The balloon's state, in pixels and degrees from where it rests. `thread`
+   * is where each point of the thread is, sideways, in the same pixels. */
+  var m = restState();
   var mode = "idle";
   var dragX = 0;
   var lastDragX = 0;
@@ -162,7 +176,7 @@
   }
 
   function reset() {
-    m = { x: 0, y: 0, vx: 0, vy: 0, rot: 0, sx: 1, sy: 1, tip: 0, tipV: 0, opacity: 1 };
+    m = restState();
     mode = "idle";
   }
 
@@ -171,19 +185,37 @@
       "translate(" + m.x.toFixed(1) + "px," + m.y.toFixed(1) + "px) rotate(" +
       m.rot.toFixed(2) + "deg) scale(" + m.sx.toFixed(3) + "," + m.sy.toFixed(3) + ")";
     balloonEl.style.opacity = String(Math.max(0, m.opacity));
-    /* The string is drawn in the balloon's own units (100 across), bending
-     * towards where its end has fallen behind. */
+    /* The thread is drawn in the balloon's own units (100 across), from the
+     * knot at 121 down to 198, as one smooth line through its points. While
+     * the balloon floats a faint ripple runs down it, wider towards the end. */
     var width = balloonEl.offsetWidth || 100;
-    var bend = clamp(((m.tip - m.x) * 100) / width, -45, 45);
-    stringEl.setAttribute(
-      "d",
-      "M50 121 Q" + (50 + bend * 0.5).toFixed(1) + " 160 " + (50 + bend).toFixed(1) + " 198"
-    );
+    var xs = [50];
+    var ys = [121];
+    for (var i = 0; i < THREAD_POINTS; i++) {
+      var part = (i + 1) / THREAD_POINTS;
+      var bend = clamp(((m.thread[i] - m.x) * 100) / width, -45, 45);
+      var ripple = motion ? Math.sin(m.now / 320 - i * 1.1) * 1.6 * part : 0;
+      xs.push(50 + bend + ripple);
+      ys.push(121 + 77 * part);
+    }
+    var d = "M50 121";
+    for (var j = 1; j < THREAD_POINTS; j++) {
+      d +=
+        " Q" + xs[j].toFixed(1) + " " + ys[j].toFixed(1) + " " +
+        ((xs[j] + xs[j + 1]) / 2).toFixed(1) + " " + ((ys[j] + ys[j + 1]) / 2).toFixed(1);
+    }
+    d += " L " + xs[THREAD_POINTS].toFixed(1) + " 198";
+    stringEl.setAttribute("d", d);
   }
 
   function step(now) {
-    m.tipV = (m.tipV + (m.x - m.tip) * 0.06) * 0.86;
-    m.tip += m.tipV;
+    m.now = now;
+    var lead = m.x;
+    for (var i = 0; i < THREAD_POINTS; i++) {
+      m.threadV[i] = (m.threadV[i] + (lead - m.thread[i]) * 0.16) * 0.8;
+      m.thread[i] += m.threadV[i];
+      lead = m.thread[i];
+    }
 
     /* The timer: while it rests, is dragged or springs back, the balloon is
      * as high as the time gone says, measured from when it was shown. */
@@ -300,6 +332,8 @@
     ruleLine.textContent = ruleText(item.rule);
     hear.hidden = !item.spoken;
     shownEl.textContent = item.shown;
+    /* The text stays on one line: the stylesheet sizes it by its length. */
+    shownEl.style.setProperty("--chars", String(item.shown.length));
     /* The halves are the answers; their names say what they answer. */
     flyButton.setAttribute("aria-label", flyName + ": " + item.shown);
     popButton.setAttribute("aria-label", popName + ": " + item.shown);

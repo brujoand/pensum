@@ -1265,7 +1265,8 @@ arkade:
   lost_true: "Den var riktig! Du mistet et liv. Det riktige er:"
   lost_false: "Feil! Du mistet et liv. Det riktige er:"
   drifted: "Det riktige er:"
-  next: Neste
+  previous: "Forrige ballong:"
+  previous_show: Vis svaret på forrige ballong
   result: "{correct} av {total} riktige"
   result_points: "{points} poeng"
   again: Spill igjen

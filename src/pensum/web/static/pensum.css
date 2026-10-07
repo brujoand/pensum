@@ -3826,11 +3826,116 @@ button.token:disabled {
   text-align: center;
 }
 
+/* A game being played fills the screen: the page is as tall as the window
+   and the play area takes what the lines around it leave, so nothing is below
+   the fold and nothing scrolls. arkade-balloons.js and arkade-pairs.js put the
+   class on the body. The footer and the introduction go; the header stays, as
+   the way out. Should a window be too small for even that, `main` scrolls
+   rather than cutting the game off. */
+body.arkade-play {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body.arkade-play .site-footer,
+body.arkade-play .lede {
+  display: none;
+}
+
+body.arkade-play main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 0;
+  padding: 0.5rem 1.25rem 0.75rem;
+  overflow-y: auto;
+}
+
+body.arkade-play h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+}
+
+body.arkade-play .balloons,
+body.arkade-play .pairs {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+body.arkade-play .balloons p,
+body.arkade-play .pairs p {
+  margin: 0.25rem 0;
+}
+
+/* The sky takes the height that is left. It is a size container so the
+   balloon can be kept inside a short one. */
+body.arkade-play .balloons__sky {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 11rem;
+  max-height: 40rem;
+  margin: 0.5rem 0;
+  container-type: size;
+  --balloon-width: min(12rem, 46vw, 44cqh);
+}
+
+/* Four rows of three, sharing the height that is left. The cards give up
+   their fixed shape for it; the board is no taller than they made it. */
+body.arkade-play .pairs__board {
+  flex: 1 1 0;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  min-height: 11rem;
+  max-height: 25rem;
+  margin: 0 auto 0.5rem;
+}
+
+body.arkade-play .pair-card {
+  aspect-ratio: auto;
+  min-height: 0;
+}
+
 .balloons__status {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   color: var(--ink-soft);
+}
+
+.balloons__position {
+  flex: 1 1 auto;
+}
+
+/* The question mark: the answer to the balloon before this one. */
+.balloons__previous {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.balloons__previous[hidden] {
+  display: none;
+}
+
+.balloons__previous:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .balloons__status p {
@@ -3944,8 +4049,8 @@ button.token:disabled {
   position: absolute;
   left: 50%;
   bottom: 0.5rem;
-  width: min(12rem, 46vw);
-  margin-left: calc(min(12rem, 46vw) / -2);
+  width: var(--balloon-width, min(12rem, 46vw));
+  margin-left: calc(var(--balloon-width, min(12rem, 46vw)) / -2);
   aspect-ratio: 1 / 2;
   touch-action: none;
   cursor: grab;
@@ -4045,12 +4150,12 @@ button.token:disabled {
   color: var(--sky-fly-mark);
 }
 
-#balloons-next {
+#balloons-retry {
   display: block;
   margin: 0 auto;
 }
 
-#balloons-next[hidden] {
+#balloons-retry[hidden] {
   display: none;
 }
 

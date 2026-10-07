@@ -89,6 +89,7 @@ function page(round, { calm = false, failFirst = false } = {}) {
     getElementById: (id) => els[id] || null,
     createElement: () => element(""),
     documentElement: { hasAttribute: (name) => calm && name === "data-calm" },
+    body: element("body"),
   };
   const window = {
     setTimeout: (fn, ms) => timers.push({ fn, ms }) && timers.length,
@@ -109,7 +110,7 @@ function page(round, { calm = false, failFirst = false } = {}) {
   /* What a card shows: its face when it is turned up, nothing when it is down. */
   const face = (i) => (cards[i].classList.contains("pair-card--up") ? cards[i].children[0].textContent : "");
   const flush = () => new Promise((resolve) => setImmediate(resolve));
-  return { els, timers, posted, thrown, cards, face, flush };
+  return { els, timers, posted, thrown, body: document.body, cards, face, flush };
 }
 
 /* Two pairs, laid out A1 B1 A2 B2. */
@@ -129,6 +130,7 @@ const ROUND = {
   /* --- a board cleared ---------------------------------------------------- */
   const game = page(ROUND);
   check("every card is on the board", game.cards.length === 4);
+  check("the game fills the screen", game.body.classList.contains("arkade-play"));
   check("dealt one after another", game.cards[3].classList.contains("pair-card--deal") && game.cards[3].style["--i"] === "3");
   check("a face carries its text from the start, hidden by the back", game.cards[0].children[0].textContent === "7 · 8");
   check("and hidden from a screen reader while the card is down", game.cards[0].children[0].getAttribute("aria-hidden") === "true");

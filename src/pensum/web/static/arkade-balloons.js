@@ -9,7 +9,9 @@
  * point, a false one costs a life. Swiped right, it travels to the needle and
  * bursts: a false one is simply right, a true one costs a life. The round ends
  * when the lives are gone. A right answer says "Riktig!"; a wrong one also
- * shows the right form (design rule 7).
+ * shows the right form (design rule 7). The next balloon then comes by
+ * itself, and the question mark says again what the one before should have
+ * been.
  *
  * With the timer on, the balloon rises for `data-seconds` and drifts off the
  * top: neither a point nor a life (rule 4).
@@ -53,6 +55,10 @@
   /* How long the fly-away or the trip to the needle plays before the answer
    * shows. Without motion it is only a short pause. */
   var LEAVE_MS = motion ? 900 : 150;
+  /* How long the answer stays before the next balloon comes by itself. A
+   * wrong one stays longer: it shows the right form, which has to be read. */
+  var NEXT_RIGHT_MS = 900;
+  var NEXT_WRONG_MS = 1800;
 
   var position = document.getElementById("balloons-position");
   var livesLine = document.getElementById("balloons-lives");
@@ -67,7 +73,8 @@
   var flyButton = document.getElementById("balloons-fly");
   var popButton = document.getElementById("balloons-pop");
   var feedback = document.getElementById("balloons-feedback");
-  var nextButton = document.getElementById("balloons-next");
+  var retryButton = document.getElementById("balloons-retry");
+  var previousButton = document.getElementById("balloons-previous");
   var result = document.getElementById("balloons-result");
   var noVoice = document.getElementById("balloons-no-voice");
   var rules = document.getElementById("balloons-rules").content;
@@ -80,6 +87,8 @@
   var timer = null;
   var done = false;
   var finished = false;
+  /* The balloon answered last: what the question mark tells about. */
+  var previous = null;
   var sending = false;
 
   /* --- speaking ------------------------------------------------------------ */
@@ -285,7 +294,6 @@
     done = false;
     feedback.textContent = "";
     feedback.className = "balloons__feedback";
-    nextButton.hidden = true;
     position.textContent = root.dataset.labelPosition
       .replace("{n}", String(index + 1))
       .replace("{total}", String(items.length));
@@ -345,8 +353,10 @@
         /* A right answer throws a little confetti from where it says so. */
         if (window.arkadeConfetti) window.arkadeConfetti(feedback);
       }
-      nextButton.hidden = false;
-      nextButton.focus();
+      previous = item;
+      previousButton.hidden = false;
+      /* The next balloon comes by itself. */
+      window.setTimeout(next, right ? NEXT_RIGHT_MS : NEXT_WRONG_MS);
     }, LEAVE_MS);
   }
 
@@ -382,7 +392,7 @@
     sky.hidden = true;
     feedback.textContent = "";
     feedback.className = "balloons__feedback";
-    nextButton.hidden = true;
+    retryButton.hidden = true;
     position.textContent = "";
     fetch(root.dataset.postUrl, {
       method: "POST",
@@ -402,7 +412,7 @@
          * sends the same picks once more. */
         sending = false;
         feedback.textContent = root.dataset.labelFailed;
-        nextButton.hidden = false;
+        retryButton.hidden = false;
       });
   }
 
@@ -473,17 +483,21 @@
     answer(items[index], event.key === "ArrowLeft" ? FLY : POP);
   });
 
-  nextButton.addEventListener("click", function () {
-    if (finished) {
-      finish();
-      return;
-    }
-    next();
+  retryButton.addEventListener("click", finish);
+  /* The question mark: what the balloon before this one should have been.
+   * The next balloon comes without being asked for, so this is how a pupil
+   * who wants the last answer again gets it. */
+  previousButton.addEventListener("click", function () {
+    if (!previous) return;
+    feedback.className = "balloons__feedback";
+    feedback.textContent = root.dataset.labelPrevious + " " + previous.answer;
   });
   sayButton.addEventListener("click", function () {
     say(items[index]);
   });
 
+  /* The game fills the screen and nothing scrolls while it is played. */
+  document.body.classList.add("arkade-play");
   showLives();
   show(items[0]);
   if (motion) raf(frame);

@@ -340,7 +340,11 @@
 
     window.setTimeout(function () {
       feedback.textContent = label;
-      if (right) feedback.classList.add("balloons__feedback--right");
+      if (right) {
+        feedback.classList.add("balloons__feedback--right");
+        /* A right answer throws a little confetti from where it says so. */
+        if (window.arkadeConfetti) window.arkadeConfetti(feedback);
+      }
       nextButton.hidden = false;
       nextButton.focus();
     }, LEAVE_MS);

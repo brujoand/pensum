@@ -82,6 +82,7 @@
     {# The round, as the page plays it. #}
     <script type="application/json" id="balloons-round">{{ payload | tojson }}</script>
     <noscript><p class="note">{{ t("arkade.needs_js") }}</p></noscript>
+    <script src="/static/arkade-confetti.js" defer></script>
     <script src="/static/arkade-balloons.js" defer></script>
   {% endif %}
 {% endblock %}

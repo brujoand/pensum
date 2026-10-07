@@ -28,17 +28,12 @@
   var time = document.getElementById("pairs-time");
   var retry = document.getElementById("pairs-retry");
   var result = document.getElementById("pairs-result");
-  var confetti = document.getElementById("pairs-confetti");
 
   /* How long two cards that do not match stay face up. Long enough to read
    * both, which is the point of the game. */
   var SHOW_MS = 1200;
   /* How long a pair's pop takes, so a cleared board waves after it. */
   var WAVE_AFTER_MS = 750;
-  /* Confetti per card of a pair found, and how long a piece is on the page:
-   * its flight and the wait before it, as the stylesheet has them. */
-  var CONFETTI_PIECES = 10;
-  var CONFETTI_MS = 1200;
 
   var total = round.answers.length;
   var found = {};
@@ -69,30 +64,6 @@
     card.face.setAttribute("aria-hidden", "true");
   }
 
-  /* A little confetti from the middle of a card: up and outwards, then down.
-   * Confetti is decoration, so calm mode and the device's setting stop it. */
-  function throwConfetti(card) {
-    if (still || !confetti) return;
-    var box = card.button.getBoundingClientRect();
-    var pieces = [];
-    for (var i = 0; i < CONFETTI_PIECES; i++) {
-      var piece = document.createElement("span");
-      piece.className = "pair-confetti pair-confetti--" + (i % 4);
-      piece.style.setProperty("--x", box.left + box.width / 2 + "px");
-      piece.style.setProperty("--y", box.top + box.height / 2 + "px");
-      piece.style.setProperty("--dx", Math.round((Math.random() - 0.5) * 140) + "px");
-      piece.style.setProperty("--dy", Math.round(-30 - Math.random() * 70) + "px");
-      piece.style.setProperty("--turn", Math.round((Math.random() - 0.5) * 720) + "deg");
-      confetti.appendChild(piece);
-      pieces.push(piece);
-    }
-    window.setTimeout(function () {
-      pieces.forEach(function (piece) {
-        confetti.removeChild(piece);
-      });
-    }, CONFETTI_MS);
-  }
-
   function turn(card) {
     if (over || busy || card.up || found[card.pair]) return;
     card.up = true;
@@ -110,8 +81,11 @@
       card.button.classList.add("pair-card--found");
       other.button.disabled = true;
       card.button.disabled = true;
-      throwConfetti(other);
-      throwConfetti(card);
+      /* A pair found throws a little confetti from each of its cards. */
+      if (window.arkadeConfetti) {
+        window.arkadeConfetti(other.button);
+        window.arkadeConfetti(card.button);
+      }
       status.textContent = root.dataset.labelFound + " " + round.answers[card.pair];
       if (foundCount === total) end();
       return;

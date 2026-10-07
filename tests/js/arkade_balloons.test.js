@@ -105,6 +105,8 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
 
   const timers = [];
   const posted = [];
+  /* What arkade-confetti.js was asked to throw from; it has its own harness. */
+  const thrown = [];
   const document = {
     getElementById: (id) => els[id] || null,
     documentElement: { hasAttribute: (name) => calm && name === "data-calm" },
@@ -119,6 +121,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
       timers[n - 1] = null;
     },
     matchMedia: () => ({ matches: false }),
+    arkadeConfetti: (from) => thrown.push(from),
     ...(animate ? { requestAnimationFrame: (fn) => frames.push(fn) } : {}),
   };
   const fetch = (url, options) => {
@@ -160,7 +163,7 @@ function page(round, { calm = false, failFirst = false, animate = false } = {}) 
     }
   };
   const pending = () => frames.length;
-  return { els, el, timers, posted, settle, swipe, press, next, flush, feedback, run, pending };
+  return { els, el, timers, posted, thrown, settle, swipe, press, next, flush, feedback, run, pending };
 }
 
 const item = (shown, isTrue, answer) => ({
@@ -208,6 +211,7 @@ const ROUND = {
   check("not to the needle", !g.el.classList.contains("balloon--popped"));
   g.settle();
   check("a right answer just says so", g.feedback() === "Riktig!");
+  check("and throws confetti from where it says so", g.thrown.length === 1 && g.thrown[0] === g.els["balloons-feedback"]);
   check("no life lost", g.els["balloons-lives"].textContent === "Liv: 3 ♥♥♥");
   g.swipe(120);
   check("a swipe after the answer does nothing", !g.el.classList.contains("balloon--popped"));
@@ -220,12 +224,14 @@ const ROUND = {
   check("not away", !g.el.classList.contains("balloon--flown"));
   g.settle();
   check("popping a false one is right, and says only that", g.feedback() === "Riktig!");
+  check("and throws confetti too", g.thrown.length === 2);
 
   g.next();
   g.els["balloons-pop"].click();
   g.settle();
   check("popping a true one costs a life", g.els["balloons-lives"].textContent === "Liv: 2 ♥♥♡");
   check("and shows the right form", g.feedback() === "Den var riktig! Du mistet et liv. Det riktige er: 3 · 4 = 12");
+  check("and throws no confetti", g.thrown.length === 2);
 
   g.next();
   g.press("ArrowLeft");

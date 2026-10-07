@@ -55,3 +55,35 @@ def test_a_memory_board_played_in_the_page() -> None:
 
 def test_the_pairs_harness_is_reachable() -> None:
     assert PAIRS_HARNESS.is_file()
+
+
+CONFETTI_HARNESS = Path(__file__).parent / "js" / "arkade_confetti.test.js"
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
+def test_confetti_thrown_in_the_page() -> None:
+    result = subprocess.run(  # noqa: S603
+        [shutil.which("node") or "node", str(CONFETTI_HARNESS)],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=CONFETTI_HARNESS.parents[2],
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_the_confetti_harness_is_reachable() -> None:
+    assert CONFETTI_HARNESS.is_file()
+
+
+@pytest.mark.parametrize("page", ["balloons.html", "pairs.html"])
+def test_every_game_loads_the_confetti_before_itself(page: str) -> None:
+    """Both are deferred, so they run in the order the page names them."""
+    import pensum.web
+
+    html = (Path(pensum.web.__file__).parent / "templates" / "pages" / page).read_text()
+    scripts = [line.strip() for line in html.splitlines() if "<script src=" in line]
+
+    assert "arkade-confetti.js" in scripts[0]
+    assert len(scripts) == 2

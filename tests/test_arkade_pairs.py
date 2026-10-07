@@ -114,3 +114,16 @@ def test_an_administrator_who_picked_a_year_on_the_hub_reaches_the_board(tmp_pat
 
     assert board.status_code == 200
     assert len(board_of(board.text)["cards"]) == 12
+
+
+def test_a_face_down_card_does_not_draw_its_text() -> None:
+    """The back hides the face only where the browser hides the side facing
+    away. Where it does not, a board would start with every answer showing."""
+    import pensum.web
+
+    css = (Path(pensum.web.__file__).parent / "static" / "pensum.css").read_text()
+    down = re.search(r"\n\.pair-card__face \{(.*?)\}", css, re.DOTALL)
+    up = re.search(r"\n\.pair-card--up \.pair-card__face \{(.*?)\}", css, re.DOTALL)
+
+    assert down and "visibility: hidden" in down.group(1)
+    assert up and "visibility: visible" in up.group(1)

@@ -4113,14 +4113,24 @@ button.token:disabled {
     var(--accent-soft);
 }
 
+/* A face-down card's face is not drawn at all, so its text cannot show
+   wherever a browser fails to hide the side that faces away. It goes once the
+   card has turned back, and is there the moment the card starts to turn up. */
 .pair-card__face {
   rotate: y 180deg;
   border: 2px solid var(--balloon-4);
   background: var(--balloon-3);
+  visibility: hidden;
+  transition: visibility 0s linear 380ms;
 }
 
 .pair-card--up {
   rotate: y 180deg;
+}
+
+.pair-card--up .pair-card__face {
+  visibility: visible;
+  transition-delay: 0s;
 }
 
 .pair-card--found .pair-card__face {
@@ -4144,15 +4154,17 @@ button.token:disabled {
   outline-offset: 2px;
 }
 
-/* Dealt: the cards drop in one after another. */
+/* Dealt: the cards drop in one after another. They grow from nothing rather
+   than fade in: an opacity below 1 flattens the card, and its two faces are
+   only back to back while it is not flat. */
 .pair-card--deal {
   animation: pair-deal 420ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
   animation-delay: calc(var(--i, 0) * 45ms);
 }
 
 @keyframes pair-deal {
-  from { translate: 0 -1.5rem; scale: 0.6; opacity: 0; }
-  to { translate: 0 0; scale: 1; opacity: 1; }
+  from { translate: 0 -1.5rem; scale: 0; }
+  to { translate: 0 0; scale: 1; }
 }
 
 /* A pair: both cards jump and settle, after they have turned. */
@@ -4188,6 +4200,38 @@ button.token:disabled {
 @keyframes pair-wave {
   0%, 100% { translate: 0 0; }
   40% { translate: 0 -0.6rem; scale: 1.06; }
+}
+
+/* A pair found throws a little confetti from each of its cards. The pieces
+   are placed by the script, over the page, and it makes none in calm mode. */
+.pairs__confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pair-confetti {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0.5rem;
+  height: 0.3rem;
+  border-radius: 1px;
+  background: var(--balloon-1);
+  animation: pair-confetti 900ms 200ms cubic-bezier(0.2, 0.7, 0.4, 1) both;
+}
+
+.pair-confetti--1 { background: var(--balloon-2); }
+.pair-confetti--2 { background: var(--balloon-3); }
+.pair-confetti--3 { background: var(--balloon-4); }
+
+@keyframes pair-confetti {
+  0% { translate: 0 0; rotate: 0deg; opacity: 0; }
+  10% { opacity: 1; }
+  60% { translate: var(--dx) var(--dy); opacity: 1; }
+  100% { translate: var(--dx) calc(var(--dy) + 2.5rem); rotate: var(--turn); opacity: 0; }
 }
 
 .pairs__status {

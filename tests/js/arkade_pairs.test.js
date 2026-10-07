@@ -56,6 +56,11 @@ function element(id) {
       this.children.push(child);
       return child;
     },
+    removeChild(child) {
+      this.children.splice(this.children.indexOf(child), 1);
+      return child;
+    },
+    getBoundingClientRect: () => ({ left: 100, top: 200, width: 80, height: 60 }),
     addEventListener(type, fn) {
       this.listeners[type] = fn;
     },
@@ -66,7 +71,7 @@ function element(id) {
 }
 
 function page(round, { calm = false, failFirst = false } = {}) {
-  const ids = ["pairs", "pairs-round", "pairs-board", "pairs-status", "pairs-time", "pairs-retry", "pairs-result"];
+  const ids = ["pairs", "pairs-round", "pairs-board", "pairs-status", "pairs-time", "pairs-retry", "pairs-result", "pairs-confetti"];
   const els = Object.fromEntries(ids.map((id) => [id, element(id)]));
   Object.assign(els.pairs.dataset, {
     postUrl: "/nb/arkade/runde/r1",
@@ -153,6 +158,13 @@ const ROUND = {
   check("and pops", game.cards[0].classList.contains("pair-card--found") && game.cards[2].classList.contains("pair-card--found"));
   check("and says the sum in full", game.els["pairs-status"].textContent === "Par! 7 · 8 = 56");
   check("a found card cannot be turned again", game.cards[0].disabled && game.cards[2].disabled);
+  const thrown = game.els["pairs-confetti"].children;
+  check("a pair found throws a little confetti from both cards", thrown.length === 20);
+  check("from the middle of a card", thrown[0].style["--x"] === "140px" && thrown[0].style["--y"] === "230px");
+  check("in more than one colour", thrown[0].classList.contains("pair-confetti--0") && thrown[1].classList.contains("pair-confetti--1"));
+  /* One sweep per card. */
+  game.timers.slice(-2).forEach((t) => t.fn());
+  check("which is cleared away once it has fallen", thrown.length === 0);
 
   game.cards[1].click();
   game.cards[1].click();
@@ -209,6 +221,9 @@ const ROUND = {
   check("untimed has no clock", failing.timers.every((t) => !t || t.ms !== 120000));
   const calm = page(ROUND, { calm: true });
   check("calm mode cannot draw the bar, so there is no clock", calm.timers.length === 0 && calm.els["pairs-time"].hidden === true);
+  calm.cards[0].click();
+  calm.cards[2].click();
+  check("and a pair found in calm mode throws no confetti", calm.els["pairs-confetti"].children.length === 0 && calm.timers.length === 0);
 
   if (failures) {
     console.error(`${failures} check(s) failed`);

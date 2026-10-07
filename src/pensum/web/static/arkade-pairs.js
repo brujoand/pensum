@@ -81,11 +81,8 @@
       card.button.classList.add("pair-card--found");
       other.button.disabled = true;
       card.button.disabled = true;
-      /* A pair found throws a little confetti from each of its cards. */
-      if (window.arkadeConfetti) {
-        window.arkadeConfetti(other.button);
-        window.arkadeConfetti(card.button);
-      }
+      /* A pair found throws confetti. */
+      if (window.arkadeConfetti) window.arkadeConfetti();
       status.textContent = root.dataset.labelFound + " " + round.answers[card.pair];
       if (foundCount === total) end();
       return;

@@ -18,7 +18,7 @@ from typing import Literal
 Rule = Literal["statement", "spoken_word", "pair"]
 
 # A balloon's two choices, as candidate indexes. Letting it fly away says the
-# statement on it is true; sending it to the needle says it is not.
+# statement on it is true; bursting it says it is not.
 FLY, POP = 0, 1
 BALLOON_CHOICES = ("fly", "pop")
 

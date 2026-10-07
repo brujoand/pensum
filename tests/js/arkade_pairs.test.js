@@ -97,7 +97,7 @@ function page(round, { calm = false, failFirst = false } = {}) {
       timers[n - 1] = null;
     },
     matchMedia: () => ({ matches: false }),
-    arkadeConfetti: (from) => thrown.push(from),
+    arkadeConfetti: (...from) => thrown.push(from),
   };
   const fetch = (url, options) => {
     posted.push({ url, body: JSON.parse(options.body) });
@@ -159,7 +159,7 @@ const ROUND = {
   check("and pops", game.cards[0].classList.contains("pair-card--found") && game.cards[2].classList.contains("pair-card--found"));
   check("and says the sum in full", game.els["pairs-status"].textContent === "Par! 7 · 8 = 56");
   check("a found card cannot be turned again", game.cards[0].disabled && game.cards[2].disabled);
-  check("a pair found throws confetti from both its cards", game.thrown.length === 2 && game.thrown[0] === game.cards[0] && game.thrown[1] === game.cards[2]);
+  check("a pair found throws confetti once, from no card of its own", game.thrown.length === 1 && game.thrown[0].length === 0);
 
   game.cards[1].click();
   game.cards[1].click();

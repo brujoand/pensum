@@ -3829,8 +3829,7 @@ button.token:disabled {
 /* A game being played fills the screen: the page is as tall as the window
    and the play area takes what the lines around it leave, so nothing is below
    the fold and nothing scrolls. arkade-balloons.js and arkade-pairs.js put the
-   class on the body. The footer and the introduction go; the header stays, as
-   the way out. Should a window be too small for even that, `main` scrolls
+   class on the body. The footer goes; the header stays, as the way out. Should a window be too small for even that, `main` scrolls
    rather than cutting the game off. */
 body.arkade-play {
   display: flex;
@@ -3840,9 +3839,12 @@ body.arkade-play {
   overflow: hidden;
 }
 
-body.arkade-play .site-footer,
-body.arkade-play .lede {
+body.arkade-play .site-footer {
   display: none;
+}
+
+body.arkade-play .lede {
+  margin: 0 0 0.25rem;
 }
 
 body.arkade-play main {

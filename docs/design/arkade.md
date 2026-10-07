@@ -51,8 +51,8 @@ sums (`static/arkade-pairs.js`).
 10. **No pupil sees another pupil's results.** Rule 4. The teacher's class grid
     shows Arkade XP with the rest.
 11. **A game being played fills the screen.** The whole game fits the window
-    and the page does not scroll during a round. The site footer and the
-    game's introduction are hidden while it is played; the header stays.
+    and the page does not scroll during a round. The site footer is hidden
+    while it is played; the header stays.
 
 ## Items
 

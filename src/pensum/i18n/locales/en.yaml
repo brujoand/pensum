@@ -1266,3 +1266,17 @@ arkade:
   failed_pairs: We could not save the board.
   try_again: Try again
   no_voice: This browser has no voice for the language, so the word cannot be read aloud here.
+  sort: Sorting
+  sort_note: "{count} cards per round and three lives. Hear the card, and put it in the pile where it belongs."
+  sort_rule: Which pile does the card belong in?
+  sort_position: "Card {n} of {total}"
+  sort_previous: "The last card:"
+  sort_previous_show: Show the answer to the last card
+  failed_sort: We could not save the round.
+  game_partall: Even and odd numbers
+  game_vokaler: Vowels and consonants
+  pile:
+    even: Even
+    odd: Odd
+    vowel: Vowel
+    consonant: Consonant

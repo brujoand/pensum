@@ -3,9 +3,11 @@
 A rule, the candidates, and which candidates satisfy the rule. A game decides
 only how an item looks, so a generator never knows which game it is feeding.
 
-Two kinds so far. A balloon is one statement, true or false, and the pupil's
+Three kinds so far. A balloon is one statement, true or false, and the pupil's
 two choices are the candidates: let it fly away (it is true) or pop it (it is
-not). A memory pair is a sum and its answer, and both cards match.
+not). A memory pair is a sum and its answer, and both cards match. A sorting
+card is a number, a letter or a word, the piles are the candidates, and one
+pile is where it belongs.
 """
 
 from __future__ import annotations
@@ -15,7 +17,7 @@ from typing import Literal
 
 # What the pupil is asked, as the i18n key under `arkade.rule`. The rule is the
 # instruction shown with the item, so it is part of the item.
-Rule = Literal["statement", "spoken_word", "pair"]
+Rule = Literal["statement", "spoken_word", "pair", "sort"]
 
 # A balloon's two choices, as candidate indexes. Letting it fly away says the
 # statement on it is true; bursting it says it is not.
@@ -44,6 +46,7 @@ class Item:
     spoken: str | None = None
     language: str | None = None
     # What a balloon shows: the statement, or one spelling of the spoken word.
+    # On a sorting card, what is to be sorted.
     shown: str | None = None
 
     def __post_init__(self) -> None:
@@ -74,6 +77,34 @@ def balloon(
         candidates=BALLOON_CHOICES,
         matches=frozenset({FLY if true else POP}),
         answer=answer,
+        skill=skill,
+        spoken=spoken,
+        language=language,
+        shown=shown,
+    )
+
+
+def card(
+    id: str,  # noqa: A002 -- the field's name
+    shown: str,
+    piles: tuple[str, ...],
+    pile: str,
+    *,
+    skill: str | None = None,
+    spoken: str | None = None,
+    language: str | None = None,
+) -> Item:
+    """One sorting card: `shown` on it, and the one of `piles` it belongs in.
+
+    A pile is named by its i18n key under `arkade.pile`. The answer is the
+    card itself: the page puts the pile's name beside it.
+    """
+    return Item(
+        id=id,
+        rule="sort",
+        candidates=piles,
+        matches=frozenset({piles.index(pile)}),
+        answer=shown,
         skill=skill,
         spoken=spoken,
         language=language,

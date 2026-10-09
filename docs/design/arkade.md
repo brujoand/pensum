@@ -6,15 +6,16 @@ from the exercises, and the exercises keep every rule they have today.
 
 Built so far: the pupil's year and timer setting (`pensum.scores.profile`), the
 items (`pensum.arkade`), and the balloon game at `/{locale}/arkade`
-(`pensum.web.arkade_routes`, `static/arkade-balloons.js`) and memory pairs for
-sums (`static/arkade-pairs.js`).
+(`pensum.web.arkade_routes`, `static/arkade-balloons.js`), memory pairs for
+sums (`static/arkade-pairs.js`), and sorting for odd and even numbers and for
+vowels and consonants (`pensum.arkade.sorting`, `static/arkade-sort.js`).
 
 ## What changes, and what does not
 
 | statement today | after this design |
 |---|---|
 | Rule 3: "No countdown, no speed bonus" on any task | No countdown on any exercise. Arkade games have a drawn timer that the pupil can switch off. There is still no speed bonus anywhere. |
-| Game layer: "timers, lives" wait on "a run mode that leaves the untimed default intact" | Arkade is that mode. Timers are in it, and balloons have three lives. |
+| Game layer: "timers, lives" wait on "a run mode that leaves the untimed default intact" | Arkade is that mode. Timers are in it, and balloons and sorting have three lives. |
 
 ## The rules
 
@@ -30,12 +31,14 @@ sums (`static/arkade-pairs.js`).
 4. **Running out of time earns 0 and is not evidence.** A popped balloon or a
    target that got past is not a wrong answer. It is not written to `evidence`,
    so it never lowers mastery.
-5. **No speed bonus.** 10 XP per point (a true balloon let fly, a pair found) and
+5. **No speed bonus.** 10 XP per point (a true balloon let fly, a pair found, a
+   card put in its pile) and
    20 for finishing a round. A round finished slowly earns the same as one
    finished fast.
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
-   pupil sees how many items there are. Balloons have three lives: a wrong
-   answer spends one, and the third ends the round early. Memory has none.
+   pupil sees how many items there are. Balloons and sorting have three lives:
+   a wrong answer spends one, and the third ends the round early. Memory has
+   none.
 7. **The correct form is one press away, and not pushed.** A right answer
    says "Riktig!" and a wrong one "Feil!", and nothing more: a sentence about
    which way the balloon should have gone was read as confusing, and the life
@@ -43,7 +46,8 @@ sums (`static/arkade-pairs.js`).
    and a question mark gives the correct form of the balloon before. Spelling
    games show misspelt words, so that question mark is where the right
    spelling is. A balloon that drifted away is not a mistake, and it still
-   shows its correct form as it goes.
+   shows its correct form as it goes. Sorting does the same: the question
+   mark gives the card before and the pile it belongs in.
 8. **Content comes from the pupil's year,** through `checkpoint_for(subject,
    grade)`, so a 3rd-grader gets 3rd-grade items.
 9. **An item on a sensitive skill earns 0,** as it does in a quiz
@@ -64,6 +68,7 @@ A game decides only how they look.
 |---|---|---|
 | arithmetic (`pensum.arkade.arithmetic`) | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated: adding and subtracting within 20 for years 1-2, within 100 and the 2, 5 and 10 tables for year 3, all tables and division from year 4. Fractions and divisibility are not generated yet |
 | spelling (`pensum.arkade.spelling`) | the word `kjøleskap` is spoken; `kjøleskap` and `kjøleskapp` are shown | the words of the passages approved for the pupil's checkpoint, Norwegian or English, and a wrong spelling from `pensum.listening.confusable`, as in the listening exercise |
+| sorting (`pensum.arkade.sorting`) | `17` is spoken and shown, and belongs in *odd*; `Ø` belongs in *vowel* | generated: numbers to 20 for years 1-2, to 100 for year 3, to 1000 from year 4; the 29 letters of the Norwegian alphabet. Spoken words sorted by a sound (`ch` beside `sh`) need a word list, reviewed like any other content, and are not generated |
 | pairs | `7 × 8` and `56`, a country and its capital, `hund` and `dog` | generated for numbers; word and fact lists for the rest |
 | facts | a true and a false statement | the fact packs under `data/drills/`, plus a false version of each fact, reviewed like any other content |
 
@@ -75,7 +80,8 @@ An item names the skill it practises where one fits closely, and an answer then
 becomes one `evidence` row under that skill, as a quiz answer does. Where none
 fits, the item names none and its answers record no evidence. Adding within 100
 has none, because the year-3 adding skills are about choosing and explaining a
-method. Spelling after 2. trinn has none, because those skills each name one
+method. Vowels and consonants have none, because the letter skills are about the
+sound a letter has. Spelling after 2. trinn has none, because those skills each name one
 pattern, such as kj and skj.
 
 ## Games
@@ -84,6 +90,11 @@ pattern, such as kj and skj.
 |---|---|---|---|
 | balloons | sees one balloon with a statement, or hears a word and sees one spelling of it. Swipes left (or ←) to let it fly away if it is true, right (or →) to burst it if it is not | 1 balloon at a time, true or false about half the time each. A true one flown earns a point; popping a false one is right and earns nothing; getting either wrong costs one of three lives | 8 balloons, or fewer if the lives run out; with the timer on, each rises for 60 seconds and drifts off the top, which earns nothing and costs no life |
 | memory pairs | turns cards two at a time to find a sum and its answer | 6 pairs, 12 cards, no two answers alike | one board; with the timer on, a bar empties over 2 minutes. A pair found earns 10 XP; a pair not found when time runs out earns 0 and is turned up, so the board ends on every right form. A wrong turn is forgetting where a card lay, so a board records no evidence |
+| sorting | hears a number or a letter, sees it on a card, and puts it in a pile: taps the pile, presses its number, or with two piles the arrow key on its side | 1 card at a time over 2 to 4 piles, each pile asked for about as often as the others, no card twice. A card put right earns a point and stays in its pile; a wrong pile costs one of three lives | 8 cards, or fewer if the lives run out; with the timer on, a bar empties over 2 minutes. A card not reached when time runs out earns 0 and is not evidence |
+
+A sorting card is shown as well as spoken, so a round can be played where the
+browser has no voice for the language. Sorting by a sound is different: there
+the word on the card would give the answer away, so it will be heard only.
 
 Later, not ruled out: a word search for themed lists, and falling words the
 pupil types. Typing is the only game here where a pupil produces a spelling
@@ -96,4 +107,6 @@ rather than recognises one.
    Done: `pensum.arkade`.
 3. Balloons, the Arkade page and the timer setting. Done.
 4. Memory pairs, for sums. Done. Word pairs (`hund` and `dog`) and capitals wait on word and fact lists.
-5. Fact items, once the false versions are written and reviewed.
+5. Sorting, for odd and even numbers and for vowels and consonants. Done.
+   Spoken words by sound (`ch` and `sh`, `kj` and `skj`) wait on word lists.
+6. Fact items, once the false versions are written and reviewed.

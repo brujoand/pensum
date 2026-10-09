@@ -77,9 +77,29 @@ def test_the_confetti_harness_is_reachable() -> None:
     assert CONFETTI_HARNESS.is_file()
 
 
-@pytest.mark.parametrize("page", ["balloons.html", "pairs.html"])
+SORT_HARNESS = Path(__file__).parent / "js" / "arkade_sort.test.js"
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node is not installed")
+def test_a_sorting_round_played_in_the_page() -> None:
+    result = subprocess.run(  # noqa: S603
+        [shutil.which("node") or "node", str(SORT_HARNESS)],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=SORT_HARNESS.parents[2],
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_the_sorting_harness_is_reachable() -> None:
+    assert SORT_HARNESS.is_file()
+
+
+@pytest.mark.parametrize("page", ["balloons.html", "pairs.html", "sort.html"])
 def test_every_game_loads_the_confetti_before_itself(page: str) -> None:
-    """Both are deferred, so they run in the order the page names them."""
+    """All are deferred, so they run in the order the page names them."""
     import pensum.web
 
     html = (Path(pensum.web.__file__).parent / "templates" / "pages" / page).read_text()

@@ -1,4 +1,4 @@
-"""Arkade: the hub, the timer setting, and the balloon game.
+"""Arkade: the hub, the timer setting, and the games.
 
 The rules are `docs/design/arkade.md`. Arkade is reached only from its own
 links, and every exercise rule outside it is unchanged. Behind the same
@@ -22,8 +22,10 @@ from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from pensum.arkade.arithmetic import pair_items, statement_items
 from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
+from pensum.arkade.sorting import ALPHABET, NUMBERS, Sorting
 from pensum.arkade.spelling import spoken_word_items
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for
+from pensum.i18n import translate
 from pensum.scores.evidence import Evidence
 from pensum.scores.store import attempt_key
 from pensum.scores.xp import Award
@@ -55,6 +57,14 @@ PAIRS = 6
 PAIRS_SECONDS = 120
 # The memory games, by slug: the subject.
 PAIR_GAMES = {"matte": "MAT01-06"}
+# The sorting games, by slug: the subject, and what is sorted. A round is
+# ROUND_LENGTH cards with LIVES lives, as for balloons; with the timer on the
+# whole round has two minutes.
+SORT_GAMES: dict[str, tuple[str, Sorting]] = {
+    "partall": ("MAT01-06", NUMBERS),
+    "vokaler": ("NOR01-08", ALPHABET),
+}
+SORT_SECONDS = 120
 # The most picks a finished round can send. A round has ROUND_LENGTH; this only
 # bounds what a malformed request can make the server read.
 MAX_PICKS = 64
@@ -131,6 +141,7 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
             pair_games=list(PAIR_GAMES),
+            sort_games=list(SORT_GAMES),
             pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
@@ -258,6 +269,58 @@ async def pairs(request: Request, locale: str, game: str) -> Response:
                 "answers": [item.answer for item in played.items],
             },
             seconds=PAIRS_SECONDS,
+        ),
+    )
+
+
+@router.get("/{locale}/arkade/sorter/{game}", response_class=HTMLResponse)
+async def sort(request: Request, locale: str, game: str) -> Response:
+    """A sorting round. The page posts the pile each card was put in, or null
+    where time ran out first."""
+    validate_locale(locale)
+    if game not in SORT_GAMES:
+        raise HTTPException(status_code=404, detail="no such game")
+    grade = _grade(request)
+    if grade is None:
+        return RedirectResponse(f"/{locale}/arkade", status_code=303)
+
+    subject, sorting = SORT_GAMES[game]
+    user = current_user(request)
+    played = _rounds(request).create(
+        f"sorter/{game}",
+        subject,
+        sorting.items(grade, locale, _rng(), ROUND_LENGTH),
+        timed=_timer_on(request),
+        now=datetime.now(UTC),
+        user_sub=user.sub if user else None,
+        lives=LIVES,
+    )
+    return templates.TemplateResponse(
+        request,
+        "pages/sort.html",
+        context(
+            request,
+            locale,
+            game=game,
+            played=played,
+            payload={
+                "round": played.id,
+                "timed": played.timed,
+                "lives": played.lives,
+                "piles": [translate(locale, f"arkade.pile.{pile}") for pile in sorting.piles],
+                # The pile each card belongs in: the page says right or wrong
+                # at once, and the server marks the picks again regardless.
+                "items": [
+                    {
+                        "shown": item.shown,
+                        "pile": next(iter(item.matches)),
+                        "spoken": item.spoken,
+                        "language": item.language,
+                    }
+                    for item in played.items
+                ],
+            },
+            seconds=SORT_SECONDS,
         ),
     )
 

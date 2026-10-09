@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.game_" ~ game) }} · {{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.game_" ~ game) }}</h1>
+
+  <div id="sort"
+       class="sort"
+       data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ "?" ~ request.url.query if request.url.query else "" }}"
+       data-seconds="{{ seconds }}"
+       data-label-right="{{ t('arkade.right') }}"
+       data-label-wrong="{{ t('arkade.wrong') }}"
+       data-label-position="{{ t('arkade.sort_position') }}"
+       data-label-lives="{{ t('arkade.lives') }}"
+       data-label-previous="{{ t('arkade.sort_previous') }}"
+       data-label-time-up="{{ t('arkade.time_up') }}"
+       data-label-failed="{{ t('arkade.failed_sort') }}">
+    <div class="balloons__status">
+      <p class="balloons__position" id="sort-position" aria-live="polite"></p>
+      {# The next card comes by itself, so the answer to the one before is
+         asked for here. Hidden until there is one. #}
+      <button class="balloons__previous" type="button" id="sort-previous"
+              aria-label="{{ t('arkade.sort_previous_show') }}" hidden>?</button>
+      <p class="balloons__lives" id="sort-lives" aria-live="polite"></p>
+    </div>
+    {# The timer, drawn: a bar that empties. Hidden when the round is untimed. #}
+    <div class="pairs__time" id="sort-time" hidden><div class="pairs__time-left"></div></div>
+    <p class="sort__rule">{{ t("arkade.sort_rule") }}</p>
+    <p class="sort__hear" id="sort-hear" hidden>
+      <button class="button" type="button" id="sort-say">{{ t("arkade.hear_again") }}</button>
+      <span class="note" id="sort-no-voice" hidden>{{ t("arkade.no_voice") }}</span>
+    </p>
+
+    {# One card, and the piles below it. The script makes a button of each
+       pile; tap one, or press its number, to put the card there. #}
+    <div class="sort__table">
+      <div class="sort-card" id="sort-card"><span id="sort-shown" aria-live="polite"></span></div>
+      <div class="sort__piles" id="sort-piles"></div>
+    </div>
+
+    <p class="balloons__feedback" id="sort-feedback" aria-live="assertive"></p>
+    <p><button class="button" type="button" id="sort-retry" hidden>{{ t("arkade.try_again") }}</button></p>
+    <div id="sort-result"></div>
+  </div>
+
+  {# The round, as the page plays it. #}
+  <script type="application/json" id="sort-round">{{ payload | tojson }}</script>
+  <noscript><p class="note">{{ t("arkade.needs_js") }}</p></noscript>
+  <script src="/static/arkade-confetti.js" defer></script>
+  <script src="/static/arkade-sort.js" defer></script>
+{% endblock %}

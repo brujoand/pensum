@@ -1284,3 +1284,17 @@ arkade:
   failed_pairs: Vi fikk ikke lagret brettet.
   try_again: Prøv igjen
   no_voice: Nettleseren har ingen stemme for dette språket, så ordet kan ikke leses opp her.
+  sort: Sortering
+  sort_note: "{count} kort per runde og tre liv. Hør kortet, og legg det i haugen der det hører hjemme."
+  sort_rule: Hvilken haug hører kortet hjemme i?
+  sort_position: "Kort {n} av {total}"
+  sort_previous: "Forrige kort:"
+  sort_previous_show: Vis svaret på forrige kort
+  failed_sort: Vi fikk ikke lagret runden.
+  game_partall: Partall og oddetall
+  game_vokaler: Vokaler og konsonanter
+  pile:
+    even: Partall
+    odd: Oddetall
+    vowel: Vokal
+    consonant: Konsonant

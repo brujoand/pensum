@@ -13,7 +13,7 @@ from collections.abc import Callable
 from fractions import Fraction
 from random import Random
 
-from pensum.arkade.facts import ADD, DIVIDE, MULTIPLY, SUBTRACT, Family, Stated, num, stated
+from pensum.arkade.facts import ADD, DIVIDE, MULTIPLY, OF, SUBTRACT, Family, Stated, num, stated
 
 # --- year 5: larger whole numbers, and fractions ---------------------------------
 
@@ -29,6 +29,42 @@ def _tens(rng: Random) -> Stated:
         wrong = [product // 10, product * 10, (a + 1) * b, (a - 1) * b]
         return stated(f"{first} {MULTIPLY} {second}", product, wrong)
     return stated(f"{product} {DIVIDE} {a}", b, [b // 10, b * 10, b + 10, b - 10])
+
+
+def _three_digits(rng: Random) -> Stated:
+    """Two three-digit numbers added, or one taken from another: `346 + 228`.
+
+    The wrong answers are a ten or a hundred off, which is a carry forgotten,
+    and for a subtraction the smaller digit taken from the larger in every
+    place, whichever number it stood in.
+    """
+    total = rng.randint(300, 999)
+    a = rng.randint(101, total - 101)
+    b = total - a
+    if rng.random() < 0.5:
+        return stated(f"{a} {ADD} {b}", total, [total - 10, total - 100, total + 10, total + 100])
+    digitwise = int(
+        "".join(str(abs(int(x) - int(y))) for x, y in zip(str(total), str(a), strict=True))
+    )
+    wrong: list[Fraction | int | str] = [b + 10, b + 100, b - 10]
+    if digitwise not in (b, 0):
+        wrong.insert(0, digitwise)
+    return stated(f"{total} {SUBTRACT} {a}", b, wrong)
+
+
+def _two_digit_times(rng: Random) -> Stated:
+    """A two-digit number times a one-digit one, and the division it undoes:
+    `23 · 4`, `92 : 4`."""
+    tens = rng.randint(1, 9)
+    ones = rng.randint(1, 9)
+    n = 10 * tens + ones
+    by = rng.randint(2, 9)
+    product = n * by
+    if rng.random() < 0.5:
+        # Only the tens multiplied, or only the ones; the carry forgotten.
+        wrong = [10 * tens * by + ones, 10 * tens + ones * by, product - 10, product + by]
+        return stated(f"{n} {MULTIPLY} {by}", product, wrong)
+    return stated(f"{product} {DIVIDE} {by}", n, [n + 1, n - 1, n + 10, n - 10])
 
 
 def _fraction(numerator: int, denominator: int) -> str:
@@ -117,6 +153,10 @@ COMMON = BENCHMARKS + tuple(
 )  # fmt: skip
 
 TENS = Family("times-tens", None, _tens)
+# No skill, like the rest of the whole-number arithmetic of year 5: the goal is
+# about strategies, and a drill shows only the answer.
+THREE_DIGITS = Family("three-digit-sums", None, _three_digits)
+TWO_DIGIT_TIMES = Family("two-digit-times", None, _two_digit_times)
 FRACTIONS = Family("fractions-same-denominator", None, _same_denominator)
 SAME_AMOUNT = Family("same-amount", "mat.fractions.same-amount", _same_amount(BENCHMARKS))
 
@@ -176,7 +216,48 @@ def _tenfold(rng: Random) -> Stated:
     return stated(f"{num(x)} {DIVIDE} {by}", x / by, [x / by * 10, x / by / 10, x * by])
 
 
+def _unlike_decimals(rng: Random) -> Stated:
+    """A number with two decimals and one with one, added or subtracted:
+    `1,25 + 0,5`.
+
+    The wrong answer is the two lined up on the right, as whole numbers are:
+    25 and 5 hundredths.
+    """
+    a = rng.randint(101, 499)
+    while a % 10 == 0:
+        a = rng.randint(101, 499)
+    b = rng.randint(1, 9)
+    hundredths, tenths = Fraction(a, 100), Fraction(b, 10)
+    if rng.random() < 0.5:
+        value = hundredths + tenths
+        return stated(
+            f"{num(hundredths)} {ADD} {num(tenths)}",
+            value,
+            [Fraction(a + b, 100), value + Fraction(1, 10), value - Fraction(1, 10)],
+        )
+    value = hundredths - tenths
+    return stated(
+        f"{num(hundredths)} {SUBTRACT} {num(tenths)}",
+        value,
+        [Fraction(a - b, 100), value + Fraction(1, 10), hundredths + tenths],
+    )
+
+
+def _decimal_product(rng: Random) -> Stated:
+    """Tenths times tenths: `0,3 · 0,2`, which is hundredths and not tenths."""
+    a = rng.randint(2, 9)
+    b = rng.randint(2, 9)
+    value = Fraction(a * b, 100)
+    return stated(
+        f"{num(_tenths(a))} {MULTIPLY} {num(_tenths(b))}",
+        value,
+        [value * 10, value * 100, _tenths(a + b)],
+    )
+
+
 DECIMAL_SUMS = Family("decimal-sums", "mat.fractions.decimal-arithmetic", _decimal_sum)
+UNLIKE_DECIMALS = Family("unlike-decimals", "mat.fractions.decimal-arithmetic", _unlike_decimals)
+DECIMAL_PRODUCTS = Family("decimal-products", "mat.fractions.decimal-arithmetic", _decimal_product)
 DECIMAL_TIMES = Family("decimal-times", "mat.fractions.decimal-arithmetic", _decimal_times)
 TENFOLD = Family("tenfold", "mat.fractions.decimal-arithmetic", _tenfold)
 
@@ -224,7 +305,94 @@ def _order(rng: Random) -> Stated:
     return stated(f"{a} {MULTIPLY} ({b} {ADD} {c})", value, [a * b + c, value + a, value - a])
 
 
+def _unequal(wrong: list[str], amount: Fraction) -> tuple[str, ...]:
+    """The fractions among `wrong` that are not `amount` written another way."""
+    return tuple(w for w in wrong if Fraction(w) != amount)
+
+
+# Pairs of denominators where one is a multiple of the other, so the sum is
+# found by widening one fraction only.
+RELATED = ((2, 4), (2, 6), (2, 8), (2, 10), (3, 6), (3, 9), (4, 8), (5, 10))
+
+
+def _unlike_fractions(rng: Random) -> Stated:
+    """Fractions of two denominators, one a multiple of the other: `1/2 + 1/4`.
+
+    The answer is left over the larger denominator. The wrong answer adds the
+    numerators and the denominators as they stand.
+    """
+    small, large = rng.choice(RELATED)
+    times = large // small
+    a = rng.randint(1, small - 1)
+    b = rng.randint(1, large - 1)
+    # The sum under a whole, and the two not the same amount.
+    while a * times + b >= large or a * times == b:
+        a = rng.randint(1, small - 1)
+        b = rng.randint(1, large - 1)
+    widened = a * times
+    if rng.random() < 0.5:
+        total = widened + b
+        wrong = [_fraction(a + b, small + large), _fraction(a + b, large), _fraction(total, small)]
+        return Stated(
+            f"{_fraction(a, small)} {ADD} {_fraction(b, large)}",
+            Fraction(total, large),
+            _fraction(total, large),
+            _unequal(wrong, Fraction(total, large)),
+        )
+    left = abs(widened - b)
+    first, second = _fraction(a, small), _fraction(b, large)
+    if widened < b:
+        first, second = second, first
+    wrong = [
+        _fraction(abs(a - b) or 1, large),
+        _fraction(widened + b, large),
+        _fraction(left + 1, large),
+    ]
+    return Stated(
+        f"{first} {SUBTRACT} {second}",
+        Fraction(left, large),
+        _fraction(left, large),
+        _unequal(wrong, Fraction(left, large)),
+    )
+
+
+def _fraction_times(rng: Random) -> Stated:
+    """A whole number times a fraction: `3 · 2/5`. The answer is left as it
+    comes out, `6/5`. The wrong answer multiplies the denominator as well."""
+    d = rng.choice(DENOMINATORS)
+    n = rng.randint(1, d - 1)
+    by = rng.randint(2, 6)
+    wrong = [_fraction(n * by, d * by), _fraction(n + by, d), _fraction(n, d * by)]
+    return Stated(
+        f"{by} {MULTIPLY} {_fraction(n, d)}",
+        Fraction(n * by, d),
+        _fraction(n * by, d),
+        _unequal(wrong, Fraction(n * by, d)),
+    )
+
+
+# Percents a pupil works out in their head, and what the amount is a multiple
+# of so the answer is whole.
+PERCENTS = ((10, 10), (20, 5), (25, 4), (50, 2), (75, 4))
+
+
+def _percent_of(rng: Random) -> Stated:
+    """A percent of an amount: `25 % av 80`."""
+    percent, step = rng.choice(PERCENTS)
+    amount = step * rng.randint(2, 30)
+    value = amount * percent // 100
+    # A tenth where a hundredth was meant, the percent given back as the
+    # answer, and the percent taken away from the amount.
+    wrong = [value * 10, percent, amount - percent, value + 10]
+    return stated(f"{percent} % {OF} {amount}", value, [w for w in wrong if w > 0])
+
+
 NEGATIVES = Family("negative-numbers", "mat.place-value.negative-arithmetic", _negative)
+# No skill for these three: the year-7 skill for this goal is converting
+# between the forms, which `CONVERT` is evidence for.
+UNLIKE_FRACTIONS = Family("unlike-fractions", None, _unlike_fractions)
+FRACTION_TIMES = Family("fraction-times", None, _fraction_times)
+PERCENT_OF = Family("percent-of", None, _percent_of)
 CONVERT = Family("convert", "mat.fractions.convert", _same_amount(COMMON))
 ORDER = Family("order-of-operations", "mat.algebra.order-of-operations", _order)
 
@@ -263,7 +431,38 @@ def _root(rng: Random) -> Stated:
     return stated(f"√{n * n}", n, [Fraction(n * n, 2), n + 1, n - 1])
 
 
+# Fractions in their lowest terms, to be found again from a larger one.
+LOWEST = ((1, 2), (1, 3), (2, 3), (1, 4), (3, 4), (2, 5), (3, 5), (1, 6), (5, 6), (3, 8))
+
+
+def _shorten(rng: Random) -> Stated:
+    """A fraction to shorten as far as it goes: `12/18` is `2/3`.
+
+    The wrong answers divide the numerator by one number and the denominator
+    by another. A fraction only half shortened (`6/9`) is not offered as
+    wrong: it is the same amount.
+    """
+    n, d = rng.choice(LOWEST)
+    by = rng.choice((2, 3, 4, 5, 6))
+    amount = Fraction(n, d)
+    wrong = [_fraction(n, d * 2), _fraction(n * 2, d), _fraction(n, d + 1)]
+    return Stated(_fraction(n * by, d * by), amount, _fraction(n, d), _unequal(wrong, amount))
+
+
+def _beside_a_hundred(rng: Random) -> Stated:
+    """A product worked out by splitting one factor: `6 · 98` as 6 · 100 − 6 · 2."""
+    a = rng.randint(3, 9)
+    k = rng.randint(1, 3)
+    near = 100 - k if rng.random() < 0.5 else 100 + k
+    value = a * near
+    # Only the hundred multiplied, and the rest added or taken off as it was.
+    forgot = a * 100 + (near - 100)
+    return stated(f"{a} {MULTIPLY} {near}", value, [forgot, value + 10, value - 10, a * 100])
+
+
 POWERS = Family("powers", "mat.place-value.powers-and-roots", _power)
+SHORTEN = Family("shorten-fractions", "mat.multiply-divide.prime-factors", _shorten)
+LAWS = Family("beside-a-hundred", "mat.multiply-divide.laws", _beside_a_hundred)
 ROOTS = Family("square-roots", "mat.place-value.powers-and-roots", _root)
 
 
@@ -287,3 +486,45 @@ def _square_theorem(rng: Random) -> Stated:
 
 
 SQUARE_THEOREMS = Family("square-theorems", "mat.algebra.square-theorems", _square_theorem)
+
+
+# --- year 9: the sum Pythagoras' theorem asks for -----------------------------------
+
+
+def _squares_summed(rng: Random) -> Stated:
+    """Two squares added, as the theorem has it: `6² + 8²`.
+
+    The wrong answers square the sum instead, or add the sides and forget the
+    squares.
+    """
+    a = rng.randint(2, 12)
+    b = rng.randint(2, 12)
+    value = a * a + b * b
+    return stated(
+        f"{_to_the(a, 2)} {ADD} {_to_the(b, 2)}",
+        value,
+        [(a + b) ** 2, 2 * (a + b), value + 10, value - 10],
+    )
+
+
+PYTHAGORAS = Family("squares-summed", "mat.shape-space.pythagoras", _squares_summed)
+
+
+# --- year 10: a percent change as a growth factor ------------------------------------
+
+
+def _growth_factor(rng: Random) -> Stated:
+    """The factor a percent change multiplies by: `100 % + 25 %` is `1,25`."""
+    percent = rng.choice((2, 3, 4, 5, 8, 10, 12, 15, 20, 25, 30, 40, 50))
+    change = Fraction(percent, 100)
+    if rng.random() < 0.5:
+        value = 1 + change
+        # The percent alone, and 5 % read as five tenths.
+        return stated(f"100 % {ADD} {percent} %", value, [change, 1 + change * 10, value * 100])
+    value = 1 - change
+    return stated(f"100 % {SUBTRACT} {percent} %", value, [change, value * 100, 1 + change])
+
+
+# No skill: the year-10 skill beside this goal is telling linear growth from
+# exponential, which a factor alone does not show.
+GROWTH_FACTOR = Family("growth-factor", None, _growth_factor)

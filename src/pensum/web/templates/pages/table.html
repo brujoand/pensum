@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.table") }} · {{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.table") }}</h1>
+  <p class="lede">{{ t("arkade.table_intro") }}</p>
+
+  {% with small = false %}{% include "partials/times_table.html" %}{% endwith %}
+
+  <ul class="times-legend">
+    <li><span class="times-legend__mark times-cell--known" aria-hidden="true"></span>{{ t("arkade.table_known", count=known) }}</li>
+    <li><span class="times-legend__mark times-cell--not_yet" aria-hidden="true"></span>{{ t("arkade.table_not_yet", count=not_yet) }}</li>
+    <li><span class="times-legend__mark times-cell--unasked" aria-hidden="true"></span>{{ t("arkade.table_unasked", count=unasked) }}</li>
+  </ul>
+
+  <p class="times-actions">
+    <a class="button" href="/{{ locale }}/arkade/gangetabellen/runde{{ query }}">{{ t("arkade.table_play", count=round_length) }}</a>
+    {% if not_yet %}
+      <a class="button button--secondary" href="/{{ locale }}/arkade/gangetabellen/runde{{ drill_query }}">{{ t("arkade.table_drill", count=not_yet) }}</a>
+    {% endif %}
+  </p>
+  {% if not stored %}<p class="note">{{ t("arkade.table_not_stored") }}</p>{% endif %}
+  <p><a href="/{{ locale }}/arkade{{ query }}">{{ t("arkade.back") }}</a></p>
+{% endblock %}

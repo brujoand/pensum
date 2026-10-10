@@ -1298,3 +1298,24 @@ arkade:
     odd: Oddetall
     vowel: Vokal
     consonant: Konsonant
+  table: Gangetabellen
+  table_note: "{count} gangestykker per runde. Skriv svaret, og se tabellen fylles ut."
+  table_intro: >-
+    Alle gangestykkene fra 1 · 1 til 10 · 10. Du får dem i tilfeldig rekkefølge
+    til du har fått alle. Tabellen viser hvilke du kan, og hvilke du kan øve mer
+    på.
+  table_known: "Kan: {count}"
+  table_not_yet: "Øv mer: {count}"
+  table_unasked: "Ikke spurt ennå: {count}"
+  table_play: "Spill: {count} gangestykker"
+  table_drill: "Øv på de {count} du ikke kan ennå"
+  table_not_stored: Du er ikke logget inn, så tabellen din huskes bare så lenge du blir i Arkade.
+  table_position: "Gangestykke {n} av {total}"
+  table_previous: "Forrige gangestykke:"
+  table_previous_show: Vis svaret på forrige gangestykke
+  table_erase: Visk ut
+  table_enter: Svar
+  table_state:
+    known: kan
+    not_yet: øv mer
+    unasked: ikke spurt ennå

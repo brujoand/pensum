@@ -4532,3 +4532,200 @@ body.arkade-play .sort__table {
 #sort-retry[hidden] {
   display: none;
 }
+
+/* Gangetabellen: ten by ten. A cell is known, not known yet, or not asked. */
+.arkade-card__grid {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 6px;
+  background:
+    linear-gradient(var(--card) 0 0) 0 33% / 100% 2px no-repeat,
+    linear-gradient(var(--card) 0 0) 0 66% / 100% 2px no-repeat,
+    linear-gradient(var(--card) 0 0) 33% 0 / 2px 100% no-repeat,
+    linear-gradient(var(--card) 0 0) 66% 0 / 2px 100% no-repeat,
+    var(--balloon-2);
+}
+
+/* A cell is as tall as it is wide. `aspect-ratio` does nothing on a table
+   cell, so both come from one size: eleven columns of it, and each row its
+   height. Without that an empty cell is as low as its text, which is nothing. */
+.times-table {
+  --cell: min(2.5rem, 7.6vw);
+  --gap: 3px;
+  width: calc(11 * var(--cell) + 12 * var(--gap));
+  margin: 0 auto 1rem;
+  border-collapse: separate;
+  border-spacing: var(--gap);
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+
+.times-table th {
+  width: var(--cell);
+  height: var(--cell);
+  padding: 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+  text-align: center;
+}
+
+.times-cell {
+  width: var(--cell);
+  height: var(--cell);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--balloon-ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.times-cell--known {
+  border-color: transparent;
+  background: var(--balloon-2);
+}
+
+.times-cell--not_yet {
+  border-color: transparent;
+  background: var(--balloon-3);
+}
+
+/* The cell being asked about. */
+.times-cell--now {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Beside a product being asked for, the table is small and shows no numbers:
+   a known cell's product could be the answer to the one next to it. */
+.times-table--small {
+  /* Small enough to share a phone's height with the keys below it. */
+  --cell: min(1.7rem, 7.6vw, 3.4dvh);
+  --gap: 2px;
+  flex: none;
+  margin: 0;
+}
+
+/* The row and column numbers stay, so a cell can be found. */
+.times-table--small th {
+  font-size: 0.75rem;
+}
+
+.times-table--small .times-cell {
+  font-size: 0;
+}
+
+.times-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.times-legend__mark {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  vertical-align: -0.15rem;
+}
+
+.times-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+body.arkade-play .times {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+body.arkade-play .times p {
+  margin: 0.25rem 0;
+}
+
+/* The table and the product side by side; one above the other on a phone. */
+.times__play {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2rem;
+  margin: 0.5rem 0;
+}
+
+.times__ask {
+  flex: 0 1 15rem;
+}
+
+.times__ask[hidden] {
+  display: none;
+}
+
+.times__question {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.times__typed {
+  display: inline-block;
+  min-width: 2.5ch;
+  border-bottom: 3px solid var(--accent);
+  color: var(--accent);
+}
+
+.times__keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.times-key {
+  min-height: 2.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.times-key--enter {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--card);
+}
+
+.times-key:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.times-key:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+#times-retry {
+  display: block;
+  margin: 0 auto;
+}
+
+#times-retry[hidden] {
+  display: none;
+}

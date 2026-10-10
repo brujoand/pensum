@@ -1280,3 +1280,24 @@ arkade:
     odd: Odd
     vowel: Vowel
     consonant: Consonant
+  table: Times tables
+  table_note: "{count} products per round. Type the answer, and watch the table fill in."
+  table_intro: >-
+    Every product from 1 · 1 to 10 · 10. You get them in no order until you
+    have had them all. The table shows which you know, and which to practise
+    more.
+  table_known: "Know: {count}"
+  table_not_yet: "Practise more: {count}"
+  table_unasked: "Not asked yet: {count}"
+  table_play: "Play: {count} products"
+  table_drill: "Practise the {count} you do not know yet"
+  table_not_stored: You are not signed in, so your table is remembered only while you stay in Arkade.
+  table_position: "Product {n} of {total}"
+  table_previous: "The last product:"
+  table_previous_show: Show the answer to the last product
+  table_erase: Erase
+  table_enter: Answer
+  table_state:
+    known: known
+    not_yet: practise more
+    unasked: not asked yet

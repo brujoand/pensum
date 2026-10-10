@@ -25,6 +25,8 @@ from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.sorting import ALPHABET, NUMBERS, Sorting
 from pensum.arkade.spelling import spoken_word_items
+from pensum.arkade.table import KNOWN, NOT_YET, UNASKED, Table, from_evidence, from_text
+from pensum.arkade.table import SKILL as TABLE_SKILL
 from pensum.domain.grades import FIRST_GRADE, LAST_GRADE, checkpoint_for
 from pensum.i18n import translate
 from pensum.scores.evidence import Evidence
@@ -69,6 +71,12 @@ SORT_SECONDS = 120
 # The most picks a finished round can send. A round has ROUND_LENGTH; this only
 # bounds what a malformed request can make the server read.
 MAX_PICKS = 64
+# Gangetabellen: ten products a round, typed, with no lives. With the timer on
+# the round has two minutes.
+TABLE_GAME = "gangetabellen"
+TABLE_SUBJECT = "MAT01-06"
+TABLE_ROUND = 10
+TABLE_SECONDS = 120
 
 # The balloon games, by the slug in their address: the subject, and whether the
 # items are spoken words or arithmetic statements.
@@ -154,11 +162,13 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
             pair_games=list(PAIR_GAMES),
+            table_round=TABLE_ROUND,
             sort_games=_sort_games(grade),
             pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
             round_length=ROUND_LENGTH,
+            tabell=_table_query(request, _table(request)).partition("tabell=")[2],
             carry=_carry(request, grade, timer_on=timer_on, timer_stored=timer_stored),
         ),
     )
@@ -178,6 +188,11 @@ def _carry(request: Request, grade: int | None, *, timer_on: bool, timer_stored:
     query = {"trinn": str(grade)}
     if not timer_on and not timer_stored:
         query["tidtaker"] = "av"
+    # Gangetabellen rides along where it is not stored, or a visit to the hub
+    # between two rounds would empty it.
+    carried = _table(request)
+    if not _table_stored(request) and carried.asked:
+        query["tabell"] = carried.text
     return "?" + urlencode(query)
 
 
@@ -345,6 +360,106 @@ async def sort(request: Request, locale: str, game: str) -> Response:
     )
 
 
+def _table_stored(request: Request) -> bool:
+    """Whether this pupil's table is kept for them, rather than in the address."""
+    return get_evidence(request) is not None and current_user(request) is not None
+
+
+def _table(request: Request) -> Table:
+    """What the pupil knows of gangetabellen: from their evidence, or from the
+    address where there is nowhere to keep it."""
+    evidence = get_evidence(request)
+    user = current_user(request)
+    if evidence is not None and user is not None:
+        return from_evidence(evidence.for_pupil(user.sub).get(TABLE_SKILL or "", []))
+    return from_text(request.query_params.get("tabell", ""))
+
+
+def _table_query(request: Request, table: Table) -> str:
+    """The query string a gangetabellen link needs: what the address already
+    carried for the hub, and the table where it is not stored."""
+    query = {k: v for k, v in request.query_params.items() if k in ("trinn", "tidtaker")}
+    if not _table_stored(request) and table.asked:
+        query["tabell"] = table.text
+    return "?" + urlencode(query) if query else ""
+
+
+@router.get("/{locale}/arkade/gangetabellen", response_class=HTMLResponse)
+async def table(request: Request, locale: str) -> HTMLResponse:
+    """The table itself: what is known, what is not yet, and what has not been asked."""
+    validate_locale(locale)
+    known = _table(request)
+    query = _table_query(request, known)
+    return templates.TemplateResponse(
+        request,
+        "pages/table.html",
+        context(
+            request,
+            locale,
+            rows=known.rows(),
+            known=known.count(KNOWN),
+            not_yet=known.count(NOT_YET),
+            unasked=known.count(UNASKED),
+            round_length=TABLE_ROUND,
+            query=query,
+            drill_query=query + ("&" if query else "?") + "ov=1",
+            stored=_table_stored(request),
+        ),
+    )
+
+
+@router.get("/{locale}/arkade/gangetabellen/runde", response_class=HTMLResponse)
+async def table_round(request: Request, locale: str) -> Response:
+    """A round of products to type. The page posts the number typed for each,
+    and nothing for the ones time took. `ov=1` asks only for the cells not known yet."""
+    validate_locale(locale)
+    known = _table(request)
+    query = _table_query(request, known)
+    drill = request.query_params.get("ov") == "1"
+    items = known.questions(_rng(), TABLE_ROUND, drill=drill)
+    if not items:
+        # A drill with nothing left to drill.
+        return RedirectResponse(f"/{locale}/arkade/{TABLE_GAME}{query}", status_code=303)
+
+    user = current_user(request)
+    played = _rounds(request).create(
+        TABLE_GAME,
+        TABLE_SUBJECT,
+        items,
+        timed=_timer_on(request),
+        now=datetime.now(UTC),
+        user_sub=user.sub if user else None,
+    )
+    return templates.TemplateResponse(
+        request,
+        "pages/table_round.html",
+        context(
+            request,
+            locale,
+            played=played,
+            rows=known.rows(),
+            drill=drill,
+            query=query,
+            payload={
+                "round": played.id,
+                "timed": played.timed,
+                # The product of each: the page says right or wrong at once,
+                # and the server marks what was typed again regardless.
+                "items": [
+                    {
+                        "shown": item.shown,
+                        "value": next(iter(item.matches)),
+                        "answer": item.answer,
+                        "cell": item.id.split(":", 1)[1].replace("·", "-"),
+                    }
+                    for item in played.items
+                ],
+            },
+            seconds=TABLE_SECONDS,
+        ),
+    )
+
+
 def _payload(played: Round) -> dict[str, object]:
     """What the page plays. It includes whether each balloon is true: the page
     says so the moment one flies or pops, and the server marks the picks again
@@ -384,12 +499,18 @@ async def finish(
     marked = mark(played, picks)
     earned = _record(request, played, marked, now)
     ledger = get_xp(request)
+    query = "?" + request.url.query if request.url.query else ""
+    if played.game == TABLE_GAME:
+        # Where the table rides in the address, the links out of the round
+        # carry it as it is now, with this round's answers in.
+        query = _table_query(request, _table(request).after(marked))
     return templates.TemplateResponse(
         request,
         "partials/arkade_result.html",
         context(
             request,
             locale,
+            query=query,
             again=f"/{locale}/arkade/{played.game}",
             correct=sum(1 for m in marked if m.correct),
             points=sum(1 for m in marked if m.scores),

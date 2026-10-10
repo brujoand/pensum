@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t("arkade.table") }} · {{ t("arkade.heading") }}{% endblock %}
+
+{% block content %}
+  <h1>{{ t("arkade.table") }}</h1>
+
+  <div id="times"
+       class="times"
+       data-post-url="/{{ locale }}/arkade/runde/{{ played.id }}{{ query }}"
+       data-seconds="{{ seconds }}"
+       data-label-right="{{ t('arkade.right') }}"
+       data-label-wrong="{{ t('arkade.wrong') }}"
+       data-label-position="{{ t('arkade.table_position') }}"
+       data-label-previous="{{ t('arkade.table_previous') }}"
+       data-label-time-up="{{ t('arkade.time_up') }}"
+       data-label-failed="{{ t('arkade.failed_sort') }}"
+       data-label-erase="{{ t('arkade.table_erase') }}"
+       data-label-enter="{{ t('arkade.table_enter') }}">
+    <div class="balloons__status">
+      <p class="balloons__position" id="times-position" aria-live="polite"></p>
+      {# The next product comes by itself, so the answer to the one before is
+         asked for here. Hidden until there is one. #}
+      <button class="balloons__previous" type="button" id="times-previous"
+              aria-label="{{ t('arkade.table_previous_show') }}" hidden>?</button>
+    </div>
+    {# The timer, drawn: a bar that empties. Hidden when the round is untimed. #}
+    <div class="pairs__time" id="times-time" hidden><div class="pairs__time-left"></div></div>
+
+    {# The table beside the product asked for: the cell asked about is marked,
+       and takes its colour the moment it is answered. #}
+    <div class="times__play">
+      {% with small = true %}{% include "partials/times_table.html" %}{% endwith %}
+      <div class="times__ask" id="times-ask">
+        <p class="times__question">
+          <span id="times-question" aria-live="polite"></span>
+          <span class="times__typed" id="times-typed" aria-live="polite"></span>
+        </p>
+        <div class="times__keys" id="times-keys"></div>
+      </div>
+    </div>
+
+    <p class="balloons__feedback" id="times-feedback" aria-live="assertive"></p>
+    <p><button class="button" type="button" id="times-retry" hidden>{{ t("arkade.try_again") }}</button></p>
+    <div id="times-result"></div>
+  </div>
+
+  {# The round, as the page plays it. #}
+  <script type="application/json" id="times-round">{{ payload | tojson }}</script>
+  <noscript><p class="note">{{ t("arkade.needs_js") }}</p></noscript>
+  <script src="/static/arkade-confetti.js" defer></script>
+  <script src="/static/arkade-table.js" defer></script>
+{% endblock %}

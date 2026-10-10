@@ -389,7 +389,7 @@ def test_a_page_in_english_writes_decimals_with_a_point() -> None:
 
 @pytest.mark.parametrize(
     ("year", "written_with"),
-    [(1, r"^\d+ [+−] \d+ = \d+$"), (6, r"\d,\d"), (8, r"[²³⁴⁵⁶√]")],
+    [(1, r"^\d+ [+−] \d+ = \d+$"), (6, r"\d,\d")],
 )
 def test_a_round_is_made_of_the_years_own_sums(year: int, written_with: str) -> None:
     _, client = build(Settings())

@@ -85,8 +85,9 @@ An item names the skill it practises where one fits closely, and an answer then
 becomes one `evidence` row under that skill, as a quiz answer does. Where none
 fits, the item names none and its answers record no evidence. Adding within 100
 has none, because the year-3 adding skills are about choosing and explaining a
-method. Whole tens, table facts with a ten in them and fractions of one
-denominator have none for the same reason: their goals are about strategies. Vowels and consonants have none, because the letter skills are about the
+method. The whole-number sums of years 4 and 5 and the fraction sums of
+years 5 and 7 have none for the same reason: their goals are about
+strategies. Vowels and consonants have none, because the letter skills are about the
 sound a letter has. Spelling after 2. trinn has none, because those skills each name one
 pattern, such as kj and skj.
 
@@ -97,44 +98,69 @@ The numbers are small first, then larger, then fractions and decimals, then
 negative numbers and powers. The goals are those of LK20 for mathematics
 (MAT01-06), read from `data/curriculum`.
 
-| year | sums | example | goal |
-|---|---|---|---|
-| 1 | adding and subtracting to 10 | `3 + 4 = 7` | KM13234 |
-| 2 | adding and subtracting to 20 | `13 − 5 = 8` | KM13234 |
-| 3 | adding and subtracting to 100 | `47 + 26 = 73` | KM13243 |
-| 3 | the 2, 5 and 10 tables | `5 · 7 = 35` | KM13245 |
-| 3 | doubling and halving, to 100 | `34 + 34 = 68`, `68 : 2 = 34` | KM13254 |
-| 4 | the whole table | `7 · 8 = 56` | KM13258 |
-| 4 | division inside the table | `56 : 8 = 7` | KM13257 |
-| 4 | whole tens added and subtracted, to 1000 | `340 + 250 = 590` | KM13258 |
-| 5 | table facts with a ten in them | `6 · 40 = 240`, `240 : 6 = 40` | KM13268 |
-| 5 | fractions of one denominator, added and subtracted | `1/5 + 2/5 = 3/5` | KM13268 |
-| 5 | a fraction, a decimal and a percent that are the same amount | `1/4 = 0,25`, `0,25 = 25 %` | KM13265 |
-| 6 | tenths added and subtracted | `0,7 + 0,5 = 1,2` | KM13276 |
-| 6 | tenths times a whole number | `0,4 · 6 = 2,4` | KM13276 |
-| 6 | a decimal times or divided by 10 or 100 | `3,5 · 10 = 35` | KM13276 |
-| 7 | adding and subtracting across zero | `3 − 8 = −5` | KM13292 |
-| 7 | converting between fraction, decimal and percent | `3/8 = 37,5 %` | KM13286 |
-| 7 | the order of operations | `2 + 3 · 4 = 14` | KM13287 |
-| 8 | squares, cubes and powers of ten | `7² = 49`, `10⁴ = 10000` | KM13297 |
-| 8 | square roots of perfect squares | `√81 = 9` | KM13297 |
-| 9 | what years 7 and 8 drilled | | none |
-| 10 | the square theorems as a way to calculate | `21² = 441`, `19 · 21 = 399` | KM13318 |
-| 10 | powers and square roots | | KM13297 |
+| year | sums | example | goal | the goal says |
+|---|---|---|---|---|
+| 1 | adding and subtracting to 10 | `3 + 4 = 7` | KM13234 | the operation, not the range |
+| 2 | adding and subtracting to 20 | `13 − 5 = 8` | KM13234 | the operation, not the range |
+| 3 | adding and subtracting to 100 | `47 + 26 = 73` | KM13243 | the operation, not the range |
+| 3 | the 2, 5 and 10 tables | `5 · 7 = 35` | KM13245 | multiplication by counting and grouping; which tables is ours |
+| 3 | doubling and halving, to 100 | `34 + 34 = 68`, `68 : 2 = 34` | KM13254 | this |
+| 4 | division inside the table | `56 : 8 = 7` | KM13257 | this |
+| 4 | the whole table | `7 · 8 = 56` | KM13257 | division, which is read backwards from the table; no goal names the table |
+| 4 | whole tens added and subtracted, to 1000 | `340 + 250 = 590` | KM13258 | written and mental arithmetic with the four operations; the range is ours |
+| 5 | table facts with a ten in them | `6 · 40 = 240`, `240 : 6 = 40` | KM13268 | arithmetic with positive numbers; the range is ours |
+| 5 | two digits times one, and the division back | `23 · 4 = 92`, `92 : 4 = 23` | KM13268 | arithmetic with positive numbers; the range is ours |
+| 5 | three-digit sums | `346 + 228 = 574` | KM13268 | arithmetic with positive numbers; the range is ours |
+| 5 | fractions of one denominator, added and subtracted | `1/5 + 2/5 = 3/5` | KM13268 | arithmetic with fractions |
+| 5 | a fraction, a decimal and a percent that are the same amount | `1/4 = 0,25`, `0,25 = 25 %` | KM13265 | this |
+| 6 | tenths added and subtracted | `0,7 + 0,5 = 1,2` | KM13276 | this |
+| 6 | numbers with different numbers of decimals | `1,25 + 0,5 = 1,75` | KM13275 | this |
+| 6 | tenths times a whole number | `0,4 · 6 = 2,4` | KM13276 | this |
+| 6 | tenths times tenths | `0,3 · 0,2 = 0,06` | KM13276 | this |
+| 6 | a decimal times or divided by 10 or 100 | `3,5 · 10 = 35` | KM13276 | this |
+| 7 | adding and subtracting across zero | `3 − 8 = −5` | KM13292 | this |
+| 7 | converting between fraction, decimal and percent | `3/8 = 37,5 %` | KM13286 | this |
+| 7 | the order of operations | `2 + 3 · 4 = 14` | KM13287 | this |
+| 7 | fractions of two denominators, one a multiple of the other | `1/2 + 1/4 = 3/4` | KM13288 | arithmetic with fractions |
+| 7 | a whole number times a fraction | `3 · 2/5 = 6/5` | KM13288 | arithmetic with fractions |
+| 7 | a percent of an amount | `25 % av 80 = 20` | KM13288 | arithmetic with percent |
+| 8 | squares, cubes and powers of ten | `7² = 49`, `10⁴ = 10000` | KM13297 | this |
+| 8 | square roots of perfect squares | `√81 = 9` | KM13297 | this |
+| 8 | a fraction shortened as far as it goes | `12/18 = 2/3` | KM13298 | factorising, used in fraction arithmetic |
+| 8 | a product beside 100, by splitting a factor | `6 · 98 = 588` | KM13303 | the distributive law as a strategy |
+| 9 | two squares added | `6² + 8² = 100` | KM13317 | Pythagoras' theorem, which asks for this sum |
+| 9 | powers, roots, negative numbers, the order of operations | | none | kept from years 7 and 8 |
+| 10 | the square theorems as a way to calculate | `21² = 441`, `19 · 21 = 399` | KM13318 | this |
+| 10 | a percent change as a growth factor | `100 % + 25 % = 1,25` | KM13322 | this |
+| 10 | powers and square roots | | none | kept from year 8 |
 
-No goal of year 9 is arithmetic with numbers alone: its goals are geometry,
-statistics, probability and compound units. Year 9 therefore keeps powers,
-roots, negative numbers and the order of operations.
+A goal of LK20 names an operation and a kind of number. It does not name a
+range. Where the last column says the range is ours, the goal covers the
+operation and this ladder chose how large the numbers are, so that each year's
+are larger than the year before.
+
+Year 9 has one goal that asks for arithmetic with numbers alone, and only as
+a step: Pythagoras' theorem. Its other goals are geometry, statistics,
+probability and compound units. So year 9 also keeps what years 7 and 8
+drilled.
+
+Not drilled yet, though a goal names it: fractions of two denominators with
+no common multiple between them, a fraction times a fraction, division by a
+decimal, powers with a negative base, and the mean of a data set (KM13289,
+KM13313). The last needs words, not only a sum.
 
 A false statement shows the mistake the goal's pupils make, not a number
 picked near the answer: denominators added (`1/5 + 2/5 = 3/10`), tenths read as
 hundredths (`0,7 + 0,5 = 0,12`), a zero put on the end of a decimal
 (`3,5 · 10 = 3,50`), a sign dropped (`3 − 8 = 5`), a sum worked left to right
 (`2 + 3 · 4 = 20`), an exponent multiplied (`7² = 14`), the middle term of a
-square forgotten (`21² = 401`).
+square forgotten (`21² = 401`), two decimals lined up on the right
+(`1,25 + 0,5 = 1,3`), numerators and denominators both added
+(`1/2 + 1/4 = 2/6`), a sum squared where two squares were (`6² + 8² = 196`).
 
-A page in Norwegian writes a decimal comma and a page in English a decimal
-point. The item is the same either way.
+A page in Norwegian writes a decimal comma and `25 % av 80`. A page in
+English writes a decimal point and `25 % of 80`. The item is the same either
+way.
 
 ## Games
 

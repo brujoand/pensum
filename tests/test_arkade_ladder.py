@@ -27,23 +27,34 @@ from pensum.arkade.arithmetic import (
     pair_items,
     statement_items,
 )
-from pensum.arkade.facts import Fact, Family, Stated, num, shown_in, stated
+from pensum.arkade.facts import ENGLISH, NORWEGIAN, Fact, Family, Stated, num, shown_in, stated
 from pensum.arkade.items import FLY
 from pensum.arkade.later_years import (
     BENCHMARKS,
     COMMON,
     CONVERT,
+    DECIMAL_PRODUCTS,
     DECIMAL_SUMS,
     DECIMAL_TIMES,
+    FRACTION_TIMES,
     FRACTIONS,
+    GROWTH_FACTOR,
+    LAWS,
     NEGATIVES,
     ORDER,
+    PERCENT_OF,
     POWERS,
+    PYTHAGORAS,
     ROOTS,
     SAME_AMOUNT,
+    SHORTEN,
     SQUARE_THEOREMS,
     TENFOLD,
     TENS,
+    THREE_DIGITS,
+    TWO_DIGIT_TIMES,
+    UNLIKE_DECIMALS,
+    UNLIKE_FRACTIONS,
 )
 from pensum.skills.loader import SkillLibrary
 
@@ -60,6 +71,8 @@ def seeded(seed: int) -> Random:
 def worth(text: str) -> Fraction:
     """A sum, or an answer, as the number it is."""
     python = text.replace(",", ".").replace("−", "-").replace("·", "*").replace(":", "/")
+    # A percent of an amount is the percent times the amount.
+    python = python.replace(" av ", " * ").replace(" of ", " * ")
     python = re.sub(r"√(\d+)", r"root(\1)", python)
     python = re.sub(
         r"(\d)([⁰¹²³⁴⁵⁶⁷⁸⁹]+)", lambda m: f"{m[1]}**{m[2].translate(SUPERSCRIPTS)}", python
@@ -101,6 +114,11 @@ def draws(family: Family, count: int = 300) -> list[Fact | Stated]:
         ("10⁴", 10000),
         ("√81", 9),
         ("19 · 21", 399),
+        ("25 % av 80", 20),
+        ("100 % + 25 %", Fraction(5, 4)),
+        ("1/2 + 1/4", Fraction(3, 4)),
+        ("3 · 2/5", Fraction(6, 5)),
+        ("6² + 8²", 100),
     ],
 )
 def test_the_checker_reads_a_sum_as_school_writes_it(text: str, value: Fraction) -> None:
@@ -116,8 +134,13 @@ def test_a_number_is_written_with_a_comma_and_a_real_minus(value: Fraction, text
 
 
 def test_a_page_in_english_reads_a_decimal_point() -> None:
-    assert shown_in("0,7 + 0,5 = 1,2", ".") == "0.7 + 0.5 = 1.2"
-    assert shown_in("0,7 + 0,5 = 1,2", ",") == "0,7 + 0,5 = 1,2"
+    assert shown_in("0,7 + 0,5 = 1,2", ENGLISH) == "0.7 + 0.5 = 1.2"
+    assert shown_in("0,7 + 0,5 = 1,2", NORWEGIAN) == "0,7 + 0,5 = 1,2"
+
+
+def test_a_page_in_english_reads_a_percent_of_an_amount() -> None:
+    assert shown_in("12,5 % av 80 = 10", ENGLISH) == "12.5 % of 80 = 10"
+    assert shown_in("12,5 % av 80 = 10", NORWEGIAN) == "12,5 % av 80 = 10"
 
 
 def test_a_wrong_answer_is_listed_once_and_is_never_the_answer() -> None:
@@ -217,6 +240,26 @@ def wrongs_of(family: Family, expression: str) -> set[str]:
         # The middle term forgotten.
         (SQUARE_THEOREMS, "21²", "401"),
         (SQUARE_THEOREMS, "19 · 21", "400"),
+        # Only the tens multiplied.
+        (TWO_DIGIT_TIMES, "23 · 4", "83"),
+        # Tenths times tenths left as tenths.
+        (DECIMAL_PRODUCTS, "0,3 · 0,2", "0,6"),
+        # Numerators and denominators added as they stand.
+        (UNLIKE_FRACTIONS, "1/2 + 1/4", "2/6"),
+        # The denominator multiplied as well.
+        (FRACTION_TIMES, "3 · 2/5", "6/15"),
+        # A tenth where a hundredth was meant, and the percent taken away.
+        (PERCENT_OF, "25 % av 80", "200"),
+        (PERCENT_OF, "25 % av 80", "55"),
+        # Numerator and denominator divided by different numbers.
+        (SHORTEN, "12/18", "2/6"),
+        # Only the hundred multiplied.
+        (LAWS, "6 · 98", "598"),
+        # The sum squared.
+        (PYTHAGORAS, "6² + 8²", "196"),
+        # 5 % read as five tenths, and the percent alone.
+        (GROWTH_FACTOR, "100 % + 5 %", "1,5"),
+        (GROWTH_FACTOR, "100 % − 20 %", "0,2"),
     ],
 )
 def test_a_family_offers_the_mistake_its_pupils_make(
@@ -231,6 +274,32 @@ def test_whole_tens_are_a_ten_or_a_hundred_off_and_never_one() -> None:
         assert 10 in off
         assert 100 in off
         assert all(distance % 10 == 0 for distance in off), fact
+
+
+def test_a_three_digit_subtraction_offers_each_digit_taken_from_the_larger() -> None:
+    """523 − 268 worked place by place, smaller from larger, is 345."""
+    seen = 0
+    for fact in draws(THREE_DIGITS, 600):
+        if "−" not in fact.expression:
+            continue
+        top, taken = fact.expression.split(" − ")
+        mistake = str(
+            int("".join(str(abs(int(x) - int(y))) for x, y in zip(top, taken, strict=True)))
+        )
+        if mistake not in (fact.answer, "0"):
+            assert mistake in fact.wrong_answers(), fact
+            seen += 1
+    assert seen > 50
+
+
+def test_decimals_of_different_lengths_offer_the_two_lined_up_on_the_right() -> None:
+    """1,25 + 0,5 with the 5 under the 5 is 1,30."""
+    for fact in draws(UNLIKE_DECIMALS):
+        long, sign, short = fact.expression.split(" ")
+        hundredths = int(long.replace(",", ""))
+        tenths = int(short.replace(",", ""))
+        lined_up = hundredths + tenths if sign == "+" else hundredths - tenths
+        assert num(Fraction(lined_up, 100)) in fact.wrong_answers(), fact
 
 
 def test_same_amount_never_offers_the_same_amount_as_wrong() -> None:
@@ -263,11 +332,48 @@ def test_the_ladder_is_the_one_the_curriculum_draws() -> None:
     assert LADDER[2] == (WITHIN_20,)
     assert LADDER[3] == (WITHIN_100, EASY_TABLES, DOUBLE_HALVE)
     assert LADDER[4] == (TABLES, DIVISION, ROUND_NUMBERS)
-    assert LADDER[5] == (TENS, FRACTIONS, SAME_AMOUNT)
-    assert LADDER[6] == (DECIMAL_SUMS, DECIMAL_TIMES, TENFOLD)
-    assert LADDER[7] == (NEGATIVES, CONVERT, ORDER)
-    assert LADDER[8] == (POWERS, ROOTS)
-    assert LADDER[10][0] == SQUARE_THEOREMS
+    assert LADDER[5] == (TENS, TWO_DIGIT_TIMES, THREE_DIGITS, FRACTIONS, SAME_AMOUNT)
+    assert LADDER[6] == (DECIMAL_SUMS, UNLIKE_DECIMALS, DECIMAL_TIMES, DECIMAL_PRODUCTS, TENFOLD)
+    assert LADDER[7] == (NEGATIVES, CONVERT, ORDER, UNLIKE_FRACTIONS, FRACTION_TIMES, PERCENT_OF)
+    assert LADDER[8] == (POWERS, ROOTS, SHORTEN, LAWS)
+    assert LADDER[9] == (PYTHAGORAS, POWERS, ROOTS, NEGATIVES, ORDER)
+    assert LADDER[10] == (SQUARE_THEOREMS, GROWTH_FACTOR, POWERS, ROOTS)
+
+
+def test_a_year_past_four_has_something_no_earlier_year_has() -> None:
+    seen: set[Family] = set(LADDER[4])
+    for year in range(5, 11):
+        new = set(LADDER[year]) - seen
+        assert new, f"year {year} only repeats earlier years"
+        seen |= set(LADDER[year])
+
+
+def test_whole_numbers_keep_growing_after_year_four() -> None:
+    """Three-digit sums and two-digit products are year 5's, not year 4's."""
+    year_4 = " ".join(fact.expression for family in LADDER[4] for fact in draws(family))
+    year_5 = " ".join(fact.expression for family in LADDER[5] for fact in draws(family))
+
+    assert not re.search(r"\d\d[1-9] [+−]", year_4)
+    assert re.search(r"\d\d[1-9] [+−] \d\d\d", year_5)
+    assert re.search(r"\d[1-9] · \d\b", year_5)
+
+
+def test_fractions_get_harder_from_year_five_to_seven_to_eight() -> None:
+    def denominators(family: Family) -> list[set[str]]:
+        return [set(re.findall(r"/(\d+)", fact.expression)) for fact in draws(family)]
+
+    assert all(len(found) == 1 for found in denominators(FRACTIONS))
+    assert all(len(found) == 2 for found in denominators(UNLIKE_FRACTIONS))
+    # Year 8 shortens: the answer has a smaller denominator than the fraction asked.
+    for fact in draws(SHORTEN):
+        assert int(fact.answer.split("/")[1]) < int(fact.expression.split("/")[1])
+        assert Fraction(fact.answer).denominator == int(fact.answer.split("/")[1])
+
+
+def test_a_half_shortened_fraction_is_never_offered_as_wrong() -> None:
+    """`12/18 = 6/9` is true."""
+    for fact in draws(SHORTEN, 2000):
+        assert all(Fraction(wrong) != fact.value for wrong in fact.wrong_answers())
 
 
 def biggest(year: int) -> Fraction:
@@ -303,9 +409,9 @@ def test_each_kind_of_number_arrives_in_the_year_its_goal_is_set() -> None:
     assert kinds(5) == {"fraction", "decimal", "percent"}
     assert kinds(6) == {"decimal"}
     assert kinds(7) == {"fraction", "decimal", "percent", "negative"}
-    assert kinds(8) == {"power", "root"}
-    assert "negative" in kinds(9)
-    assert "power" in kinds(10)
+    assert kinds(8) == {"power", "root", "fraction"}
+    assert kinds(9) == {"power", "root", "negative"}
+    assert kinds(10) == {"power", "root", "percent", "decimal"}
 
 
 def test_multiplication_starts_in_year_three_and_division_in_year_four() -> None:
@@ -349,11 +455,11 @@ def test_a_board_has_no_two_answers_worth_the_same(year: int) -> None:
 
 def test_english_gets_a_point_and_the_same_item() -> None:
     norwegian = statement_items(6, seeded(4), 8)
-    english = statement_items(6, seeded(4), 8, ".")
+    english = statement_items(6, seeded(4), 8, ENGLISH)
 
     assert [item.id for item in norwegian] == [item.id for item in english]
     assert any("," in (item.shown or "") for item in norwegian)
     assert not any("," in (item.shown or "") for item in english)
     assert all(
-        "," not in card for item in pair_items(6, seeded(4), 6, ".") for card in item.candidates
+        "," not in card for item in pair_items(6, seeded(4), 6, ENGLISH) for card in item.candidates
     )

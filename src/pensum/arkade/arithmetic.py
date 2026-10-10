@@ -17,12 +17,13 @@ from random import Random
 
 from pensum.arkade.facts import (
     ADD,
-    COMMA,
     DIVIDE,
     MULTIPLY,
+    NORWEGIAN,
     SUBTRACT,
     Fact,
     Family,
+    Notation,
     Stated,
     Sum,
     shown_in,
@@ -31,17 +32,28 @@ from pensum.arkade.facts import (
 from pensum.arkade.items import Item, balloon
 from pensum.arkade.later_years import (
     CONVERT,
+    DECIMAL_PRODUCTS,
     DECIMAL_SUMS,
     DECIMAL_TIMES,
+    FRACTION_TIMES,
     FRACTIONS,
+    GROWTH_FACTOR,
+    LAWS,
     NEGATIVES,
     ORDER,
+    PERCENT_OF,
     POWERS,
+    PYTHAGORAS,
     ROOTS,
     SAME_AMOUNT,
+    SHORTEN,
     SQUARE_THEOREMS,
     TENFOLD,
     TENS,
+    THREE_DIGITS,
+    TWO_DIGIT_TIMES,
+    UNLIKE_DECIMALS,
+    UNLIKE_FRACTIONS,
 )
 
 
@@ -111,37 +123,50 @@ ROUND_NUMBERS = Family("round-numbers", None, _round_numbers)
 # so. A year gets the sums its own goals name: smaller numbers first, then
 # larger ones, then fractions and decimals, then negative numbers and powers.
 #
+# A goal names an operation and a kind of number. It names no range: "to 10",
+# "to 100" and "the 2, 5 and 10 tables" are this ladder's reading of how far a
+# year gets, and `docs/design/arkade.md` says which rows are that.
+#
 #  1  KM13234  adding and subtracting, to 10
 #  2  KM13234  adding and subtracting, to 20
 #  3  KM13243  adding and subtracting, to 100
-#     KM13245  multiplication as equal groups: the 2, 5 and 10 tables
+#     KM13245  multiplication by counting and grouping: the 2, 5 and 10 tables
 #     KM13254  doubling and halving
-#  4  KM13258  how the four operations relate: the whole table, which
-#              division is read backwards from
-#     KM13257  division
-#     KM13258  adding and subtracting whole tens, to 1000
-#  5  KM13268  arithmetic with positive numbers: table facts with a ten in them
+#  4  KM13257  division, and the whole table it is read backwards from
+#     KM13258  written and mental arithmetic with all four operations: whole
+#              tens added and subtracted, to 1000
+#  5  KM13268  arithmetic with positive numbers: table facts with a ten in
+#              them, two digits times one, three-digit sums
 #     KM13268  and with fractions: one denominator, added and subtracted
 #     KM13265  a fraction, a decimal and a percent that are the same amount
-#  6  KM13276  arithmetic with decimals: sums, times a whole number, by 10 and 100
+#  6  KM13276  arithmetic with decimals: sums, times a whole number, tenths
+#              times tenths, by 10 and 100
+#     KM13275  numbers with different numbers of decimals, added and subtracted
 #  7  KM13292  negative numbers
 #     KM13286  converting between fraction, decimal and percent
 #     KM13287  the order of operations
+#     KM13288  arithmetic with fractions and percent: two denominators, a whole
+#              number times a fraction, a percent of an amount
 #  8  KM13297  powers and square roots
-#  9  no goal of year 9 is arithmetic with numbers alone, so year 9 keeps
-#     what years 7 and 8 drilled
+#     KM13298  factorising to shorten a fraction
+#     KM13303  the distributive law as a way to calculate: a product beside 100
+#  9  KM13317  the sum of two squares, which Pythagoras' theorem asks for.
+#              No other goal of year 9 is arithmetic with numbers alone, so the
+#              year also keeps powers, roots, negative numbers and the order
+#              of operations
 # 10  KM13318  the square theorems as a way to calculate
+#     KM13322  a percent change as a growth factor
 LADDER: dict[int, tuple[Family, ...]] = {
     1: (WITHIN_10,),
     2: (WITHIN_20,),
     3: (WITHIN_100, EASY_TABLES, DOUBLE_HALVE),
     4: (TABLES, DIVISION, ROUND_NUMBERS),
-    5: (TENS, FRACTIONS, SAME_AMOUNT),
-    6: (DECIMAL_SUMS, DECIMAL_TIMES, TENFOLD),
-    7: (NEGATIVES, CONVERT, ORDER),
-    8: (POWERS, ROOTS),
-    9: (POWERS, ROOTS, NEGATIVES, ORDER),
-    10: (SQUARE_THEOREMS, POWERS, ROOTS),
+    5: (TENS, TWO_DIGIT_TIMES, THREE_DIGITS, FRACTIONS, SAME_AMOUNT),
+    6: (DECIMAL_SUMS, UNLIKE_DECIMALS, DECIMAL_TIMES, DECIMAL_PRODUCTS, TENFOLD),
+    7: (NEGATIVES, CONVERT, ORDER, UNLIKE_FRACTIONS, FRACTION_TIMES, PERCENT_OF),
+    8: (POWERS, ROOTS, SHORTEN, LAWS),
+    9: (PYTHAGORAS, POWERS, ROOTS, NEGATIVES, ORDER),
+    10: (SQUARE_THEOREMS, GROWTH_FACTOR, POWERS, ROOTS),
 }
 
 
@@ -156,14 +181,17 @@ MAX_DRAWS = 50
 
 
 def statement_item(
-    family: Family, rng: Random, avoid: frozenset[str] = frozenset(), mark: str = COMMA
+    family: Family,
+    rng: Random,
+    avoid: frozenset[str] = frozenset(),
+    notation: Notation = NORWEGIAN,
 ) -> Item:
     """One balloon: a sum from `family`, shown true or, half the time, with a wrong answer.
 
     A sum whose key is in `avoid` is drawn again, so a round never asks the
     same sum twice: the second answer would also be dropped from the evidence,
-    which is keyed on the round and the item. `mark` is the decimal mark the
-    page reads.
+    which is keyed on the round and the item. `notation` is how the page's
+    language writes a sum.
     """
     for _ in range(MAX_DRAWS):
         fact = family.draw(rng)
@@ -174,24 +202,26 @@ def statement_item(
     return balloon(
         f"mat:{fact.key}",
         "statement",
-        shown_in(shown, mark),
+        shown_in(shown, notation),
         true=true,
-        answer=shown_in(fact.statement(), mark),
+        answer=shown_in(fact.statement(), notation),
         skill=family.skill,
     )
 
 
-def statement_items(grade: int, rng: Random, count: int, mark: str = COMMA) -> list[Item]:
+def statement_items(
+    grade: int, rng: Random, count: int, notation: Notation = NORWEGIAN
+) -> list[Item]:
     """A round of balloons for `grade`, families taken in turn."""
     families = families_for(grade)
     items: list[Item] = []
     for i in range(count):
         seen = frozenset(item.id.removeprefix("mat:") for item in items)
-        items.append(statement_item(families[i % len(families)], rng, seen, mark))
+        items.append(statement_item(families[i % len(families)], rng, seen, notation))
     return items
 
 
-def pair_items(grade: int, rng: Random, count: int, mark: str = COMMA) -> list[Item]:
+def pair_items(grade: int, rng: Random, count: int, notation: Notation = NORWEGIAN) -> list[Item]:
     """`count` sums for a memory board: each a card with the sum and a card with its answer.
 
     No two answers are the same number. `3 · 8` and `4 · 6` on one board would
@@ -221,9 +251,9 @@ def pair_items(grade: int, rng: Random, count: int, mark: str = COMMA) -> list[I
         Item(
             id=f"pair:{fact.key}",
             rule="pair",
-            candidates=(shown_in(fact.expression, mark), shown_in(fact.answer, mark)),
+            candidates=(shown_in(fact.expression, notation), shown_in(fact.answer, notation)),
             matches=frozenset({0, 1}),
-            answer=shown_in(fact.statement(), mark),
+            answer=shown_in(fact.statement(), notation),
         )
         for fact in facts
     ]

@@ -6,8 +6,9 @@ drew it, for everything a `Fact` cannot be: a decimal, a fraction, a negative
 number, a power.
 
 Written the way Norwegian schools write it: `·` for times, `:` for divided by,
-and a decimal comma. A page in English shows a decimal point instead; the item
-keeps the comma in its id, so the same sum is the same item in every language.
+a decimal comma, and `av` for a percent of an amount. A page in English shows
+a decimal point and `of` instead; the item keeps the Norwegian in its id, so
+the same sum is the same item in every language.
 """
 
 from __future__ import annotations
@@ -19,9 +20,22 @@ from fractions import Fraction
 from random import Random
 
 ADD, SUBTRACT, MULTIPLY, DIVIDE = "+", "−", "·", ":"
-# The decimal mark the generators write. `shown_in` swaps it for a page that
-# reads another.
+# The decimal mark and the word for a share of an amount, as the generators
+# write them. `shown_in` swaps them for a page that reads others.
 COMMA = ","
+OF = "av"
+
+
+@dataclass(frozen=True)
+class Notation:
+    """How a page's language writes a sum: its decimal mark, and its `25 % av 80`."""
+
+    mark: str
+    of: str
+
+
+NORWEGIAN = Notation(COMMA, OF)
+ENGLISH = Notation(".", "of")
 
 
 def num(value: Fraction | int) -> str:
@@ -35,9 +49,12 @@ def num(value: Fraction | int) -> str:
     return text.replace(".", COMMA).replace("-", SUBTRACT)
 
 
-def shown_in(text: str, mark: str) -> str:
-    """`text` with the decimal mark a page reads. No sum has another comma in it."""
-    return text if mark == COMMA else text.replace(COMMA, mark)
+def shown_in(text: str, notation: Notation) -> str:
+    """`text` as a page reads it. No sum has a comma that is not a decimal
+    mark, or the word standing anywhere but between a percent and its amount."""
+    if notation == NORWEGIAN:
+        return text
+    return text.replace(COMMA, notation.mark).replace(f" {OF} ", f" {notation.of} ")
 
 
 @dataclass(frozen=True)

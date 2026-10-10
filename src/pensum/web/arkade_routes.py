@@ -20,7 +20,7 @@ from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from pensum.arkade.arithmetic import pair_items, statement_items
-from pensum.arkade.facts import COMMA
+from pensum.arkade.facts import ENGLISH, NORWEGIAN, Notation
 from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.sorting import ALPHABET, NUMBERS, Sorting
@@ -119,9 +119,9 @@ def _rng() -> random.Random:
     return random.Random()  # noqa: S311 -- variety between rounds, not cryptography
 
 
-def _decimal_mark(request: Request) -> str:
-    """The decimal mark the page's language reads: a comma, or a point in English."""
-    return "." if request.path_params.get("locale") == "en" else COMMA
+def _notation(request: Request) -> Notation:
+    """How the page's language writes a sum: a decimal point and `of` in English."""
+    return ENGLISH if request.path_params.get("locale") == "en" else NORWEGIAN
 
 
 def _sort_games(grade: int | None) -> list[str]:
@@ -134,7 +134,7 @@ def _sort_games(grade: int | None) -> list[str]:
 def _items(request: Request, game: str, grade: int) -> list[Item]:
     subject_code, kind = GAMES[game]
     if kind == "statements":
-        return statement_items(grade, _rng(), ROUND_LENGTH, _decimal_mark(request))
+        return statement_items(grade, _rng(), ROUND_LENGTH, _notation(request))
 
     subject = request.app.state.catalogue.subject(subject_code)
     checkpoint = checkpoint_for(subject, grade) if subject is not None else None
@@ -280,7 +280,7 @@ async def pairs(request: Request, locale: str, game: str) -> Response:
     played = _rounds(request).create(
         f"par/{game}",
         PAIR_GAMES[game],
-        pair_items(grade, _rng(), PAIRS, _decimal_mark(request)),
+        pair_items(grade, _rng(), PAIRS, _notation(request)),
         timed=_timer_on(request),
         now=datetime.now(UTC),
         user_sub=user.sub if user else None,

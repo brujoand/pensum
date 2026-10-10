@@ -33,6 +33,8 @@ class Sorting:
     skill: str | None
     # Every card that belongs in `pile`, in a round for `grade`.
     cards: Callable[[str, int], Sequence[str]]
+    # The last year the game is offered to: the year its goal is to be met by.
+    last_year: int
     # The language a card is spoken in, or None for the language of the page:
     # a number is said in the pupil's language, a Norwegian letter in Norwegian.
     language: str | None = None
@@ -64,13 +66,17 @@ class Sorting:
         return items
 
 
+# Odd and even is a goal of year 2 (KM13231), and so is knowing the letters.
+# A pupil past it has no use for either sorting, so neither is offered.
+LAST_YEAR = 2
+
+
 def top_for(grade: int) -> int:
-    """The largest number a pupil in `grade` sorts: the numbers they count with."""
-    if grade <= 2:
-        return 20
-    if grade == 3:
-        return 100
-    return 1000
+    """The largest number a pupil in `grade` sorts: the numbers they count with.
+
+    To 20 in year 1, and to 100 in year 2, when counting to 100 is the goal.
+    """
+    return 20 if grade <= 1 else 100
 
 
 def _numbers(pile: str, grade: int) -> Sequence[str]:
@@ -81,7 +87,7 @@ def _letters(pile: str, grade: int) -> Sequence[str]:  # noqa: ARG001 -- one alp
     return (VOWELS if pile == "vowel" else CONSONANTS).upper()
 
 
-NUMBERS = Sorting("odd-even", ODD_EVEN, "mat.counting.odd-even", _numbers)
+NUMBERS = Sorting("odd-even", ODD_EVEN, "mat.counting.odd-even", _numbers, LAST_YEAR)
 # No skill: the letter skills are about the sound a letter has, and naming a
 # letter a vowel shows something else.
-ALPHABET = Sorting("letters", LETTERS, None, _letters, language="nb")
+ALPHABET = Sorting("letters", LETTERS, None, _letters, LAST_YEAR, language="nb")

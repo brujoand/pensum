@@ -66,10 +66,13 @@ def test_a_number_is_in_the_pile_its_parity_says(grade: int) -> None:
             assert item.language == "nb"
 
 
-def test_the_youngest_sort_numbers_to_twenty() -> None:
-    assert top_for(1) == top_for(2) == 20
-    assert top_for(3) == 100
-    assert top_for(4) == top_for(10) == 1000
+def test_year_one_sorts_numbers_to_twenty_and_year_two_to_a_hundred() -> None:
+    assert top_for(1) == 20
+    assert top_for(2) == 100
+
+
+def test_both_sortings_end_with_year_two() -> None:
+    assert NUMBERS.last_year == ALPHABET.last_year == 2
 
 
 def test_a_number_is_said_in_the_language_of_the_page() -> None:
@@ -145,7 +148,7 @@ def test_a_round_is_eight_timed_cards_with_three_lives_and_named_piles(pupil) ->
     assert played["piles"] == ["Partall", "Oddetall"]
     assert len(played["items"]) == ROUND_LENGTH
     for entry in played["items"]:
-        assert int(entry["shown"]) <= 20
+        assert int(entry["shown"]) <= 100
         assert entry["pile"] == int(entry["shown"]) % 2
         assert entry["spoken"] == entry["shown"]
         assert entry["language"] == "nb"
@@ -226,12 +229,41 @@ def test_an_unknown_sorting_game_is_a_404(pupil) -> None:
 def test_without_sign_in_the_year_rides_in_the_address() -> None:
     _, client = build(Settings())
 
-    played = round_of(client.get("/nb/arkade/sorter/partall?trinn=5").text)
+    played = round_of(client.get("/nb/arkade/sorter/partall?trinn=1").text)
     page = client.post(
-        f"/nb/arkade/runde/{played['round']}?trinn=5", json={"picks": right_picks(played)}
+        f"/nb/arkade/runde/{played['round']}?trinn=1", json={"picks": right_picks(played)}
     ).text
 
-    assert 'href="/nb/arkade/sorter/partall?trinn=5"' in page
+    assert 'href="/nb/arkade/sorter/partall?trinn=1"' in page
+    assert all(int(entry["shown"]) <= 20 for entry in played["items"])
+
+
+@pytest.mark.parametrize("year", [1, 2])
+def test_the_first_two_years_are_offered_both_sortings(year: int) -> None:
+    _, client = build(Settings())
+    hub = client.get(f"/nb/arkade?trinn={year}").text
+
+    assert f'href="/nb/arkade/sorter/partall?trinn={year}"' in hub
+    assert f'href="/nb/arkade/sorter/vokaler?trinn={year}"' in hub
+
+
+@pytest.mark.parametrize("year", range(3, 11))
+def test_a_later_year_is_offered_no_sorting(year: int) -> None:
+    _, client = build(Settings())
+    hub = client.get(f"/nb/arkade?trinn={year}").text
+
+    assert "/arkade/sorter/" not in hub
+    assert "Sortering" not in hub
+
+
+@pytest.mark.parametrize("game", ["partall", "vokaler"])
+def test_a_link_kept_from_an_earlier_year_leads_back_to_the_hub(game: str) -> None:
+    _, client = build(Settings())
+
+    response = client.get(f"/nb/arkade/sorter/{game}?trinn=3", follow_redirects=False)
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/nb/arkade?trinn=3"
 
 
 def test_with_no_year_the_pupil_is_sent_to_the_hub() -> None:

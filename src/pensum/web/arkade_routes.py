@@ -20,6 +20,7 @@ from fastapi import APIRouter, Body, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from pensum.arkade.arithmetic import pair_items, statement_items
+from pensum.arkade.facts import COMMA
 from pensum.arkade.items import FLY, Item
 from pensum.arkade.rounds import Marked, Round, RoundStore, mark
 from pensum.arkade.sorting import ALPHABET, NUMBERS, Sorting
@@ -106,10 +107,22 @@ def _rng() -> random.Random:
     return random.Random()  # noqa: S311 -- variety between rounds, not cryptography
 
 
+def _decimal_mark(request: Request) -> str:
+    """The decimal mark the page's language reads: a comma, or a point in English."""
+    return "." if request.path_params.get("locale") == "en" else COMMA
+
+
+def _sort_games(grade: int | None) -> list[str]:
+    """The sorting games offered to `grade`: those whose goal it has not passed."""
+    if grade is None:
+        return []
+    return [game for game, (_, sorting) in SORT_GAMES.items() if grade <= sorting.last_year]
+
+
 def _items(request: Request, game: str, grade: int) -> list[Item]:
     subject_code, kind = GAMES[game]
     if kind == "statements":
-        return statement_items(grade, _rng(), ROUND_LENGTH)
+        return statement_items(grade, _rng(), ROUND_LENGTH, _decimal_mark(request))
 
     subject = request.app.state.catalogue.subject(subject_code)
     checkpoint = checkpoint_for(subject, grade) if subject is not None else None
@@ -141,7 +154,7 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             grades=range(FIRST_GRADE, LAST_GRADE + 1),
             games=list(GAMES),
             pair_games=list(PAIR_GAMES),
-            sort_games=list(SORT_GAMES),
+            sort_games=_sort_games(grade),
             pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
@@ -243,7 +256,7 @@ async def pairs(request: Request, locale: str, game: str) -> Response:
     played = _rounds(request).create(
         f"par/{game}",
         PAIR_GAMES[game],
-        pair_items(grade, _rng(), PAIRS),
+        pair_items(grade, _rng(), PAIRS, _decimal_mark(request)),
         timed=_timer_on(request),
         now=datetime.now(UTC),
         user_sub=user.sub if user else None,
@@ -285,6 +298,13 @@ async def sort(request: Request, locale: str, game: str) -> Response:
         return RedirectResponse(f"/{locale}/arkade", status_code=303)
 
     subject, sorting = SORT_GAMES[game]
+    if grade > sorting.last_year:
+        # A year past the game's goal is not offered it, and a link kept from
+        # an earlier year leads back to what is.
+        return RedirectResponse(
+            f"/{locale}/arkade{'?' + request.url.query if request.url.query else ''}",
+            status_code=303,
+        )
     user = current_user(request)
     played = _rounds(request).create(
         f"sorter/{game}",

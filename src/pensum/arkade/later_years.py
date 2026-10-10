@@ -461,7 +461,9 @@ def _beside_a_hundred(rng: Random) -> Stated:
 
 
 POWERS = Family("powers", "mat.place-value.powers-and-roots", _power)
-SHORTEN = Family("shorten-fractions", "mat.multiply-divide.prime-factors", _shorten)
+# No skill: the skill beside this goal is finding a number's prime factors,
+# and a fraction shortened does not show how it was done.
+SHORTEN = Family("shorten-fractions", None, _shorten)
 LAWS = Family("beside-a-hundred", "mat.multiply-divide.laws", _beside_a_hundred)
 ROOTS = Family("square-roots", "mat.place-value.powers-and-roots", _root)
 
@@ -503,11 +505,14 @@ def _squares_summed(rng: Random) -> Stated:
     return stated(
         f"{_to_the(a, 2)} {ADD} {_to_the(b, 2)}",
         value,
-        [(a + b) ** 2, 2 * (a + b), value + 10, value - 10],
+        # Never below zero: `2² + 2²` is 8, and no sum of squares is −2.
+        [w for w in ((a + b) ** 2, 2 * (a + b), value + 10, value - 10) if w > 0],
     )
 
 
-PYTHAGORAS = Family("squares-summed", "mat.shape-space.pythagoras", _squares_summed)
+# No skill: the skill beside this goal is using the theorem in a practical
+# problem, and two squares added is one step of that.
+PYTHAGORAS = Family("squares-summed", None, _squares_summed)
 
 
 # --- year 10: a percent change as a growth factor ------------------------------------

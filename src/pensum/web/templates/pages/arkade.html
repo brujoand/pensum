@@ -13,7 +13,7 @@
       <ul class="grade-grid">
         {% for g in grades %}
           <li>
-            <a class="grade-card" href="/{{ locale }}/arkade?trinn={{ g }}">
+            <a class="grade-card" href="/{{ locale }}/arkade?trinn={{ g }}{{ '&tabell=' ~ tabell if tabell else '' }}">
               <span class="grade-number">{{ g }}</span>
               <span class="grade-label">{{ t("home.grade", grade=g) }}</span>
             </a>
@@ -70,6 +70,8 @@
     </section>
     {% endif %}
 
+    {# Through year 7. #}
+    {% if table_offered %}
     <section aria-labelledby="arkade-table">
       <h2 id="arkade-table">{{ t("arkade.table") }}</h2>
       <p class="note">{{ t("arkade.table_note", count=table_round) }}</p>
@@ -82,6 +84,7 @@
         </li>
       </ul>
     </section>
+    {% endif %}
 
     <section aria-labelledby="arkade-timer">
       <h2 id="arkade-timer">{{ t("arkade.timer") }}</h2>

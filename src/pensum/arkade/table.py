@@ -30,7 +30,7 @@ STATES = {UNASKED: "unasked", KNOWN: "known", NOT_YET: "not_yet"}
 
 # What can be typed: every product in the table, and every number a wrong
 # answer could plausibly be.
-NUMBERS = tuple(str(n) for n in range(SIZE * SIZE + 1))
+TYPEABLE = tuple(str(n) for n in range(SIZE * SIZE + 1))
 
 # Apart from the balloons' `mat:7·8`: a balloon asks whether a product shown is
 # right, and that is not the same as producing it.
@@ -46,7 +46,7 @@ def item_for(cell: Cell) -> Item:
     return Item(
         id=PREFIX + fact.key,
         rule="times",
-        candidates=NUMBERS,
+        candidates=TYPEABLE,
         matches=frozenset({fact.value}),
         answer=fact.statement(),
         skill=SKILL,

@@ -168,8 +168,11 @@ def test_a_math_round_is_eight_timed_items_for_the_pupils_year(pupil) -> None:
     assert len(played["items"]) == 8
     assert all(entry["rule"] == "statement" for entry in played["items"])
     assert all((entry["shown"] == entry["answer"]) == entry["true"] for entry in played["items"])
-    # Year 4: tables and division, never plain adding.
-    assert all(("·" in e["answer"]) or (":" in e["answer"]) for e in played["items"])
+    # Year 4, a family in turn: a table fact, a division, then whole tens.
+    answers = [e["answer"] for e in played["items"]]
+    assert all("·" in answer for answer in answers[0::3])
+    assert all(":" in answer for answer in answers[1::3])
+    assert all(re.fullmatch(r"\d+0 [+−] \d+0 = \d+0", answer) for answer in answers[2::3])
     # A round never asks the same sum twice.
     assert len({e["answer"] for e in played["items"]}) == 8
 
@@ -196,7 +199,8 @@ def test_a_perfect_round_earns_xp_and_evidence(pupil) -> None:
     assert f"{trues(played)} poeng" in page
     assert app.state.xp.total("u-1") == trues(played) * PER_CORRECT + PER_FINISH
     rows = [row for rows in app.state.evidence.for_pupil("u-1").values() for row in rows]
-    assert len(rows) == 8
+    # Every third sum is whole tens, which names no skill and so is no evidence.
+    assert len(rows) == 6
     assert all(row.correct for row in rows)
 
 
@@ -208,7 +212,8 @@ def test_three_wrong_answers_end_the_round_on_the_server_too(pupil) -> None:
     client.post(f"/nb/arkade/runde/{played['round']}", json={"picks": wrong})
 
     rows = [row for rows in app.state.evidence.for_pupil("u-1").values() for row in rows]
-    assert len(rows) == 3
+    # The round ends at the third wrong answer, and the third sum names no skill.
+    assert len(rows) == 2
     assert not any(row.correct for row in rows)
 
 
@@ -369,3 +374,26 @@ def test_the_back_link_with_no_round_keeps_the_year() -> None:
 
     assert 'id="balloons-round"' not in page
     assert 'href="/nb/arkade?trinn=2"' in page
+
+
+def test_a_page_in_english_writes_decimals_with_a_point() -> None:
+    _, client = build(Settings())
+
+    norwegian = round_of(client.get("/nb/arkade/ballonger/matte?trinn=6").text)
+    english = round_of(client.get("/en/arkade/ballonger/matte?trinn=6").text)
+
+    assert all(re.search(r"\d,\d", entry["answer"]) for entry in norwegian["items"])
+    assert not any("," in entry["shown"] + entry["answer"] for entry in english["items"])
+    assert all(re.search(r"\d\.\d", entry["answer"]) for entry in english["items"])
+
+
+@pytest.mark.parametrize(
+    ("year", "written_with"),
+    [(1, r"^\d+ [+−] \d+ = \d+$"), (6, r"\d,\d"), (8, r"[²³⁴⁵⁶√]")],
+)
+def test_a_round_is_made_of_the_years_own_sums(year: int, written_with: str) -> None:
+    _, client = build(Settings())
+
+    played = round_of(client.get(f"/nb/arkade/ballonger/matte?trinn={year}").text)
+
+    assert all(re.search(written_with, entry["answer"]) for entry in played["items"])

@@ -10,6 +10,7 @@ from pensum.arkade.arithmetic import (
     DIVIDE,
     DIVISION,
     MULTIPLY,
+    ROUND_NUMBERS,
     SUBTRACT,
     TABLES,
     WITHIN_20,
@@ -100,15 +101,21 @@ def test_a_wrong_value_is_never_right_and_never_negative() -> None:
                 assert all(w >= 0 for w in wrong)
 
 
-def test_the_youngest_add_within_twenty() -> None:
-    for item in statement_items(1, seeded(3), 30):
-        assert item.skill == "mat.add-subtract.within-20"
-        assert _numbers_in(item.answer)[-1] <= 20
+def test_the_youngest_add_within_ten_and_year_two_within_twenty() -> None:
+    for grade, top in ((1, 10), (2, 20)):
+        answers = statement_items(grade, seeded(3), 30)
+        assert all(item.skill == "mat.add-subtract.within-20" for item in answers)
+        assert max(max(_numbers_in(item.answer)) for item in answers) == top
 
 
-def test_from_year_four_it_is_tables_and_division() -> None:
-    assert families_for(4) == (TABLES, DIVISION)
-    assert families_for(10) == (TABLES, DIVISION)
+def test_year_four_is_the_table_division_and_whole_tens() -> None:
+    assert families_for(4) == (TABLES, DIVISION, ROUND_NUMBERS)
+
+
+def test_no_later_year_drills_what_year_four_does() -> None:
+    """`test_arkade_ladder` has the whole ladder; this is the one it replaced."""
+    for grade in range(5, 11):
+        assert not set(families_for(grade)) & {TABLES, DIVISION}
 
 
 def test_every_named_skill_exists() -> None:

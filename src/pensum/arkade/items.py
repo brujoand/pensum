@@ -7,7 +7,8 @@ Three kinds so far. A balloon is one statement, true or false, and the pupil's
 two choices are the candidates: let it fly away (it is true) or pop it (it is
 not). A memory pair is a sum and its answer, and both cards match. A sorting
 card is a number, a letter or a word, the piles are the candidates, and one
-pile is where it belongs.
+pile is where it belongs. A cell of gangetabellen is a product to type: the
+candidates are the numbers that can be typed, and one is the product.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from typing import Literal
 
 # What the pupil is asked, as the i18n key under `arkade.rule`. The rule is the
 # instruction shown with the item, so it is part of the item.
-Rule = Literal["statement", "spoken_word", "pair", "sort"]
+Rule = Literal["statement", "spoken_word", "pair", "sort", "times"]
 
 # A balloon's two choices, as candidate indexes. Letting it fly away says the
 # statement on it is true; bursting it says it is not.

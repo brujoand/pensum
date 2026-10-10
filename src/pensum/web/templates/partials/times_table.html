@@ -1,0 +1,24 @@
+{# Gangetabellen, ten by ten. A cell says its sum to a screen reader and
+   whether it is known; a known cell shows its product. #}
+<table class="times-table{{ ' times-table--small' if small else '' }}">
+  <caption class="visually-hidden">{{ t("arkade.table") }}</caption>
+  <thead>
+    <tr>
+      <th scope="col" aria-hidden="true">·</th>
+      {% for b in range(1, 11) %}<th scope="col">{{ b }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+      <tr>
+        <th scope="row">{{ row[0].a }}</th>
+        {% for cell in row %}
+          <td id="times-cell-{{ cell.a }}-{{ cell.b }}"
+              class="times-cell times-cell--{{ cell.state }}"
+              data-value="{{ cell.value }}"
+              aria-label="{{ cell.a }} · {{ cell.b }}: {{ t('arkade.table_state.' ~ cell.state) }}">{{ cell.value if cell.state == "known" else "" }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

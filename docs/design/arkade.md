@@ -8,7 +8,8 @@ Built so far: the pupil's year and timer setting (`pensum.scores.profile`), the
 items (`pensum.arkade`), and the balloon game at `/{locale}/arkade`
 (`pensum.web.arkade_routes`, `static/arkade-balloons.js`), memory pairs for
 sums (`static/arkade-pairs.js`), and sorting for odd and even numbers and for
-vowels and consonants (`pensum.arkade.sorting`, `static/arkade-sort.js`).
+vowels and consonants (`pensum.arkade.sorting`, `static/arkade-sort.js`), and
+gangetabellen (`pensum.arkade.table`, `static/arkade-table.js`).
 
 ## What changes, and what does not
 
@@ -37,8 +38,8 @@ vowels and consonants (`pensum.arkade.sorting`, `static/arkade-sort.js`).
    finished fast.
 6. **A round has a fixed length, shown before it starts.** Rule 5 applies: the
    pupil sees how many items there are. Balloons and sorting have three lives:
-   a wrong answer spends one, and the third ends the round early. Memory has
-   none.
+   a wrong answer spends one, and the third ends the round early. Memory and
+   gangetabellen have none.
 7. **The correct form is one press away, and not pushed.** A right answer
    says "Riktig!" and a wrong one "Feil!", and nothing more: a sentence about
    which way the balloon should have gone was read as confusing, and the life
@@ -51,7 +52,8 @@ vowels and consonants (`pensum.arkade.sorting`, `static/arkade-sort.js`).
 8. **Content comes from the pupil's year,** through `checkpoint_for(subject,
    grade)`, so a 3rd-grader gets 3rd-grade items. A game is offered to the
    years its goal belongs to: sorting odd from even is a goal of year 2, so
-   year 3 is not offered it.
+   year 3 is not offered it. Gangetabellen is the exception: it is one table,
+   and every year gets all of it.
 9. **An item on a sensitive skill earns 0,** as it does in a quiz
    ([xp.md](xp.md)). Design decision 10: sensitive topics are never gamified.
 10. **No pupil sees another pupil's results.** Rule 4. The teacher's class grid
@@ -70,6 +72,7 @@ A game decides only how they look.
 |---|---|---|
 | arithmetic (`pensum.arkade.arithmetic`) | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated, a different set of sums for each year: see [Arithmetic by year](#arithmetic-by-year) |
 | spelling (`pensum.arkade.spelling`) | the word `kjøleskap` is spoken; `kjøleskap` and `kjøleskapp` are shown | the words of the passages approved for the pupil's checkpoint, Norwegian or English, and a wrong spelling from `pensum.listening.confusable`, as in the listening exercise |
+| gangetabellen (`pensum.arkade.table`) | `7 · 8` is shown, and `56` is typed | generated: the hundred products from `1 · 1` to `10 · 10`, the same for every year. `7 · 8` and `8 · 7` are two cells |
 | sorting (`pensum.arkade.sorting`) | `17` is spoken and shown, and belongs in *odd*; `Ø` belongs in *vowel* | generated, and offered to years 1 and 2 only: numbers to 20 for year 1 and to 100 for year 2; the 29 letters of the Norwegian alphabet. Spoken words sorted by a sound (`ch` beside `sh`) need a word list, reviewed like any other content, and are not generated |
 | pairs | `7 × 8` and `56`, a country and its capital, `hund` and `dog` | generated for numbers; word and fact lists for the rest |
 | facts | a true and a false statement | the fact packs under `data/drills/`, plus a false version of each fact, reviewed like any other content |
@@ -140,6 +143,34 @@ point. The item is the same either way.
 | balloons | sees one balloon with a statement, or hears a word and sees one spelling of it. Swipes left (or ←) to let it fly away if it is true, right (or →) to burst it if it is not | 1 balloon at a time, true or false about half the time each. A true one flown earns a point; popping a false one is right and earns nothing; getting either wrong costs one of three lives | 8 balloons, or fewer if the lives run out; with the timer on, each rises for 60 seconds and drifts off the top, which earns nothing and costs no life |
 | memory pairs | turns cards two at a time to find a sum and its answer | 6 pairs, 12 cards, no two answers alike | one board; with the timer on, a bar empties over 2 minutes. A pair found earns 10 XP; a pair not found when time runs out earns 0 and is turned up, so the board ends on every right form. A wrong turn is forgetting where a card lay, so a board records no evidence |
 | sorting | hears a number or a letter, sees it on a card, and puts it in a pile: taps the pile, presses its number, or with two piles the arrow key on its side | 1 card at a time over 2 to 4 piles, each pile asked for about as often as the others, no card twice. A card put right earns a point and stays in its pile; a wrong pile costs one of three lives | 8 cards, or fewer if the lives run out; with the timer on, a bar empties over 2 minutes. A card not reached when time runs out earns 0 and is not evidence |
+| gangetabellen | sees a product and types it, on the page's own keys or the keyboard's. The table is drawn beside it, with the cell asked about marked | 1 product at a time, no lives. A right answer earns a point | 10 products; with the timer on, a bar empties over 2 minutes. A product not reached when time runs out earns 0, is not evidence, and stays not asked |
+
+### Gangetabellen
+
+The table is the game. Each of its hundred cells is not asked yet, known, or
+not known yet, and the pupil sees which. A cell is known when the pupil's
+latest answer to it was right; one wrong answer makes it not known yet, and
+the next right one makes it known again.
+
+A round asks for cells not asked yet, in no order, so every cell is asked
+before any is asked twice. When too few are left to fill a round it is topped
+up with the cells not known yet, then with known ones. At any time the pupil
+can instead drill the cells not known yet: that round is only those, ten at
+most, and its length is on the button that starts it.
+
+The answer is typed, not picked. Knowing the table is producing the product,
+and a product among four choices can be found by ruling the others out.
+
+While a product is asked for, the table beside it shows colours and no
+numbers: the product in a known cell could be the answer to the one asked.
+
+A signed-in pupil's table is read from their evidence, so it follows them
+between devices and no one else sees it. Where nobody is signed in there is
+nowhere to keep it, and it rides in the address, as the year does.
+
+Gangetabellen has its own item for a product (`gange:7·8`), apart from the
+balloons' `mat:7·8`. A balloon asks whether a product shown is right, and that
+does not show the pupil can produce it.
 
 A sorting card is shown as well as spoken, so a round can be played where the
 browser has no voice for the language. Sorting by a sound is different: there
@@ -159,4 +190,6 @@ rather than recognises one.
 5. Sorting, for odd and even numbers and for vowels and consonants, in years
    1 and 2. Done.
    Spoken words by sound (`ch` and `sh`, `kj` and `skj`) wait on word lists.
-6. Fact items, once the false versions are written and reviewed.
+6. Gangetabellen: the table, rounds of ten typed products, and a drill of the
+   cells not known yet. Done.
+7. Fact items, once the false versions are written and reviewed.

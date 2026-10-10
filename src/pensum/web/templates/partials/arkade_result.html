@@ -2,7 +2,7 @@
   <h2 id="balloons-result-heading">{{ t("arkade.result_points", points=points) if lives is not none else t("arkade.result", correct=correct, total=total) }}</h2>
   {% include "partials/xp.html" %}
   <p>
-    <a class="button" href="{{ again }}{{ '?' ~ request.url.query if request.url.query else '' }}">{{ t("arkade.again") }}</a>
-    <a href="/{{ locale }}/arkade{{ '?' ~ request.url.query if request.url.query else '' }}">{{ t("arkade.back") }}</a>
+    <a class="button" href="{{ again }}{{ query }}">{{ t("arkade.again") }}</a>
+    <a href="/{{ locale }}/arkade{{ query }}">{{ t("arkade.back") }}</a>
   </p>
 </section>

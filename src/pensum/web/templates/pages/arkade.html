@@ -70,6 +70,19 @@
     </section>
     {% endif %}
 
+    <section aria-labelledby="arkade-table">
+      <h2 id="arkade-table">{{ t("arkade.table") }}</h2>
+      <p class="note">{{ t("arkade.table_note", count=table_round) }}</p>
+      <ul class="arkade-games">
+        <li>
+          <a class="arkade-card" href="/{{ locale }}/arkade/gangetabellen{{ carry }}">
+            <span class="arkade-card__grid" aria-hidden="true"></span>
+            <span>{{ t("arkade.table") }}</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
     <section aria-labelledby="arkade-timer">
       <h2 id="arkade-timer">{{ t("arkade.timer") }}</h2>
       <p class="note">{{ t("arkade.timer_on" if timer_on else "arkade.timer_off") }}</p>
@@ -81,7 +94,7 @@
           <button class="button" type="submit">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</button>
         </form>
       {% else %}
-        <a class="button" href="/{{ locale }}/arkade?trinn={{ grade }}{{ '&tidtaker=av' if timer_on else '' }}">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</a>
+        <a class="button" href="/{{ locale }}/arkade?trinn={{ grade }}{{ '&tidtaker=av' if timer_on else '' }}{{ '&tabell=' ~ tabell if tabell else '' }}">{{ t("arkade.timer_turn_off" if timer_on else "arkade.timer_turn_on") }}</a>
       {% endif %}
     </section>
   {% endif %}

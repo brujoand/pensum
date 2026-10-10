@@ -114,7 +114,7 @@ negative numbers and powers. The goals are those of LK20 for mathematics
 | 5 | fractions of one denominator, added and subtracted | `1/5 + 2/5 = 3/5` | KM13268 | arithmetic with fractions |
 | 5 | a fraction, a decimal and a percent that are the same amount | `1/4 = 0,25`, `0,25 = 25 %` | KM13265 | this |
 | 6 | tenths added and subtracted | `0,7 + 0,5 = 1,2` | KM13276 | this |
-| 6 | numbers with different numbers of decimals | `1,25 + 0,5 = 1,75` | KM13275 | this |
+| 6 | numbers with different numbers of decimals, added and subtracted | `1,25 + 0,5 = 1,75` | KM13276 | arithmetic with decimals |
 | 6 | tenths times a whole number | `0,4 · 6 = 2,4` | KM13276 | this |
 | 6 | tenths times tenths | `0,3 · 0,2 = 0,06` | KM13276 | this |
 | 6 | a decimal times or divided by 10 or 100 | `3,5 · 10 = 35` | KM13276 | this |

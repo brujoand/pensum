@@ -178,6 +178,22 @@ def test_a_sum_fits_a_balloon(family: Family) -> None:
             assert len(fact.statement(answer)) <= 20, fact.statement(answer)
 
 
+@pytest.mark.parametrize("family", EVERY_FAMILY, ids=lambda f: f.name)
+def test_a_wrong_answer_is_below_zero_only_where_the_sums_are(family: Family) -> None:
+    """`2² + 2² = −2` is not a mistake anyone makes."""
+    if family is NEGATIVES:
+        return
+    for fact in draws(family, 2000):
+        for wrong in fact.wrong_answers():
+            assert worth(wrong) >= 0, f"{fact.expression} = {wrong}"
+
+
+def test_a_step_toward_a_goal_is_not_evidence_for_its_skill() -> None:
+    """Shortening shows no prime factors, and two squares added use no theorem."""
+    assert SHORTEN.skill is None
+    assert PYTHAGORAS.skill is None
+
+
 def test_every_named_skill_exists_and_none_is_sensitive() -> None:
     skills = {s.id: s for s in SkillLibrary.load().for_subject("MAT01-06").skills}
     for family in EVERY_FAMILY:

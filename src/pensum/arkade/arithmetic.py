@@ -139,9 +139,9 @@ ROUND_NUMBERS = Family("round-numbers", None, _round_numbers)
 #              them, two digits times one, three-digit sums
 #     KM13268  and with fractions: one denominator, added and subtracted
 #     KM13265  a fraction, a decimal and a percent that are the same amount
-#  6  KM13276  arithmetic with decimals: sums, times a whole number, tenths
-#              times tenths, by 10 and 100
-#     KM13275  numbers with different numbers of decimals, added and subtracted
+#  6  KM13276  arithmetic with decimals: sums, also of numbers with different
+#              numbers of decimals, times a whole number, tenths times tenths,
+#              by 10 and 100
 #  7  KM13292  negative numbers
 #     KM13286  converting between fraction, decimal and percent
 #     KM13287  the order of operations

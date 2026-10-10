@@ -53,7 +53,7 @@ gangetabellen (`pensum.arkade.table`, `static/arkade-table.js`).
    grade)`, so a 3rd-grader gets 3rd-grade items. A game is offered to the
    years its goal belongs to: sorting odd from even is a goal of year 2, so
    year 3 is not offered it. Gangetabellen is the exception: it is one table,
-   and every year gets all of it.
+   and every year it is offered to gets all of it. That is years 1 to 7.
 9. **An item on a sensitive skill earns 0,** as it does in a quiz
    ([xp.md](xp.md)). Design decision 10: sensitive topics are never gamified.
 10. **No pupil sees another pupil's results.** Rule 4. The teacher's class grid
@@ -72,7 +72,7 @@ A game decides only how they look.
 |---|---|---|
 | arithmetic (`pensum.arkade.arithmetic`) | `5 : 1 = 5` is true, `5 : 1 = 1` is false | generated, a different set of sums for each year: see [Arithmetic by year](#arithmetic-by-year) |
 | spelling (`pensum.arkade.spelling`) | the word `kjøleskap` is spoken; `kjøleskap` and `kjøleskapp` are shown | the words of the passages approved for the pupil's checkpoint, Norwegian or English, and a wrong spelling from `pensum.listening.confusable`, as in the listening exercise |
-| gangetabellen (`pensum.arkade.table`) | `7 · 8` is shown, and `56` is typed | generated: the hundred products from `1 · 1` to `10 · 10`, the same for every year. `7 · 8` and `8 · 7` are two cells |
+| gangetabellen (`pensum.arkade.table`) | `7 · 8` is shown, and `56` is typed | generated: the hundred products from `1 · 1` to `10 · 10`, the same for every year from 1 to 7. Years 8 to 10 are not offered it. `7 · 8` and `8 · 7` are two cells |
 | sorting (`pensum.arkade.sorting`) | `17` is spoken and shown, and belongs in *odd*; `Ø` belongs in *vowel* | generated, and offered to years 1 and 2 only: numbers to 20 for year 1 and to 100 for year 2; the 29 letters of the Norwegian alphabet. Spoken words sorted by a sound (`ch` beside `sh`) need a word list, reviewed like any other content, and are not generated |
 | pairs | `7 × 8` and `56`, a country and its capital, `hund` and `dog` | generated for numbers; word and fact lists for the rest |
 | facts | a true and a false statement | the fact packs under `data/drills/`, plus a false version of each fact, reviewed like any other content |

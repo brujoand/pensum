@@ -77,6 +77,10 @@ TABLE_GAME = "gangetabellen"
 TABLE_SUBJECT = "MAT01-06"
 TABLE_ROUND = 10
 TABLE_SECONDS = 120
+# The last year gangetabellen is offered to. The table is the same for every
+# year that has it: through barneskolen it is something to know by heart, and
+# ungdomsskolen is not offered it.
+TABLE_LAST_YEAR = 7
 
 # The balloon games, by the slug in their address: the subject, and whether the
 # items are spoken words or arithmetic statements.
@@ -152,6 +156,7 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
     grade = _grade(request)
     timer_on = _timer_on(request)
     timer_stored = profiles is not None and current_user(request) is not None
+    tabell = _carried_table(request)
     return templates.TemplateResponse(
         request,
         "pages/arkade.html",
@@ -163,18 +168,23 @@ async def hub(request: Request, locale: str) -> HTMLResponse:
             games=list(GAMES),
             pair_games=list(PAIR_GAMES),
             table_round=TABLE_ROUND,
+            table_offered=_table_offered(grade),
             sort_games=_sort_games(grade),
             pairs=PAIRS,
             timer_on=timer_on,
             timer_stored=timer_stored,
             round_length=ROUND_LENGTH,
-            tabell=_table_query(request, _table(request)).partition("tabell=")[2],
-            carry=_carry(request, grade, timer_on=timer_on, timer_stored=timer_stored),
+            tabell=tabell,
+            carry=_carry(
+                request, grade, timer_on=timer_on, timer_stored=timer_stored, tabell=tabell
+            ),
         ),
     )
 
 
-def _carry(request: Request, grade: int | None, *, timer_on: bool, timer_stored: bool) -> str:
+def _carry(
+    request: Request, grade: int | None, *, timer_on: bool, timer_stored: bool, tabell: str
+) -> str:
     """The query string a game link needs to know what the hub knew.
 
     The year rides in the address whenever it came from the address: where
@@ -190,9 +200,8 @@ def _carry(request: Request, grade: int | None, *, timer_on: bool, timer_stored:
         query["tidtaker"] = "av"
     # Gangetabellen rides along where it is not stored, or a visit to the hub
     # between two rounds would empty it.
-    carried = _table(request)
-    if not _table_stored(request) and carried.asked:
-        query["tabell"] = carried.text
+    if tabell:
+        query["tabell"] = tabell
     return "?" + urlencode(query)
 
 
@@ -375,19 +384,52 @@ def _table(request: Request) -> Table:
     return from_text(request.query_params.get("tabell", ""))
 
 
+def _carried(request: Request, table: Table) -> str:
+    """`table` as an address carries it, or nothing: where it is stored for the
+    pupil, and where no cell of it has been asked."""
+    return "" if _table_stored(request) or not table.asked else table.text
+
+
+def _carried_table(request: Request) -> str:
+    """The table this request's address carries on to the next, or nothing."""
+    if _table_stored(request):
+        # Not read at all: a signed-in pupil's table is their evidence.
+        return ""
+    return _carried(request, _table(request))
+
+
 def _table_query(request: Request, table: Table) -> str:
     """The query string a gangetabellen link needs: what the address already
     carried for the hub, and the table where it is not stored."""
     query = {k: v for k, v in request.query_params.items() if k in ("trinn", "tidtaker")}
-    if not _table_stored(request) and table.asked:
-        query["tabell"] = table.text
+    tabell = _carried(request, table)
+    if tabell:
+        query["tabell"] = tabell
     return "?" + urlencode(query) if query else ""
 
 
+def _table_offered(grade: int | None) -> bool:
+    """Whether a pupil in `grade` is offered gangetabellen. A visitor with no
+    year yet is: the hub asks for one before it lists any game."""
+    return grade is None or grade <= TABLE_LAST_YEAR
+
+
+def _past_the_table(request: Request, locale: str) -> RedirectResponse | None:
+    """Back to the hub, for a year gangetabellen is not offered to."""
+    if _table_offered(_grade(request)):
+        return None
+    query = {k: v for k, v in request.query_params.items() if k in ("trinn", "tidtaker")}
+    return RedirectResponse(
+        f"/{locale}/arkade" + ("?" + urlencode(query) if query else ""), status_code=303
+    )
+
+
 @router.get("/{locale}/arkade/gangetabellen", response_class=HTMLResponse)
-async def table(request: Request, locale: str) -> HTMLResponse:
+async def table(request: Request, locale: str) -> Response:
     """The table itself: what is known, what is not yet, and what has not been asked."""
     validate_locale(locale)
+    if (away := _past_the_table(request, locale)) is not None:
+        return away
     known = _table(request)
     query = _table_query(request, known)
     return templates.TemplateResponse(
@@ -413,6 +455,8 @@ async def table_round(request: Request, locale: str) -> Response:
     """A round of products to type. The page posts the number typed for each,
     and nothing for the ones time took. `ov=1` asks only for the cells not known yet."""
     validate_locale(locale)
+    if (away := _past_the_table(request, locale)) is not None:
+        return away
     known = _table(request)
     query = _table_query(request, known)
     drill = request.query_params.get("ov") == "1"

@@ -468,3 +468,78 @@ def test_a_cell_of_the_table_has_a_height_of_its_own() -> None:
     # The row and column numbers are still written beside a product.
     headers = re.search(r"\n\.times-table--small th \{(.*?)\}", css, re.DOTALL).group(1)
     assert "font-size: 0;" not in headers
+
+
+# --- which years are offered the table ---------------------------------------------
+
+
+@pytest.mark.parametrize("year", range(1, 8))
+def test_years_one_to_seven_are_offered_the_table(year: int) -> None:
+    _, client = build(Settings())
+
+    assert (
+        f'href="/nb/arkade/gangetabellen?trinn={year}"'
+        in client.get(f"/nb/arkade?trinn={year}").text
+    )
+    assert client.get(f"/nb/arkade/gangetabellen?trinn={year}").status_code == 200
+    assert (
+        len(round_of(client.get(f"/nb/arkade/gangetabellen/runde?trinn={year}").text)["items"])
+        == 10
+    )
+
+
+@pytest.mark.parametrize("year", [8, 9, 10])
+def test_years_eight_to_ten_are_not(year: int) -> None:
+    _, client = build(Settings())
+
+    hub = client.get(f"/nb/arkade?trinn={year}").text
+    assert "/arkade/gangetabellen" not in hub
+    assert 'id="arkade-table"' not in hub
+    for page in ("gangetabellen", "gangetabellen/runde"):
+        response = client.get(
+            f"/nb/arkade/{page}?trinn={year}&tabell={'1' * 100}", follow_redirects=False
+        )
+        assert response.status_code == 303
+        # Back to the hub with the year, and without a table it has no use for.
+        assert response.headers["location"] == f"/nb/arkade?trinn={year}"
+
+
+def test_a_signed_in_pupil_in_year_eight_is_not_offered_it(tmp_path: Path) -> None:
+    _, client = build(settings_with(tmp_path))
+    sign_in(client, PUPIL, year=8)
+
+    assert "/arkade/gangetabellen" not in client.get("/nb/arkade").text
+    response = client.get("/nb/arkade/gangetabellen", follow_redirects=False)
+    assert response.status_code == 303
+    assert response.headers["location"] == "/nb/arkade"
+
+
+def test_the_table_is_the_same_whichever_year_asks() -> None:
+    _, client = build(Settings())
+
+    for year in (1, 7):
+        page = client.get(f"/nb/arkade/gangetabellen?trinn={year}").text
+        assert classes(page, "unasked") == 100
+
+
+def test_picking_a_year_on_the_hub_keeps_the_table() -> None:
+    """A visitor who reaches the hub with a table and no year, and picks one."""
+    _, client = build(Settings())
+    text = Table({(7, 8): KNOWN}).text
+
+    hub = client.get(f"/nb/arkade?tabell={text}").text
+
+    assert f'href="/nb/arkade?trinn=4&tabell={text}"' in hub.replace("&amp;", "&")
+
+
+def test_the_hub_reads_no_evidence_for_a_table_it_does_not_carry(pupil, monkeypatch) -> None:
+    """A signed-in pupil's table is their evidence, read by the table's own
+    pages. The hub carries nothing for them, so it reads nothing."""
+    app, client = pupil
+    reads = []
+    real = app.state.evidence.for_pupil
+    monkeypatch.setattr(app.state.evidence, "for_pupil", lambda sub: reads.append(sub) or real(sub))
+
+    client.get("/nb/arkade")
+
+    assert reads == []
